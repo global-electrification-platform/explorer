@@ -56,7 +56,7 @@ gulp.task('default', ['clean'], function () {
 
 gulp.task('serve', ['vendorScripts', 'javascript', 'styles'], function () {
   browserSync({
-    port: 3000,
+    port: 9000,
     server: {
       baseDir: ['.tmp', 'app'],
       routes: {
