@@ -91,6 +91,16 @@
     "watchify": "^3.11.0"
   },
   "dependencies": {
-    "lodash.defaultsdeep": "^4.6.0"
+    "connected-react-router": "^4.5.0",
+    "lodash.defaultsdeep": "^4.6.0",
+    "prop-types": "^15.6.2",
+    "react": "^16.5.2",
+    "react-dom": "^16.5.2",
+    "react-redux": "^5.0.7",
+    "react-router": "^4.3.1",
+    "react-router-dom": "^4.3.1",
+    "redux": "^4.0.1",
+    "redux-persist": "^5.10.0",
+    "redux-thunk": "^2.3.0"
   }
 }

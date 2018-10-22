@@ -86,10 +86,10 @@ gulp.task('clean', function () {
 
 // Compiles the user's script files to bundle.js.
 // When including the file in the index.html we need to refer to bundle.js not
-// main.js
+// index.js
 gulp.task('javascript', function () {
   var watcher = watchify(browserify({
-    entries: ['./app/assets/scripts/main.js'],
+    entries: ['./app/assets/scripts/index.js'],
     debug: true,
     cache: {},
     packageCache: {},
