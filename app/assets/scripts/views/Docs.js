@@ -1,24 +1,16 @@
 import React, { Component } from "react";
-import T from "prop-types";
 import { connect } from "react-redux";
 import { withRouter } from "react-router";
 
-import Sidebar from "./components/Sidebar";
-
-class App extends Component {
+class Docs extends Component {
   render() {
     return (
       <div>
-        <Sidebar />
-        {this.props.children}
+        <h1>Docs</h1>
       </div>
     );
   }
 }
-
-App.propTypes = {
-  children: T.object
-};
 
 const mapStateToProps = state => {
   return {};
@@ -30,5 +22,5 @@ export default withRouter(
   connect(
     mapStateToProps,
     mapDispatchToProps
-  )(App)
+  )(Docs)
 );

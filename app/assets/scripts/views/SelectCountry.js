@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 
-class Home extends Component {
+class SelectCountry extends Component {
   render () {
     return (
       <div>
-        <h1>Home</h1>
+        <h1>SelectCountry</h1>
       </div>
     );
   }
@@ -22,5 +22,5 @@ export default withRouter(
   connect(
     mapStateToProps,
     mapDispatchToProps
-  )(Home)
+  )(SelectCountry)
 );
