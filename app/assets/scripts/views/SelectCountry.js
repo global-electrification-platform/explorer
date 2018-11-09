@@ -6,7 +6,12 @@ class SelectCountry extends Component {
   render () {
     return (
       <div>
-        <h1>SelectCountry</h1>
+        <h1>Select Country:</h1>
+        <ul>
+          <li>Ghana</li>
+          <li>Malawi</li>
+          <li>Nigeria</li>
+        </ul>
       </div>
     );
   }

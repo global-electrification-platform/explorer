@@ -2,12 +2,6 @@
 
 Web application to explore least electrification scenarios on Global Electrificaion Platform.
 
-Please check [first issue](https://github.com/developmentseed/gep-coordination/issues/4) for general information about the project. Other GEP repositories:
-
-- [Coordination](https://github.com/developmentseed/gep-coordination)
-- [Explorer](https://github.com/developmentseed/gep-explorer)
-- [Data Service](https://github.com/developmentseed/gep-data-service)
-- [Prototype](https://github.com/developmentseed/gep-prototype)
 
 ## Installation and Usage
 
@@ -38,6 +32,15 @@ Start server with live code reload at [http://localhost:9000](http://localhost:9
 Generate a minified build to `dist` folder:
 
     yarn build
+
+
+## Links & References
+
+- [First Issue](https://github.com/developmentseed/gep-coordination/issues/4)
+- [Coordination](https://github.com/developmentseed/gep-coordination)
+- [Explorer](https://github.com/developmentseed/gep-explorer)
+- [Data Service](https://github.com/developmentseed/gep-data-service)
+- [Prototype](https://github.com/developmentseed/gep-prototype)
 
 ## License
 

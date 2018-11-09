@@ -2,21 +2,22 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router";
 
-import Dashboard from "../components/explore/dashboard";
-import Map from "../components/explore/Map";
-import Summary from "../components/explore/Summary";
+import Layers from "./Layers";
+import Levers from "./Levers";
+import Filters from "./Filters";
 
 class Explore extends Component {
   render() {
     return (
       <div>
-        <h1>Explore (view)</h1>
-        <br/>
-        <Dashboard />
-        <hr></hr>
-        <Map />
-        <hr></hr>
-        <Summary />
+        <h2>Dashboard</h2>
+        <br />
+        <Levers />
+        <br />
+        <Filters/>
+        <br />
+        <Layers/>
+        <br />
       </div>
     );
   }
