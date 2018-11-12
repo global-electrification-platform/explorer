@@ -1,34 +1,30 @@
 import React, { Component } from 'react';
 import T from 'prop-types';
-import { connect } from 'react-redux';
-import { withRouter } from 'react-router';
+import c from 'classnames';
 
-import Sidebar from './components/Sidebar';
+import PageHeader from './components/PageHeader';
+import PageFooter from './components/PageFooter';
 
 class App extends Component {
   render () {
+    const { className, children, location } = this.props;
+
     return (
-      <div>
-        <Sidebar />
-        {this.props.children}
+      <div className={c('page', className)}>
+        <PageHeader location={location} />
+        <main className="page__body" role="main">
+          {children}
+        </main>
+        <PageFooter location={location} />
       </div>
     );
   }
 }
 
 App.propTypes = {
-  children: T.object
+  children: T.node,
+  location: T.object,
+  className: T.string
 };
 
-const mapStateToProps = state => {
-  return {};
-};
-
-const mapDispatchToProps = {};
-
-export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(App)
-);
+export default App;

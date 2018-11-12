@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { withRouter } from 'react-router';
 
 class Levers extends Component {
   render () {
@@ -16,7 +14,7 @@ class Levers extends Component {
               id="option1"
               name="lever1"
               value="option1"
-              checked
+              defaultChecked
             />
             <label htmlFor="option1">Option 1</label>
           </div>
@@ -36,7 +34,7 @@ class Levers extends Component {
               id="option1"
               name="lever2"
               value="option1"
-              checked
+              defaultChecked
             />
             <label htmlFor="option1">2020</label>
           </div>
@@ -55,15 +53,4 @@ class Levers extends Component {
   }
 }
 
-const mapStateToProps = state => {
-  return {};
-};
-
-const mapDispatchToProps = {};
-
-export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(Levers)
-);
+export default Levers;
