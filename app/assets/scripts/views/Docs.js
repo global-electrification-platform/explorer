@@ -1,14 +1,12 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import { withRouter } from "react-router";
+import React, { Component } from 'react';
 
 class Docs extends Component {
-  render() {
+  render () {
     return (
       <div>
         <h1>Docs</h1>
         <br />
-        <div class="navigation">
+        <div className="navigation">
           <h2>Navigation</h2>
           <br />
           <h3>Global</h3>
@@ -26,7 +24,7 @@ class Docs extends Component {
           </ul>
         </div>
         <hr />
-        <div class="doc-page">
+        <div className="doc-page">
           <h2>Voluptate irure nulla exercitation laboris</h2>
           <p>
             Pariatur duis aliquip est est culpa dolor pariatur anim est sunt in
@@ -58,15 +56,4 @@ class Docs extends Component {
   }
 }
 
-const mapStateToProps = state => {
-  return {};
-};
-
-const mapDispatchToProps = {};
-
-export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(Docs)
-);
+export default Docs;

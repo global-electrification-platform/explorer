@@ -1,36 +1,23 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import { withRouter } from "react-router";
+import React, { Component } from 'react';
 
-import Dashboard from "../components/explore/dashboard";
-import Map from "../components/explore/Map";
-import Summary from "../components/explore/Summary";
+import Dashboard from '../components/explore/dashboard';
+import Map from '../components/explore/Map';
+import Summary from '../components/explore/Summary';
 
 class Explore extends Component {
-  render() {
+  render () {
     return (
       <div>
         <h1>Explore (view)</h1>
-        <br/>
+        <br />
         <Dashboard />
-        <hr></hr>
+        <hr />
         <Map />
-        <hr></hr>
+        <hr />
         <Summary />
       </div>
     );
   }
 }
 
-const mapStateToProps = state => {
-  return {};
-};
-
-const mapDispatchToProps = {};
-
-export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(Explore)
-);
+export default Explore;

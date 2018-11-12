@@ -1,16 +1,14 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import { withRouter } from "react-router";
+import React, { Component } from 'react';
 
 class Layers extends Component {
-  render() {
+  render () {
     return (
       <div>
         <h3>3 - Layers</h3>
         <br />
-        <div class="layers">
+        <div className="layers">
           <ul>
-            <li class="layer">
+            <li className="layer">
               <input
                 type="checkbox"
                 id="layer1"
@@ -18,9 +16,9 @@ class Layers extends Component {
                 value="layer1"
                 checked
               />
-              <label for="layer1">HV Grid</label>
+              <label htmlFor="layer1">HV Grid</label>
             </li>
-            <li class="layer">
+            <li className="layer">
               <input
                 type="checkbox"
                 id="layer2"
@@ -28,15 +26,15 @@ class Layers extends Component {
                 value="layer2"
                 checked
               />
-              <label for="layer2">Transformers</label>
+              <label htmlFor="layer2">Transformers</label>
             </li>
-            <li class="layer">
+            <li className="layer">
               <input type="checkbox" id="layer3" name="layer3" value="layer3" />
-              <label for="layer3">Schools</label>
+              <label htmlFor="layer3">Schools</label>
             </li>
-            <li class="layer">
+            <li className="layer">
               <input type="checkbox" id="layer4" name="layer4" value="layer4" />
-              <label for="layer4">Schools</label>
+              <label htmlFor="layer4">Schools</label>
             </li>
           </ul>
         </div>
@@ -45,15 +43,4 @@ class Layers extends Component {
   }
 }
 
-const mapStateToProps = state => {
-  return {};
-};
-
-const mapDispatchToProps = {};
-
-export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(Layers)
-);
+export default Layers;

@@ -1,6 +1,7 @@
 'use strict';
 
 const fs = require('fs');
+const cp = require('child_process');
 const gulp = require('gulp');
 const $ = require('gulp-load-plugins')();
 const del = require('del');
@@ -68,11 +69,13 @@ gulp.task('serve', ['vendorScripts', 'javascript', 'styles'], function () {
   // watch for changes
   gulp.watch([
     'app/*.html',
-    'app/assets/graphics/**/*'
+    'app/assets/graphics/**/*',
+    '!app/assets/icons/collecticons/**/*'
   ]).on('change', reload);
 
   gulp.watch('app/assets/styles/**/*.scss', ['styles']);
   gulp.watch('package.json', ['vendorScripts']);
+  gulp.watch('app/assets/icons/collecticons/**', ['collecticons']);
 });
 
 gulp.task('clean', function () {
@@ -148,12 +151,38 @@ gulp.task('vendorScripts', function () {
     .pipe(reload({ stream: true }));
 });
 
+// /////////////////////////////////////////////////////////////////////////////
+// ------------------------- Collecticon tasks -------------------------------//
+// --------------------- (Font generation related) ---------------------------//
+// ---------------------------------------------------------------------------//
+gulp.task('collecticons', function (done) {
+  var args = [
+    'node_modules/collecticons-processor/bin/collecticons.js',
+    'compile',
+    'app/assets/icons/collecticons/',
+    '--font-embed',
+    '--font-dest', 'app/assets/fonts',
+    '--font-name', 'Collecticons',
+    '--font-types', 'woff',
+    '--style-format', 'sass',
+    '--style-dest', 'app/assets/styles/core/',
+    '--style-name', 'collecticons',
+    '--class-name', 'collecticon',
+    '--author-name', 'Development Seed',
+    '--author-url', 'https://developmentseed.org/',
+    '--no-preview'
+  ]
+
+  return cp.spawn('node', args, { stdio: 'inherit' })
+    .on('close', done)
+})
+
 // //////////////////////////////////////////////////////////////////////////////
 // --------------------------- Helper tasks -----------------------------------//
 // ----------------------------------------------------------------------------//
 
 gulp.task('build', function () {
-  runSequence(['vendorScripts', 'javascript', 'styles'], ['html', 'images', 'extras'], function () {
+  runSequence(['vendorScripts', 'javascript', 'collecticons', 'styles'], ['html', 'images', 'extras'], function () {
     return gulp.src('dist/**/*')
       .pipe($.size({ title: 'build', gzip: true }))
       .pipe($.exit());
@@ -185,7 +214,7 @@ gulp.task('styles', function () {
           return v;
         }
       },
-      includePaths: require('node-bourbon').includePaths
+      includePaths: require('bourbon').includePaths.concat('node_modules/jeet')
     }))
     .pipe($.sourcemaps.write())
     .pipe(gulp.dest('.tmp/assets/styles'))
