@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { withRouter } from 'react-router';
 
 class SelectModel extends Component {
   render () {
@@ -24,7 +22,7 @@ class SelectModel extends Component {
           <h3>Author</h3>
           <p>KTH</p>
         </div>
-        <br></br>
+        <br />
 
         <div>
           <h2>OnSSET</h2>
@@ -51,15 +49,4 @@ class SelectModel extends Component {
   }
 }
 
-const mapStateToProps = state => {
-  return {};
-};
-
-const mapDispatchToProps = {};
-
-export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(SelectModel)
-);
+export default SelectModel;
