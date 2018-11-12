@@ -1,12 +1,12 @@
-import React, { Component } from "react";
-import T from "prop-types";
-import { connect } from "react-redux";
-import { withRouter } from "react-router";
+import React, { Component } from 'react';
+import T from 'prop-types';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router';
 
-import Sidebar from "./components/Sidebar";
+import Sidebar from './components/Sidebar';
 
 class App extends Component {
-  render() {
+  render () {
     return (
       <div>
         <Sidebar />

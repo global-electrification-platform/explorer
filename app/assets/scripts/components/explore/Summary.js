@@ -1,15 +1,15 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import { withRouter } from "react-router";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router';
 
 class Explore extends Component {
-  render() {
+  render () {
     return (
       <div>
         <h1>Summary</h1>
         <br />
         <button>Exoport</button>
-        <div class="mapkey">
+        <div className="mapkey">
           <h2>Map key</h2>
           <ul>
             <li>Grid</li>
@@ -19,14 +19,14 @@ class Explore extends Component {
           </ul>
         </div>
         <br />
-        <div class="charts">
+        <div className="charts">
           <h2>Charts</h2>
-          <div class="chart">Chart 1</div>
-          <div class="chart">Chart 2</div>
-          <div class="chart">Chart 3</div>
+          <div className="chart">Chart 1</div>
+          <div className="chart">Chart 2</div>
+          <div className="chart">Chart 3</div>
         </div>
         <br />
-        <div class="summary">
+        <div className="summary">
           <h2>Summary</h2>
           <h3>Population Electrified</h3>
           <p>1 280 848</p>

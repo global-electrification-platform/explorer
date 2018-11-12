@@ -1,14 +1,14 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import { withRouter } from "react-router";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router';
 
 class Levers extends Component {
-  render() {
+  render () {
     return (
       <div>
         <h3>1 - Scenarios</h3>
         <br />
-        <div class="lever">
+        <div className="lever">
           <h4>Electricity demand profile</h4>
           <div>
             <input
@@ -18,17 +18,17 @@ class Levers extends Component {
               value="option1"
               checked
             />
-            <label for="option1">Option 1</label>
+            <label htmlFor="option1">Option 1</label>
           </div>
 
           <div>
             <input type="radio" id="option2" name="lever1" value="option2" />
-            <label for="option2">Option 2</label>
+            <label htmlFor="option2">Option 2</label>
           </div>
         </div>
         <br />
 
-        <div class="lever">
+        <div className="lever">
           <h4>Year of analysis</h4>
           <div>
             <input
@@ -38,16 +38,16 @@ class Levers extends Component {
               value="option1"
               checked
             />
-            <label for="option1">2020</label>
+            <label htmlFor="option1">2020</label>
           </div>
 
           <div>
             <input type="radio" id="option2" name="lever2" value="option2" />
-            <label for="option2">2025</label>
+            <label htmlFor="option2">2025</label>
           </div>
           <div>
             <input type="radio" id="option3" name="lever2" value="option3" />
-            <label for="option3">2025</label>
+            <label htmlFor="option3">2025</label>
           </div>
         </div>
       </div>

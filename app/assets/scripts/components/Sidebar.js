@@ -4,7 +4,7 @@ import { withRouter } from 'react-router';
 import { Link } from 'react-router-dom';
 
 class App extends Component {
-  render() {
+  render () {
     return (
       <div>
         <h1>Sidebar</h1>
