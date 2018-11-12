@@ -9,10 +9,10 @@
 
 /* Charset */
 
-@charset "UTF-8";
+@charset 'UTF-8';
 
 
-/* Libraries
+/* Third-party
    ========================================================================== */
 
 /**
@@ -20,29 +20,96 @@
  * http://bourbon.io/
  */
 
-@import "bourbon";
-
-
-/* Reboot
-   ========================================================================== */
-
-@import "normalize";
-@import "reset";
+@import 'bourbon';
 
 /**
- * Using Kenneth Ormandy's OpenType features—ligatures, kerning, and
- * more—to Normalize.css:
+ * Using Jeet, a grid system designed for humans:
+ * http://jeet.gs/
+ */
+
+@import 'jeet';
+
+/**
+ * Normalize.css, a modern, HTML5-ready alternative to CSS resets:
+ * http://necolas.github.io/normalize.css/
+ */
+
+@import 'vendor/normalize';
+
+/**
+ * Kenneth Ormandy's OpenType features—ligatures, kerning, and more—to Normalize.css:
  * https://github.com/kennethormandy/normalize-opentype.css
  */
 
-@import "normalize-opentype";
+@import 'vendor/normalize-opentype';
 
 
 /* Settings
    ========================================================================== */
 
+@import 'settings/variables';
+@import 'settings/functions';
+@import 'settings/mixins';
 
-/* Main
+
+/* Core
    ========================================================================== */
 
-@import "base";
+@import 'core/base';
+@import 'core/collecticons'; // Webfont icon library: Collecticons
+@import 'core/typography';
+@import 'core/tables';
+@import 'core/media';
+@import 'core/skins';
+@import 'core/animation';
+
+
+/* Global
+   ========================================================================== */
+
+@import 'global/buttons';
+@import 'global/toolbar';
+@import 'global/forms';
+@import 'global/drops';
+@import 'global/popovers';
+@import 'global/charts';
+@import 'global/labels';
+@import 'global/lists';
+@import 'global/cards';
+@import 'global/loading';
+@import 'global/page';
+@import 'global/inpage';
+
+
+
+/* Home
+   ========================================================================== */
+
+@import 'home/global';
+
+
+/* Static
+   ========================================================================== */
+
+@import 'static/global';
+
+
+/* Playground
+   ========================================================================== */
+
+@import 'playground/global';
+
+
+/* Core (...cont)
+   ========================================================================== */
+
+@import 'core/utilities';
+
+
+/* Vendor
+   ========================================================================== */
+
+@import 'vendor/react-tooltip';
+@import 'vendor/react-paginate';
+@import 'vendor/react-slider';
+@import 'vendor/mapbox-gl';
