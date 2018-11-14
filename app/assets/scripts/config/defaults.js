@@ -1,5 +1,7 @@
 'use strict';
 
 export default {
-  appTitle: 'GEP Explorer'
+  appTitle: 'Global Electrification Platform Explorer',
+  appShortTitle: 'GEP Exp',
+  appDescription: 'A tool to explore least cost electrification strategies around the world.'
 };
