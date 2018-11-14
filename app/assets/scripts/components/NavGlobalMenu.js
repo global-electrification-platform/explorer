@@ -20,6 +20,9 @@ export default class NavGlobalMenu extends Component {
         <li>
           <Link to='/about' title='View page' className='global-menu__link global-menu__link--about'><span>About</span></Link>
         </li>
+        <li>
+          <a href='#' title='View page' className='global-menu__link global-menu__link--share'><span>Share</span></a>
+        </li>
       </ul>
     );
   }

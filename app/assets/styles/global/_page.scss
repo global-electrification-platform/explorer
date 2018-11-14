@@ -3,10 +3,8 @@
    ========================================================================== */
 
 .page {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
+  display: grid;
+  grid-template-columns: ($global-spacing * 4) auto 0;
 }
 
 
@@ -15,23 +13,32 @@
 
 .page__header {
   @extend .antialiased;
-  position: relative;
-  width: 100%;
-  z-index: 1000;
-  padding: ($global-spacing * 2) 0;
+  position: sticky;
+  top: 0;
+  left: 0;
+  height: 100vh;
   background: $primary-color;
+  padding: $global-spacing;
   color: #fff;
+  display: flex;
+  flex-flow: column nowrap;
 
   > .inner {
-    @extend .row, .row--centered;
+    flex: 1;
     display: flex;
-    flex-flow: row nowrap;
-    justify-content: space-between;
+    flex-flow: column nowrap;
+    justify-content: center;
     align-items: center;
+
+    > *:last-child {
+      margin-bottom: 0
+    }
   }
 }
 
 .page__headline {
+  margin-bottom: $global-spacing * 2;
+
   > *:last-child {
     margin-bottom: 0
   }
@@ -41,6 +48,8 @@
   font-size: 1.25rem;
   line-height: 1;
   text-transform: uppercase;
+  width: 2.5rem;
+  text-align: center;
 
   a {
     display: block;
@@ -57,28 +66,33 @@
 }
 
 .page__prime-nav {
+  flex: 1;
   display: flex;
-  margin: 0 0 0 auto;
-  color: inherit;
-  padding-left: $global-spacing;
+  flex-flow: column nowrap;
 }
+
 
 /* Global menu */
 
 .global-menu {
+  flex: 1;
   display: flex;
-  flex-flow: row nowrap;
+  flex-flow: column nowrap;
   list-style: none;
   margin: 0;
-  padding-left: $global-spacing;
+  padding: 0;
 
-  > *:not(:last-child) {
-    margin-right: $global-spacing / 2;
+  > * {
+    margin: 0 0 ($global-spacing / 2);
+
+    &:last-child {
+      margin: auto 0 0 0;
+    }
   }
 }
 
 .global-menu__link {
-  @extend .button, .button--achromic-plain, .button--text-hidden;
+  @extend .button, .button--large, .button--achromic-plain, .button--text-hidden;
 
   &--active {
     @extend .button--active;
@@ -101,14 +115,15 @@
   @extend %collecticon-circle-information;
 }
 
+.global-menu__link--share::before {
+  @extend %collecticon-share;
+}
+
 
 /* Body
    ========================================================================== */
 
 .page__body {
-  flex: 1;
-  display: flex;
-  flex-flow: column;
 }
 
 
@@ -116,14 +131,10 @@
    ========================================================================== */
 
 .page__footer {
-  position: relative;
-  z-index: 10;
   background: tint($base-color, 96%);
   padding: ($global-spacing * 2) 0;
 
   > .inner {
-    @extend .row, .row--centered;
-
     > *:last-child {
       margin-bottom: 0
     }
