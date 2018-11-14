@@ -29,6 +29,10 @@
 
 .inpage__headline {
   min-width: 0;
+
+  > *:last-child {
+    margin-bottom: 0;
+  }
 }
 
 .inpage__title {
@@ -46,7 +50,7 @@
   font-size: 0.875rem;
   line-height: 1rem;
   opacity: 0.64;
-  margin: 0 0 ($global-spacing / 4) 0;
+  margin: 0;
 }
 
 .inpage__hactions {
