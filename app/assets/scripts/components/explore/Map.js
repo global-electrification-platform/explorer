@@ -1,9 +1,7 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import { withRouter } from "react-router";
+import React, { Component } from 'react';
 
 class Explore extends Component {
-  render() {
+  render () {
     return (
       <div>
         <h1>Map</h1>
@@ -12,15 +10,4 @@ class Explore extends Component {
   }
 }
 
-const mapStateToProps = state => {
-  return {};
-};
-
-const mapDispatchToProps = {};
-
-export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(Explore)
-);
+export default Explore;

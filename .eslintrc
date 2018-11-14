@@ -8,13 +8,16 @@
     "react"
   ],
   "parserOptions": {
-    "ecmaVersion": 2018,
+    "ecmaVersion": 2017,
     "ecmaFeatures": {
       "jsx": true
     }
   },
   "rules": {
-    "react/display-name": 1,
+    "semi": [2, "always"],
+    "no-extra-semi": 2,
+    "semi-spacing": [2, { "before": false, "after": true }],
+    "react/display-name": 1 ,
     "react/jsx-no-duplicate-props": 2,
     "react/jsx-no-undef": 2,
     "react/jsx-uses-react": 2,
@@ -22,6 +25,7 @@
     "react/no-danger": 0,
     "react/no-deprecated": 2,
     "react/no-did-mount-set-state": 2,
+    "react/no-did-update-set-state": 2,
     "react/no-direct-mutation-state": 2,
     "react/no-is-mounted": 2,
     "react/no-unknown-property": 2,

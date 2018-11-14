@@ -20,7 +20,7 @@ import defaultsDeep from 'lodash.defaultsdeep';
  */
 
 var configurations = require('./config/*.js', { mode: 'hash' });
-var config = configurations.production || {};
+var config = configurations.defaults || {};
 
 if (process.env.DS_ENV === 'staging') {
   config = defaultsDeep(configurations.staging, config);
