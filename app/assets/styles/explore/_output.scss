@@ -1,0 +1,58 @@
+/* ==========================================================================
+   Explore: output
+   ========================================================================== */
+
+.inpage--explore {
+  .inpage__header {
+    position: sticky;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    overflow: scroll;
+  }
+
+  .inpage__title {
+    @extend .visually-hidden;
+  }
+
+  .inpage__sectitle {
+    @extend .truncated;
+    max-width: 100%;
+  }
+
+  .inpage__body {
+    display: grid;
+    grid-template-columns: auto ($global-spacing * 16);
+    min-height: 100vh;
+  }
+}
+
+
+/* Map
+   ========================================================================== */
+
+.exp-map {
+  background: tint($base-color, 96%);
+  padding: $global-spacing;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.exp-map__title {
+  @extend .visually-hidden;
+}
+
+
+/* Summary
+   ========================================================================== */
+
+.exp-summary {
+  @extend %pane-skin;
+  position: sticky;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  overflow: scroll;
+  padding: $global-spacing;
+}

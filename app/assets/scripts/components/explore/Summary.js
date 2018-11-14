@@ -3,10 +3,11 @@ import React, { Component } from 'react';
 class Explore extends Component {
   render () {
     return (
-      <div>
-        <h1>Summary</h1>
-        <br />
-        <button>Exoport</button>
+      <section className='exp-summary'>
+        <div>
+          <h1 className='exp-summary__title'>Summary</h1>
+          <button type='button' className='button button--small button--primary-raised-dark' title='Download the data'><span>Export</span></button>
+        </div>
         <div className="mapkey">
           <h2>Map key</h2>
           <ul>
@@ -33,7 +34,7 @@ class Explore extends Component {
           <h3>Capacity Added</h3>
           <p>65 GWh</p>
         </div>
-      </div>
+      </section>
     );
   }
 }

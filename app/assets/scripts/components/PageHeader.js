@@ -10,14 +10,14 @@ export default class PageHeader extends React.PureComponent {
   render () {
     return (
       <header className='page__header' role='banner'>
-        <div className='inner'>
-          <div className='page__headline'>
-            <h1 className='page__title'><Link to='/' title='View page' data-ast={appShortTitle}><span>{appTitle}</span></Link></h1>
-          </div>
-          <nav className='page__prime-nav nav' role='navigation'>
-            <NavGlobalMenu forHeader />
-          </nav>
+        <div className='page__headline'>
+          <h1 className='page__title'>
+            <Link to='/' title='View page' data-ast={appShortTitle}><span>{appTitle}</span></Link>
+          </h1>
         </div>
+        <nav className='page__prime-nav nav' role='navigation'>
+          <NavGlobalMenu forHeader />
+        </nav>
       </header>
     );
   }

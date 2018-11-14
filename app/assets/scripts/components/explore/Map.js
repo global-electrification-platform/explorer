@@ -3,9 +3,10 @@ import React, { Component } from 'react';
 class Explore extends Component {
   render () {
     return (
-      <div>
-        <h1>Map</h1>
-      </div>
+      <section className='exp-map'>
+        <h1 className='exp-map__title'>Map</h1>
+        <p>Map will appear here.</p>
+      </section>
     );
   }
 }

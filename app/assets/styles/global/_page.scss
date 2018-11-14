@@ -22,18 +22,7 @@
   color: #fff;
   display: flex;
   flex-flow: column nowrap;
-
-  > .inner {
-    flex: 1;
-    display: flex;
-    flex-flow: column nowrap;
-    justify-content: center;
-    align-items: center;
-
-    > *:last-child {
-      margin-bottom: 0
-    }
-  }
+  align-items: center;
 }
 
 .page__headline {
@@ -50,6 +39,7 @@
   text-transform: uppercase;
   width: 2.5rem;
   text-align: center;
+  padding-top: $global-spacing / 4;
 
   a {
     display: block;
