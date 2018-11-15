@@ -114,10 +114,6 @@ ol {
 
 dt, dd {
   margin: 0 0 ($global-spacing / 2) 0;
-
-  &:last-of-type {
-    margin-bottom: 0;
-  }
 }
 
 dt {

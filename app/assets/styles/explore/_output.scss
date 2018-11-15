@@ -11,6 +11,13 @@
     @extend .truncated;
     max-width: 100%;
   }
+
+  .inpage__body {
+    display: grid;
+    grid-template-columns: auto 16rem;
+    min-height: 100vh;
+    padding: 0;
+  }
 }
 
 
