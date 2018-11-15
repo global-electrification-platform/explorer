@@ -3,8 +3,6 @@
    ========================================================================== */
 
 .inpage {
-  display: grid;
-  grid-template-columns: ($global-spacing * 20) auto;
   min-height: 100vh;
 }
 
@@ -15,6 +13,10 @@
 .inpage__header {
   @extend %pane-skin;
   padding: $global-spacing;
+
+  > *:last-child {
+    margin-bottom: 0;
+  }
 }
 
 .inpage__subheader {
@@ -65,3 +67,35 @@
 
 /* Body
    ========================================================================== */
+
+.inpage__body {
+  padding: $global-spacing;
+
+  > .prose {
+    max-width: 48rem;
+  }
+}
+
+
+/* Modifiers
+   ========================================================================== */
+
+.inpage--horizontal {
+  display: grid;
+  grid-template-columns: ($global-spacing * 20) auto;
+
+  .inpage__header {
+    position: sticky;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    overflow: scroll;
+  }
+
+  .inpage__body {
+    display: grid;
+    grid-template-columns: auto ($global-spacing * 16);
+    min-height: 100vh;
+    padding: 0;
+  }
+}

@@ -7,7 +7,7 @@ import Summary from '../components/explore/Summary';
 class Explore extends Component {
   render () {
     return (
-      <section className='inpage inpage--explore'>
+      <section className='inpage inpage--horizontal inpage--explore'>
         <header className='inpage__header'>
           <div class='inpage__subheader'>
             <div className='inpage__headline'>
