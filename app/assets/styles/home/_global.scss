@@ -1,3 +1,103 @@
 /* ==========================================================================
    Home: global
    ========================================================================== */
+
+.inpage--home {
+  @extend .antialiased;
+  background: shade($primary-color, 20%);
+  color: #fff;
+
+  .inpage__header {
+    @extend .visually-hidden;
+  }
+
+  .inpage__body {
+    display: flex;
+    align-items: center;
+    height: 100vh;
+  }
+}
+
+.home-intro__title {
+  @include heading(3.5rem);
+
+  span {
+    display: block;
+    font-size: 1.25rem;
+    line-height: 1rem;
+    text-transform: uppercase;
+    margin-bottom: $global-spacing / 2;
+  }
+}
+
+.home-intro__lead {
+  font-size: 1.5rem;
+  line-height: 2rem;
+
+  > *:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.stats-list {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: flex-end;
+  font-weight: $base-font-medium;
+
+  * {
+    font-weight: inherit;
+    line-height: 1;
+    margin: 0;
+  }
+
+  dt {
+    color: inherit;
+    font-size: 1.25rem;
+    margin-right: $global-spacing * 2;
+    padding: 0 0 ($global-spacing / 2) 0;
+
+    &:nth-of-type(1) {
+      order: 2;
+    }
+
+    &:nth-of-type(2) {
+      order: 4;
+    }
+  }
+
+  dd {
+    color: $secondary-color;
+    font-size: 4rem;
+    line-height: 1;
+    margin-right: $global-spacing;
+
+    &:nth-of-type(1) {
+      order: 1;
+    }
+
+    &:nth-of-type(2) {
+      order: 3;
+    }
+  }
+}
+
+.cta-wrapper {
+  small {
+    @extend .visually-hidden;
+  }
+}
+
+.ctab {
+  @extend .button, .button--xlarge;
+  margin-right: $global-spacing;
+  min-width: 12rem;
+}
+
+.ctab--explore {
+  @extend .button--primary-raised-dark;
+}
+
+.ctab--about {
+  @extend .button--primary-raised-light;
+}
