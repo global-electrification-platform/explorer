@@ -7,7 +7,7 @@ class Explore extends Component {
         <h1>Summary</h1>
         <br />
         <button>Exoport</button>
-        <div className="mapkey">
+        <div className='mapkey'>
           <h2>Map key</h2>
           <ul>
             <li>Grid</li>
@@ -17,14 +17,14 @@ class Explore extends Component {
           </ul>
         </div>
         <br />
-        <div className="charts">
+        <div className='charts'>
           <h2>Charts</h2>
-          <div className="chart">Chart 1</div>
-          <div className="chart">Chart 2</div>
-          <div className="chart">Chart 3</div>
+          <div className='chart'>Chart 1</div>
+          <div className='chart'>Chart 2</div>
+          <div className='chart'>Chart 3</div>
         </div>
         <br />
-        <div className="summary">
+        <div className='summary'>
           <h2>Summary</h2>
           <h3>Population Electrified</h3>
           <p>1 280 848</p>

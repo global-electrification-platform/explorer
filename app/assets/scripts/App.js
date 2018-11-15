@@ -12,7 +12,7 @@ class App extends Component {
     return (
       <div className={c('page', className)}>
         <PageHeader location={location} />
-        <main className="page__body" role="main">
+        <main className='page__body' role='main'>
           {children}
         </main>
         <PageFooter location={location} />

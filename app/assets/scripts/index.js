@@ -22,12 +22,12 @@ ReactDOM.render(
     <HashRouter>
       <App>
         <Switch>
-          <Route exact path="/" component={Home} />
-          <Route path="/select-country" component={SelectCountry}/>
-          <Route path="/select-model" component={SelectModel} />
-          <Route path="/explore" component={Explore} />
-          <Route path="/docs" component={Docs} />
-          <Route path="/about" component={About} />
+          <Route exact path='/' component={Home} />
+          <Route path='/select-country' component={SelectCountry} />
+          <Route path='/select-model' component={SelectModel} />
+          <Route path='/explore' component={Explore} />
+          <Route path='/docs' component={Docs} />
+          <Route path='/about' component={About} />
         </Switch>
       </App>
     </HashRouter>
