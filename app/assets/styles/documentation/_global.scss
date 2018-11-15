@@ -1,0 +1,19 @@
+/* ==========================================================================
+   Documentation: global
+   ========================================================================== */
+
+.index-menu {
+  dt:not(:first-child) {
+    margin-top: $global-spacing;
+  }
+}
+
+.index-menu__link {
+  @extend .button, .button--primary-plain, .button--block;
+  text-align: left;
+  text-transform: none;
+
+  &--active {
+    @extend .button--active;
+  }
+}

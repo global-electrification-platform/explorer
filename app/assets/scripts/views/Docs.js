@@ -3,55 +3,87 @@ import React, { Component } from 'react';
 class Docs extends Component {
   render () {
     return (
-      <div>
-        <h1>Docs</h1>
-        <br />
-        <div className='navigation'>
-          <h2>Navigation</h2>
-          <br />
-          <h3>Global</h3>
-          <ul>
-            <li>Consectetur dolor</li>
-            <li>Lorem Ipsum</li>
-            <li>Dolor sit amet</li>
-          </ul>
-          <br />
-          <h3>Models</h3>
-          <ul>
-            <li>Mostrud nulla proident</li>
-            <li>Minim officia cupidatat eu</li>
-            <li>Veniam nostrud anim ex irure.</li>
-          </ul>
+      <section className='inpage inpage--horizontal inpage--docs'>
+        <header className='inpage__header'>
+          <div className='inpage__subheader'>
+            <div className='inpage__headline'>
+              <h1 className='inpage__title'>Documentation</h1>
+            </div>
+          </div>
+          <nav className='inpage__nav'>
+            <dl className='index-menu'>
+              <dt>Global</dt>
+              <dd>
+                <a
+                  href='#'
+                  title='Read'
+                  className='index-menu__link index-menu__link--active'
+                >
+                  <span>Input data</span>
+                </a>
+              </dd>
+              <dd>
+                <a href='#' title='Read' className='index-menu__link'>
+                  <span>Lorem ipsum</span>
+                </a>
+              </dd>
+              <dd>
+                <a href='#' title='Read' className='index-menu__link'>
+                  <span>Dolor sit amet</span>
+                </a>
+              </dd>
+              <dt>Models</dt>
+              <dd>
+                <a href='#' title='Read' className='index-menu__link'>
+                  <span>OnSETT</span>
+                </a>
+              </dd>
+              <dd>
+                <a href='#' title='Read' className='index-menu__link'>
+                  <span>Model lorem</span>
+                </a>
+              </dd>
+              <dd>
+                <a href='#' title='Read' className='index-menu__link'>
+                  <span>Ipsum model</span>
+                </a>
+              </dd>
+            </dl>
+          </nav>
+        </header>
+        <div className='inpage__body'>
+          <div className='prose'>
+            <h2>Input data</h2>
+            <p>
+              Pellentesque habitant morbi tristique senectus et netus et
+              malesuada fames ac turpis egestas.
+            </p>
+            <p>
+              Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit
+              amet, ante. Donec eu libero sit amet quam egestas semper. Aenean
+              ultricies mi vitae est. Mauris placerat eleifend leo. Quisque sit
+              amet est et sapien ullamcorper pharetra. Vestibulum erat wisi,
+              condimentum sed, commodo vitae, ornare sit amet, wisi. Aenean
+              fermentum, elit eget tincidunt condimentum, eros ipsum rutrum
+              orci, sagittis tempus lacus enim ac dui. Donec non enim in turpis
+              pulvinar facilisis. Praesendapibus, neque id cursus faucibus,
+              tortor neque egestas augue, eu vulputate magna eros eu erat.
+              Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan
+              porttitor, facilisis luctus, metus
+            </p>
+            <p>
+              Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit
+              amet, ante. Donec eu libero sit amet quam egestas semper. Aenean
+              ultricies mi vitae est. Mauris placerat eleifend leo. Quisque sit
+              amet est et sapien ullamcorper pharetra. Vestibulum erat wisi,
+              condimentum sed, commodo vitae, ornare sit amet, wisi. Aenean
+              fermentum, elit eget tincidunt condimentum, eros ipsum rutrum
+              orci, sagittis tempus lacus enim ac dui. Donec non enim in turpis
+              pulvinar facilisis.
+            </p>
+          </div>
         </div>
-        <hr />
-        <div className='doc-page'>
-          <h2>Voluptate irure nulla exercitation laboris</h2>
-          <p>
-            Pariatur duis aliquip est est culpa dolor pariatur anim est sunt in
-            consequat. Laborum culpa elit do magna in aute aliquip sit id
-            consequat non anim voluptate voluptate. Nostrud deserunt tempor
-            tempor reprehenderit dolor ea esse velit velit labore elit ullamco
-            pariatur. Reprehenderit amet est reprehenderit amet ea non proident
-            voluptate aliquip consequat magna. Sint Lorem deserunt ad sit. Eu
-            culpa elit quis pariatur fugiat amet. Esse anim elit incididunt
-            irure sit in aliqua ipsum minim amet fugiat.
-          </p>
-          <p>
-            Minim reprehenderit duis enim qui excepteur exercitation cupidatat
-            esse officia ipsum. Anim eiusmod ad velit irure duis. Cillum ea elit
-            proident non minim adipisicing do ipsum laboris. Aliqua Lorem minim
-            tempor laboris voluptate dolore veniam reprehenderit. Nulla aliqua
-            anim nisi do cupidatat. Quis et et id ullamco dolor enim culpa
-            cupidatat dolor quis qui anim. Voluptate laboris aliquip deserunt do
-            commodo dolor laborum sit.
-          </p>
-          <p>
-            Consequat laborum excepteur sint minim reprehenderit do mollit nulla
-            exercitation amet. Aliqua deserunt labore qui deserunt. Proident
-            nostrud occaecat labore enim laborum. Aliqua anim dolore sunt aute.
-          </p>
-        </div>
-      </div>
+      </section>
     );
   }
 }

@@ -1,53 +1,58 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 class Home extends Component {
   render () {
     return (
-      <div>
-        <h1>Home</h1>
-        {/* Hero */}
-        <div>
-          <h2>Welcome to the Global Electrification Platform</h2>
-          <p>
-            Excepteur excepteur proident veniam amet aliquip occaecat anim
-            tempor non elit adipisicing. Dolor eiusmod ipsum ipsum anim
-            exercitation cillum proident. Minim reprehenderit sint esse ea in
-            laborum enim est do est do. Elit nostrud ea pariatur commodo ut ex
-            laborum fugiat ullamco occaecat qui cupidatat est irure. Fugiat
-            nulla do elit proident aute proident amet do voluptate non
-            incididunt ex exercitation nisi.
-          </p>
-          <button>Learn More</button>
+      <article className='inpage inpage--home'>
+        <header className='inpage__header'>
+          <div className='inpage__subheader'>
+            <div className='inpage__headline'>
+              <h1 className='inpage__title'>Homepage</h1>
+            </div>
+          </div>
+        </header>
+        <div className='inpage__body'>
+          <section className='home-intro prose'>
+            <h2 className='home-intro__title'>
+              <span>Welcome to the</span> Global Electrification Platform
+              Explorer
+            </h2>
+            <div className='home-intro__lead'>
+              <p>
+                Explore least cost electrification strategies around the world,
+                interacting with country contextual data and diferent investment
+                scenarios.
+              </p>
+            </div>
+
+            <dl className='stats-list'>
+              <dt>Models</dt>
+              <dd>03</dd>
+              <dt>Countries</dt>
+              <dd>32</dd>
+            </dl>
+
+            <p className='cta-wrapper'>
+              <Link
+                to='/explore'
+                title='Explore the data'
+                className='ctab ctab--explore'
+              >
+                <span>Start exploring</span>
+              </Link>
+              <small>or</small>
+              <Link
+                to='/about'
+                title='Learn about the tool'
+                className='ctab ctab--about'
+              >
+                <span>Learn more</span>
+              </Link>
+            </p>
+          </section>
         </div>
-        <hr />
-        {/* General stats */}
-        <div>
-          <h2>Browse the data</h2>
-          <p>
-            Fugiat laboris non anim dolor consequat fugiat nulla nostrud eiusmod
-            esse. Occaecat mollit cupidatat veniam laboris elit dolor incididunt
-            non eu anim officia consequat reprehenderit nostrud. Veniam enim
-            occaecat quis ad pariatur veniam. Est excepteur voluptate velit sunt
-            do cupidatat excepteur culpa sit nulla proident. Reprehenderit amet
-            id laborum ex anim. Deserunt ipsum excepteur duis ipsum Lorem ad
-            aute mollit Lorem reprehenderit dolore id et reprehenderit. Est
-            eiusmod quis officia quis eu aliquip ex nulla tempor aliquip
-            cupidatat cillum eiusmod tempor.
-          </p>
-          <button>Start browsing</button>
-        </div>
-        <hr />
-        {/* Footer */}
-        <div>
-          <h2>Global Electrification Platform (Footer)</h2>
-          <p>Copyright 2018</p>
-          <ul>
-            <li>Logo 1</li>
-            <li>Logo 2</li>
-            <li>Logo 3</li>
-          </ul>
-        </div>
-      </div>
+      </article>
     );
   }
 }

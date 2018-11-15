@@ -3,10 +3,8 @@
    ========================================================================== */
 
 .page {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
+  display: grid;
+  grid-template-columns: ($global-spacing * 4) auto 0;
 }
 
 
@@ -15,115 +13,100 @@
 
 .page__header {
   @extend .antialiased;
-  position: relative;
-  width: 100%;
-  z-index: 1000;
-  padding: ($global-spacing * 2) 0;
+  position: sticky;
+  top: 0;
+  left: 0;
+  height: 100vh;
   background: $primary-color;
+  padding: $global-spacing;
   color: #fff;
-  text-shadow: 0 0 8px rgba($base-color, 0.64);
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+}
 
-  &::before,
-  &::after {
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 100%;
-    content: '';
-    pointer-events: none;
-  }
+.page__headline {
+  margin-bottom: $global-spacing * 2;
 
-  &::before {
-    background-image: url(../graphics/layout/hero--cover.jpg);
-    background-repeat: no-repeat;
-    background-position: center bottom;
-    background-size: cover;
-    z-index: 1;
-  }
-
-  &::after {
-    background: rgba($base-color, 0.16);
-    z-index: 2;
-  }
-
-  .page--has-hero & {
-    position: absolute;
-    background: none;
-    color: #fff;
-
-    &::before,
-    &::after {
-      display: none;
-    }
-  }
-
-  > * {
-    position: relative;
-    z-index: 3;
-  }
-
-  > .inner {
-    @extend .row, .row--centered;
-    display: flex;
-    flex-flow: row nowrap;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  a {
-    color: inherit;
+  > *:last-child {
+    margin-bottom: 0
   }
 }
 
 .page__title {
   font-size: 1.25rem;
   line-height: 1;
-  margin: 0;
   text-transform: uppercase;
-
-  @include media(large-up) {
-    font-size: 1.5rem;
-  }
+  width: 2.5rem;
+  text-align: center;
+  padding-top: $global-spacing / 4;
 
   a {
     display: block;
+    color: inherit;
+
+    &::before {
+      content: attr(data-ast);
+    }
   }
 
-  em {
-    font-style: normal;
-    opacity: 0.64;
+  span {
+    @extend .visually-hidden;
   }
 }
 
 .page__prime-nav {
+  flex: 1;
   display: flex;
-  margin: 0 (-0.75rem) 0 auto;
-  color: inherit;
-  padding-left: $global-spacing;
+  flex-flow: column nowrap;
 }
+
 
 /* Global menu */
 
 .global-menu {
+  flex: 1;
   display: flex;
-  flex-flow: row nowrap;
+  flex-flow: column nowrap;
   list-style: none;
   margin: 0;
-  padding-left: $global-spacing;
+  padding: 0;
 
-  > *:not(:last-child) {
-    margin-right: $global-spacing / 2;
+  > * {
+    margin: 0 0 ($global-spacing / 2);
+
+    &:last-child {
+      margin: auto 0 0 0;
+    }
   }
 }
 
 .global-menu__link {
-  @extend .button, .button--achromic-plain;
-  text-shadow: 0 0 8px rgba($base-color, 0.64);
+  @extend .button, .button--large, .button--achromic-plain, .button--text-hidden;
 
   &--active {
     @extend .button--active;
   }
+}
+
+.global-menu__link--home::before {
+  @extend %collecticon-house;
+}
+
+.global-menu__link--explore::before {
+  @extend %collecticon-compass;
+}
+
+.global-menu__link--docs::before {
+  @extend %collecticon-book--bookmark;
+}
+
+.global-menu__link--about::before {
+  @extend %collecticon-circle-information;
+}
+
+.global-menu__link--share::before {
+  @extend %collecticon-share;
 }
 
 
@@ -131,9 +114,6 @@
    ========================================================================== */
 
 .page__body {
-  flex: 1;
-  display: flex;
-  flex-flow: column;
 }
 
 
@@ -141,114 +121,12 @@
    ========================================================================== */
 
 .page__footer {
-  position: relative;
-  z-index: 10;
-  font-family: $heading-font-family;
   background: tint($base-color, 96%);
   padding: ($global-spacing * 2) 0;
-  box-shadow: 0 (-$base-border-width) 0 0 $base-alpha-color;
-
-  @include media(large-up) {
-    padding: ($global-spacing * 2) 0;
-  }
 
   > .inner {
-    @extend .row, .row--centered;
-    display: grid;
-    grid-template-columns: repeat(12, 1fr);
-    grid-gap: 0 ($global-spacing * 2);
-
     > *:last-child {
       margin-bottom: 0
     }
-  }
-}
-
-.footer__block {
-  grid-row: 1 / auto;
-}
-
-.footer__title {
-  @extend .heading-alt;
-  font-size: 0.875rem;
-  line-height: 1.25rem;
-  color: tint($base-color, 56%);
-  text-transform: uppercase;
-  margin-bottom: $global-spacing / 2;
-}
-
-.footer__block--nav {
-  grid-column: auto / span 3;
-
-  @include media(large-up) {
-    grid-column: auto / span 6;
-  }
-}
-
-.footer__block--newsletter {
-  grid-column: auto / span 3;
-
-  p {
-    margin-bottom: $global-spacing / 2;
-    color: rgba($base-color, 0.48);
-  }
-
-  .form__label {
-    @extend .visually-hidden;
-  }
-
-  .form__help {
-    margin-bottom: -1.5rem;
-
-    > * {
-      margin-bottom: 0;
-    }
-  }
-
-  > *:last-child {
-    margin-bottom: 0;
-  }
-}
-
-.footer__block--supporters {
-  grid-column: auto / span 3;
-}
-
-.footer__credits {
-  padding-top: $global-spacing * 2;
-  margin-top: $global-spacing * 2;
-  color: rgba($base-color, 0.48);
-  text-align: center;
-  font-size: 1rem;
-  line-height: 1.25rem;
-  box-shadow: inset 0 ($base-border-width / 2) 0 0 rgba($base-color, 0.08);
-
-  * {
-    margin-bottom: 0;
-  }
-}
-
-/* Footer menu */
-
-.footer-menu {
-  display: flex;
-  flex-flow: column nowrap;
-  list-style: none;
-  margin: 0 0 0 (-0.75rem);
-
-  @include media(large-up) {
-    flex-flow: row nowrap;
-  }
-
-  > *:not(:last-child) {
-    margin-right: $global-spacing / 2;
-  }
-}
-
-.footer-menu__link {
-  @extend .button, .button--base-plain;
-
-  &--active {
-    @extend .button--active;
   }
 }
