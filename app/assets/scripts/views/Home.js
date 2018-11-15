@@ -14,7 +14,7 @@ class Home extends Component {
         </header>
         <div className='inpage__body'>
           <section className='home-intro prose'>
-            <h2 className='home-intro__title'><span>Welcome to</span> Global Electrification Platform Explorer</h2>
+            <h2 className='home-intro__title'><span>Welcome to the</span> Global Electrification Platform Explorer</h2>
             <div className='home-intro__lead'>
               <p>Explore least cost electrification strategies around the world, interacting with country contextual data and diferent investment scenarios.</p>
             </div>
