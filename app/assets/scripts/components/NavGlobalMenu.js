@@ -7,24 +7,21 @@ import { environment } from '../config';
 export default class NavGlobalMenu extends Component {
   renderHeaderMenu () {
     return (
-      <ul className="global-menu" id="global-menu">
+      <ul className='global-menu'>
         <li>
-          <Link to="/">Home</Link>
+          <Link to='/' title='View page' className='global-menu__link global-menu__link--home'><span>Home</span></Link>
         </li>
         <li>
-          <Link to="/select-country">Select Country</Link>
+          <Link to='/explore' title='View page' className='global-menu__link global-menu__link--explore'><span>Explore</span></Link>
         </li>
         <li>
-          <Link to="/select-model">Select Model</Link>
+          <Link to='/docs' title='View page' className='global-menu__link global-menu__link--docs'><span>Documentation</span></Link>
         </li>
         <li>
-          <Link to="/explore">Explore Dashboard</Link>
+          <Link to='/about' title='View page' className='global-menu__link global-menu__link--about'><span>About</span></Link>
         </li>
         <li>
-          <Link to="/docs">Docs</Link>
-        </li>
-        <li>
-          <Link to="/about">About</Link>
+          <a href='#' title='View page' className='global-menu__link global-menu__link--share'><span>Share</span></a>
         </li>
       </ul>
     );
