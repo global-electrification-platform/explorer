@@ -2,7 +2,8 @@ import config from './config';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { HashRouter, Route, Switch } from 'react-router-dom';
+import { Router, Route, Switch } from 'react-router-dom';
+import createHistory from 'history/createBrowserHistory';
 
 // Views
 import App from './App';
@@ -19,7 +20,7 @@ const { store } = configureStore();
 
 ReactDOM.render(
   <Provider store={store}>
-    <HashRouter>
+    <Router history={createHistory()}>
       <App>
         <Switch>
           <Route exact path='/' component={Home} />
@@ -30,7 +31,7 @@ ReactDOM.render(
           <Route path='/about' component={About} />
         </Switch>
       </App>
-    </HashRouter>
+    </Router>
   </Provider>,
   document.getElementById('root')
 );

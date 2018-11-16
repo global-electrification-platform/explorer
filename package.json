@@ -56,6 +56,7 @@
     "babelify": "^8.0.0",
     "browser-sync": "^2.24.4",
     "browserify": "^16.2.2",
+    "connect-history-api-fallback": "^1.5.0",
     "collecticons-processor": "^3.1.0",
     "del": "^3.0.0",
     "envify": "^4.1.0",
@@ -96,6 +97,7 @@
   "dependencies": {
     "classnames": "^2.2.6",
     "connected-react-router": "^4.5.0",
+    "history": "^4.7.2",
     "lodash.defaultsdeep": "^4.6.0",
     "mapbox-gl": "^0.51.0",
     "prop-types": "^15.6.2",
