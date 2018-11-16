@@ -25,6 +25,7 @@
    ========================================================================== */
 
 .exp-map {
+  position: relative;
   background: tint($base-color, 96%);
   display: flex;
   justify-content: center;
