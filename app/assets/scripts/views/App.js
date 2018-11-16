@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import T from 'prop-types';
 import c from 'classnames';
 
-import PageHeader from './components/PageHeader';
-import PageFooter from './components/PageFooter';
+import PageHeader from '../components/PageHeader';
+import PageFooter from '../components/PageFooter';
 
 class App extends Component {
   render () {
