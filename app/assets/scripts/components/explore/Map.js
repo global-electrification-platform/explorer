@@ -46,7 +46,7 @@ class Explore extends React.Component {
     return (
       <section className='exp-map'>
         <h1 className='exp-map__title'>Map</h1>
-        <div ref='mapEl' style={{ width: '800px', height: '600px' }} />
+        <div ref='mapEl' style={{ width: '100%', height: '100%' }} />
       </section>
     );
   }
