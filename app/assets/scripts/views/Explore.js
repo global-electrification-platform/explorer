@@ -5,6 +5,20 @@ import Map from '../components/explore/Map';
 import Summary from '../components/explore/Summary';
 
 class Explore extends Component {
+  constructor (props) {
+    super(props);
+
+    this.updateMap = this.updateMap.bind(this);
+
+    this.state = {
+      dashboardChangedAt: Date.now()
+    };
+  }
+
+  updateMap () {
+    this.setState({ dashboardChangedAt: Date.now() });
+  }
+
   render () {
     return (
       <section className='inpage inpage--horizontal inpage--explore'>
@@ -21,14 +35,14 @@ class Explore extends Component {
                 className='button button--small button--primary-raised-light'
                 title='Change country and model'
               >
-                <span>Change</span>
+                <span onClick={this.updateMap}>Change</span>
               </button>
             </div>
           </div>
-          <Dashboard />
+          <Dashboard updateMap={this.updateMap} />
         </header>
         <div className='inpage__body'>
-          <Map />
+          <Map dashboardChangedAt={this.state.dashboardChangedAt} />
           <Summary />
         </div>
       </section>
