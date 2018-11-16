@@ -11,23 +11,19 @@ class Explore extends Component {
         <nav className='nav'>
           <ul className='nav__tablist' role='tablist'>
             <li className='nav__tab' role='presentation'>
-              <a href='#econtrols__scenarios' className='nav__link nav__link--active' title='View options' role='tab'><span>Scenarios</span></a>
+              <a href='#econtrols-scenarios' className='nav__link nav__link--active' title='View options' role='tab'><span>Scenarios</span></a>
             </li>
             <li className='nav__tab' role='presentation'>
-              <a href='#econtrols__filters' className='nav__link' title='View options' role='tab'><span>Filters</span></a>
+              <a href='#econtrols-filters' className='nav__link' title='View options' role='tab'><span>Filters</span></a>
             </li>
             <li className='nav__tab' role='presentation'>
-              <a href='#econtrols__layers' className='nav__link' title='View options' role='tab'><span>Layers</span></a>
+              <a href='#econtrols-layers' className='nav__link' title='View options' role='tab'><span>Layers</span></a>
             </li>
           </ul>
         </nav>
-
         <Levers />
-        <br />
         <Filters />
-        <br />
         <Layers />
-        <br />
       </div>
     );
   }
