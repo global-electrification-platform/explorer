@@ -15,6 +15,7 @@
   },
   "rules": {
     "semi": [2, "always"],
+    "jsx-quotes": [2, "prefer-single"],
     "no-extra-semi": 2,
     "semi-spacing": [2, { "before": false, "after": true }],
     "react/display-name": 1 ,

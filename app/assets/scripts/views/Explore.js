@@ -9,14 +9,20 @@ class Explore extends Component {
     return (
       <section className='inpage inpage--horizontal inpage--explore'>
         <header className='inpage__header'>
-          <div class='inpage__subheader'>
+          <div className='inpage__subheader'>
             <div className='inpage__headline'>
               <h1 className='inpage__title'>Explore</h1>
               <h2 className='inpage__sectitle'>Country name</h2>
               <p className='inpage__subtitle'>OnSSET v2.1</p>
             </div>
             <div className='inpage__hactions'>
-              <button type='button' className='button button--small button--primary-raised-light' title='Change country and model'><span>Change</span></button>
+              <button
+                type='button'
+                className='button button--small button--primary-raised-light'
+                title='Change country and model'
+              >
+                <span>Change</span>
+              </button>
             </div>
           </div>
           <Dashboard />
