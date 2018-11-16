@@ -48,6 +48,19 @@
   flex: 1;
   display: flex;
   flex-flow: column nowrap;
+  opacity: 0;
+  visibility: hidden;
+  max-height: 0;
+  overflow: hidden;
+
+  /* Animation */
+  transition: all .16s ease 0s;
+
+  &--active {
+    max-height: 300vh;
+    visibility: visible;
+    opacity: 1;
+  }
 }
 
 .econtrols__title {
@@ -84,11 +97,6 @@
 .econtrols__submit {
   @extend .button, .button--primary-raised-dark;
   vertical-align: top;
-}
-
-#econtrols-filters,
-#econtrols-layers {
-  display: none;
 }
 
 

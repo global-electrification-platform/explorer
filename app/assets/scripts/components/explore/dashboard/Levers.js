@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 class Levers extends Component {
   render () {
     return (
-      <section className='econtrols__section' id='econtrols-scenarios'>
+      <section className='econtrols__section econtrols__section--active' id='econtrols-scenarios'>
         <h1 className='econtrols__title'>Scenarios</h1>
         <form className='form econtrols__block' id='#econtrols__scenarios'>
           <div className='econtrols__subblock'>
