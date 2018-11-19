@@ -90,6 +90,7 @@
     "require-globify": "^1.4.1",
     "run-sequence": "^2.2.1",
     "through2": "^2.0.3",
+    "surge": "^0.20.1",
     "vinyl-buffer": "^1.0.1",
     "vinyl-source-stream": "^2.0.0",
     "watchify": "^3.11.0"
