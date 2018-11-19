@@ -118,6 +118,9 @@
   display: flex;
   justify-content: center;
   align-items: center;
+
+  /* Animation */
+  animation: reveal 0.64s ease 0s 1;
 }
 
 .exp-map__title {
@@ -137,6 +140,9 @@
   height: 100vh;
   overflow: hidden;
   padding: $global-spacing;
+
+  /* Animation */
+  animation: reveal 0.96s ease 0s 1;
 }
 
 .exp-summary__header {
