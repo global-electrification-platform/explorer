@@ -5,38 +5,32 @@ class Layers extends Component {
     return (
       <section className='econtrols__section econtrols__section--active' id='econtrols-layers'>
         <h1 className='econtrols__title'>Layers</h1>
-        <div className='layers'>
-          <ul>
-            <li className='layer'>
-              <input
-                type='checkbox'
-                id='layer1'
-                name='layer1'
-                value='layer1'
-                checked
-              />
-              <label htmlFor='layer1'>HV Grid</label>
-            </li>
-            <li className='layer'>
-              <input
-                type='checkbox'
-                id='layer2'
-                name='layer2'
-                value='layer2'
-                checked
-              />
-              <label htmlFor='layer2'>Transformers</label>
-            </li>
-            <li className='layer'>
-              <input type='checkbox' id='layer3' name='layer3' value='layer3' />
-              <label htmlFor='layer3'>Schools</label>
-            </li>
-            <li className='layer'>
-              <input type='checkbox' id='layer4' name='layer4' value='layer4' />
-              <label htmlFor='layer4'>Schools</label>
-            </li>
-          </ul>
-        </div>
+
+        <form className='form econtrols__block' id='#econtrols__scenarios'>
+          <div className='econtrols__subblock'>
+            <div className='form__group econtrols__item'>
+              <label htmlFor='switch1' className='form__option form__option--switch' title='Toggle on/off'>
+                <input type='checkbox' name='switch1' id='switch1' value='on' />
+                <span className='form__option__text'>HV Grid</span>
+                <span className='form__option__ui'></span>
+              </label>
+            </div>
+            <div className='form__group econtrols__item'>
+              <label htmlFor='switch2' className='form__option form__option--switch' title='Toggle on/off'>
+                <input type='checkbox' name='switch2' id='switch2' value='on' />
+                <span className='form__option__text'>Schools</span>
+                <span className='form__option__ui'></span>
+              </label>
+            </div>
+            <div className='form__group econtrols__item'>
+              <label htmlFor='switch3' className='form__option form__option--switch' title='Toggle on/off'>
+                <input type='checkbox' name='switch3' id='switch3' value='on' />
+                <span className='form__option__text'>Transformers</span>
+                <span className='form__option__ui'></span>
+              </label>
+            </div>
+          </div>
+        </form>
       </section>
     );
   }
