@@ -20,9 +20,17 @@
   position: relative;
   font-weight: $base-font-bold;
 
+  /* Animation */
+  transition: color 0.16s ease-in-out 0s;
+
   &,
   &:visited {
     color: inherit;
+  }
+
+  &:hover {
+    opacity: 1;
+    color: $link-color
   }
 
   &::after {
