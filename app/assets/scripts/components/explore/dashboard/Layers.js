@@ -3,9 +3,8 @@ import React, { Component } from 'react';
 class Layers extends Component {
   render () {
     return (
-      <div>
-        <h3>3 - Layers</h3>
-        <br />
+      <section className='econtrols__section econtrols__section--active' id='econtrols-layers'>
+        <h1 className='econtrols__title'>Layers</h1>
         <div className='layers'>
           <ul>
             <li className='layer'>
@@ -38,7 +37,7 @@ class Layers extends Component {
             </li>
           </ul>
         </div>
-      </div>
+      </section>
     );
   }
 }

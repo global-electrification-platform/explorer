@@ -3,52 +3,45 @@ import React, { Component } from 'react';
 class Levers extends Component {
   render () {
     return (
-      <div>
-        <h3>1 - Scenarios</h3>
-        <br />
-        <div className='lever'>
-          <h4>Electricity demand profile</h4>
-          <div>
-            <input
-              type='radio'
-              id='option1'
-              name='lever1'
-              value='option1'
-              defaultChecked
-            />
-            <label htmlFor='option1'>Option 1</label>
+      <section
+        className='econtrols__section econtrols__section--active'
+        id='econtrols-scenarios'
+      >
+        <h1 className='econtrols__title'>Scenarios</h1>
+        <form className='form econtrols__block' id='#econtrols__scenarios'>
+          <div className='econtrols__subblock'>
+            <div className='form__group econtrols__item'>
+              <label className='form__label'>Electricity demand profile</label>
+              <label className='form__option form__option--custom-radio'>
+                <input
+                  type='radio'
+                  name='form-radio'
+                  id='form-radio-1'
+                  value='Radio 1'
+                  checked='checked'
+                />
+                <span className='form__option__ui' />
+                <span className='form__option__text'>Radio 1</span>
+              </label>
+              <label className='form__option form__option--custom-radio'>
+                <input
+                  type='radio'
+                  name='form-radio'
+                  id='form-radio-2'
+                  value='Radio 2'
+                />
+                <span className='form__option__ui' />
+                <span className='form__option__text'>Radio 2</span>
+              </label>
+            </div>
           </div>
-
-          <div>
-            <input type='radio' id='option2' name='lever1' value='option2' />
-            <label htmlFor='option2'>Option 2</label>
+          <div className='form__actions econtrols__actions'>
+            <button type='submit' className='econtrols__submit' title='Apply'>
+              <span>Apply changes</span>
+            </button>
           </div>
-        </div>
-        <br />
-
-        <div className='lever'>
-          <h4>Year of analysis</h4>
-          <div>
-            <input
-              type='radio'
-              id='option1'
-              name='lever2'
-              value='option1'
-              defaultChecked
-            />
-            <label htmlFor='option1'>2020</label>
-          </div>
-
-          <div>
-            <input type='radio' id='option2' name='lever2' value='option2' />
-            <label htmlFor='option2'>2025</label>
-          </div>
-          <div>
-            <input type='radio' id='option3' name='lever2' value='option3' />
-            <label htmlFor='option3'>2025</label>
-          </div>
-        </div>
-      </div>
+        </form>
+      </section>
     );
   }
 }

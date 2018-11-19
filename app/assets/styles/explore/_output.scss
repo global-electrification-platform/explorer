@@ -3,6 +3,11 @@
    ========================================================================== */
 
 .inpage--explore {
+  .inpage__header {
+    display: flex;
+    flex-flow: column nowrap;
+  }
+
   .inpage__title {
     @extend .visually-hidden;
   }
@@ -21,11 +26,86 @@
 }
 
 
+/* Controls
+   ========================================================================== */
+
+.econtrols {
+  margin: 0 (-$global-spacing) (-$global-spacing) (-$global-spacing) !important;
+  flex: 1;
+  display: flex;
+  flex-flow: column nowrap;
+
+  .nav {
+    margin: 0;
+  }
+
+  .nav__tablist {
+    padding: 0 $global-spacing;
+  }
+}
+
+.econtrols__section {
+  flex: 1;
+  display: flex;
+  flex-flow: column nowrap;
+  opacity: 0;
+  visibility: hidden;
+  max-height: 0;
+  overflow: hidden;
+
+  /* Animation */
+  transition: all .16s ease 0s;
+
+  &--active {
+    max-height: 300vh;
+    visibility: visible;
+    opacity: 1;
+  }
+}
+
+.econtrols__title {
+  @extend .visually-hidden;
+}
+
+.econtrols__block {
+  flex: 1;
+  display: flex;
+  flex-flow: column nowrap;
+  margin: 0;
+  overflow: auto;
+}
+
+.econtrols__subblock {
+  flex: 1;
+  display: flex;
+  flex-flow: column nowrap;
+  margin: 0;
+}
+
+.econtrols__item {
+  padding: $global-spacing;
+  box-shadow: inset 0 -1px 0 0 $base-alpha-color;
+  margin: 0;
+}
+
+.econtrols__actions {
+  padding: $global-spacing;
+  box-shadow: 0 -1px 0 0 $base-alpha-color;
+  text-align: center;
+}
+
+.econtrols__submit {
+  @extend .button, .button--primary-raised-dark;
+  vertical-align: top;
+}
+
+
 /* Map
    ========================================================================== */
 
 .exp-map {
   position: relative;
+  z-index: 10;
   background: tint($base-color, 96%);
   display: flex;
   justify-content: center;
@@ -45,6 +125,7 @@
   position: sticky;
   top: 0;
   left: 0;
+  z-index: 100;
   height: 100vh;
   overflow: scroll;
   padding: $global-spacing;

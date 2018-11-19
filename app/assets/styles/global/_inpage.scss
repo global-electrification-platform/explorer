@@ -13,6 +13,7 @@
 .inpage__header {
   @extend %pane-skin;
   padding: $global-spacing ($global-spacing * 4);
+  z-index: 100;
 
   > *:last-child {
     margin-bottom: 0;
@@ -89,7 +90,6 @@
     top: 0;
     left: 0;
     height: 100vh;
-    overflow: scroll;
     padding: $global-spacing;
   }
 }

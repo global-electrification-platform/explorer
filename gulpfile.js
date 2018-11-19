@@ -15,6 +15,7 @@ const sourcemaps = require('gulp-sourcemaps');
 const log = require('fancy-log');
 const SassString = require('node-sass').types.String;
 const notifier = require('node-notifier');
+const historyApiFallback = require('connect-history-api-fallback');
 const runSequence = require('run-sequence');
 const through2 = require('through2');
 
@@ -62,7 +63,8 @@ gulp.task('serve', ['vendorScripts', 'javascript', 'styles'], function () {
       baseDir: ['.tmp', 'app'],
       routes: {
         '/node_modules': './node_modules'
-      }
+      },
+      middleware: [historyApiFallback()]
     }
   });
 
