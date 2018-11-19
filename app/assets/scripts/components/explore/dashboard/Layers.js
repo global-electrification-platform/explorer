@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 class Layers extends Component {
   render () {
     return (
-      <section className='econtrols__section econtrols__section--active' id='econtrols-layers'>
+      <section className='econtrols__section' id='econtrols-layers'>
         <h1 className='econtrols__title'>Layers</h1>
 
         <form className='form econtrols__block' id='#econtrols__scenarios'>

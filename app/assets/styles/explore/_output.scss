@@ -48,19 +48,9 @@
   flex: 1;
   display: flex;
   flex-flow: column nowrap;
-  opacity: 0;
-  visibility: hidden;
-  max-height: 0;
-  overflow: hidden;
 
   /* Animation */
-  transition: all .16s ease 0s;
-
-  &--active {
-    max-height: 300vh;
-    visibility: visible;
-    opacity: 1;
-  }
+  animation: reveal 0.32s ease 0s 1;
 }
 
 .econtrols__title {

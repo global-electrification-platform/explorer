@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 class Filters extends Component {
   render () {
     return (
-      <section className='econtrols__section econtrols__section--active' id='econtrols-filters'>
+      <section className='econtrols__section' id='econtrols-filters'>
         <h1 className='econtrols__title'>Filters</h1>
         <form className='form econtrols__block' id='#econtrols__scenarios'>
           <div className='econtrols__subblock'>
