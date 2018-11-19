@@ -1,5 +1,6 @@
 'use strict';
 
 export default {
-  environment: 'production'
+  environment: 'production',
+  siteUrl: 'http://gep-explorer.surge.sh'
 };
