@@ -17,7 +17,7 @@ const MetaTags = ({ title, description, children }) => {
       <meta property='og:type' content='website' />
       <meta property='og:url' content={appUrl} />
       <meta property='og:site_name' content={appTitle} />
-      <meta property='og:title' content={title} />      
+      <meta property='og:title' content={title} />
       <meta
         property='og:image'
         content='/assets/graphics/meta/default-meta-image.png'

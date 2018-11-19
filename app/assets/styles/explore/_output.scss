@@ -48,19 +48,9 @@
   flex: 1;
   display: flex;
   flex-flow: column nowrap;
-  opacity: 0;
-  visibility: hidden;
-  max-height: 0;
-  overflow: hidden;
 
   /* Animation */
-  transition: all .16s ease 0s;
-
-  &--active {
-    max-height: 300vh;
-    visibility: visible;
-    opacity: 1;
-  }
+  animation: reveal 0.32s ease 0s 1;
 }
 
 .econtrols__title {
@@ -86,6 +76,24 @@
   padding: $global-spacing;
   box-shadow: inset 0 -1px 0 0 $base-alpha-color;
   margin: 0;
+
+  .form__option--switch {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: flex-start;
+    margin: 0;
+
+    .form__option__text {
+      order: -1;
+      font-weight: $base-font-bold;
+      padding-right: $global-spacing;
+      margin: 0;
+    }
+
+    .form__option__ui {
+      margin-left: auto;
+    }
+  }
 }
 
 .econtrols__actions {
@@ -110,6 +118,9 @@
   display: flex;
   justify-content: center;
   align-items: center;
+
+  /* Animation */
+  animation: reveal 0.64s ease 0s 1;
 }
 
 .exp-map__title {
@@ -127,8 +138,11 @@
   left: 0;
   z-index: 100;
   height: 100vh;
-  overflow: scroll;
+  overflow: hidden;
   padding: $global-spacing;
+
+  /* Animation */
+  animation: reveal 0.96s ease 0s 1;
 }
 
 .exp-summary__header {

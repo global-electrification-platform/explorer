@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
+import { PropTypes as T } from 'prop-types';
+
+import { environment } from '../../../config';
 
 class Levers extends Component {
   render () {
     return (
-      <section
-        className='econtrols__section econtrols__section--active'
-        id='econtrols-scenarios'
-      >
+      <section className='econtrols__section' id='econtrols-scenarios'>
         <h1 className='econtrols__title'>Scenarios</h1>
         <form className='form econtrols__block' id='#econtrols__scenarios'>
           <div className='econtrols__subblock'>
@@ -15,7 +15,7 @@ class Levers extends Component {
               <label className='form__option form__option--custom-radio'>
                 <input
                   type='radio'
-                  name='form-radio'
+                  name='form-radio-a'
                   id='form-radio-1'
                   value='Radio 1'
                   checked='checked'
@@ -26,7 +26,7 @@ class Levers extends Component {
               <label className='form__option form__option--custom-radio'>
                 <input
                   type='radio'
-                  name='form-radio'
+                  name='form-radio-a'
                   id='form-radio-2'
                   value='Radio 2'
                 />
@@ -36,7 +36,15 @@ class Levers extends Component {
             </div>
           </div>
           <div className='form__actions econtrols__actions'>
-            <button type='submit' className='econtrols__submit' title='Apply'>
+            <button
+              type='submit'
+              className='econtrols__submit'
+              title='Apply'
+              onClick={e => {
+                e.preventDefault();
+                this.props.updateMap();
+              }}
+            >
               <span>Apply changes</span>
             </button>
           </div>
@@ -44,6 +52,12 @@ class Levers extends Component {
       </section>
     );
   }
+}
+
+if (environment !== 'production') {
+  Levers.propTypes = {
+    updateMap: T.function
+  };
 }
 
 export default Levers;

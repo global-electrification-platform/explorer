@@ -15,6 +15,9 @@
   padding: $global-spacing ($global-spacing * 4);
   z-index: 100;
 
+  /* Animation */
+  animation: reveal 0.32s ease 0s 1;
+
   > *:last-child {
     margin-bottom: 0;
   }
@@ -71,6 +74,9 @@
 
 .inpage__body {
   padding: $global-spacing * 4;
+
+  /* Animation */
+  animation: reveal 0.48s ease 0s 1;
 
   > .prose {
     max-width: 48rem;

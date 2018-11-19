@@ -35,10 +35,10 @@ class Explore extends Component {
               <div className='inpage__hactions'>
                 <button
                   type='button'
-                  className='button button--small button--primary-raised-light'
+                  className='button button--small button--primary-raised-light disabled'
                   title='Change country and model'
                 >
-                  <span onClick={this.updateMap}>Change</span>
+                  <span>Change</span>
                 </button>
               </div>
             </div>

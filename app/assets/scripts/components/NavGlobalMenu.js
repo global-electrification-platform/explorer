@@ -53,7 +53,7 @@ export default class NavGlobalMenu extends Component {
           <a
             href='#'
             title='View page'
-            className='global-menu__link global-menu__link--share'
+            className='global-menu__link global-menu__link--share disabled'
           >
             <span>Share</span>
           </a>
