@@ -10,6 +10,7 @@
 
 .index-menu__link {
   @extend .button, .button--primary-plain, .button--block;
+  font-size: 0.875rem;
   text-align: left;
   text-transform: none;
 

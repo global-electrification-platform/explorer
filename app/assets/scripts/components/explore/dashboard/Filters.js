@@ -3,9 +3,8 @@ import React, { Component } from 'react';
 class Filters extends Component {
   render () {
     return (
-      <div>
-        <h3>2 - Filters</h3>
-        <br />
+      <section className='econtrols__section econtrols__section--active' id='econtrols-filters'>
+        <h1 className='econtrols__title'>Scenarios</h1>
         <div className='filter'>
           <h4>Population</h4>
           <input
@@ -34,7 +33,7 @@ class Filters extends Component {
             <label htmlFor='option3'>PV SA</label>
           </div>
         </div>
-      </div>
+      </section>
     );
   }
 }

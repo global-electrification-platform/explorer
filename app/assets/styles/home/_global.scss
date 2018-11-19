@@ -14,7 +14,7 @@
   .inpage__body {
     display: flex;
     align-items: center;
-    height: 100vh;
+    min-height: 100vh;
   }
 }
 
@@ -33,6 +33,7 @@
 .home-intro__lead {
   font-size: 1.5rem;
   line-height: 2rem;
+  margin-bottom: $global-spacing * 2;
 
   > *:last-child {
     margin-bottom: 0;
@@ -44,6 +45,7 @@
   flex-flow: row nowrap;
   align-items: flex-end;
   font-weight: $base-font-medium;
+  margin-bottom: $global-spacing * 2.5;
 
   * {
     font-weight: inherit;
