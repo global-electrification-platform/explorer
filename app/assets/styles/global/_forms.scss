@@ -25,11 +25,13 @@
   border-radius: $base-border-radius;
 
   /* Placeholder */
+
   &::placeholder {
     opacity: 0.64;
   }
 
   /* States */
+
   &[disabled] {
     @extend .disabled;
   }
@@ -483,6 +485,7 @@ label[for] {
   font-size: 0.875rem;
   line-height: 1.25;
   margin: 0 0 ($global-spacing / 2) 0;
+  vertical-align: top;
 
   &:only-of-type {
     display: inline-block;
