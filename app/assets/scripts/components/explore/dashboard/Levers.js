@@ -3,10 +3,7 @@ import React, { Component } from 'react';
 class Levers extends Component {
   render () {
     return (
-      <section
-        className='econtrols__section econtrols__section--active'
-        id='econtrols-scenarios'
-      >
+      <section className='econtrols__section econtrols__section--active' id='econtrols-scenarios'>
         <h1 className='econtrols__title'>Scenarios</h1>
         <form className='form econtrols__block' id='#econtrols__scenarios'>
           <div className='econtrols__subblock'>
@@ -15,7 +12,7 @@ class Levers extends Component {
               <label className='form__option form__option--custom-radio'>
                 <input
                   type='radio'
-                  name='form-radio'
+                  name='form-radio-a'
                   id='form-radio-1'
                   value='Radio 1'
                   checked='checked'
@@ -26,7 +23,7 @@ class Levers extends Component {
               <label className='form__option form__option--custom-radio'>
                 <input
                   type='radio'
-                  name='form-radio'
+                  name='form-radio-a'
                   id='form-radio-2'
                   value='Radio 2'
                 />
