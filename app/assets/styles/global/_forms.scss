@@ -228,6 +228,98 @@ textarea.form__control {
 }
 
 
+/* Form range
+   ========================================================================== */
+
+.form__range {
+  -webkit-appearance: none;
+  cursor: pointer;
+  width: 100%;
+  height: $global-spacing * 2;
+  background: none;
+  margin: 0;
+  padding: 0;
+  border-radius: $full-border-radius;
+
+  &:focus {
+    outline: none;
+  }
+}
+
+/* Webkit specific */
+
+.form__range::-webkit-slider-runnable-track {
+  position: relative;
+  width: 100%;
+  height: 0.5rem;
+  background: rgba($base-color, 0.24);
+  border-radius: $full-border-radius;
+}
+
+.form__range::-webkit-slider-thumb {
+  @extend .button--base-raised-light;
+  -webkit-appearance: none;
+  position: absolute;
+  cursor: ew-resize;
+  top: 50%;
+  border: 0;
+  height: 1.25rem;
+  width: 1.25rem;
+  border-radius: $full-border-radius;
+  transform: translate(0, -50%);
+  transition: all 0.24s ease 0s;
+}
+
+/* Firefox specific */
+
+.form__range::-moz-range-track {
+  position: relative;
+  width: 100%;
+  height: $base-border-width;
+  background: transparent linear-gradient(to right, $base-font-color, $base-font-color) no-repeat;
+  background-size: 0;
+}
+
+.form__range::-moz-range-thumb {
+  cursor: ew-resize;
+  height: $global-spacing;
+  width: $global-spacing;
+  border-radius: $full-border-radius;
+  background: $base-font-color;
+  border: 0;
+}
+
+.form__range::-moz-focus-outer {
+  border: 0; // Remove outline on focus
+}
+
+/* IE specific */
+
+.form__range::-ms-track {
+  width: 100%;
+  height: $base-border-width;
+  border: 0;
+  color: transparent;
+}
+
+.form__range::-ms-fill-lower {
+  background: $base-font-color;
+}
+
+.form__range::-ms-fill-upper {
+  background: $base-alpha-color;
+}
+
+.form__range::-ms-thumb {
+  cursor: ew-resize;
+  height: $global-spacing;
+  width: $global-spacing;
+  border-radius: $full-border-radius;
+  background: $base-font-color;
+  border: 0;
+}
+
+
 /* Color modifiers
    ========================================================================== */
 
@@ -287,6 +379,7 @@ select.form__control + .form__control:not(select)  {
 }
 
 .form__input-addon,
+.form__input-output,
 .form__input-group > .button {
   flex: 0 0 auto;
 }
@@ -320,6 +413,16 @@ select.form__control:focus {
   color: rgba($base-font-color, 0.64);
   border-radius: $base-border-radius;
   box-shadow: inset 0 0 0 $base-border-width $base-alpha-color;
+  margin-bottom: 0;
+}
+
+.form__input-output {
+  line-height: 1.5rem;
+  font-size: 1rem;
+  padding: 0.25rem 0.5rem;
+  min-width: 2.5rem;
+  text-align: center;
+  border-radius: $base-border-radius;
   margin-bottom: 0;
 }
 

@@ -9,16 +9,20 @@ class Filters extends Component {
           <div className='econtrols__subblock'>
             <div className='form__group econtrols__item'>
               <label className='form__label'>Population</label>
-              <input
-                type='range'
-                id='start'
-                name='filter1'
-                min='0'
-                max='11'
-                value='5'
-                className='form__control'
-              />
+                <div className='form__input-group'>
+                  <input
+                    type='range'
+                    min='0'
+                    max='5'
+                    step='1'
+                    id='slider-1'
+                    value='3'
+                    className='form__range'
+                    />
+                  <output for='range-criticality' id='range-criticality-output' className='form__input-output'>3</output>
+                </div>
             </div>
+
             <div className='form__group econtrols__item'>
               <label className='form__label'>Electrification Technology</label>
               <label className='form__option form__option--custom-radio'>
