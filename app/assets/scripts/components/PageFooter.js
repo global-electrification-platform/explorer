@@ -6,7 +6,7 @@ import { environment } from '../config';
 
 export default class PageFooter extends React.PureComponent {
   render () {
-    return <footer className="page__footer" role="contentinfo" />;
+    return <footer className='page__footer' role='contentinfo' />;
   }
 }
 

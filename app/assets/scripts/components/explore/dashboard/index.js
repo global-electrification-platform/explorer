@@ -19,7 +19,7 @@ class Explore extends Component {
     const { activeTab } = this.state;
     return ['scenarios', 'filters', 'layers'].map((tab, index) => {
       return (
-        <li className="nav__tab" role="presentation">
+        <li className='nav__tab' role='presentation'>
           <a
             className={`nav__link  ${
               activeTab === tab ? 'nav__link--active' : ''
@@ -45,9 +45,9 @@ class Explore extends Component {
 
   render () {
     return (
-      <div className="econtrols">
-        <nav className="nav">
-          <ul className="nav__tablist" role="tablist">
+      <div className='econtrols'>
+        <nav className='nav'>
+          <ul className='nav__tablist' role='tablist'>
             {this.renderTabs()}
           </ul>
         </nav>
