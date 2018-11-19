@@ -106,9 +106,10 @@ class Map extends React.Component {
 
   render () {
     return (
-      <div>
+      <section className='exp-map'>
+        <h1 className='exp-map__title'>Map</h1>
         <div ref='mapEl' style={{ width: '100%', height: '100%' }} />
-      </div>
+      </section>
     );
   }
 }
