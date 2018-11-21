@@ -1,0 +1,48 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: node:8
+
+    working_directory: ~/repo
+
+    environment:
+      - PRODUCTION_BRANCH: master
+
+    steps:
+      - checkout
+
+      # Download and cache dependencies
+      - restore_cache:
+          keys:
+          - v1-dependencies-{{ checksum "package.json" }}
+          # fallback to using the latest cache if no exact match is found
+          - v1-dependencies-
+
+      - run: yarn install
+
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-dependencies-{{ checksum "package.json" }}
+
+      - run: yarn test
+
+      - run:
+          name: Building site
+          command: |
+            if [ "${CIRCLE_BRANCH}" == "${PRODUCTION_BRANCH}" ]; then
+              yarn build           
+            else
+              echo "Skip building site"
+            fi
+
+      - run:
+          name: Deploy to Surge
+          command: |
+            if [ "${CIRCLE_BRANCH}" == "${PRODUCTION_BRANCH}" ]; then
+              cp ./dist/index.html ./dist/200.html
+              ./node_modules/surge/lib/cli.js --project ./dist --domain gep-explorer.surge.sh
+            else
+              echo "Not the branch you're looking for, skipping deploy"
+            fi

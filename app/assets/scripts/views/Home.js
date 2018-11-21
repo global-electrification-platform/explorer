@@ -6,7 +6,7 @@ import App from './App';
 class Home extends Component {
   render () {
     return (
-      <App pageTile='GEP Explorer'>
+      <App>
         <article className='inpage inpage--home'>
           <header className='inpage__header'>
             <div className='inpage__subheader'>

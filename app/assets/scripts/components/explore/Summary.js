@@ -11,7 +11,7 @@ class Explore extends Component {
           <div className='exp-summary__hactions'>
             <button
               type='button'
-              className='button button--small button--primary-raised-dark'
+              className='button button--small button--primary-raised-dark disabled'
               title='Download the data'
             >
               <span>Export</span>

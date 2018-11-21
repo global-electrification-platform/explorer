@@ -23,7 +23,7 @@ class Explore extends Component {
 
   render () {
     return (
-      <App pageTile='Explore'>
+      <App pageTitle='Explore'>
         <section className='inpage inpage--horizontal inpage--explore'>
           <header className='inpage__header'>
             <div className='inpage__subheader'>
@@ -35,10 +35,10 @@ class Explore extends Component {
               <div className='inpage__hactions'>
                 <button
                   type='button'
-                  className='button button--small button--primary-raised-light'
+                  className='button button--small button--primary-raised-light disabled'
                   title='Change country and model'
                 >
-                  <span onClick={this.updateMap}>Change</span>
+                  <span>Change</span>
                 </button>
               </div>
             </div>

@@ -1,4 +1,7 @@
 import React, { Component } from 'react';
+import { PropTypes as T } from 'prop-types';
+
+import { environment } from '../../../config';
 
 class Levers extends Component {
   render () {
@@ -33,7 +36,15 @@ class Levers extends Component {
             </div>
           </div>
           <div className='form__actions econtrols__actions'>
-            <button type='submit' className='econtrols__submit' title='Apply'>
+            <button
+              type='submit'
+              className='econtrols__submit'
+              title='Apply'
+              onClick={e => {
+                e.preventDefault();
+                this.props.updateMap();
+              }}
+            >
               <span>Apply changes</span>
             </button>
           </div>
@@ -41,6 +52,12 @@ class Levers extends Component {
       </section>
     );
   }
+}
+
+if (environment !== 'production') {
+  Levers.propTypes = {
+    updateMap: T.function
+  };
 }
 
 export default Levers;

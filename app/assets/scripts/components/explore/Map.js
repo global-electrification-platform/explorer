@@ -38,15 +38,15 @@ class Map extends React.Component {
     this.map.on('load', () => {
       this.mapLoaded = true;
 
-      this.map.addSource('mw', {
+      this.map.addSource('gep-vt', {
         type: 'vector',
-        tiles: ['http://localhost:8888/mw/{z}/{x}/{y}.pbf']
+        url: 'mapbox://devseed.2a5bvzlz'
       });
 
       this.map.addLayer({
         id: 'grid',
         type: 'fill',
-        source: 'mw',
+        source: 'gep-vt',
         'source-layer': 'mw',
         paint: {
           'fill-color': 'red'
@@ -56,7 +56,7 @@ class Map extends React.Component {
       this.map.addLayer({
         id: 'diesel',
         type: 'fill',
-        source: 'mw',
+        source: 'gep-vt',
         'source-layer': 'mw',
         paint: {
           'fill-color': 'blue'
@@ -66,7 +66,7 @@ class Map extends React.Component {
       this.map.addLayer({
         id: 'pv',
         type: 'fill',
-        source: 'mw',
+        source: 'gep-vt',
         'source-layer': 'mw',
         paint: {
           'fill-color': 'green'
@@ -76,7 +76,7 @@ class Map extends React.Component {
       this.map.addLayer({
         id: 'mini-grid',
         type: 'fill',
-        source: 'mw',
+        source: 'gep-vt',
         'source-layer': 'mw',
         paint: {
           'fill-color': 'yellow'

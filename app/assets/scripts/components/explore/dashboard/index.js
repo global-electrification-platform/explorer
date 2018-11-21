@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
+import { PropTypes as T } from 'prop-types';
 
 import Layers from './Layers';
 import Levers from './Levers';
 import Filters from './Filters';
+
+import { environment } from '../../../config';
 
 class Explore extends Component {
   constructor (props) {
@@ -38,7 +41,7 @@ class Explore extends Component {
 
   renderTabContent () {
     const { activeTab } = this.state;
-    if (activeTab === 'scenarios') return <Levers />;
+    if (activeTab === 'scenarios') return <Levers updateMap={this.props.updateMap} />;
     else if (activeTab === 'filters') return <Filters />;
     else if (activeTab === 'layers') return <Layers />;
   }
@@ -55,6 +58,12 @@ class Explore extends Component {
       </div>
     );
   }
+}
+
+if (environment !== 'production') {
+  Explore.propTypes = {
+    updateMap: T.function
+  };
 }
 
 export default Explore;
