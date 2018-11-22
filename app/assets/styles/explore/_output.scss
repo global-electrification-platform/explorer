@@ -229,3 +229,25 @@
     @extend %collecticon-download-2;
   }
 }
+
+.sum-block {
+  padding: $global-spacing;
+  margin: 0 (-$global-spacing);
+  box-shadow: 0 1px 0 0 $base-alpha-color;
+
+  &:first-child {
+    margin-top: -$global-spacing;
+  }
+
+  &:last-child {
+    margin-bottom: -$global-spacing;
+  }
+
+  > *:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.sum-block__title {
+  @extend .visually-hidden;
+}
