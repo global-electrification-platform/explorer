@@ -85,6 +85,16 @@
   box-shadow: inset 0 -1px 0 0 $base-alpha-color;
   margin: 0;
 
+  .form__label,
+  .form__option__text {
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+  }
+
+  .form__option__ui {
+    margin: 0;
+  }
+
   .form__option--switch {
     display: flex;
     flex-flow: row nowrap;
@@ -94,7 +104,6 @@
     .form__option__text {
       order: -1;
       font-weight: $base-font-bold;
-      line-height: 1.25rem;
       padding-right: $global-spacing;
       margin: 0;
     }

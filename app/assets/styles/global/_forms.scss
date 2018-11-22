@@ -585,8 +585,8 @@ label[for] {
 .form__label {
   display: block;
   font-weight: $base-font-bold;
-  font-size: 0.875rem;
-  line-height: 1.25;
+  font-size: 1rem;
+  line-height: 1.5;
   margin: 0 0 ($global-spacing / 2) 0;
   vertical-align: top;
 
@@ -606,7 +606,7 @@ label[for] {
 .form__option {
   display: flex;
   align-items: flex-start;
-  font-size: 0.875rem;
+  font-size: 1rem;
   line-height: 1.5;
   margin-top: $global-spacing / 2;
   cursor: pointer;
@@ -619,7 +619,7 @@ label[for] {
 
 .form__option__text {
   padding: 0 0 0 ($global-spacing / 2);
-  line-height: 1.5rem;
+  line-height: 1.5;
 
   &:not(:last-child) {
     padding: 0 ($global-spacing / 2) 0 0;
