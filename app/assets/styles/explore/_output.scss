@@ -80,7 +80,6 @@
   display: flex;
   flex-flow: column nowrap;
   margin: 0;
-  overflow: auto;
 }
 
 .econtrols__item {
@@ -205,8 +204,12 @@
   position: relative;
   z-index: 60;
   flex: 1;
-  padding: $global-spacing;
-  overflow: auto;
+
+  .rcs {
+    > div > div {
+      padding: $global-spacing;
+    }
+  }
 }
 
 .exp-summary__footer {

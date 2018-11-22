@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+import ShadowScrollbars from '../components/ShadowScrollbar';
+
 import App from './App';
 
 class Docs extends Component {
@@ -14,44 +16,46 @@ class Docs extends Component {
               </div>
             </div>
             <nav className='inpage__nav'>
-              <dl className='index-menu'>
-                <dt>Global</dt>
-                <dd>
-                  <a
-                    href='#'
-                    title='Read'
-                    className='index-menu__link index-menu__link--active'
-                  >
-                    <span>Input data</span>
-                  </a>
-                </dd>
-                <dd>
-                  <a href='#' title='Read' className='index-menu__link'>
-                    <span>Lorem ipsum</span>
-                  </a>
-                </dd>
-                <dd>
-                  <a href='#' title='Read' className='index-menu__link'>
-                    <span>Dolor sit amet</span>
-                  </a>
-                </dd>
-                <dt>Models</dt>
-                <dd>
-                  <a href='#' title='Read' className='index-menu__link'>
-                    <span>OnSETT</span>
-                  </a>
-                </dd>
-                <dd>
-                  <a href='#' title='Read' className='index-menu__link'>
-                    <span>Model lorem</span>
-                  </a>
-                </dd>
-                <dd>
-                  <a href='#' title='Read' className='index-menu__link'>
-                    <span>Ipsum model</span>
-                  </a>
-                </dd>
-              </dl>
+              <ShadowScrollbars theme='light'>
+                <dl className='index-menu'>
+                  <dt>Global</dt>
+                  <dd>
+                    <a
+                      href='#'
+                      title='Read'
+                      className='index-menu__link index-menu__link--active'
+                    >
+                      <span>Input data</span>
+                    </a>
+                  </dd>
+                  <dd>
+                    <a href='#' title='Read' className='index-menu__link'>
+                      <span>Lorem ipsum</span>
+                    </a>
+                  </dd>
+                  <dd>
+                    <a href='#' title='Read' className='index-menu__link'>
+                      <span>Dolor sit amet</span>
+                    </a>
+                  </dd>
+                  <dt>Models</dt>
+                  <dd>
+                    <a href='#' title='Read' className='index-menu__link'>
+                      <span>OnSETT</span>
+                    </a>
+                  </dd>
+                  <dd>
+                    <a href='#' title='Read' className='index-menu__link'>
+                      <span>Model lorem</span>
+                    </a>
+                  </dd>
+                  <dd>
+                    <a href='#' title='Read' className='index-menu__link'>
+                      <span>Ipsum model</span>
+                    </a>
+                  </dd>
+                </dl>
+              </ShadowScrollbars>
             </nav>
           </header>
           <div className='inpage__body'>

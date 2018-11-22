@@ -2,6 +2,24 @@
    Documentation: global
    ========================================================================== */
 
+.inpage--docs {
+  .inpage__subheader {
+    margin: (-$global-spacing) (-$global-spacing) 0 (-$global-spacing);
+  }
+
+  .inpage__nav {
+    position: relative;
+    z-index: 60;
+    margin: 0 (-$global-spacing);
+
+    .rcs {
+      > div > div {
+        padding: $global-spacing;
+      }
+    }
+  }
+}
+
 .index-menu {
   dt:not(:first-child) {
     margin-top: $global-spacing;
