@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { PropTypes as T } from 'prop-types';
 import { NavLink } from 'react-router-dom';
 
+import ShareOptions from './connected/Share';
+
 import { environment } from '../config';
 
 export default class NavGlobalMenu extends Component {
@@ -50,13 +52,7 @@ export default class NavGlobalMenu extends Component {
           </NavLink>
         </li>
         <li>
-          <a
-            href='#'
-            title='View page'
-            className='global-menu__link global-menu__link--share disabled'
-          >
-            <span>Share</span>
-          </a>
+          <ShareOptions />
         </li>
       </ul>
     );

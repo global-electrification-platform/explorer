@@ -8,15 +8,6 @@ class Explore extends Component {
           <div className='exp-summary__headline'>
             <h1 className='exp-summary__title'>Summary</h1>
           </div>
-          <div className='exp-summary__hactions'>
-            <button
-              type='button'
-              className='button button--small button--primary-raised-dark disabled'
-              title='Download the data'
-            >
-              <span>Export</span>
-            </button>
-          </div>
         </header>
         <div className='exp-summary__body'>
           <div className='mapkey'>
@@ -47,6 +38,15 @@ class Explore extends Component {
             </dl>
           </div>
         </div>
+        <footer className='exp-summary__footer'>
+          <button
+            type='button'
+            className='exp-download-button disabled'
+            title='Download the data'
+          >
+            <span>Export</span>
+          </button>
+        </footer>
       </section>
     );
   }

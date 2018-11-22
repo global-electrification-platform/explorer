@@ -35,7 +35,7 @@ class Explore extends Component {
               <div className='inpage__hactions'>
                 <button
                   type='button'
-                  className='button button--small button--primary-raised-light disabled'
+                  className='exp-change-button disabled'
                   title='Change country and model'
                 >
                   <span>Change</span>
