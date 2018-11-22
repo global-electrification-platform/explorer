@@ -94,12 +94,13 @@
     .form__option__text {
       order: -1;
       font-weight: $base-font-bold;
+      line-height: 1.25rem;
       padding-right: $global-spacing;
       margin: 0;
     }
 
     .form__option__ui {
-      margin-left: auto;
+      margin: 0.25rem 0 0.25rem auto;
     }
   }
 }
