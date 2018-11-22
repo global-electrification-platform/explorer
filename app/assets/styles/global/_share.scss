@@ -1,0 +1,33 @@
+/* ==========================================================================
+   Global: Share
+   ========================================================================== */
+
+.share-menu {
+  .form__control {
+    font-size: 0.75rem;
+  }
+}
+
+.share-button {
+  @extend .button, .button--achromic-plain, .button--text-hidden;
+
+  &::before {
+    @extend %collecticon-share-2;
+  }
+}
+
+.share-facebook::before {
+  @extend %collecticon-brand-facebook;
+}
+
+.share-twitter::before {
+  @extend %collecticon-brand-twitter;
+}
+
+.share-copy {
+  @extend .button, .button--primary-raised-dark, .button--text-hidden;
+
+  &::before {
+    @extend %collecticon-clipboard-list;
+  }
+}

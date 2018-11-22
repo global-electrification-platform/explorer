@@ -295,6 +295,7 @@
     padding: 0.25rem 1rem;
     color: $base-font-color;
     transition: all 0.16s ease 0s;
+    user-select: none;
 
     &:hover,
     &:focus {
