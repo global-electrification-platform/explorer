@@ -24,9 +24,13 @@
 }
 
 .inpage__subheader {
+  position: relative;
+  z-index: 80;
   display: flex;
   flex-flow: row nowrap;
   margin-bottom: $global-spacing * 2;
+  box-shadow: 0 1px 0 0 $base-alpha-color;
+  padding: $global-spacing;
 
   > *:last-child {
     margin-bottom: 0;
@@ -84,6 +88,17 @@
 }
 
 
+/* Nav
+   ========================================================================== */
+
+.inpage__nav {
+  position: relative;
+  z-index: 60;
+  flex: 1;
+  overflow: auto;
+}
+
+
 /* Modifiers
    ========================================================================== */
 
@@ -97,5 +112,11 @@
     left: 0;
     height: 100vh;
     padding: $global-spacing;
+    display: flex;
+    flex-flow: column nowrap;
+  }
+
+  .inpage__subheader {
+    margin: (-$global-spacing) (-$global-spacing) $global-spacing (-$global-spacing);
   }
 }

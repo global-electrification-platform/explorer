@@ -8,10 +8,8 @@ class About extends Component {
       <App pageTitle='About'>
         <article className='inpage inpage--single inpage--about'>
           <header className='inpage__header'>
-            <div className='inpage__subheader'>
-              <div className='inpage__headline'>
-                <h1 className='inpage__title'>About</h1>
-              </div>
+            <div className='inpage__headline'>
+              <h1 className='inpage__title'>About</h1>
             </div>
           </header>
           <div className='inpage__body'>
