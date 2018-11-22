@@ -130,6 +130,10 @@
   @extend .button, .button--primary-raised-dark;
   vertical-align: top;
   min-width: 10rem;
+
+  &::before {
+    @extend %collecticon-sm-tick;
+  }
 }
 
 
