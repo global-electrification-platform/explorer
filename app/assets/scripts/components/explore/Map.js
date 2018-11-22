@@ -49,7 +49,7 @@ class Map extends React.Component {
         source: 'gep-vt',
         'source-layer': 'mw',
         paint: {
-          'fill-color': 'red'
+          'fill-color': '#fe5931'
         },
         filter: ['==', 'id', 'nothing']
       });
@@ -59,7 +59,7 @@ class Map extends React.Component {
         source: 'gep-vt',
         'source-layer': 'mw',
         paint: {
-          'fill-color': 'blue'
+          'fill-color': '#ffC700'
         },
         filter: ['==', 'id', 'nothing']
       });
@@ -69,7 +69,7 @@ class Map extends React.Component {
         source: 'gep-vt',
         'source-layer': 'mw',
         paint: {
-          'fill-color': 'green'
+          'fill-color': '#1ea896'
         },
         filter: ['==', 'id', 'nothing']
       });
@@ -79,7 +79,7 @@ class Map extends React.Component {
         source: 'gep-vt',
         'source-layer': 'mw',
         paint: {
-          'fill-color': 'yellow'
+          'fill-color': '#19647e'
         },
         filter: ['==', 'id', 'nothing']
       });
