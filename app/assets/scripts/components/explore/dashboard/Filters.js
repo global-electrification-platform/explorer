@@ -12,29 +12,8 @@ class Filters extends Component {
           <div className='econtrols__subblock'>
             <ShadowScrollbars theme='light'>
               <div className='form__group econtrols__item'>
-                <label className='form__label'>My slider</label>
+                <label htmlFor='slider-1' className='form__label'>Population</label>
                 <InputRange maxValue={20} minValue={0} value={10} />
-              </div>
-
-              <div className='form__group econtrols__item'>
-                <label className='form__label'>Population</label>
-                <div className='form__input-group'>
-                  <input
-                    type='range'
-                    min='0'
-                    max='5'
-                    step='1'
-                    id='slider-1'
-                    className='form__range'
-                  />
-                  <output
-                    htmlFor='range-criticality'
-                    id='range-criticality-output'
-                    className='form__input-output'
-                  >
-                    3
-                  </output>
-                </div>
               </div>
               <div className='form__group econtrols__item'>
                 <label className='form__label'>

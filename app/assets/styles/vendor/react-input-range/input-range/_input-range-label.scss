@@ -2,6 +2,7 @@
   color: $input-range-label-color;
   font-family: $input-range-font-family;
   font-size: $input-range-label-font-size;
+  line-height: 1rem;
   transform: translateZ(0);
   white-space: nowrap;
 }
@@ -23,4 +24,6 @@
 .input-range__label--value {
   position: absolute;
   top: $input-range-label-value-position-top;
+  color: rgba($base-font-color, 1);
+  font-size: 0.875rem;
 }
