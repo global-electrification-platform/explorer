@@ -1,0 +1,56 @@
+/* ==========================================================================
+   Vendor: React Custom Scrollbars
+   ========================================================================== */
+/**
+ * Custom *override* styles for:
+ * https://github.com/malte-wessel/react-custom-scrollbars
+ */
+
+.rcs {
+  &__shadow {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: $global-spacing * 1.5;
+    pointer-events: none;
+    z-index: 1000;
+  }
+
+  &__shadow--top {
+    top: 0;
+  }
+
+  &__shadow--bottom {
+    bottom: 0;
+    transform: scaleY(-1);
+  }
+
+  .rcs__bar {
+    z-index: 1000;
+    cursor: pointer;
+    border-radius: inherit;
+    background-color: rgba($base-color, 0.32)
+  }
+}
+
+.rcs--light {
+  .rcs__shadow {
+    background: linear-gradient(to bottom, rgba(#fff, 1) 0%, rgba(#fff, 0) 100%);
+  }
+}
+
+.rcs--dark {
+  .rcs__shadow {
+    background: linear-gradient(to bottom, rgba($base-color, 1) 0%, rgba($base-color, 0) 100%);
+  }
+}
+
+.rcs--dark-light {
+  .rcs__shadow--top {
+    background: linear-gradient(to bottom, rgba($base-color, 0.24) 0%, rgba($base-color, 0) 100%);
+  }
+  .rcs__shadow--bottom {
+    background: linear-gradient(to bottom, rgba(#fff, 1) 0%, rgba(#fff, 0) 100%);
+  }
+}
+
