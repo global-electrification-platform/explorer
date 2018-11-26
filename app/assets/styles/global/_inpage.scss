@@ -29,8 +29,6 @@
   display: flex;
   flex-flow: row nowrap;
   margin-bottom: $global-spacing * 2;
-  box-shadow: 0 1px 0 0 $base-alpha-color;
-  padding: $global-spacing;
 
   > *:last-child {
     margin-bottom: 0;
@@ -118,5 +116,7 @@
 
   .inpage__subheader {
     margin: (-$global-spacing) (-$global-spacing) $global-spacing (-$global-spacing);
+    box-shadow: 0 1px 0 0 $base-alpha-color;
+    padding: $global-spacing;
   }
 }

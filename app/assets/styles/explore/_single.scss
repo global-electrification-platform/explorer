@@ -1,8 +1,8 @@
 /* ==========================================================================
-   Explore: output
+   Explore: single
    ========================================================================== */
 
-.inpage--explore {
+.inpage--explore.inpage--single {
   .inpage__title {
     @extend .visually-hidden;
   }

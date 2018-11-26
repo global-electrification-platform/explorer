@@ -24,7 +24,7 @@ class Explore extends Component {
   render () {
     return (
       <App pageTitle='Explore'>
-        <section className='inpage inpage--horizontal inpage--explore'>
+        <section className='inpage inpage--single inpage--horizontal inpage--explore'>
           <header className='inpage__header'>
             <div className='inpage__subheader'>
               <div className='inpage__headline'>
