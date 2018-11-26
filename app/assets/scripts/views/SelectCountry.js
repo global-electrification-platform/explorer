@@ -16,7 +16,20 @@ class SelectCountry extends Component {
             </div>
           </header>
           <div className='inpage__body'>
-            <p>Country list</p>
+            <ol className='country-list card-list'>
+              <li className='country-list__item'>
+                <article className='card card--sumary card--country'>
+                  <a className='card__contents'>
+                    <header className='card__header'>
+                      <h1 className='card__title'>Country name</h1>
+                    </header>
+                    <div className='card__body'>
+                      <p>Card body.</p>
+                    </div>
+                  </a>
+                </article>
+              </li>
+            </ol>
           </div>
         </section>
       </App>
