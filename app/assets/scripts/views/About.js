@@ -8,8 +8,10 @@ class About extends Component {
       <App pageTitle='About'>
         <article className='inpage inpage--single inpage--about'>
           <header className='inpage__header'>
-            <div className='inpage__headline'>
-              <h1 className='inpage__title'>About</h1>
+            <div className='inpage__subheader'>
+              <div className='inpage__headline'>
+                <h1 className='inpage__title'>About</h1>
+              </div>
             </div>
           </header>
           <div className='inpage__body'>
@@ -126,7 +128,7 @@ class About extends Component {
                       width='750'
                       height='128'
                       alt='Development Seed logo'
-                      src='/assets/graphics/content/logo-devseed-flat-pos.svg'
+                      src='/assets/graphics/content/logos/logo-devseed-flat-pos.svg'
                     />
                     <span>Development Seed</span>
                   </a>

@@ -93,7 +93,8 @@
    ========================================================================== */
 
 @import 'explore/global';
-@import 'explore/output';
+@import 'explore/hub';
+@import 'explore/single';
 
 
 /* Documentation
@@ -125,7 +126,6 @@
 
 @import 'vendor/react-tooltip';
 @import 'vendor/react-paginate';
-@import 'vendor/react-slider';
 @import 'vendor/react-custom-scrollbars';
-@import 'vendor/mapbox-gl';
 @import 'vendor/react-input-range/index';
+@import 'vendor/mapbox-gl';

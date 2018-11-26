@@ -1,0 +1,33 @@
+/* ==========================================================================
+   Explore: hub
+   ========================================================================== */
+
+.inpage--explore.inpage--hub {
+  .inpage__title {
+    @extend .visually-hidden;
+  }
+}
+
+
+/* Country list
+   ========================================================================== */
+
+.card--country {
+  .card__contents {
+    flex-flow: row nowrap;
+    overflow: hidden;
+    align-items: center;
+  }
+
+  .card__thumb {
+    img {
+      display: block;
+      width: auto;
+      height: 4rem;
+    }
+  }
+
+  .card__title {
+    @include heading(1rem);
+  }
+}
