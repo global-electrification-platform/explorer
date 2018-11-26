@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import InputRange from 'react-input-range';
 
 import ShadowScrollbars from '../../ShadowScrollbar';
 
@@ -11,21 +12,13 @@ class Filters extends Component {
           <div className='econtrols__subblock'>
             <ShadowScrollbars theme='light'>
               <div className='form__group econtrols__item'>
-                <label className='form__label'>Population</label>
-                <div className='form__input-group'>
-                  <input
-                    type='range'
-                    min='0'
-                    max='5'
-                    step='1'
-                    id='slider-1'
-                    className='form__range'
-                    />
-                  <output for='range-criticality' id='range-criticality-output' className='form__input-output'>3</output>
-                </div>
+                <label htmlFor='slider-1' className='form__label'>Population</label>
+                <InputRange maxValue={20} minValue={0} value={10} />
               </div>
               <div className='form__group econtrols__item'>
-                <label className='form__label'>Electrification Technology</label>
+                <label className='form__label'>
+                  Electrification Technology
+                </label>
                 <label className='form__option form__option--custom-radio'>
                   <input
                     type='radio'
