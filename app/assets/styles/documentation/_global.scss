@@ -27,12 +27,33 @@
 }
 
 .index-menu__link {
-  @extend .button, .button--primary-plain, .button--block;
-  font-size: 0.875rem;
-  text-align: left;
-  text-transform: none;
+  display: block;
+  font-size: 1rem;
+  line-height: 1.25rem;
+  font-weight: $base-font-bold;
+  padding: 0.5rem 1rem;
+  border-radius: $base-border-radius;
+
+  /* Animation */
+  transition: all 0.16s ease-in-out 0s;
+
+  &, &:visited {
+    color: inherit;
+  }
+
+  &:hover {
+    opacity: 1;
+    color: $link-color;
+    background-color: rgba($link-color, 0.12);
+  }
 
   &--active {
-    @extend .button--active;
+    @extend .antialiased;
+    background: $link-color;
+
+    &, &:visited {
+      color: #fff;
+    }
+
   }
 }
