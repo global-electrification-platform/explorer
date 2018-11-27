@@ -127,7 +127,7 @@ function APIReducer (state, action, actionName) {
 export function baseAPIReducer (state, action, actionName) {
   return typeof action.id === 'undefined'
     ? APIReducer(state, action, actionName)
-    : Object.assign(state, {
+    : Object.assign({}, state, {
       [action.id]: APIReducer(state, action, actionName)
     });
 }
@@ -184,7 +184,7 @@ export function getFromState (state, path) {
 export function wrapApiResult (stateData) {
   const { fetched, fetching, data, error } = stateData;
   const ready = fetched && !fetching;
-  return Object.assign(
+  return Object.assign({},
     {
       raw: () => stateData,
       isReady: () => ready,

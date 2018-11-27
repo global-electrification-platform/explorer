@@ -6,7 +6,38 @@ import ShadowScrollbars from '../../ShadowScrollbar';
 import { environment } from '../../../config';
 
 class Levers extends Component {
+  constructor (props) {
+    super(props);
+
+    this.renderLever = this.renderLever.bind(this);
+  }
+
+  renderLever (lever) {
+    return (
+      <div>
+        <label className='form__label'>{lever.label}</label>
+        {lever.options.map((option, i) => {
+          return (
+            <label className='form__option form__option--custom-radio'>
+              <input
+                type='radio'
+                name={`form-radio-${lever.id}`}
+                id={`form-radio-${i}`}
+                value={i}
+                checked={i === 0}
+              />
+              <span className='form__option__ui' />
+              <span className='form__option__text'>{option.value}</span>
+            </label>
+          );
+        })}
+      </div>
+    );
+  }
+
   render () {
+    const { model } = this.props;
+
     return (
       <section className='econtrols__section' id='econtrols-scenarios'>
         <h1 className='econtrols__title'>Scenarios</h1>
@@ -14,28 +45,7 @@ class Levers extends Component {
           <div className='econtrols__subblock'>
             <ShadowScrollbars theme='light'>
               <div className='form__group econtrols__item'>
-                <label className='form__label'>Electricity demand profile</label>
-                <label className='form__option form__option--custom-radio'>
-                  <input
-                    type='radio'
-                    name='form-radio-a'
-                    id='form-radio-1'
-                    value='Radio 1'
-                    checked='checked'
-                  />
-                  <span className='form__option__ui' />
-                  <span className='form__option__text'>Radio 1</span>
-                </label>
-                <label className='form__option form__option--custom-radio'>
-                  <input
-                    type='radio'
-                    name='form-radio-a'
-                    id='form-radio-2'
-                    value='Radio 2'
-                  />
-                  <span className='form__option__ui' />
-                  <span className='form__option__text'>Radio 2</span>
-                </label>
+                {model.levers.map(this.renderLever)}
               </div>
             </ShadowScrollbars>
           </div>
@@ -60,7 +70,8 @@ class Levers extends Component {
 
 if (environment !== 'production') {
   Levers.propTypes = {
-    updateMap: T.function
+    updateMap: T.function,
+    model: T.object
   };
 }
 

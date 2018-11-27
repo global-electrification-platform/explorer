@@ -41,8 +41,11 @@ class Explore extends Component {
 
   renderTabContent () {
     const { activeTab } = this.state;
-    if (activeTab === 'scenarios') return <Levers updateMap={this.props.updateMap} />;
-    else if (activeTab === 'filters') return <Filters />;
+    if (activeTab === 'scenarios') {
+      return (
+        <Levers updateMap={this.props.updateMap} model={this.props.model} />
+      );
+    } else if (activeTab === 'filters') return <Filters />;
     else if (activeTab === 'layers') return <Layers />;
   }
 
@@ -62,7 +65,8 @@ class Explore extends Component {
 
 if (environment !== 'production') {
   Explore.propTypes = {
-    updateMap: T.function
+    updateMap: T.function,
+    model: T.object
   };
 }
 
