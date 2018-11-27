@@ -5,5 +5,6 @@ export default {
   appShortTitle: 'GEP Exp',
   appDescription:
     'A tool to explore least cost electrification strategies around the world.',
-  appUrl: 'http://localhost:9000'
+  baseUrl: 'http://localhost:9000',
+  dataServiceUrl: 'http://localhost:3000'
 };

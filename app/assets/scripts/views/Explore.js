@@ -1,10 +1,16 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { PropTypes as T } from 'prop-types';
 
 import App from './App';
 
 import Dashboard from '../components/explore/dashboard';
 import Map from '../components/explore/Map';
 import Summary from '../components/explore/Summary';
+
+import { environment } from '../config';
+import { wrapApiResult, getFromState } from '../redux/utils';
+import { fetchModel } from '../redux/actions';
 
 class Explore extends Component {
   constructor (props) {
@@ -15,6 +21,10 @@ class Explore extends Component {
     this.state = {
       dashboardChangedAt: Date.now()
     };
+  }
+
+  componentDidMount () {
+    this.props.fetchModel(this.props.match.params.modelId);
   }
 
   updateMap () {
@@ -29,7 +39,7 @@ class Explore extends Component {
             <div className='inpage__subheader'>
               <div className='inpage__headline'>
                 <h1 className='inpage__title'>Explore</h1>
-                <h2 className='inpage__sectitle'>Country name</h2>
+                <h2 className='inpage__sectitle'>Country Name</h2>
                 <p className='inpage__subtitle'>OnSSET v2.1</p>
               </div>
               <div className='inpage__hactions'>
@@ -42,6 +52,7 @@ class Explore extends Component {
                 </button>
               </div>
             </div>
+
             <Dashboard updateMap={this.updateMap} />
           </header>
           <div className='inpage__body'>
@@ -54,4 +65,28 @@ class Explore extends Component {
   }
 }
 
-export default Explore;
+if (environment !== 'production') {
+  Explore.propTypes = {
+    fetchModel: T.func,
+    match: T.object
+  };
+}
+
+function mapStateToProps (state, props) {
+  return {
+    model: wrapApiResult(
+      getFromState(state.individualModels, props.match.params.modelId)
+    )
+  };
+}
+
+function dispatcher (dispatch) {
+  return {
+    fetchModel: (...args) => dispatch(fetchModel(...args))
+  };
+}
+
+export default connect(
+  mapStateToProps,
+  dispatcher
+)(Explore);
