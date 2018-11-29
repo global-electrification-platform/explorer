@@ -3,6 +3,10 @@
    ========================================================================== */
 
 .inpage--explore.inpage--single {
+  .inpage__header {
+    overflow: hidden; /* Fixed for ShadowScrollbar */
+  }
+
   .inpage__title {
     @extend .visually-hidden;
   }
@@ -41,6 +45,7 @@
   flex: 1;
   display: flex;
   flex-flow: column nowrap;
+  overflow: hidden; /* Fixed for ShadowScrollbar */
 
   .nav {
     margin: 0;
@@ -57,6 +62,7 @@
   flex: 1;
   display: flex;
   flex-flow: column nowrap;
+  overflow: hidden; /* Fixed for ShadowScrollbar */
 
   /* Animation */
   animation: reveal 0.32s ease 0s 1;
@@ -71,6 +77,7 @@
   display: flex;
   flex-flow: column nowrap;
   margin: 0;
+  overflow: hidden; /* Fixed for ShadowScrollbar */
 }
 
 .econtrols__subblock {
@@ -80,6 +87,9 @@
   display: flex;
   flex-flow: column nowrap;
   margin: 0;
+  overflow: hidden; /* Fixed for ShadowScrollbar */
+
+  height: 300px;
 }
 
 .econtrols__item {
@@ -153,6 +163,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  overflow: hidden; /* Fixed for ShadowScrollbar */
 
   /* Animation */
   animation: reveal 0.64s ease 0s 1;
@@ -212,12 +223,7 @@
   position: relative;
   z-index: 60;
   flex: 1;
-
-  .rcs {
-    > div > div {
-      padding: $global-spacing;
-    }
-  }
+  overflow: hidden; /* Fixed for ShadowScrollbar */
 }
 
 .exp-summary__footer {
@@ -240,15 +246,9 @@
 
 .sum-block {
   padding: $global-spacing;
-  margin: 0 (-$global-spacing);
   box-shadow: 0 1px 0 0 $base-alpha-color;
 
-  &:first-child {
-    margin-top: -$global-spacing;
-  }
-
   &:last-child {
-    margin-bottom: -$global-spacing;
     box-shadow: none;
   }
 

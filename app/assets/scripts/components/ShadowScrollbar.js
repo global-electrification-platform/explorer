@@ -6,14 +6,14 @@ import css from 'dom-css'
 import { Scrollbars } from 'react-custom-scrollbars'
 
 /**
- * Gets the width of a given element removin paddings.
- * @param {HTML node} el The element to get the width for.
+ * Gets the height of a given element removing paddings.
+ * @param {HTML node} el The element to get the height for.
  */
-const getInnerWidth = el => {
-  const { clientHeight } = el
-  const { paddingTop, paddingBottom } = getComputedStyle(el)
-  return clientHeight - parseFloat(paddingTop) - parseFloat(paddingBottom)
-}
+const getInnerHeight = el => {
+  const { clientHeight } = el;
+  const { paddingTop, paddingBottom } = getComputedStyle(el);
+  return clientHeight - parseFloat(paddingTop) - parseFloat(paddingBottom);
+};
 
 export default class ShadowScrollbars extends React.Component {
   constructor (props) {
@@ -38,20 +38,20 @@ export default class ShadowScrollbars extends React.Component {
     css(shadowBottom, { opacity: shadowBottomOpacity })
   }
 
-  updateWidth () {
-    const height = getInnerWidth(this._theParent)
-    this.setState({ height })
+  updateHeight () {
+    const height = getInnerHeight(this._theParent);
+    this.setState({ height });
   }
 
   componentDidMount () {
     // Add listener on next tick because it was messing up css transitions.
     // Particularly in the dropdown.
     setTimeout(() => {
-      if (!this._theParent) return
-      elementResizeEvent(this._theParent, () => this.updateWidth())
+      if (!this._theParent) return;
+      elementResizeEvent(this._theParent, () => this.updateHeight());
       // First update.
-      this.updateWidth()
-    }, 1)
+      this.updateHeight();
+    }, 1);
   }
 
   renderThumb ({ style, ...props }) {
