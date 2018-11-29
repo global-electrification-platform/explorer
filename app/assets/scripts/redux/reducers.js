@@ -9,4 +9,20 @@ function modelReducer (state = modelReducerInitialState, action) {
   return baseAPIReducer(state, action, 'MODEL');
 }
 
-export default combineReducers({ individualModels: modelReducer });
+//
+//  STATS Reducer
+//
+const statsReducerInitialState = {
+  fetching: false,
+  fetched: false,
+  error: null,
+  data: {}
+};
+function statsReducer (state = statsReducerInitialState, action) {
+  return baseAPIReducer(state, action, 'STATS');
+}
+
+export default combineReducers({
+  individualModels: modelReducer,
+  stats: statsReducer
+});
