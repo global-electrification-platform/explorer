@@ -5,26 +5,52 @@ import ShadowScrollbars from '../../ShadowScrollbar';
 
 import { environment } from '../../../config';
 
+function makeZeroFilledArray (length) {
+  return Array.apply(null, {
+    length
+  }).map(() => 0);
+}
+
 class Levers extends Component {
   constructor (props) {
     super(props);
 
     this.renderLever = this.renderLever.bind(this);
+    this.handleLeverChange = this.handleLeverChange.bind(this);
+    this.state = {
+      leverStatuses: makeZeroFilledArray(props.model.levers.length)
+    };
+  }
+
+  handleLeverChange (leverId, optionIndex, e) {
+    e.preventDefault();
+    const { leverStatuses } = this.state;
+    leverStatuses[leverId] = optionIndex;
+
+    this.setState({
+      leverStatuses
+    });
   }
 
   renderLever (lever) {
+    const { leverStatuses } = this.state;
+    const checkedOption = leverStatuses[lever.id] ? leverStatuses[lever.id] : 0;
+
     return (
       <div>
         <label className='form__label'>{lever.label}</label>
         {lever.options.map((option, i) => {
           return (
-            <label className='form__option form__option--custom-radio'>
+            <label
+              className='form__option form__option--custom-radio'
+              onClick={this.handleLeverChange.bind(this, lever.id, i)}
+            >
               <input
                 type='radio'
                 name={`form-radio-${lever.id}`}
                 id={`form-radio-${i}`}
                 value={i}
-                checked={i === 0}
+                checked={checkedOption === i}
               />
               <span className='form__option__ui' />
               <span className='form__option__text'>{option.value}</span>
@@ -37,7 +63,6 @@ class Levers extends Component {
 
   render () {
     const { model } = this.props;
-
     return (
       <section className='econtrols__section' id='econtrols-scenarios'>
         <h1 className='econtrols__title'>Scenarios</h1>
