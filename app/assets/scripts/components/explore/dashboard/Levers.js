@@ -18,32 +18,31 @@ class Levers extends Component {
     this.renderLever = this.renderLever.bind(this);
     this.handleLeverChange = this.handleLeverChange.bind(this);
     this.state = {
-      leverStatuses: makeZeroFilledArray(props.model.levers.length)
+      scenario: makeZeroFilledArray(props.model.levers.length)
     };
   }
 
   handleLeverChange (leverId, optionIndex, e) {
-    e.preventDefault();
-    const { leverStatuses } = this.state;
-    leverStatuses[leverId] = optionIndex;
+    const { scenario } = this.state;
+    scenario[leverId] = optionIndex;
 
     this.setState({
-      leverStatuses
+      scenario
     });
   }
 
   renderLever (lever) {
-    const { leverStatuses } = this.state;
-    const checkedOption = leverStatuses[lever.id] ? leverStatuses[lever.id] : 0;
+    const { scenario } = this.state;
+    const checkedOption = scenario[lever.id] ? scenario[lever.id] : 0;
 
     return (
-      <div className='form__group econtrols__item'>
+      <div className='form__group econtrols__item' key={`${lever.id}`}>
         <label className='form__label'>{lever.label}</label>
         {lever.options.map((option, i) => {
           return (
             <label
+              key={`${lever.id}-${i}`}
               className='form__option form__option--custom-radio'
-              onClick={this.handleLeverChange.bind(this, lever.id, i)}
             >
               <input
                 type='radio'
@@ -51,6 +50,7 @@ class Levers extends Component {
                 id={`form-radio-${i}`}
                 value={i}
                 checked={checkedOption === i}
+                onChange={this.handleLeverChange.bind(this, lever.id, i)}
               />
               <span className='form__option__ui' />
               <span className='form__option__text'>{option.value}</span>
@@ -79,7 +79,7 @@ class Levers extends Component {
               title='Apply'
               onClick={e => {
                 e.preventDefault();
-                this.props.updateMap();
+                this.props.updateScenario(this.state.scenario.join('_'));
               }}
             >
               <span>Apply changes</span>
@@ -93,7 +93,7 @@ class Levers extends Component {
 
 if (environment !== 'production') {
   Levers.propTypes = {
-    updateMap: T.function,
+    updateScenario: T.func,
     model: T.object
   };
 }

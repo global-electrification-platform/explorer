@@ -41,21 +41,35 @@ export async function fetchJSON (url, options) {
  * @param {func} options.mutator Function to change the response before sending
  *                               it to the receive function.
  */
-export function fetchDispatchCacheFactory ({
-  statePath,
-  url,
-  requestFn,
-  receiveFn,
-  mutator,
-  __devDelay
-}) {
-  mutator = mutator || (v => v);
+export function fetchDispatchCacheFactory (opts) {
+  const { statePath, receiveFn, __devDelay } = opts;
   return async function (dispatch, getState) {
     const pageState = get(getState(), statePath);
     if (pageState && pageState.fetched && !pageState.error) {
       if (__devDelay) await delay(__devDelay);
       return dispatch(receiveFn(pageState.data));
     }
+
+    return fetchDispatchFactory(opts)(dispatch, getState);
+  };
+}
+
+/**
+ * Performs a query to the given url dispatching the appropriate actions.
+ * For a version that checks the state use fetchDispatchCacheFactory()
+ *
+ * @param {object} options Options.
+ * @param {string} options.statePath Path to where data is on the state.
+ * @param {string} options.url Url to query.
+ * @param {func} options.requestFn Request action to dispatch.
+ * @param {func} options.receiveFn Receive action to dispatch.
+ * @param {func} options.mutator Function to change the response before sending
+ *                               it to the receive function.
+ */
+export function fetchDispatchFactory (opts) {
+  let { url, requestFn, receiveFn, mutator, __devDelay } = opts;
+  mutator = mutator || (v => v);
+  return async function (dispatch, getState) {
     dispatch(requestFn());
 
     try {
@@ -72,7 +86,9 @@ export function fetchDispatchCacheFactory ({
 }
 
 /**
- * Base reducer for an api request.
+ * Base reducer for an api request, taking into account the action.id
+ * If it exists it will store in the state under that path. Allows for
+ * page caching.
  *
  * Uses the following actions:
  * - INVALIDATE_<actionName>
@@ -83,16 +99,18 @@ export function fetchDispatchCacheFactory ({
  * @param {object} action The action.
  * @param {string} actionName The action name to use as suffix
  */
-function APIReducer (state, action, actionName) {
+export function baseAPIReducer (state, action, actionName) {
+  const hasId = typeof action.id !== 'undefined';
   switch (action.type) {
     case `INVALIDATE_${actionName}`:
-      return state;
+      return hasId ? { ...state, [action.id]: state } : state;
     case `REQUEST_${actionName}`:
-      return {
+      const changeReq = {
         fetching: true,
         fetched: false,
         data: {}
       };
+      return hasId ? { ...state, [action.id]: changeReq } : changeReq;
     case `RECEIVE_${actionName}`:
       let st = {
         fetching: false,
@@ -108,28 +126,9 @@ function APIReducer (state, action, actionName) {
         st.data = action.data;
       }
 
-      return st;
+      return hasId ? { ...state, [action.id]: st } : st;
   }
   return state;
-}
-
-/**
- * Base reducer for an api request, taking into account the action.id
- * If it exists it will store in the state under that path. Allows for
- * page caching.
- *
- * @see APIReducer()
- *
- * @param {object} state The state.
- * @param {object} action The action.
- * @param {string} actionName The action name to use as suffix
- */
-export function baseAPIReducer (state, action, actionName) {
-  return typeof action.id === 'undefined'
-    ? APIReducer(state, action, actionName)
-    : Object.assign({}, state, {
-      [action.id]: APIReducer(state, action, actionName)
-    });
 }
 
 /**
@@ -184,7 +183,8 @@ export function getFromState (state, path) {
 export function wrapApiResult (stateData) {
   const { fetched, fetching, data, error } = stateData;
   const ready = fetched && !fetching;
-  return Object.assign({},
+  return Object.assign(
+    {},
     {
       raw: () => stateData,
       isReady: () => ready,

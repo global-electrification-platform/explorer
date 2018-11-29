@@ -1,4 +1,4 @@
-import { fetchDispatchCacheFactory } from './utils';
+import { fetchDispatchCacheFactory, fetchDispatchFactory } from './utils';
 import { dataServiceUrl } from '../config';
 
 /*
@@ -33,5 +33,39 @@ export function fetchModel (modelId) {
     url: `${dataServiceUrl}/models/${modelId}`,
     requestFn: requestModel.bind(this, modelId),
     receiveFn: receiveModel.bind(this, modelId)
+  });
+}
+
+/*
+ * Actions for Scenarios
+ */
+
+export const REQUEST_SCENARIO = 'REQUEST_SCENARIO';
+export const RECEIVE_SCENARIO = 'RECEIVE_SCENARIO';
+export const INVALIDATE_SCENARIO = 'INVALIDATE_SCENARIO';
+
+export function invalidateScenario () {
+  return { type: INVALIDATE_SCENARIO };
+}
+
+export function requestScenario () {
+  return { type: REQUEST_SCENARIO };
+}
+
+export function receiveScenario (data, error = null) {
+  return {
+    type: RECEIVE_SCENARIO,
+    data,
+    error,
+    receivedAt: Date.now()
+  };
+}
+
+export function fetchScenario (scenarioId) {
+  return fetchDispatchFactory({
+    statePath: ['scenario'],
+    url: `${dataServiceUrl}/scenarios/${scenarioId}`,
+    requestFn: requestScenario,
+    receiveFn: receiveScenario
   });
 }

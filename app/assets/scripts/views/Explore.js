@@ -10,13 +10,13 @@ import Summary from '../components/explore/Summary';
 
 import { environment } from '../config';
 import { wrapApiResult, getFromState } from '../redux/utils';
-import { fetchModel } from '../redux/actions';
+import { fetchModel, fetchScenario } from '../redux/actions';
 
 class Explore extends Component {
   constructor (props) {
     super(props);
 
-    this.updateMap = this.updateMap.bind(this);
+    this.updateScenario = this.updateScenario.bind(this);
 
     this.state = {
       dashboardChangedAt: Date.now()
@@ -33,13 +33,16 @@ class Explore extends Component {
     }
   }
 
-  updateMap () {
-    this.setState({ dashboardChangedAt: Date.now() });
+  updateScenario (scenarioId) {
+    const { modelId } = this.props.match.params;
+    this.props.fetchScenario(`${modelId}-${scenarioId}`);
   }
 
   render () {
     const { isReady, getData } = this.props.model;
+
     const model = getData();
+    const scenario = this.props.scenario.getData();
 
     return (
       <App pageTitle='Explore'>
@@ -63,11 +66,11 @@ class Explore extends Component {
                 </div>
               </div>
 
-              <Dashboard updateMap={this.updateMap} model={model} />
+              <Dashboard updateScenario={this.updateScenario} model={model} />
             </header>
             <div className='inpage__body'>
               <Map dashboardChangedAt={this.state.dashboardChangedAt} />
-              <Summary />
+              <Summary scenario={scenario} />
             </div>
           </section>
         )}
@@ -79,8 +82,10 @@ class Explore extends Component {
 if (environment !== 'production') {
   Explore.propTypes = {
     fetchModel: T.func,
+    fetchScenario: T.func,
     match: T.object,
-    model: T.object
+    model: T.object,
+    scenario: T.object
   };
 }
 
@@ -88,13 +93,15 @@ function mapStateToProps (state, props) {
   return {
     model: wrapApiResult(
       getFromState(state.individualModels, props.match.params.modelId)
-    )
+    ),
+    scenario: wrapApiResult(state.scenario)
   };
 }
 
 function dispatcher (dispatch) {
   return {
-    fetchModel: (...args) => dispatch(fetchModel(...args))
+    fetchModel: (...args) => dispatch(fetchModel(...args)),
+    fetchScenario: (...args) => dispatch(fetchScenario(...args))
   };
 }
 
