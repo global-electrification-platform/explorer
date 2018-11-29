@@ -69,3 +69,37 @@ export function fetchScenario (scenarioId) {
     receiveFn: receiveScenario
   });
 }
+
+/*
+ * Actions for Stats
+ */
+
+export const REQUEST_STATS = 'REQUEST_STATS';
+export const RECEIVE_STATS = 'RECEIVE_STATS';
+export const INVALIDATE_STATS = 'INVALIDATE_STATS';
+
+export function invalidateStats () {
+  return { type: INVALIDATE_STATS };
+}
+
+export function requestStats () {
+  return { type: REQUEST_STATS };
+}
+
+export function receiveStats (data, error = null) {
+  return {
+    type: RECEIVE_STATS,
+    data,
+    error,
+    receivedAt: Date.now()
+  };
+}
+
+export function fetchStats () {
+  return fetchDispatchCacheFactory({
+    statePath: 'stats',
+    url: `${dataServiceUrl}/stats`,
+    requestFn: requestStats,
+    receiveFn: receiveStats
+  });
+}

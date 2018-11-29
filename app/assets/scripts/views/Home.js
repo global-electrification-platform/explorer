@@ -1,9 +1,51 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { PropTypes as T } from 'prop-types';
+
+import { wrapApiResult } from '../redux/utils';
+import { fetchStats } from '../redux/actions';
+import { environment } from '../config';
+import { padNumber } from '../utils/string';
 
 import App from './App';
 
 class Home extends Component {
+  componentDidMount () {
+    this.props.fetchStats();
+  }
+
+  renderStatsList () {
+    const { isReady, hasError, getData } = this.props.stats;
+
+    let totals = {
+      countries: '00',
+      models: '00'
+    };
+
+    if (hasError()) {
+      totals = {
+        countries: '--',
+        models: '--'
+      };
+    } else if (isReady()) {
+      const tot = getData().totals;
+      totals = {
+        countries: padNumber(tot.models, 2),
+        models: padNumber(tot.countries, 2)
+      };
+    }
+
+    return (
+      <dl className='stats-list'>
+        <dt>Models</dt>
+        <dd>{totals.models}</dd>
+        <dt>Countries</dt>
+        <dd>{totals.countries}</dd>
+      </dl>
+    );
+  }
+
   render () {
     return (
       <App>
@@ -29,12 +71,7 @@ class Home extends Component {
                 </p>
               </div>
 
-              <dl className='stats-list'>
-                <dt>Models</dt>
-                <dd>03</dd>
-                <dt>Countries</dt>
-                <dd>32</dd>
-              </dl>
+              {this.renderStatsList()}
 
               <p className='cta-wrapper'>
                 <Link
@@ -61,4 +98,26 @@ class Home extends Component {
   }
 }
 
-export default Home;
+if (environment !== 'production') {
+  Home.propTypes = {
+    fetchStats: T.func,
+    stats: T.object
+  };
+}
+
+function mapStateToProps (state, props) {
+  return {
+    stats: wrapApiResult(state.stats)
+  };
+}
+
+function dispatcher (dispatch) {
+  return {
+    fetchStats: (...args) => dispatch(fetchStats(...args))
+  };
+}
+
+export default connect(
+  mapStateToProps,
+  dispatcher
+)(Home);
