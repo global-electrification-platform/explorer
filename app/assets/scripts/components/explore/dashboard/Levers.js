@@ -37,7 +37,7 @@ class Levers extends Component {
     const checkedOption = leverStatuses[lever.id] ? leverStatuses[lever.id] : 0;
 
     return (
-      <div>
+      <div className='form__group econtrols__item'>
         <label className='form__label'>{lever.label}</label>
         {lever.options.map((option, i) => {
           return (
@@ -69,9 +69,7 @@ class Levers extends Component {
         <form className='form econtrols__block' id='#econtrols__scenarios'>
           <div className='econtrols__subblock'>
             <ShadowScrollbars theme='light'>
-              <div className='form__group econtrols__item'>
-                {model.levers.map(this.renderLever)}
-              </div>
+              {model.levers.map(this.renderLever)}
             </ShadowScrollbars>
           </div>
           <div className='form__actions econtrols__actions'>
