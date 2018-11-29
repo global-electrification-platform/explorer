@@ -22,7 +22,11 @@ class Levers extends Component {
     };
   }
 
-  handleLeverChange (leverId, optionIndex, e) {
+  componentDidMount () {
+    this.props.updateScenario(this.state.scenario.join('_'));
+  }
+
+  handleLeverChange (leverId, optionIndex) {
     const { scenario } = this.state;
     scenario[leverId] = optionIndex;
 
