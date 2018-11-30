@@ -1,8 +1,9 @@
+import 'babel-polyfill';
 import config from './config';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { Router, Route, Switch } from 'react-router-dom';
+import { Redirect, Router, Route, Switch } from 'react-router-dom';
 import createHistory from 'history/createBrowserHistory';
 
 // Views
@@ -24,7 +25,14 @@ ReactDOM.render(
         <Route exact path='/' component={Home} />
         <Route path='/select-country' component={SelectCountry} />
         <Route path='/select-model' component={SelectModel} />
-        <Route path='/explore' component={Explore} />
+        <Route
+          exact
+          path='/explore'
+          render={() => {
+            return <Redirect to='/explore/mw-1' />;
+          }}
+        />
+        <Route path='/explore/:modelId' component={Explore} />
         <Route path='/docs' component={Docs} />
         <Route path='/about' component={About} />
       </Switch>
@@ -33,5 +41,7 @@ ReactDOM.render(
   document.getElementById('root')
 );
 
+/* eslint-disable no-console */
 console.log.apply(console, config.consoleMessage);
 console.log('Environment', config.environment);
+/* eslint-enable no-console */

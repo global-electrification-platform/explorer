@@ -9,7 +9,7 @@ class Map extends React.Component {
   constructor (props) {
     super(props);
 
-    this.updateMap = this.updateMap.bind(this);
+    this.updateScenario = this.updateScenario.bind(this);
   }
 
   componentDidMount () {
@@ -18,7 +18,7 @@ class Map extends React.Component {
 
   componentDidUpdate (prevProps) {
     if (this.props.dashboardChangedAt > prevProps.dashboardChangedAt) {
-      this.updateMap();
+      this.updateScenario();
     }
   }
 
@@ -84,11 +84,11 @@ class Map extends React.Component {
         filter: ['==', 'id', 'nothing']
       });
 
-      this.updateMap();
+      this.updateScenario();
     });
   }
 
-  updateMap () {
+  updateScenario () {
     const eTypes = ['grid', 'diesel', 'pv', 'mini-grid'];
     let features = {};
 
@@ -116,7 +116,7 @@ class Map extends React.Component {
 
 if (environment !== 'production') {
   Map.propTypes = {
-    dashboardChangedAt: T.date
+    dashboardChangedAt: T.number
   };
 }
 

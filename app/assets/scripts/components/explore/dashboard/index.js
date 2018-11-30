@@ -7,7 +7,7 @@ import Filters from './Filters';
 
 import { environment } from '../../../config';
 
-class Explore extends Component {
+class Dashboard extends Component {
   constructor (props) {
     super(props);
 
@@ -22,7 +22,7 @@ class Explore extends Component {
     const { activeTab } = this.state;
     return ['scenarios', 'filters', 'layers'].map((tab, index) => {
       return (
-        <li className='nav__tab' role='presentation'>
+        <li className='nav__tab' role='presentation' key={index}>
           <a
             className={`nav__link  ${
               activeTab === tab ? 'nav__link--active' : ''
@@ -41,8 +41,11 @@ class Explore extends Component {
 
   renderTabContent () {
     const { activeTab } = this.state;
-    if (activeTab === 'scenarios') return <Levers updateMap={this.props.updateMap} />;
-    else if (activeTab === 'filters') return <Filters />;
+    if (activeTab === 'scenarios') {
+      return (
+        <Levers updateScenario={this.props.updateScenario} model={this.props.model} />
+      );
+    } else if (activeTab === 'filters') return <Filters />;
     else if (activeTab === 'layers') return <Layers />;
   }
 
@@ -61,9 +64,10 @@ class Explore extends Component {
 }
 
 if (environment !== 'production') {
-  Explore.propTypes = {
-    updateMap: T.function
+  Dashboard.propTypes = {
+    updateScenario: T.func,
+    model: T.object
   };
 }
 
-export default Explore;
+export default Dashboard;

@@ -1,9 +1,18 @@
 import React, { Component } from 'react';
+import { PropTypes as T } from 'prop-types';
+
+import { environment } from '../../config';
 
 import ShadowScrollbars from '../ShadowScrollbar';
 
-class Explore extends Component {
+class Summary extends Component {
   render () {
+    const summary = this.props.scenario.summary || {
+      investmentCost: '-',
+      newCapacity: '-',
+      electrifiedPopulation: '-'
+    };
+
     return (
       <section className='exp-summary'>
         <header className='exp-summary__header'>
@@ -38,11 +47,11 @@ class Explore extends Component {
               <h2 className='sum-block__title'>Aggregated numbers</h2>
               <dl>
                 <dt>Population Electrified</dt>
-                <dd>1 280 848</dd>
-                <dt>Investiment Required</dt>
-                <dd>$94 999 393</dd>
+                <dd>{summary.electrifiedPopulation}</dd>
+                <dt>Investment Required</dt>
+                <dd>{summary.investmentCost}</dd>
                 <dt>Capacity Added</dt>
-                <dd>65 GWh</dd>
+                <dd>{summary.newCapacity}</dd>
               </dl>
             </div>
           </ShadowScrollbars>
@@ -61,4 +70,10 @@ class Explore extends Component {
   }
 }
 
-export default Explore;
+if (environment !== 'production') {
+  Summary.propTypes = {
+    scenario: T.object
+  };
+}
+
+export default Summary;

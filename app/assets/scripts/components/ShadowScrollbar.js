@@ -1,9 +1,9 @@
-'use strict'
-import React from 'react'
-import { PropTypes as T } from 'prop-types'
-import elementResizeEvent from 'element-resize-event'
-import css from 'dom-css'
-import { Scrollbars } from 'react-custom-scrollbars'
+'use strict';
+import React from 'react';
+import { PropTypes as T } from 'prop-types';
+import elementResizeEvent from 'element-resize-event';
+import css from 'dom-css';
+import { Scrollbars } from 'react-custom-scrollbars';
 
 /**
  * Gets the height of a given element removing paddings.
@@ -17,25 +17,26 @@ const getInnerHeight = el => {
 
 export default class ShadowScrollbars extends React.Component {
   constructor (props) {
-    super(props)
+    super(props);
 
     this.state = {
       height: 0
-    }
+    };
 
-    this._theParent = null
+    this._theParent = null;
     // Bindings.
-    this.handleUpdate = this.handleUpdate.bind(this)
+    this.handleUpdate = this.handleUpdate.bind(this);
   }
 
   handleUpdate (values) {
-    const { shadowTop, shadowBottom } = this.refs
-    const { scrollTop, scrollHeight, clientHeight } = values
-    const shadowTopOpacity = 1 / 20 * Math.min(scrollTop, 20)
-    const bottomScrollTop = scrollHeight - clientHeight
-    const shadowBottomOpacity = 1 / 20 * (bottomScrollTop - Math.max(scrollTop, bottomScrollTop - 20))
-    css(shadowTop, { opacity: shadowTopOpacity })
-    css(shadowBottom, { opacity: shadowBottomOpacity })
+    const { shadowTop, shadowBottom } = this.refs;
+    const { scrollTop, scrollHeight, clientHeight } = values;
+    const shadowTopOpacity = (1 / 20) * Math.min(scrollTop, 20);
+    const bottomScrollTop = scrollHeight - clientHeight;
+    const shadowBottomOpacity =
+      (1 / 20) * (bottomScrollTop - Math.max(scrollTop, bottomScrollTop - 20));
+    css(shadowTop, { opacity: shadowTopOpacity });
+    css(shadowBottom, { opacity: shadowBottomOpacity });
   }
 
   updateHeight () {
@@ -55,9 +56,7 @@ export default class ShadowScrollbars extends React.Component {
   }
 
   renderThumb ({ style, ...props }) {
-    return (
-      <div className='rcs__bar' style={style} {...props}/>
-    )
+    return <div className='rcs__bar' style={style} {...props} />;
   }
 
   render () {
@@ -65,26 +64,31 @@ export default class ShadowScrollbars extends React.Component {
       height: this.state.height,
       width: '100%',
       position: 'relative'
-    }
+    };
 
-    const {theme, ...rest} = this.props
+    const { theme, ...rest } = this.props;
 
     return (
-      <div className={`rcs rcs--${theme}`} style={containerStyle} ref={el => (this._theParent = el ? el.parentElement : null)}>
+      <div
+        className={`rcs rcs--${theme}`}
+        style={containerStyle}
+        ref={el => (this._theParent = el ? el.parentElement : null)}
+      >
         <Scrollbars
           ref='scrollbars'
           onUpdate={this.handleUpdate}
           renderThumbHorizontal={this.renderThumb}
           renderThumbVertical={this.renderThumb}
-          style={{height: this.state.height}}
-          {...rest}/>
+          style={{ height: this.state.height }}
+          {...rest}
+        />
         <div ref='shadowTop' className='rcs__shadow rcs__shadow--top' />
         <div ref='shadowBottom' className='rcs__shadow rcs__shadow--bottom' />
       </div>
-    )
+    );
   }
 }
 
 ShadowScrollbars.propTypes = {
   theme: T.string
-}
+};
