@@ -4,8 +4,8 @@
 
 .inpage--home {
   @extend .antialiased;
-  background: shade($primary-color, 20%) url('../graphics/layout/home-illu.svg') top right no-repeat;
-  background-size: cover;
+  position: relative;
+  background-image: linear-gradient(to bottom, shade($primary-color, 20%) 0%, shade($primary-color, 20%) 37.5%, shade($primary-color, 36%) 37.5%);
   color: #fff;
 
   .inpage__header {
@@ -17,6 +17,10 @@
     align-items: center;
     min-height: 100vh;
   }
+}
+
+.home-intro {
+  z-index: 2;
 }
 
 .home-intro__title {
@@ -103,4 +107,85 @@
 
 .ctab--about {
   @extend .button--primary-raised-light;
+}
+
+
+/* Illustration
+   ========================================================================== */
+
+.home-media,
+.home-media__item {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+  margin: 0;
+
+  svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  figcaption {
+    @extend .visually-hidden;
+  }
+}
+
+#trbn1-bld1,
+#trbn2-bld1 {
+  transform-box: fill-box;
+}
+
+#trbn1-bld1 {
+  animation: turbine 10s infinite linear;
+  transform-origin: 36% 50%;
+}
+
+#trbn2-bld1 {
+  animation: turbine 16s infinite linear;
+  transform-origin: 50.05% 65%;
+}
+
+#bldg2-w18 {
+  animation: light-toggle 8s infinite ease-in-out;
+}
+
+#bldg3-w4 {
+  animation: light-flicker 12s infinite step-end;
+}
+
+#bldg3-w2 {
+  animation: light-toggle 16s infinite ease-in-out;
+}
+
+#bldg4-w6 {
+  animation: light-toggle 12s infinite ease-in-out;
+}
+
+@keyframes turbine {
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
+@keyframes light-flicker {
+  0%    { fill: $secondary-color; }
+  3%    { fill: shade($primary-color, 36%); }
+  6%    { fill: $secondary-color; }
+  7%    { fill: shade($primary-color, 36%); }
+  8%    { fill: $secondary-color; }
+  9%    { fill: shade($primary-color, 36%); }
+  10%   { fill: $secondary-color; }
+  100%  { fill: $secondary-color; }
+}
+
+@keyframes light-toggle {
+  0%    { fill: shade($primary-color, 36%); }
+  50%    { fill: shade($primary-color, 36%); }
+  52%    { fill: $secondary-color; }
+  98%  { fill: $secondary-color }
+  100%    { fill: shade($primary-color, 36%); }
 }
