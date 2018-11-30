@@ -5,6 +5,7 @@ import c from 'classnames';
 import MetaTags from '../components/MetaTags';
 import PageHeader from '../components/PageHeader';
 import PageFooter from '../components/PageFooter';
+import GlobalLoading from '../components/GlobalLoading';
 
 import { environment, appTitle, appDescription } from '../config';
 
@@ -15,6 +16,8 @@ class App extends Component {
     const title = pageTitle ? `${pageTitle} — ` : '';
     return (
       <div className={c('page', className)}>
+
+        <GlobalLoading />
         <MetaTags title={`${title}${appTitle} `} description={appDescription} />
 
         <PageHeader location={location} />
