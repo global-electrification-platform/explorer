@@ -24,18 +24,13 @@ ReactDOM.render(
     <Router history={createHistory()}>
       <Switch>
         <Route exact path='/' component={Home} />
-        <Route path='/select-country' component={SelectCountry} />
-        <Route path='/select-model' component={SelectModel} />
-        <Route
-          exact
-          path='/explore'
-          render={() => {
+        <Redirect exact from='/explore' to='/countries' />
+        <Route exact path='/countries' component={SelectCountry} />
+        <Route exact path='/countries/:countryId/models' component={SelectModel} />
+        <Route exact path='/explore/:modelId' component={Explore} />
+        <Route exact path='/docs' component={Docs} />
+        <Route exact path='/about' component={About} />
         <Route path='*' component={UhOh} />
-          }}
-        />
-        <Route path='/explore/:modelId' component={Explore} />
-        <Route path='/docs' component={Docs} />
-        <Route path='/about' component={About} />
       </Switch>
     </Router>
   </Provider>,

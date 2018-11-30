@@ -6,6 +6,10 @@ import ShareOptions from './connected/Share';
 
 import { environment } from '../config';
 
+const isExplorerActive = (match, location) => {
+  return location.pathname.match(/^\/(explore|countries)/g);
+}
+
 export default class NavGlobalMenu extends Component {
   renderHeaderMenu () {
     return (
@@ -23,7 +27,8 @@ export default class NavGlobalMenu extends Component {
         </li>
         <li>
           <NavLink
-            to='/explore'
+            to='/countries'
+            isActive={isExplorerActive}
             title='View page'
             activeClassName='global-menu__link--active'
             className='global-menu__link global-menu__link--explore'
