@@ -242,7 +242,7 @@ gulp.task('html', function () {
 
 gulp.task('images:imagemin', function () {
   return gulp.src([
-    'app/assets/graphics/content/**/*'
+    'app/assets/graphics/**/*'
   ])
     .pipe($.imagemin([
       $.imagemin.gifsicle({ interlaced: true }),

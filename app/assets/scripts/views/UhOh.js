@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import App from './app';
+import App from './App';
 
 export default class UhOh extends React.Component {
   render () {

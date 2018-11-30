@@ -24,8 +24,9 @@ var config = configurations.defaults || {};
 
 if (process.env.DS_ENV === 'staging') {
   config = defaultsDeep(configurations.staging, config);
-}
-if (process.env.DS_ENV !== 'staging' && process.env.DS_ENV !== 'production') {
+} else if (process.env.DS_ENV === 'production') {
+  config = defaultsDeep(configurations.production, config);
+} else {
   config = defaultsDeep(configurations.local || {}, config);
 }
 

@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import { PropTypes as T } from 'prop-types';
 
 import App from './App';
-
 import Dashboard from '../components/explore/dashboard';
 import Map from '../components/explore/Map';
 import Summary from '../components/explore/Summary';
