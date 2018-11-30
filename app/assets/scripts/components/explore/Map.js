@@ -37,6 +37,10 @@ class Map extends React.Component {
   }
 
   initMap () {
+    if (!mapboxgl.supported()) {
+      return;
+    }
+
     this.map = new mapboxgl.Map({
       container: this.refs.mapEl,
       style: 'mapbox://styles/mapbox/light-v9',
@@ -116,7 +120,13 @@ class Map extends React.Component {
     return (
       <section className='exp-map'>
         <h1 className='exp-map__title'>Map</h1>
-        <div ref='mapEl' style={{ width: '100%', height: '100%' }} />
+        {mapboxgl.supported() ? (
+          <div ref='mapEl' style={{ width: '100%', height: '100%' }} />
+        ) : (
+          <div className='mapbox-no-webgl'>
+            <p>WebGL is not supported or disabled.</p>
+          </div>
+        )}
       </section>
     );
   }
