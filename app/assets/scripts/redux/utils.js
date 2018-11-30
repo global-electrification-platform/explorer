@@ -22,9 +22,16 @@ export async function fetchJSON (url, options) {
   try {
     const response = await fetch(url, options);
     const json = await response.json();
+
+    if (response.status >= 400) {
+      const err = new Error(json.message);
+      err.data = json;
+      throw err;
+    }
+
     return json;
   } catch (error) {
-    console.log('fetchJSON error', error); // eslint-disable-line
+    if (error instanceof SyntaxError) console.log('fetchJSON error', error); // eslint-disable-line
     throw error;
   }
 }
