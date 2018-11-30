@@ -226,7 +226,11 @@ class Home extends Component {
                       <rect id="fty1-w2" x="1160" y="836" width="48" height="16" fill="#393da3"/>
                       <rect id="fty1-w1" data-name="fty1-w1" x="1064" y="836" width="48" height="16" fill="#ffc700"/>
                     </g>
-                    <path id="smoke" d="M1304,652a23.91,23.91,0,0,0-12.57,3.55A48,48,0,0,0,1248,628a48,48,0,1,0-48,48h128A24,24,0,0,0,1304,652Z" fill="#fff"/>
+                    <g id="smoke">
+                      <circle id="smoke3" cx="1200" cy="628" r="48" fill="#fff"/>
+                      <path id="smoke2" d="M1304,652a24,24,0,0,0-24,24h48A24,24,0,0,0,1304,652Z" fill="#fff"/>
+                      <path id="smoke1" d="M1248,628a48,48,0,0,0-48,48h96A48,48,0,0,0,1248,628Z" fill="#fff"/>
+                    </g>
                   </g>
                   <g id="panels">
                     <g id="panel">

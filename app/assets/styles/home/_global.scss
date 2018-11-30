@@ -127,6 +127,10 @@
     display: block;
     width: 100%;
     height: 100%;
+
+    * {
+      transform-box: fill-box;
+    }
   }
 
   figcaption {
@@ -137,11 +141,6 @@
 .home-media {
   /* Animation */
   animation: illu-in 1.5s ease-in-out 0s 1;
-}
-
-#trbn1-bld1,
-#trbn2-bld1 {
-  transform-box: fill-box;
 }
 
 #trbn1-bld1 {
@@ -169,6 +168,30 @@
 #bldg4-w6 {
   animation: light-toggle 12s infinite ease-in-out;
 }
+
+#cld1 {
+  animation: cloud-travel 16s infinite ease-in-out;
+}
+
+#cld2 {
+  animation: cloud-travel 25s infinite ease-in-out;
+}
+
+#cld3 {
+  animation: cloud-travel 27s infinite ease-in-out;
+}
+
+// #smoke1 {
+//   animation: smoke-puff 4s linear 0s infinite;
+// }
+//
+// #smoke2 {
+//   animation: smoke-puff 4s linear 4s infinite;
+// }
+//
+// #smoke3 {
+//   animation: smoke-puff 4s linear 8s infinite;
+// }
 
 @keyframes turbine {
   to {
@@ -203,5 +226,40 @@
   to {
     opacity: 1;
     transform: translate(0, 0);
+  }
+}
+
+@keyframes cloud-travel {
+  0% {
+    transform: translate(0, 0);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, 0);
+    opacity: 0;
+  }
+}
+
+@keyframes smoke-puff {
+  0% {
+    opacity: 0;
+  }
+  5% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 1;
+  }
+  55% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
   }
 }
