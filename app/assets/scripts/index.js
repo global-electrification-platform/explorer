@@ -1,8 +1,9 @@
+import 'babel-polyfill';
 import config from './config';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { Router, Route, Switch } from 'react-router-dom';
+import { Redirect, Router, Route, Switch } from 'react-router-dom';
 import createHistory from 'history/createBrowserHistory';
 
 // Views
@@ -12,6 +13,7 @@ import Docs from './views/Docs';
 import About from './views/About';
 import SelectCountry from './views/SelectCountry';
 import SelectModel from './views/SelectModel';
+import UhOh from './views/uhoh';
 
 // Store
 import configureStore from './store';
@@ -22,16 +24,20 @@ ReactDOM.render(
     <Router history={createHistory()}>
       <Switch>
         <Route exact path='/' component={Home} />
-        <Route path='/select-country' component={SelectCountry} />
-        <Route path='/select-model' component={SelectModel} />
-        <Route path='/explore' component={Explore} />
-        <Route path='/docs' component={Docs} />
-        <Route path='/about' component={About} />
+        <Redirect exact from='/explore' to='/countries' />
+        <Route exact path='/countries' component={SelectCountry} />
+        <Route exact path='/countries/:countryId/models' component={SelectModel} />
+        <Route exact path='/explore/:modelId' component={Explore} />
+        <Route exact path='/docs' component={Docs} />
+        <Route exact path='/about' component={About} />
+        <Route path='*' component={UhOh} />
       </Switch>
     </Router>
   </Provider>,
   document.getElementById('root')
 );
 
+/* eslint-disable no-console */
 console.log.apply(console, config.consoleMessage);
 console.log('Environment', config.environment);
+/* eslint-enable no-console */

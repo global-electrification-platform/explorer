@@ -2,7 +2,13 @@ import React, { Component } from 'react';
 import { PropTypes as T } from 'prop-types';
 import { NavLink } from 'react-router-dom';
 
+import ShareOptions from './connected/Share';
+
 import { environment } from '../config';
+
+const isExplorerActive = (match, location) => {
+  return location.pathname.match(/^\/(explore|countries)/g);
+}
 
 export default class NavGlobalMenu extends Component {
   renderHeaderMenu () {
@@ -21,7 +27,8 @@ export default class NavGlobalMenu extends Component {
         </li>
         <li>
           <NavLink
-            to='/explore'
+            to='/countries'
+            isActive={isExplorerActive}
             title='View page'
             activeClassName='global-menu__link--active'
             className='global-menu__link global-menu__link--explore'
@@ -50,13 +57,7 @@ export default class NavGlobalMenu extends Component {
           </NavLink>
         </li>
         <li>
-          <a
-            href='#'
-            title='View page'
-            className='global-menu__link global-menu__link--share disabled'
-          >
-            <span>Share</span>
-          </a>
+          <ShareOptions />
         </li>
       </ul>
     );

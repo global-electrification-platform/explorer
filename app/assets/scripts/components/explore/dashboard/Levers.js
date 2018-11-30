@@ -1,39 +1,80 @@
 import React, { Component } from 'react';
 import { PropTypes as T } from 'prop-types';
 
+import ShadowScrollbars from '../../ShadowScrollbar';
+
 import { environment } from '../../../config';
 
+function makeZeroFilledArray (length) {
+  return Array.apply(null, {
+    length
+  }).map(() => 0);
+}
+
 class Levers extends Component {
+  constructor (props) {
+    super(props);
+
+    this.renderLever = this.renderLever.bind(this);
+    this.handleLeverChange = this.handleLeverChange.bind(this);
+    this.state = {
+      scenario: makeZeroFilledArray(props.model.levers.length)
+    };
+  }
+
+  componentDidMount () {
+    this.props.updateScenario(this.state.scenario.join('_'));
+  }
+
+  handleLeverChange (leverId, optionIndex) {
+    const { scenario } = this.state;
+    scenario[leverId] = optionIndex;
+
+    this.setState({
+      scenario
+    });
+  }
+
+  renderLever (lever) {
+    const { scenario } = this.state;
+    const checkedOption = scenario[lever.id] ? scenario[lever.id] : 0;
+
+    return (
+      <div className='form__group econtrols__item' key={`${lever.id}`}>
+        <label className='form__label'>{lever.label}</label>
+        {lever.options.map((option, i) => {
+          return (
+            <label
+              key={`${lever.id}-${i}`}
+              className='form__option form__option--custom-radio'
+            >
+              <input
+                type='radio'
+                name={`form-radio-${lever.id}`}
+                id={`form-radio-${i}`}
+                value={i}
+                checked={checkedOption === i}
+                onChange={this.handleLeverChange.bind(this, lever.id, i)}
+              />
+              <span className='form__option__ui' />
+              <span className='form__option__text'>{option.value}</span>
+            </label>
+          );
+        })}
+      </div>
+    );
+  }
+
   render () {
+    const { model } = this.props;
     return (
       <section className='econtrols__section' id='econtrols-scenarios'>
         <h1 className='econtrols__title'>Scenarios</h1>
         <form className='form econtrols__block' id='#econtrols__scenarios'>
           <div className='econtrols__subblock'>
-            <div className='form__group econtrols__item'>
-              <label className='form__label'>Electricity demand profile</label>
-              <label className='form__option form__option--custom-radio'>
-                <input
-                  type='radio'
-                  name='form-radio-a'
-                  id='form-radio-1'
-                  value='Radio 1'
-                  checked='checked'
-                />
-                <span className='form__option__ui' />
-                <span className='form__option__text'>Radio 1</span>
-              </label>
-              <label className='form__option form__option--custom-radio'>
-                <input
-                  type='radio'
-                  name='form-radio-a'
-                  id='form-radio-2'
-                  value='Radio 2'
-                />
-                <span className='form__option__ui' />
-                <span className='form__option__text'>Radio 2</span>
-              </label>
-            </div>
+            <ShadowScrollbars theme='light'>
+              {model.levers.map(this.renderLever)}
+            </ShadowScrollbars>
           </div>
           <div className='form__actions econtrols__actions'>
             <button
@@ -42,7 +83,7 @@ class Levers extends Component {
               title='Apply'
               onClick={e => {
                 e.preventDefault();
-                this.props.updateMap();
+                this.props.updateScenario(this.state.scenario.join('_'));
               }}
             >
               <span>Apply changes</span>
@@ -56,7 +97,8 @@ class Levers extends Component {
 
 if (environment !== 'production') {
   Levers.propTypes = {
-    updateMap: T.function
+    updateScenario: T.func,
+    model: T.object
   };
 }
 

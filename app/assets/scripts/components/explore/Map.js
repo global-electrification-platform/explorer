@@ -9,7 +9,10 @@ class Map extends React.Component {
   constructor (props) {
     super(props);
 
-    this.updateMap = this.updateMap.bind(this);
+    this.updateScenario = this.updateScenario.bind(this);
+    this.state = {
+      mapLoaded: false
+    };
   }
 
   componentDidMount () {
@@ -17,8 +20,13 @@ class Map extends React.Component {
   }
 
   componentDidUpdate (prevProps) {
-    if (this.props.dashboardChangedAt > prevProps.dashboardChangedAt) {
-      this.updateMap();
+    const { scenario } = this.props;
+    if (
+      this.state.mapLoaded &&
+      scenario.fetched &&
+      !prevProps.scenario.fetched
+    ) {
+      this.updateScenario();
     }
   }
 
@@ -29,6 +37,10 @@ class Map extends React.Component {
   }
 
   initMap () {
+    if (!mapboxgl.supported()) {
+      return;
+    }
+
     this.map = new mapboxgl.Map({
       container: this.refs.mapEl,
       style: 'mapbox://styles/mapbox/light-v9',
@@ -36,7 +48,7 @@ class Map extends React.Component {
     });
 
     this.map.on('load', () => {
-      this.mapLoaded = true;
+      this.setState({ mapLoaded: true });
 
       this.map.addSource('gep-vt', {
         type: 'vector',
@@ -49,7 +61,7 @@ class Map extends React.Component {
         source: 'gep-vt',
         'source-layer': 'mw',
         paint: {
-          'fill-color': 'red'
+          'fill-color': '#fe5931'
         },
         filter: ['==', 'id', 'nothing']
       });
@@ -59,7 +71,7 @@ class Map extends React.Component {
         source: 'gep-vt',
         'source-layer': 'mw',
         paint: {
-          'fill-color': 'blue'
+          'fill-color': '#ffC700'
         },
         filter: ['==', 'id', 'nothing']
       });
@@ -69,7 +81,7 @@ class Map extends React.Component {
         source: 'gep-vt',
         'source-layer': 'mw',
         paint: {
-          'fill-color': 'green'
+          'fill-color': '#1ea896'
         },
         filter: ['==', 'id', 'nothing']
       });
@@ -79,16 +91,16 @@ class Map extends React.Component {
         source: 'gep-vt',
         'source-layer': 'mw',
         paint: {
-          'fill-color': 'yellow'
+          'fill-color': '#19647e'
         },
         filter: ['==', 'id', 'nothing']
       });
 
-      this.updateMap();
+      this.updateScenario();
     });
   }
 
-  updateMap () {
+  updateScenario () {
     const eTypes = ['grid', 'diesel', 'pv', 'mini-grid'];
     let features = {};
 
@@ -108,7 +120,13 @@ class Map extends React.Component {
     return (
       <section className='exp-map'>
         <h1 className='exp-map__title'>Map</h1>
-        <div ref='mapEl' style={{ width: '100%', height: '100%' }} />
+        {mapboxgl.supported() ? (
+          <div ref='mapEl' style={{ width: '100%', height: '100%' }} />
+        ) : (
+          <div className='mapbox-no-webgl'>
+            <p>WebGL is not supported or disabled.</p>
+          </div>
+        )}
       </section>
     );
   }
@@ -116,7 +134,7 @@ class Map extends React.Component {
 
 if (environment !== 'production') {
   Map.propTypes = {
-    dashboardChangedAt: T.date
+    scenario: T.object
   };
 }
 

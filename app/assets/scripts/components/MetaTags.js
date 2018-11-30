@@ -2,7 +2,7 @@ import React from 'react';
 import { PropTypes as T } from 'prop-types';
 import { Helmet } from 'react-helmet';
 
-import { environment, appTitle, appUrl } from '../config';
+import { environment, appTitle, baseUrl } from '../config';
 
 const MetaTags = ({ title, description, children }) => {
   return (
@@ -15,12 +15,12 @@ const MetaTags = ({ title, description, children }) => {
 
       {/* Open Graph */}
       <meta property='og:type' content='website' />
-      <meta property='og:url' content={appUrl} />
+      <meta property='og:url' content={baseUrl} />
       <meta property='og:site_name' content={appTitle} />
       <meta property='og:title' content={title} />
       <meta
         property='og:image'
-        content='/assets/graphics/meta/default-meta-image.png'
+        content={`${baseUrl}/assets/graphics/meta/default-meta-image.png`}
       />
       {description ? (
         <meta property='og:description' content={description} />

@@ -16,20 +16,20 @@
 }
 
 .card__contents {
+  @extend %card-skin;
   position: relative;
   z-index: 1;
   display: flex;
   flex-direction: column;
-  backface-visibility: hidden;
-  padding: $global-spacing * 1.5;
-  overflow: hidden;
   flex: 1 1 100%;
-  min-height: 10rem;
-  background: tint($base-color, 96%);
-  border-radius: $base-border-radius;
+  // min-height: 10rem;
 
   /* Animation */
   transition: all 0.16s ease 0s;
+
+  .card--active & {
+    box-shadow: 0 4px 16px 2px rgba($primary-color, 0.32);
+  }
 
   > *:last-child {
     margin-bottom: 0;
@@ -38,25 +38,20 @@
 
 a.card__contents {
   color: inherit;
-  box-shadow: 0 0 0 0 rgba($base-color, 0);
-
-  /* Animation */
-  transition: all 0.32s ease 0s;
-
 
   &:hover {
     opacity: 1;
-    box-shadow: 8px 8px 0 0 rgba($base-color, 0.16);
+    background-color: rgba($base-color, 0.02);
   }
 }
 
 
-/* Card media
+/* Media
    ========================================================================== */
 
 .card__media {
   position: relative;
-  margin: $global-spacing (- $global-spacing / 2);
+  margin: 0;
 
   .link-wrapper {
     display: block;
@@ -69,14 +64,6 @@ a.card__contents {
     height: auto;
     display: block;
     transition: all 0.32s ease 0s;
-  }
-
-  &:first-child {
-    margin-top: (- $global-spacing / 2);
-  }
-
-  &:last-child {
-    margin-bottom: (- $global-spacing / 2) !important;
   }
 }
 
@@ -106,13 +93,15 @@ a.card__contents {
 }
 
 
-/* Card header
+/* Header
    ========================================================================== */
 
 .card__header {
   display: flex;
-  margin-bottom: $global-spacing * 2.5;
   align-items: flex-start;
+  padding: $global-spacing;
+  margin-bottom: $global-spacing;
+  min-width: 0;
 
   > *:not(:first-child) {
     margin-left: $global-spacing;
@@ -134,7 +123,8 @@ a.card__contents {
 }
 
 .card__title {
-  @include heading(1.5rem);
+  @include heading(1.25rem);
+  @extend .truncated;
   margin: 0;
 
   a {
@@ -146,14 +136,9 @@ a.card__contents {
   @extend .heading-alt;
   position: relative;
   color: rgba($base-font-color, 0.64);
-  font-size: 1rem;
-  line-height: 1.25rem;
-  font-weight: $heading-font-bold;
-  margin: 0.75rem 0;
-
-  a & {
-    color: $link-color;
-  }
+  font-size: 0.875rem;
+  line-height: 1rem;
+  margin: ($global-spacing / 4) 0;
 
   &:first-child {
     margin-top: 0;
@@ -165,12 +150,13 @@ a.card__contents {
 }
 
 
-/* Card body
+/* Body
    ========================================================================== */
 
 .card__body {
   flex: 1;
   width: 100%;
+  padding: $global-spacing;
   margin-bottom: $global-spacing;
 
   > *:last-child {
@@ -179,9 +165,9 @@ a.card__contents {
 }
 
 .card__prose {
-  font-size: 1rem;
-  line-height: 1.5rem;
-  opacity: 0.80;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  color: tint($base-color, 36%);
 
   > *:last-child {
     margin-bottom: 0;
@@ -189,7 +175,7 @@ a.card__contents {
 }
 
 
-/* Card footer
+/* Footer
    ========================================================================== */
 
 .card__footer {
@@ -198,43 +184,12 @@ a.card__contents {
   }
 }
 
-.card__go-link {
-  @extend .button, .button--small, .button--base-plain;
-  margin-left: -0.5rem;
 
-  &::after {
-    @extend %collecticon-sm-chevron-right;
-    margin-left: 0.125rem;
-  }
-}
-
-
-/* Card header toolbar
+/*  Header toolbar
    ========================================================================== */
 
 .card__header-toolbar {
   @extend .toolbar, .toolbar--small;
   justify-content: flex-end;
   flex: 1 1 auto;
-}
-
-
-/* Card modifiers
-   ========================================================================== */
-
-.card--featured {
-  @extend .antialiased;
-  color: #fff;
-
-  .card__contents {
-    background: $primary-color;
-  }
-
-  .card__go-link {
-    @extend .button--achromic-plain;
-  }
-}
-
-.card--featured a .card__subtitle {
-  color: inherit;
 }

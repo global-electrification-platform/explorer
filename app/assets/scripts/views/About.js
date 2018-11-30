@@ -128,7 +128,7 @@ class About extends Component {
                       width='750'
                       height='128'
                       alt='Development Seed logo'
-                      src='/assets/graphics/content/logo-devseed-flat-pos.svg'
+                      src='/assets/graphics/content/logos/logo-devseed-flat-pos.svg'
                     />
                     <span>Development Seed</span>
                   </a>

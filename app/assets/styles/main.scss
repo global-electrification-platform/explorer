@@ -72,7 +72,7 @@
 @import 'global/forms';
 @import 'global/drops';
 @import 'global/popovers';
-@import 'global/charts';
+@import 'global/infographics';
 @import 'global/labels';
 @import 'global/lists';
 @import 'global/cards';
@@ -80,6 +80,7 @@
 @import 'global/loading';
 @import 'global/page';
 @import 'global/inpage';
+@import 'global/share';
 
 
 /* Home
@@ -92,7 +93,8 @@
    ========================================================================== */
 
 @import 'explore/global';
-@import 'explore/output';
+@import 'explore/hub';
+@import 'explore/single';
 
 
 /* Documentation
@@ -124,5 +126,7 @@
 
 @import 'vendor/react-tooltip';
 @import 'vendor/react-paginate';
-@import 'vendor/react-slider';
+@import 'vendor/react-custom-scrollbars';
+@import 'vendor/react-input-range/index';
 @import 'vendor/mapbox-gl';
+@import 'vendor/outdated-browser';
