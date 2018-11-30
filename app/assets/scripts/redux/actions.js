@@ -103,3 +103,74 @@ export function fetchStats () {
     receiveFn: receiveStats
   });
 }
+
+/*
+ * Actions for Countries
+ */
+
+export const REQUEST_COUNTRIES = 'REQUEST_COUNTRIES';
+export const RECEIVE_COUNTRIES = 'RECEIVE_COUNTRIES';
+export const INVALIDATE_COUNTRIES = 'INVALIDATE_COUNTRIES';
+
+export function invalidateCountries () {
+  return { type: INVALIDATE_COUNTRIES };
+}
+
+export function requestCountries () {
+  return { type: REQUEST_COUNTRIES };
+}
+
+export function receiveCountries (data, error = null) {
+  return {
+    type: RECEIVE_COUNTRIES,
+    data,
+    error,
+    receivedAt: Date.now()
+  };
+}
+
+export function fetchCountries () {
+  return fetchDispatchCacheFactory({
+    statePath: 'countries',
+    url: `${dataServiceUrl}/countries`,
+    requestFn: requestCountries,
+    receiveFn: receiveCountries,
+    // Convert to array.
+    mutator: (res) => res.countries
+  });
+}
+
+/*
+ * Actions for indiviadual Countries
+ */
+
+export const REQUEST_COUNTRY = 'REQUEST_COUNTRY';
+export const RECEIVE_COUNTRY = 'RECEIVE_COUNTRY';
+export const INVALIDATE_COUNTRY = 'INVALIDATE_COUNTRY';
+
+export function invalidateCountry (iso) {
+  return { type: INVALIDATE_COUNTRY, id: iso };
+}
+
+export function requestCountry (iso) {
+  return { type: REQUEST_COUNTRY, id: iso };
+}
+
+export function receiveCountry (iso, data, error = null) {
+  return {
+    type: RECEIVE_COUNTRY,
+    id: iso,
+    data,
+    error,
+    receivedAt: Date.now()
+  };
+}
+
+export function fetchCountry (iso) {
+  return fetchDispatchCacheFactory({
+    statePath: ['individualCountries', iso],
+    url: `${dataServiceUrl}/countries/${iso}`,
+    receiveFn: receiveCountry.bind(this, iso),
+    requestFn: requestCountry.bind(this, iso)
+  });
+}

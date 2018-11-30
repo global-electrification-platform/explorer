@@ -6,12 +6,10 @@ const gulp = require('gulp');
 const $ = require('gulp-load-plugins')();
 const del = require('del');
 const browserSync = require('browser-sync');
-const reload = browserSync.reload;
 const watchify = require('watchify');
 const browserify = require('browserify');
 const source = require('vinyl-source-stream');
 const buffer = require('vinyl-buffer');
-const sourcemaps = require('gulp-sourcemaps');
 const log = require('fancy-log');
 const SassString = require('node-sass').types.String;
 const notifier = require('node-notifier');
@@ -22,6 +20,8 @@ const through2 = require('through2');
 // /////////////////////////////////////////////////////////////////////////////
 // --------------------------- Variables -------------------------------------//
 // ---------------------------------------------------------------------------//
+
+const bs = browserSync.create();
 
 // The package.json
 var pkg;
@@ -57,23 +57,25 @@ gulp.task('default', ['clean'], function () {
 });
 
 gulp.task('serve', ['vendorScripts', 'javascript', 'styles'], function () {
-  browserSync({
+  bs.init({
     port: 9000,
     server: {
       baseDir: ['.tmp', 'app'],
       routes: {
         '/node_modules': './node_modules'
       },
-      middleware: [historyApiFallback()]
+      ghostMode: false,
+      middleware: [
+        historyApiFallback()
+      ]
     }
   });
-
   // watch for changes
   gulp.watch([
     'app/*.html',
     'app/assets/graphics/**/*',
     '!app/assets/icons/collecticons/**/*'
-  ]).on('change', reload);
+  ], [bs.reload]);
 
   gulp.watch('app/assets/styles/**/*.scss', ['styles']);
   gulp.watch('package.json', ['vendorScripts']);
@@ -121,10 +123,10 @@ gulp.task('javascript', function () {
       .pipe(source('bundle.js'))
       .pipe(buffer())
       // Source maps.
-      .pipe(sourcemaps.init({ loadMaps: true }))
-      .pipe(sourcemaps.write('./'))
+      .pipe($.sourcemaps.init({ loadMaps: true }))
+      .pipe($.sourcemaps.write('./'))
       .pipe(gulp.dest('.tmp/assets/scripts'))
-      .pipe(reload({ stream: true }));
+      .pipe(bs.stream());
   }
 
   watcher
@@ -147,10 +149,10 @@ gulp.task('vendorScripts', function () {
     .on('error', log.bind(log, 'Browserify Error'))
     .pipe(source('vendor.js'))
     .pipe(buffer())
-    .pipe(sourcemaps.init({ loadMaps: true }))
-    .pipe(sourcemaps.write('./'))
+    .pipe($.sourcemaps.init({ loadMaps: true }))
+    .pipe($.sourcemaps.write('./'))
     .pipe(gulp.dest('.tmp/assets/scripts/'))
-    .pipe(reload({ stream: true }));
+    .pipe(bs.stream());
 });
 
 // /////////////////////////////////////////////////////////////////////////////
@@ -173,18 +175,17 @@ gulp.task('collecticons', function (done) {
     '--author-name', 'Development Seed',
     '--author-url', 'https://developmentseed.org/',
     '--no-preview'
-  ]
+  ];
 
   return cp.spawn('node', args, { stdio: 'inherit' })
-    .on('close', done)
-})
+    .on('close', done);
+});
 
 // //////////////////////////////////////////////////////////////////////////////
 // --------------------------- Helper tasks -----------------------------------//
 // ----------------------------------------------------------------------------//
-
 gulp.task('build', function () {
-  runSequence(['vendorScripts', 'javascript', 'collecticons'], ['styles'], ['html', 'images', 'extras'], function () {
+  runSequence(['vendorScripts', 'javascript', 'collecticons'], ['styles'], ['html', 'images:imagemin', 'extras'], function () {
     return gulp.src('dist/**/*')
       .pipe($.size({ title: 'build', gzip: true }))
       .pipe($.exit());
@@ -220,30 +221,35 @@ gulp.task('styles', function () {
     }))
     .pipe($.sourcemaps.write())
     .pipe(gulp.dest('.tmp/assets/styles'))
-    .pipe(reload({ stream: true }));
+    // https://browsersync.io/docs/gulp#gulp-sass-maps
+    .pipe(bs.stream({ match: '**/*.css' }));
 });
 
+// After being rendered by jekyll process the html files. (merge css files, etc)
 gulp.task('html', function () {
   return gulp.src('app/*.html')
     .pipe($.useref({ searchPath: ['.tmp', 'app', '.'] }))
     .pipe(cacheUseref())
     // Do not compress comparisons, to avoid MapboxGLJS minification issue
     // https://github.com/mapbox/mapbox-gl-js/issues/4359#issuecomment-286277540
-    .pipe($.if('*.js', $.uglify({ compress: { comparisons: false } })))
+    // https://github.com/mishoo/UglifyJS2/issues/1609 -> Just until gulp-uglify updates
+    .pipe($.if('*.js', $.uglify({ compress: { comparisons: false, collapse_vars: false } })))
     .pipe($.if('*.css', $.csso()))
     .pipe($.if(/\.(css|js)$/, $.rev()))
     .pipe($.revRewrite())
     .pipe(gulp.dest('dist'));
 });
 
-gulp.task('images', function () {
-  return gulp.src('app/assets/graphics/**/*')
+gulp.task('images:imagemin', function () {
+  return gulp.src([
+    'app/assets/graphics/content/**/*'
+  ])
     .pipe($.imagemin([
       $.imagemin.gifsicle({ interlaced: true }),
       $.imagemin.jpegtran({ progressive: true }),
       $.imagemin.optipng({ optimizationLevel: 5 }),
       // don't remove IDs from SVGs, they are often used
-      // as hooks for embedding and styling
+      // as hooks for embedding and styling.
       $.imagemin.svgo({ plugins: [{ cleanupIDs: false }] })
     ]))
     .pipe(gulp.dest('dist/assets/graphics'));

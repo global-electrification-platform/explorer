@@ -1,57 +1,91 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { PropTypes as T } from 'prop-types';
+
+import { wrapApiResult, getFromState } from '../redux/utils';
+import { fetchCountry } from '../redux/actions';
+import { environment } from '../config';
 
 import App from './App';
+import { showGlobalLoading, hideGlobalLoading } from '../components/GlobalLoading';
 
 class SelectModel extends Component {
+  async componentDidMount () {
+    showGlobalLoading();
+    await this.props.fetchCountry(this.props.match.params.countryId);
+    hideGlobalLoading();
+  }
+
+  async componentDidUpdate (prevProps) {
+    if (prevProps.match.params.countryId !== this.props.match.params.countryId) {
+      showGlobalLoading();
+      await this.props.fetchCountry(this.props.match.params.countryId);
+      hideGlobalLoading();
+    }
+  }
+
+  renderModelList () {
+    const { isReady, hasError, getData } = this.props.country;
+
+    if (!isReady()) return null;
+    if (hasError()) return <p>Something went wrong. Try again.</p>;
+
+    const models = getData().models;
+    return (
+      <ol className='country-list card-list'>
+        {models.map(m => (
+          <li key={m.id} className='country-list__item'>
+            <Link to={`/explore/${m.id}`} title={'Explore scenario'}>{m.name}</Link>
+            <p>{m.description}</p>
+          </li>
+        ))}
+      </ol>
+    );
+  }
+
   render () {
     return (
       <App pageTitle='Select model'>
-        <div>
-          <h1>Select model</h1>
-          <br />
-          <div>
-            <h2>OnSSET</h2>
-            <h3>Version</h3>
-            <p>V1.0</p>
-            <h3>Description</h3>
-            <p>
-              Reprehenderit adipisicing deserunt pariatur laboris elit tempor
-              labore ad mollit nostrud voluptate proident ad non. Eiusmod id
-              duis culpa amet enim eu. Consequat adipisicing et Lorem magna
-              cupidatat nostrud tempor irure.
-            </p>
-            <h3>Updated at</h3>
-            <p>Oct 15, 2018</p>
-            <h3>Author</h3>
-            <p>KTH</p>
+        <section className='inpage inpage--hub inpage--explore'>
+          <header className='inpage__header'>
+            <div className='inpage__subheader'>
+              <div className='inpage__headline'>
+                <h1 className='inpage__title'>Explore</h1>
+                <h2 className='inpage__sectitle'>Select Model</h2>
+              </div>
+            </div>
+          </header>
+          <div className='inpage__body'>
+            {this.renderModelList()}
           </div>
-          <br />
-
-          <div>
-            <h2>OnSSET</h2>
-            <h3>Version</h3>
-            <p>V2.1</p>
-            <h3>Description</h3>
-            <p>
-              Laborum ad incididunt aute duis incididunt quis. Et id nisi enim
-              duis voluptate dolore fugiat aliqua excepteur Lorem sint quis. Do
-              sit deserunt ullamco eu sunt cupidatat sint et laboris excepteur
-              sit. Lorem occaecat amet deserunt tempor deserunt non sint
-              occaecat ea aute proident enim Lorem. Nisi in officia adipisicing
-              dolor est voluptate aliquip sunt eiusmod laborum sit pariatur
-              quis. Adipisicing magna quis nisi consectetur ut consequat est
-              cillum eu aute esse ut irure proident. Ad labore tempor ex tempor
-              ea.
-            </p>
-            <h3>Updated at</h3>
-            <p>Oct 15, 2018</p>
-            <h3>Author</h3>
-            <p>KTH</p>
-          </div>
-        </div>
+        </section>
       </App>
     );
   }
 }
 
-export default SelectModel;
+if (environment !== 'production') {
+  SelectModel.propTypes = {
+    match: T.object,
+    fetchCountry: T.func,
+    country: T.object
+  };
+}
+
+function mapStateToProps (state, props) {
+  return {
+    country: wrapApiResult(getFromState(state.individualCountries, props.match.params.countryId))
+  };
+}
+
+function dispatcher (dispatch) {
+  return {
+    fetchCountry: (...args) => dispatch(fetchCountry(...args))
+  };
+}
+
+export default connect(
+  mapStateToProps,
+  dispatcher
+)(SelectModel);

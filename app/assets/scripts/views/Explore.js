@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { PropTypes as T } from 'prop-types';
 
@@ -56,13 +57,13 @@ class Explore extends Component {
                   <p className='inpage__subtitle'>OnSSET v2.1</p>
                 </div>
                 <div className='inpage__hactions'>
-                  <button
-                    type='button'
-                    className='exp-change-button disabled'
+                  <Link
+                    to={`/countries/${model.country}/models`}
+                    className='exp-change-button'
                     title='Change country and model'
                   >
                     <span>Change</span>
-                  </button>
+                  </Link>
                 </div>
               </div>
 

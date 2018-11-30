@@ -1,8 +1,67 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { PropTypes as T } from 'prop-types';
+
+import { wrapApiResult } from '../redux/utils';
+import { fetchCountries } from '../redux/actions';
+import { environment } from '../config';
 
 import App from './App';
+import { showGlobalLoading, hideGlobalLoading } from '../components/GlobalLoading';
+
+const CountryCard = ({ iso, name }) => {
+  return (
+    <article className='card card--sumary card--country'>
+      <Link to={`/countries/${iso}/models`} className='card__contents' title={`Select ${name}`}>
+        <figure className='card__media'>
+          <div className='card__thumb'>
+            <img width='640' height='480' src={`/assets/graphics/content/flags-4x3/${iso}.svg`} alt='Country flag' />
+          </div>
+        </figure>
+        <header className='card__header'>
+          <h1 className='card__title'>{name}</h1>
+        </header>
+      </Link>
+    </article>
+  );
+};
+
+if (environment !== 'production') {
+  CountryCard.propTypes = {
+    iso: T.string,
+    name: T.string
+  };
+}
 
 class SelectCountry extends Component {
+  async componentDidMount () {
+    showGlobalLoading();
+    await this.props.fetchCountries();
+    hideGlobalLoading();
+  }
+
+  renderCoutntryList () {
+    const { isReady, hasError, getData } = this.props.countries;
+
+    if (!isReady()) return null;
+    if (hasError()) return <p>Something went wrong. Try again.</p>;
+
+    const countries = getData();
+    return (
+      <ol className='country-list card-list'>
+        {countries.map(c => (
+          <li key={c.id} className='country-list__item'>
+            <CountryCard
+              iso={c.id}
+              name={c.name}
+            />
+          </li>
+        ))}
+      </ol>
+    );
+  }
+
   render () {
     return (
       <App pageTitle='Select country'>
@@ -16,82 +75,7 @@ class SelectCountry extends Component {
             </div>
           </header>
           <div className='inpage__body'>
-            <ol className='country-list card-list'>
-              <li className='country-list__item'>
-                <article className='card card--sumary card--country'>
-                  <a href='#' className='card__contents' title='Select country'>
-                    <figure className='card__media'>
-                      <div className='card__thumb'>
-                        <img width='640' height='480' src='/assets/graphics/content/flags-4x3/mw.svg' alt='Country flag' />
-                      </div>
-                    </figure>
-                    <header className='card__header'>
-                      <h1 className='card__title'>Malawi</h1>
-                    </header>
-                  </a>
-                </article>
-              </li>
-
-              <li className='country-list__item'>
-                <article className='card card--sumary card--country'>
-                  <a href='#' className='card__contents' title='Select country'>
-                    <figure className='card__media'>
-                      <div className='card__thumb'>
-                        <img width='640' height='480' src='/assets/graphics/content/flags-4x3/mw.svg' alt='Country flag' />
-                      </div>
-                    </figure>
-                    <header className='card__header'>
-                      <h1 className='card__title'>Malawi</h1>
-                    </header>
-                  </a>
-                </article>
-              </li>
-
-              <li className='country-list__item'>
-                <article className='card card--sumary card--country'>
-                  <a href='#' className='card__contents' title='Select country'>
-                    <figure className='card__media'>
-                      <div className='card__thumb'>
-                        <img width='640' height='480' src='/assets/graphics/content/flags-4x3/mw.svg' alt='Country flag' />
-                      </div>
-                    </figure>
-                    <header className='card__header'>
-                      <h1 className='card__title'>Malawi</h1>
-                    </header>
-                  </a>
-                </article>
-              </li>
-
-              <li className='country-list__item'>
-                <article className='card card--sumary card--country'>
-                  <a href='#' className='card__contents' title='Select country'>
-                    <figure className='card__media'>
-                      <div className='card__thumb'>
-                        <img width='640' height='480' src='/assets/graphics/content/flags-4x3/mw.svg' alt='Country flag' />
-                      </div>
-                    </figure>
-                    <header className='card__header'>
-                      <h1 className='card__title'>Malawi</h1>
-                    </header>
-                  </a>
-                </article>
-              </li>
-
-              <li className='country-list__item'>
-                <article className='card card--sumary card--country'>
-                  <a href='#' className='card__contents' title='Select country'>
-                    <figure className='card__media'>
-                      <div className='card__thumb'>
-                        <img width='640' height='480' src='/assets/graphics/content/flags-4x3/mw.svg' alt='Country flag' />
-                      </div>
-                    </figure>
-                    <header className='card__header'>
-                      <h1 className='card__title'>Malawi</h1>
-                    </header>
-                  </a>
-                </article>
-              </li>
-            </ol>
+            {this.renderCoutntryList()}
           </div>
         </section>
       </App>
@@ -99,4 +83,26 @@ class SelectCountry extends Component {
   }
 }
 
-export default SelectCountry;
+if (environment !== 'production') {
+  SelectCountry.propTypes = {
+    fetchCountries: T.func,
+    countries: T.object
+  };
+}
+
+function mapStateToProps (state, props) {
+  return {
+    countries: wrapApiResult(state.countries)
+  };
+}
+
+function dispatcher (dispatch) {
+  return {
+    fetchCountries: (...args) => dispatch(fetchCountries(...args))
+  };
+}
+
+export default connect(
+  mapStateToProps,
+  dispatcher
+)(SelectCountry);
