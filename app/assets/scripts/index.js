@@ -13,7 +13,7 @@ import Docs from './views/Docs';
 import About from './views/About';
 import SelectCountry from './views/SelectCountry';
 import SelectModel from './views/SelectModel';
-import UhOh from './views/uhoh';
+import UhOh from './views/UhOh';
 
 // Store
 import configureStore from './store';
