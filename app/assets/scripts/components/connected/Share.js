@@ -6,7 +6,7 @@ import Clipboard from 'clipboard';
 
 import { environment } from '../../config';
 
-import Dropdown from '../dropdown';
+import Dropdown from '../Dropdown';
 
 class ShareOptions extends React.Component {
   render () {
