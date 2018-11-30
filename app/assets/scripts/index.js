@@ -13,6 +13,7 @@ import Docs from './views/Docs';
 import About from './views/About';
 import SelectCountry from './views/SelectCountry';
 import SelectModel from './views/SelectModel';
+import UhOh from './views/uhoh';
 
 // Store
 import configureStore from './store';
@@ -29,7 +30,7 @@ ReactDOM.render(
           exact
           path='/explore'
           render={() => {
-            return <Redirect to='/explore/mw-1' />;
+        <Route path='*' component={UhOh} />
           }}
         />
         <Route path='/explore/:modelId' component={Explore} />
