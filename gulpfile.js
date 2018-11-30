@@ -75,7 +75,7 @@ gulp.task('serve', ['vendorScripts', 'javascript', 'styles'], function () {
     'app/*.html',
     'app/assets/graphics/**/*',
     '!app/assets/icons/collecticons/**/*'
-  ], [bs.reload]);
+  ], bs.reload);
 
   gulp.watch('app/assets/styles/**/*.scss', ['styles']);
   gulp.watch('package.json', ['vendorScripts']);
@@ -185,7 +185,7 @@ gulp.task('collecticons', function (done) {
 // --------------------------- Helper tasks -----------------------------------//
 // ----------------------------------------------------------------------------//
 gulp.task('build', function () {
-  runSequence(['vendorScripts', 'javascript', 'collecticons'], ['styles'], ['html', 'images:imagemin', 'extras'], function () {
+  runSequence(['vendorScripts', 'javascript', 'collecticons'], ['styles'], ['html', 'images:imagemin'], function () {
     return gulp.src('dist/**/*')
       .pipe($.size({ title: 'build', gzip: true }))
       .pipe($.exit());
@@ -253,19 +253,6 @@ gulp.task('images:imagemin', function () {
       $.imagemin.svgo({ plugins: [{ cleanupIDs: false }] })
     ]))
     .pipe(gulp.dest('dist/assets/graphics'));
-});
-
-gulp.task('extras', function () {
-  return gulp.src([
-    'app/**/*',
-    '!app/*.html',
-    '!app/assets/graphics/**',
-    '!app/assets/vendor/**',
-    '!app/assets/styles/**',
-    '!app/assets/scripts/**'
-  ], {
-    dot: true
-  }).pipe(gulp.dest('dist'));
 });
 
 /**

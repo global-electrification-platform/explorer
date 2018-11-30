@@ -20,7 +20,7 @@ const MetaTags = ({ title, description, children }) => {
       <meta property='og:title' content={title} />
       <meta
         property='og:image'
-        content='/assets/graphics/meta/default-meta-image.png'
+        content={`${baseUrl}/assets/graphics/meta/default-meta-image.png`}
       />
       {description ? (
         <meta property='og:description' content={description} />
