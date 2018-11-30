@@ -70,7 +70,7 @@ class Explore extends Component {
               <Dashboard updateScenario={this.updateScenario} model={model} />
             </header>
             <div className='inpage__body'>
-              <Map dashboardChangedAt={this.state.dashboardChangedAt} />
+              <Map scenario={this.props.scenario} />
               <Summary scenario={scenario} />
             </div>
           </section>
