@@ -4,7 +4,8 @@
 
 .inpage--home {
   @extend .antialiased;
-  background: shade($primary-color, 20%);
+  background: shade($primary-color, 20%) url('../graphics/layout/home-illu.svg') top right no-repeat;
+  background-size: cover;
   color: #fff;
 
   .inpage__header {

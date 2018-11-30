@@ -6,10 +6,10 @@ import css from 'dom-css';
 import { Scrollbars } from 'react-custom-scrollbars';
 
 /**
- * Gets the width of a given element removin paddings.
- * @param {HTML node} el The element to get the width for.
+ * Gets the height of a given element removing paddings.
+ * @param {HTML node} el The element to get the height for.
  */
-const getInnerWidth = el => {
+const getInnerHeight = el => {
   const { clientHeight } = el;
   const { paddingTop, paddingBottom } = getComputedStyle(el);
   return clientHeight - parseFloat(paddingTop) - parseFloat(paddingBottom);
@@ -39,8 +39,8 @@ export default class ShadowScrollbars extends React.Component {
     css(shadowBottom, { opacity: shadowBottomOpacity });
   }
 
-  updateWidth () {
-    const height = getInnerWidth(this._theParent);
+  updateHeight () {
+    const height = getInnerHeight(this._theParent);
     this.setState({ height });
   }
 
@@ -49,9 +49,9 @@ export default class ShadowScrollbars extends React.Component {
     // Particularly in the dropdown.
     setTimeout(() => {
       if (!this._theParent) return;
-      elementResizeEvent(this._theParent, () => this.updateWidth());
+      elementResizeEvent(this._theParent, () => this.updateHeight());
       // First update.
-      this.updateWidth();
+      this.updateHeight();
     }, 1);
   }
 
