@@ -134,6 +134,11 @@
   }
 }
 
+.home-media {
+  /* Animation */
+  animation: illu-in 1.5s ease-in-out 0s 1;
+}
+
 #trbn1-bld1,
 #trbn2-bld1 {
   transform-box: fill-box;
@@ -188,4 +193,15 @@
   52%    { fill: $secondary-color; }
   98%  { fill: $secondary-color }
   100%    { fill: shade($primary-color, 36%); }
+}
+
+@keyframes illu-in {
+  from {
+    opacity: 0;
+    transform: translate(4%, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate(0, 0);
+  }
 }
