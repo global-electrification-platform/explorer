@@ -10,6 +10,9 @@ class Map extends React.Component {
     super(props);
 
     this.updateScenario = this.updateScenario.bind(this);
+    this.state = {
+      mapLoaded: false
+    };
   }
 
   componentDidMount () {
@@ -17,7 +20,12 @@ class Map extends React.Component {
   }
 
   componentDidUpdate (prevProps) {
-    if (this.props.dashboardChangedAt > prevProps.dashboardChangedAt) {
+    const { scenario } = this.props;
+    if (
+      this.state.mapLoaded &&
+      scenario.fetched &&
+      !prevProps.scenario.fetched
+    ) {
       this.updateScenario();
     }
   }
@@ -36,7 +44,7 @@ class Map extends React.Component {
     });
 
     this.map.on('load', () => {
-      this.mapLoaded = true;
+      this.setState({ mapLoaded: true });
 
       this.map.addSource('gep-vt', {
         type: 'vector',
@@ -116,7 +124,7 @@ class Map extends React.Component {
 
 if (environment !== 'production') {
   Map.propTypes = {
-    dashboardChangedAt: T.number
+    scenario: T.object
   };
 }
 
