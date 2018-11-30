@@ -75,7 +75,7 @@ class Home extends Component {
 
               <p className='cta-wrapper'>
                 <Link
-                  to='/explore'
+                  to='/countries'
                   title='Explore the data'
                   className='ctab ctab--explore'
                 >
