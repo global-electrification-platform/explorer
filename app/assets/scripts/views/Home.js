@@ -6,7 +6,7 @@ import { PropTypes as T } from 'prop-types';
 import { wrapApiResult } from '../redux/utils';
 import { fetchStats } from '../redux/actions';
 import { environment } from '../config';
-import { padNumber } from '../utils/string';
+import { padNumber } from '../utils';
 
 import App from './App';
 

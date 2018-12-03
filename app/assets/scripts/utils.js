@@ -13,3 +13,14 @@ export function padNumber (value, len = 0) {
   }
   return value;
 }
+
+/**
+ * Make an array where each cell is 0.
+ *
+ * @param {number} length Array length
+ */
+export function makeZeroFilledArray (length) {
+  return Array.apply(null, {
+    length
+  }).map(() => 0);
+}
