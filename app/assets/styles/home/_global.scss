@@ -170,15 +170,15 @@
 }
 
 #cld1 {
-  animation: cloud-travel 16s infinite ease-in-out;
+  animation: cloud-travel 16s infinite linear;
 }
 
 #cld2 {
-  animation: cloud-travel 25s infinite ease-in-out;
+  animation: cloud-travel 25s infinite linear;
 }
 
 #cld3 {
-  animation: cloud-travel 27s infinite ease-in-out;
+  animation: cloud-travel 27s infinite linear;
 }
 
 // #smoke1 {
@@ -234,14 +234,14 @@
     transform: translate(0, 0);
     opacity: 0;
   }
-  10% {
+  6% {
     opacity: 1;
   }
-  90% {
+  94% {
     opacity: 1;
   }
   100% {
-    transform: translate(-50%, 0);
+    transform: translate(-8rem, 0);
     opacity: 0;
   }
 }
