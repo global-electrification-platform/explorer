@@ -11,10 +11,34 @@ class Dashboard extends Component {
   constructor (props) {
     super(props);
 
+    this.handleFilterChange = this.handleFilterChange.bind(this);
+
     this.state = {
-      activeTab: 'scenarios'
+      activeTab: 'scenarios',
+      filtersState: props.model.filters
+        ? props.model.filters.map(filter => {
+          if (filter.type === 'range') {
+            return filter.range;
+          } else return 0;
+        })
+        : []
     };
     this.renderTabs = this.renderTabs.bind(this);
+  }
+
+  handleFilterChange (i, value) {
+    const { filtersState } = this.state;
+    const filter = this.props.model.filters[i];
+
+    // Ensure that range values are between min and max
+    if (filter.type === 'range') {
+      const { min, max } = filter.range;
+      if (value.min < min) value.min = min;
+      else if (value.max > max) value.max = max;
+    }
+
+    filtersState[i] = value;
+    this.setState({ filtersState });
   }
 
   renderTabs () {
@@ -43,10 +67,22 @@ class Dashboard extends Component {
     const { activeTab } = this.state;
     if (activeTab === 'scenarios') {
       return (
-        <Levers updateScenario={this.props.updateScenario} model={this.props.model} />
+        <Levers
+          updateScenario={this.props.updateScenario}
+          model={this.props.model}
+        />
       );
-    } else if (activeTab === 'filters') return <Filters />;
-    else if (activeTab === 'layers') return <Layers />;
+    } else if (activeTab === 'filters') {
+      const { filters } = this.props.model;
+      const { filtersState } = this.state;
+      return (
+        <Filters
+          filters={filters}
+          filtersState={filtersState}
+          handleFilterChange={this.handleFilterChange}
+        />
+      );
+    } else if (activeTab === 'layers') return <Layers />;
   }
 
   render () {

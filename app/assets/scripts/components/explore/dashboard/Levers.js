@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { PropTypes as T } from 'prop-types';
 
-import ShadowScrollbars from '../../ShadowScrollbar';
-
 import { environment } from '../../../config';
+
+import ShadowScrollbars from '../../ShadowScrollbar';
 
 function makeZeroFilledArray (length) {
   return Array.apply(null, {
