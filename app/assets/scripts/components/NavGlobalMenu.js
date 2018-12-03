@@ -8,7 +8,7 @@ import { environment } from '../config';
 
 const isExplorerActive = (match, location) => {
   return location.pathname.match(/^\/(explore|countries)/g);
-}
+};
 
 export default class NavGlobalMenu extends Component {
   renderHeaderMenu () {
@@ -38,7 +38,7 @@ export default class NavGlobalMenu extends Component {
         </li>
         <li>
           <NavLink
-            to='/docs'
+            to='/documentation'
             title='View page'
             activeClassName='global-menu__link--active'
             className='global-menu__link global-menu__link--docs'
