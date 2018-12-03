@@ -5,39 +5,25 @@ import { environment } from '../../../config';
 
 import ShadowScrollbars from '../../ShadowScrollbar';
 
-function makeZeroFilledArray (length) {
-  return Array.apply(null, {
-    length
-  }).map(() => 0);
-}
-
 class Levers extends Component {
   constructor (props) {
     super(props);
 
     this.renderLever = this.renderLever.bind(this);
-    this.handleLeverChange = this.handleLeverChange.bind(this);
-    this.state = {
-      scenario: makeZeroFilledArray(props.model.levers.length)
-    };
+    this.applyLevers = this.applyLevers.bind(this);
   }
 
   componentDidMount () {
-    this.props.updateScenario(this.state.scenario.join('_'));
+    this.applyLevers();
   }
 
-  handleLeverChange (leverId, optionIndex) {
-    const { scenario } = this.state;
-    scenario[leverId] = optionIndex;
-
-    this.setState({
-      scenario
-    });
+  applyLevers () {
+    this.props.updateScenario(this.props.leversState.join('_'));
   }
 
   renderLever (lever) {
-    const { scenario } = this.state;
-    const checkedOption = scenario[lever.id] ? scenario[lever.id] : 0;
+    const { leversState } = this.props;
+    const checkedOption = leversState[lever.id];
 
     return (
       <div className='form__group econtrols__item' key={`${lever.id}`}>
@@ -54,7 +40,7 @@ class Levers extends Component {
                 id={`form-radio-${i}`}
                 value={i}
                 checked={checkedOption === i}
-                onChange={this.handleLeverChange.bind(this, lever.id, i)}
+                onChange={this.props.handleLeverChange.bind(this, lever.id, i)}
               />
               <span className='form__option__ui' />
               <span className='form__option__text'>{option.value}</span>
@@ -66,14 +52,14 @@ class Levers extends Component {
   }
 
   render () {
-    const { model } = this.props;
+    const { levers } = this.props;
     return (
       <section className='econtrols__section' id='econtrols-scenarios'>
         <h1 className='econtrols__title'>Scenarios</h1>
         <form className='form econtrols__block' id='#econtrols__scenarios'>
           <div className='econtrols__subblock'>
             <ShadowScrollbars theme='light'>
-              {model.levers.map(this.renderLever)}
+              {levers.map(this.renderLever)}
             </ShadowScrollbars>
           </div>
           <div className='form__actions econtrols__actions'>
@@ -83,7 +69,7 @@ class Levers extends Component {
               title='Apply'
               onClick={e => {
                 e.preventDefault();
-                this.props.updateScenario(this.state.scenario.join('_'));
+                this.applyLevers();
               }}
             >
               <span>Apply changes</span>
@@ -97,8 +83,10 @@ class Levers extends Component {
 
 if (environment !== 'production') {
   Levers.propTypes = {
-    updateScenario: T.func,
-    model: T.object
+    levers: T.array,
+    leversState: T.array,
+    handleLeverChange: T.func,
+    updateScenario: T.func
   };
 }
 

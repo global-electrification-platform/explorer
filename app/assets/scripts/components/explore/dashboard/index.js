@@ -6,12 +6,14 @@ import Levers from './Levers';
 import Filters from './Filters';
 
 import { environment } from '../../../config';
+import { makeZeroFilledArray } from '../../../utils';
 
 class Dashboard extends Component {
   constructor (props) {
     super(props);
 
     this.handleFilterChange = this.handleFilterChange.bind(this);
+    this.handleLeverChange = this.handleLeverChange.bind(this);
 
     this.state = {
       activeTab: 'scenarios',
@@ -21,9 +23,18 @@ class Dashboard extends Component {
             return filter.range;
           } else return 0;
         })
-        : []
+        : [],
+      leversState: makeZeroFilledArray(props.model.levers.length)
     };
     this.renderTabs = this.renderTabs.bind(this);
+  }
+
+  handleLeverChange (leverId, optionId) {
+    const { leversState } = this.state;
+    leversState[leverId] = optionId;
+    this.setState({
+      leversState
+    });
   }
 
   handleFilterChange (i, value) {
@@ -66,10 +77,14 @@ class Dashboard extends Component {
   renderTabContent () {
     const { activeTab } = this.state;
     if (activeTab === 'scenarios') {
+      const { levers } = this.props.model;
+      const { leversState } = this.state;
       return (
         <Levers
+          levers={levers}
+          leversState={leversState}
+          handleLeverChange={this.handleLeverChange}
           updateScenario={this.props.updateScenario}
-          model={this.props.model}
         />
       );
     } else if (activeTab === 'filters') {
