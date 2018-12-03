@@ -22,7 +22,6 @@
   display: flex;
   flex-direction: column;
   flex: 1 1 100%;
-  // min-height: 10rem;
 
   /* Animation */
   transition: all 0.16s ease 0s;
@@ -51,7 +50,7 @@ a.card__contents {
 
 .card__media {
   position: relative;
-  margin: 0;
+  margin: $global-spacing / 2;
 
   .link-wrapper {
     display: block;
@@ -64,6 +63,11 @@ a.card__contents {
     height: auto;
     display: block;
     transition: all 0.32s ease 0s;
+  }
+
+  .card__thumb {
+    border-radius: $base-border-radius;
+    overflow: hidden;
   }
 }
 
@@ -179,6 +183,8 @@ a.card__contents {
    ========================================================================== */
 
 .card__footer {
+  padding: $global-spacing;
+
   > *:last-child {
     margin-bottom: 0;
   }
