@@ -49,11 +49,10 @@
 
   &--active {
     @extend .antialiased;
-    background: $link-color;
 
-    &, &:visited {
+    &, &:visited, &:hover {
       color: #fff;
+      background: $link-color;
     }
-
   }
 }
