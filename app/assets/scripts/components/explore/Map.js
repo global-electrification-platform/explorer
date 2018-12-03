@@ -1,4 +1,5 @@
 import React from 'react';
+import { render } from 'react-dom';
 import mapboxgl from 'mapbox-gl';
 import bbox from '@turf/bbox';
 import { PropTypes as T } from 'prop-types';
@@ -138,6 +139,21 @@ class Map extends React.Component {
         );
       }
 
+      const mapLayersIds = mapLayers.map(l => l.id);
+
+      this.map.on('mousemove', e => {
+        const features = this.map.queryRenderedFeatures(e.point, { layers: mapLayersIds });
+        this.map.getCanvas().style.cursor = features.length ? 'pointer' : '';
+      });
+
+      this.map.on('click', e => {
+        const features = this.map.queryRenderedFeatures(e.point, { layers: mapLayersIds });
+        if (features.length) {
+          console.log('features[0]', features[0]);
+          this.showPopover(features[0], e.lngLat);
+        }
+      });
+
       this.updateScenario();
     });
   }
@@ -185,6 +201,27 @@ class Map extends React.Component {
     }
   }
 
+  showPopover (feature, lngLat) {
+    let popoverContent = document.createElement('div');
+
+    // The road score has to be scaled to accurately compare roads
+    // within provinces.
+    render(<MapPopover
+      onCloseClick={(e) => { e.preventDefault(); this.popover.remove(); }}
+    />, popoverContent);
+
+    // Populate the popup and set its coordinates
+    // based on the feature found.
+    if (this.popover != null) {
+      this.popover.remove();
+    }
+
+    this.popover = new mapboxgl.Popup({ closeButton: false })
+      .setLngLat(lngLat)
+      .setDOMContent(popoverContent)
+      .addTo(this.map);
+  }
+
   render () {
     return (
       <section className='exp-map'>
@@ -208,3 +245,32 @@ if (environment !== 'production') {
 }
 
 export default Map;
+
+const MapPopover = ({ onCloseClick }) => {
+  return (
+    <article className='popover popover--map'>
+      <div className='popover__contents'>
+        <header className='popover__header'>
+          <div className='popover__headline'>
+            <h1 className='popover__title'>
+              This is the title
+            </h1>
+          </div>
+          <div className='popover__header-toolbar'><a href='#' title='Close' className='tba-xmark tba--text-hidden' onClick={onCloseClick}><span>Close</span></a></div>
+        </header>
+        <div className='popover__body'>
+          This is the body
+        </div>
+        <footer className='popover__footer'>
+          Microwave
+        </footer>
+      </div>
+    </article>
+  );
+};
+
+if (environment !== 'production') {
+  MapPopover.propTypes = {
+    onCloseClick: T.func
+  };
+}
