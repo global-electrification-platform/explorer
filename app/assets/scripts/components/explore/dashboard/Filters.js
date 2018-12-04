@@ -41,7 +41,7 @@ class Filters extends Component {
           filter.options.map((option, i) => {
             return (
               <label
-                key={`${filter.id}-${i}`}
+                key={option.id}
                 className='form__option form__option--custom-radio'
               >
                 <input
