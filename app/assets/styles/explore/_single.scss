@@ -15,7 +15,8 @@
     box-shadow: none;
   }
 
-  .inpage__sectitle {
+  .inpage__sectitle,
+  .inpage__subtitle {
     @extend .truncated;
     max-width: 100%;
   }
