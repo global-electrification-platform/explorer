@@ -6,15 +6,56 @@ import Levers from './Levers';
 import Filters from './Filters';
 
 import { environment } from '../../../config';
+import { makeZeroFilledArray, cloneArrayAndChangeCell } from '../../../utils';
 
 class Dashboard extends Component {
   constructor (props) {
     super(props);
 
+    this.handleFilterChange = this.handleFilterChange.bind(this);
+    this.handleLeverChange = this.handleLeverChange.bind(this);
+
     this.state = {
-      activeTab: 'scenarios'
+      activeTab: 'scenarios',
+      filtersState: props.model.filters
+        ? props.model.filters.map(filter => {
+          if (filter.type === 'range') {
+            return filter.range;
+          } else return 0;
+        })
+        : [],
+      leversState: makeZeroFilledArray(props.model.levers.length)
     };
     this.renderTabs = this.renderTabs.bind(this);
+  }
+
+  handleLeverChange (leverId, optionId) {
+    const leversState = cloneArrayAndChangeCell(
+      this.state.leversState,
+      leverId,
+      optionId
+    );
+    this.setState({
+      leversState
+    });
+  }
+
+  handleFilterChange (i, value) {
+    // Ensure that range values are between min and max
+    const filter = this.props.model.filters[i];
+    if (filter.type === 'range') {
+      const { min, max } = filter.range;
+      if (value.min < min) value.min = min;
+      else if (value.max > max) value.max = max;
+    }
+
+    const filtersState = cloneArrayAndChangeCell(
+      this.state.filtersState,
+      i,
+      value
+    );
+
+    this.setState({ filtersState });
   }
 
   renderTabs () {
@@ -42,11 +83,27 @@ class Dashboard extends Component {
   renderTabContent () {
     const { activeTab } = this.state;
     if (activeTab === 'scenarios') {
+      const { levers } = this.props.model;
+      const { leversState } = this.state;
       return (
-        <Levers updateScenario={this.props.updateScenario} model={this.props.model} />
+        <Levers
+          levers={levers}
+          leversState={leversState}
+          handleLeverChange={this.handleLeverChange}
+          updateScenario={this.props.updateScenario}
+        />
       );
-    } else if (activeTab === 'filters') return <Filters />;
-    else if (activeTab === 'layers') return <Layers />;
+    } else if (activeTab === 'filters') {
+      const { filters } = this.props.model;
+      const { filtersState } = this.state;
+      return (
+        <Filters
+          filters={filters}
+          filtersState={filtersState}
+          handleFilterChange={this.handleFilterChange}
+        />
+      );
+    } else if (activeTab === 'layers') return <Layers />;
   }
 
   render () {

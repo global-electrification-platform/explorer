@@ -6,7 +6,7 @@ import { PropTypes as T } from 'prop-types';
 import { wrapApiResult } from '../redux/utils';
 import { fetchStats } from '../redux/actions';
 import { environment } from '../config';
-import { padNumber } from '../utils/string';
+import { padNumber } from '../utils';
 
 import App from './App';
 
@@ -94,6 +94,7 @@ class Home extends Component {
 
             <figure className='home-media'>
               <div className='home-media__item'>
+                {/* eslint-disable */}
                 <svg id="home-illu" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 1024" preserveAspectRatio="xMaxYMin meet">
                   <title>GEP EXP Illustration</title>
                   <rect id="sky" width="1440" height="1024" fill="#474ccc"/>
@@ -289,6 +290,7 @@ class Home extends Component {
                     </g>
                   </g>
                 </svg>
+                {/* eslint-enable */}
               </div>
               <figcaption>Illustration</figcaption>
             </figure>
