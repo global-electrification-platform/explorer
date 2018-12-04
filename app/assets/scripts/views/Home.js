@@ -96,13 +96,12 @@ class Home extends Component {
               <div className='home-media__item'>
                 {/* eslint-disable */}
                 <svg id="home-illu" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 1024" preserveAspectRatio="xMaxYMin meet">
-                  <title>GEP EXP Illustration</title>
                   <rect id="sky" width="1440" height="1024" fill="#474ccc"/>
                   <path id="land" d="M1248,384a32,32,0,0,0-64,0H592V352a32,32,0,0,0-64,0v4.29A32,32,0,0,0,480,384H0v640H1440V384Z" fill="#393da3"/>
                   <circle id="moon" cx="832" cy="160" r="64" fill="#ffc700"/>
                   <g id="clouds">
                     <path id="cld3" d="M1264,112a48,48,0,0,0-94.08-13.44A64,64,0,0,0,1088,160h224A48,48,0,0,0,1264,112Z" fill="#fff"/>
-                    <path id="cld2" d="M1056,296a23.91,23.91,0,0,0-12.57,3.55A48,48,0,0,0,1000,272a48,48,0,0,0-96,0,48,48,0,0,0-48,48h224A24,24,0,0,0,1056,296Z" fill="#fff"/>
+                    <path id="cld2" d="M1056,312a23.91,23.91,0,0,0-12.57,3.55A48,48,0,0,0,1000,288a48,48,0,0,0-96,0,48,48,0,0,0-48,48h224A24,24,0,0,0,1056,312Z" fill="#fff"/>
                     <path id="cld1" d="M800,152a23.77,23.77,0,0,0-6,.76A48,48,0,0,0,704,176H824A24,24,0,0,0,800,152Z" fill="#fff"/>
                   </g>
                   <g id="posts">
@@ -227,7 +226,11 @@ class Home extends Component {
                       <rect id="fty1-w2" x="1160" y="836" width="48" height="16" fill="#393da3"/>
                       <rect id="fty1-w1" data-name="fty1-w1" x="1064" y="836" width="48" height="16" fill="#ffc700"/>
                     </g>
-                    <path id="smoke" d="M1304,652a23.91,23.91,0,0,0-12.57,3.55A48,48,0,0,0,1248,628a48,48,0,1,0-48,48h128A24,24,0,0,0,1304,652Z" fill="#fff"/>
+                    <g id="smoke">
+                      <path id="smoke3" d="M1304,652a24,24,0,0,0-24,24h48A24,24,0,0,0,1304,652Z" fill="#fff"/>
+                      <path id="smoke2" d="M1248,628a48,48,0,0,0-48,48h96A48,48,0,0,0,1248,628Z" fill="#fff"/>
+                      <circle id="smoke1" cx="1200" cy="628" r="48" fill="#fff"/>
+                    </g>
                   </g>
                   <g id="panels">
                     <g id="panel">

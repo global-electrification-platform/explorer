@@ -26,6 +26,16 @@
   }
 }
 
+.model-list {
+  > * {
+    grid-column: span 6;
+
+    @include media(large-up) {
+      grid-column: span 4;
+    }
+  }
+}
+
 
 /* Legend list
    ========================================================================== */
