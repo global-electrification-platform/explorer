@@ -6,7 +6,7 @@ import Levers from './Levers';
 import Filters from './Filters';
 
 import { environment } from '../../../config';
-import { makeZeroFilledArray } from '../../../utils';
+import { makeZeroFilledArray, cloneArrayAndChangeCell } from '../../../utils';
 
 class Dashboard extends Component {
   constructor (props) {
@@ -30,25 +30,31 @@ class Dashboard extends Component {
   }
 
   handleLeverChange (leverId, optionId) {
-    const { leversState } = this.state;
-    leversState[leverId] = optionId;
+    const leversState = cloneArrayAndChangeCell(
+      this.state.leversState,
+      leverId,
+      optionId
+    );
     this.setState({
       leversState
     });
   }
 
   handleFilterChange (i, value) {
-    const { filtersState } = this.state;
-    const filter = this.props.model.filters[i];
-
     // Ensure that range values are between min and max
+    const filter = this.props.model.filters[i];
     if (filter.type === 'range') {
       const { min, max } = filter.range;
       if (value.min < min) value.min = min;
       else if (value.max > max) value.max = max;
     }
 
-    filtersState[i] = value;
+    const filtersState = cloneArrayAndChangeCell(
+      this.state.filtersState,
+      i,
+      value
+    );
+
     this.setState({ filtersState });
   }
 
