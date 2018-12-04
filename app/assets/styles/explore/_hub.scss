@@ -6,6 +6,10 @@
   .inpage__title {
     @extend .visually-hidden;
   }
+
+  .inpage__hactions {
+    margin-left: 0;
+  }
 }
 
 

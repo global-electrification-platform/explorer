@@ -1,3 +1,17 @@
 /* ==========================================================================
    Explore: global
    ========================================================================== */
+
+
+.exp-change-button,
+.exp-back-button {
+  @extend .button, .button--small, .button--primary-plain;
+}
+
+.exp-change-button::before {
+  @extend %collecticon-arrow-left-right;
+}
+
+.exp-back-button::before {
+  @extend %collecticon-sm-chevron-left;
+}

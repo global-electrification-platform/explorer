@@ -29,14 +29,6 @@
   }
 }
 
-.exp-change-button {
-  @extend .button, .button--small, .button--primary-raised-light;
-
-  &::before {
-    @extend %collecticon-arrow-left-right;
-  }
-}
-
 
 /* Controls
    ========================================================================== */
