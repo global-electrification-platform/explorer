@@ -52,7 +52,6 @@ a.card__contents {
   display: flex;
   align-items: flex-start;
   padding: $global-spacing;
-  margin-bottom: $global-spacing;
   min-width: 0;
 
   > *:not(:first-child) {
@@ -75,7 +74,7 @@ a.card__contents {
 }
 
 .card__title {
-  @include heading(1.25rem);
+  @include heading(1rem);
   @extend .truncated;
   margin: 0;
 
@@ -109,7 +108,10 @@ a.card__contents {
   flex: 1;
   width: 100%;
   padding: $global-spacing;
-  margin-bottom: $global-spacing;
+
+  .card__header + & {
+    padding-top: 0;
+  }
 
   > *:last-child {
     margin-bottom: 0;
@@ -119,7 +121,8 @@ a.card__contents {
 .card__prose {
   font-size: 0.875rem;
   line-height: 1.25rem;
-  color: tint($base-color, 36%);
+  color: tint($base-color, 32%);
+  margin-bottom: $global-spacing;
 
   > *:last-child {
     margin-bottom: 0;
@@ -132,6 +135,10 @@ a.card__contents {
 
 .card__footer {
   padding: $global-spacing;
+
+  .card__body + & {
+    padding-top: 0;
+  }
 
   > *:last-child {
     margin-bottom: 0;

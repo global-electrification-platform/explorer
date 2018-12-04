@@ -33,11 +33,27 @@ class SelectModel extends Component {
 
     const models = getData().models;
     return (
-      <ol className='country-list card-list'>
+      <ol className='model-list card-list'>
         {models.map(m => (
-          <li key={m.id} className='country-list__item'>
-            <Link to={`/explore/${m.id}`} title={'Explore scenario'}>{m.name}</Link>
-            <p>{m.description}</p>
+          <li key={m.id} className='model-list__item'>
+            <article className='card card--sumary card--model'>
+              <Link to={`/explore/${m.id}`} className='card__contents' title={`Select ${name}`}>
+                <header className='card__header'>
+                  <h1 className='card__title'>{m.name}</h1>
+                </header>
+                <div className='card__body'>
+                  <div className='card__prose'>
+                    <p>{m.description}</p>
+                  </div>
+                  <dl className='card__details'>
+                    <dt>Updated</dt>
+                    <dd>Sep 28, 2018</dd>
+                    <dt>Author</dt>
+                    <dd>Lorem ipsum</dd>
+                  </dl>
+                </div>
+              </Link>
+            </article>
           </li>
         ))}
       </ol>
