@@ -19,12 +19,18 @@ class Filters extends Component {
 
     return (
       <div className='form__group econtrols__item' key={`${filter.id}`}>
-        <label htmlFor='slider-1' className='form__label'>
+        <label htmlFor={`slider-${filter.id}`} className='form__label'>
           {filter.label}
         </label>
+        <div className='form__output-group'>
+          <output htmlFor={`slider-${filter.id}`} className='form__output'>1</output>
+          <output htmlFor={`slider-${filter.id}`} className='form__output'>200</output>
+        </div>
         <InputRange
           minValue={min}
           maxValue={max}
+          name={`slider-${filter.id}`}
+          id={`slider-${filter.id}`}
           value={filterState}
           onChange={this.props.handleFilterChange.bind(this, filter.id)}
         />
