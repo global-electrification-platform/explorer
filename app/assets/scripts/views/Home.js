@@ -31,8 +31,8 @@ class Home extends Component {
     } else if (isReady()) {
       const tot = getData().totals;
       totals = {
-        countries: padNumber(tot.models, 2),
-        models: padNumber(tot.countries, 2)
+        countries: padNumber(tot.countries, 2),
+        models: padNumber(tot.models, 2)
       };
     }
 

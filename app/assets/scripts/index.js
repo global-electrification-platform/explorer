@@ -1,10 +1,11 @@
 import 'babel-polyfill';
-import config from './config';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { Redirect, Router, Route, Switch } from 'react-router-dom';
 import createHistory from 'history/createBrowserHistory';
+
+import config from './config';
 
 // Views
 import Home from './views/Home';
@@ -28,7 +29,7 @@ ReactDOM.render(
         <Route exact path='/countries' component={SelectCountry} />
         <Route exact path='/countries/:countryId/models' component={SelectModel} />
         <Route exact path='/explore/:modelId' component={Explore} />
-        <Route exact path='/docs' component={Docs} />
+        <Route path='/documentation' component={Docs} />
         <Route exact path='/about' component={About} />
         <Route path='*' component={UhOh} />
       </Switch>
