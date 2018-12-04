@@ -23,8 +23,8 @@ class Filters extends Component {
           {filter.label}
         </label>
         <div className='form__output-group'>
-          <output htmlFor={`slider-${filter.id}`} className='form__output'>1</output>
-          <output htmlFor={`slider-${filter.id}`} className='form__output'>200</output>
+          <output htmlFor={`slider-${filter.id}`} className='form__output'>{filterState.min}</output>
+          <output htmlFor={`slider-${filter.id}`} className='form__output'>{filterState.max}</output>
         </div>
         <InputRange
           minValue={min}
