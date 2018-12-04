@@ -15,7 +15,8 @@
     box-shadow: none;
   }
 
-  .inpage__sectitle {
+  .inpage__sectitle,
+  .inpage__subtitle {
     @extend .truncated;
     max-width: 100%;
   }
@@ -25,14 +26,6 @@
     grid-template-columns: auto 16rem;
     min-height: 100vh;
     padding: 0;
-  }
-}
-
-.exp-change-button {
-  @extend .button, .button--small, .button--primary-raised-light;
-
-  &::before {
-    @extend %collecticon-arrow-left-right;
   }
 }
 
@@ -102,7 +95,8 @@
   }
 
   .form__label,
-  .form__option__text {
+  .form__option__text,
+  .form__output {
     font-size: 0.875rem;
     line-height: 1.25rem;
   }
@@ -129,8 +123,17 @@
     }
   }
 
+  .form__output-group {
+    padding-left: 0.75rem;
+  }
+
   .input-range {
-    margin: (-$global-spacing / 4) 0;
+    margin: (-$global-spacing * 1.25) 0.75rem 0 0.75rem;
+    width: calc(100% - 1.5rem);
+  }
+
+  .input-range__label--value {
+    @extend .visually-hidden;
   }
 }
 

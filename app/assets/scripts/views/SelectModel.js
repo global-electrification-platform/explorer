@@ -70,6 +70,15 @@ class SelectModel extends Component {
                 <h1 className='inpage__title'>Explore</h1>
                 <h2 className='inpage__sectitle'>Select model</h2>
               </div>
+              <div className='inpage__hactions'>
+                <Link
+                  to='/countries'
+                  className='exp-change-button'
+                  title='Change country'
+                >
+                  <span>Country</span>
+                </Link>
+              </div>
             </div>
           </header>
           <div className='inpage__body'>
