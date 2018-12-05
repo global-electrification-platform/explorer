@@ -47,6 +47,21 @@ class Map extends React.Component {
       bounds: [[32.34375, -9.145486056167277], [36.2109375, -17.35063837604883]]
     });
 
+    // Disable map rotation using right click + drag.
+    this.map.dragRotate.disable();
+
+    // Disable map rotation using touch rotation gesture.
+    this.map.touchZoomRotate.disableRotation();
+
+    // Disable scroll zoom
+    this.map.scrollZoom.disable();
+
+    // Add zoom controls.
+    this.map.addControl(new mapboxgl.NavigationControl(), 'bottom-left');
+
+    // Remove compass.
+    document.querySelector('.mapboxgl-ctrl .mapboxgl-ctrl-compass').remove();
+
     this.map.on('load', () => {
       this.setState({ mapLoaded: true });
 

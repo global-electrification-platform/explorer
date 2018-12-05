@@ -32,3 +32,9 @@
 %inset-skin {
   background: tint($base-color, 96%);
 }
+
+%control-skin {
+  border-radius: $base-border-radius;
+  background: #fff;
+  box-shadow:  0 0 16px 4px rgba($base-color, 0.08);
+}
