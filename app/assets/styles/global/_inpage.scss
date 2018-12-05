@@ -12,7 +12,7 @@
 
 .inpage__header {
   @extend %pane-skin;
-  padding: $global-spacing ($global-spacing * 4);
+  padding: $global-spacing;
   z-index: 100;
 
   /* Animation */
@@ -109,7 +109,6 @@
     top: 0;
     left: 0;
     height: 100vh;
-    padding: $global-spacing;
     display: flex;
     flex-flow: column nowrap;
   }

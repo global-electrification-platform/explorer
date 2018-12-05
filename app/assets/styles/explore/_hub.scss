@@ -6,6 +6,10 @@
   .inpage__title {
     @extend .visually-hidden;
   }
+
+  .inpage__hactions {
+    margin-left: 0;
+  }
 }
 
 
@@ -15,19 +19,53 @@
 .card--country {
   .card__contents {
     flex-flow: row nowrap;
-    overflow: hidden;
     align-items: center;
   }
 
-  .card__thumb {
+  .card__media {
+    margin-right: 0;
+
     img {
-      display: block;
-      width: auto;
-      height: 4rem;
+      width: 4rem;
+      height: 3rem;
     }
   }
 
-  .card__title {
-    @include heading(1rem);
+  .card__thumb {
+    min-width: 4rem;
+  }
+}
+
+
+/* Model list
+   ========================================================================== */
+
+.card--model {
+  .card__details {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    grid-gap: 0 ($global-spacing) ($global-spacing) ($global-spacing);
+
+    > * {
+      grid-column: auto / span 6;
+      margin: 0;
+    }
+
+    dt {
+      font-size: 0.75rem;
+    }
+
+    dd {
+      font-size: 0.875rem;
+      font-weight: $base-font-bold;
+
+      &:nth-of-type(1) {
+        order: 3;
+      }
+
+      &:nth-of-type(2) {
+        order: 4;
+      }
+    }
   }
 }

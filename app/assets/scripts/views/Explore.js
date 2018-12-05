@@ -10,7 +10,7 @@ import Summary from '../components/explore/Summary';
 
 import { environment } from '../config';
 import { wrapApiResult, getFromState } from '../redux/utils';
-import { fetchModel, fetchScenario } from '../redux/actions';
+import { fetchModel, fetchScenario, fetchCountry } from '../redux/actions';
 
 class Explore extends Component {
   constructor (props) {
@@ -23,13 +23,21 @@ class Explore extends Component {
     };
   }
 
+  async fetchModelData () {
+    await this.props.fetchModel(this.props.match.params.modelId);
+    const { hasError, getData } = this.props.model;
+    if (!hasError()) {
+      this.props.fetchCountry(getData().country);
+    }
+  }
+
   componentDidMount () {
-    this.props.fetchModel(this.props.match.params.modelId);
+    this.fetchModelData();
   }
 
   componentDidUpdate (prevProps) {
     if (prevProps.match.params.modelId !== this.props.match.params.modelId) {
-      this.props.fetchModel(this.props.match.params.modelId);
+      this.fetchModelData();
     }
   }
 
@@ -44,6 +52,8 @@ class Explore extends Component {
     const model = getData();
     const scenario = this.props.scenario.getData();
 
+    const countryName = this.props.country.isReady() ? this.props.country.getData().name : '';
+
     return (
       <App pageTitle='Explore'>
         {isReady() && (
@@ -52,8 +62,8 @@ class Explore extends Component {
               <div className='inpage__subheader'>
                 <div className='inpage__headline'>
                   <h1 className='inpage__title'>Explore</h1>
-                  <h2 className='inpage__sectitle'>Country Name</h2>
-                  <p className='inpage__subtitle'>OnSSET v2.1</p>
+                  <h2 className='inpage__sectitle'>{countryName}</h2>
+                  <p className='inpage__subtitle'>{model.name}</p>
                 </div>
                 <div className='inpage__hactions'>
                   <Link
@@ -83,16 +93,23 @@ if (environment !== 'production') {
   Explore.propTypes = {
     fetchModel: T.func,
     fetchScenario: T.func,
+    fetchCountry: T.func,
     match: T.object,
     model: T.object,
+    country: T.object,
     scenario: T.object
   };
 }
 
 function mapStateToProps (state, props) {
+  const model = wrapApiResult(
+    getFromState(state.individualModels, props.match.params.modelId)
+  );
+
   return {
-    model: wrapApiResult(
-      getFromState(state.individualModels, props.match.params.modelId)
+    model,
+    country: wrapApiResult(
+      getFromState(state.individualCountries, model.getData().country)
     ),
     scenario: wrapApiResult(state.scenario)
   };
@@ -101,7 +118,8 @@ function mapStateToProps (state, props) {
 function dispatcher (dispatch) {
   return {
     fetchModel: (...args) => dispatch(fetchModel(...args)),
-    fetchScenario: (...args) => dispatch(fetchScenario(...args))
+    fetchScenario: (...args) => dispatch(fetchScenario(...args)),
+    fetchCountry: (...args) => dispatch(fetchCountry(...args))
   };
 }
 

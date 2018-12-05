@@ -58,7 +58,7 @@
 }
 
 
-/* Select form control
+/* Control
    ========================================================================== */
 
 select.form__control {
@@ -107,7 +107,7 @@ select.form__control:-moz-focusring {
 }
 
 
-/* Textarea form control
+/* Textarea control
    ========================================================================== */
 
 textarea.form__control {
@@ -116,7 +116,7 @@ textarea.form__control {
 }
 
 
-/* Form control size modifiers
+/* Control size modifiers
    ========================================================================== */
 
 /* Small (24px) */
@@ -158,7 +158,7 @@ textarea.form__control {
 }
 
 
-/* Form file
+/* File
    ========================================================================== */
 
 .form__file {
@@ -256,7 +256,7 @@ textarea.form__control {
 }
 
 
-/* Form groups
+/* Group
    ========================================================================== */
 
 .form__group {
@@ -269,7 +269,7 @@ textarea.form__control {
 }
 
 
-/* Input groups
+/* Input group
    ========================================================================== */
 
 .form__input-group {
@@ -423,7 +423,38 @@ select.form__control:focus {
 }
 
 
-/* Form fieldsets
+/* Output
+   ========================================================================== */
+
+.form__output {
+  display: block;
+  font-size: 1rem;
+  line-height: 1.5;
+  margin: 0 0 ($global-spacing / 2) 0;
+}
+
+.form__output-group {
+  display: flex;
+  width: 100%;
+  line-height: 0;
+  margin: 0 0 ($global-spacing / 2) 0;
+
+  > * {
+    margin: 0;
+
+    &:not(:first-child) {
+      margin-left: ($global-spacing / 4);
+
+      &::before {
+        content: '\203A';
+        margin-right: ($global-spacing / 4);
+      }
+    }
+  }
+}
+
+
+/* Fieldset
    ========================================================================== */
 
 .form__fieldset {
@@ -483,7 +514,7 @@ select.form__control:focus {
 }
 
 
-/* Form labels
+/* Label
    ========================================================================== */
 
 label[for] {
@@ -508,7 +539,7 @@ label[for] {
 }
 
 
-/* Form options (radios and checkboxes)
+/* Options (radios and checkboxes)
    ========================================================================== */
 
 .form__option {
@@ -559,7 +590,7 @@ label[for] {
 }
 
 
-/* Form custom options modifiers (radios and checkboxes)
+/* Custom options modifiers (radios and checkboxes)
    ========================================================================== */
 
 .form__option--custom-radio,
@@ -632,7 +663,7 @@ label[for] {
 }
 
 
-/* Form switch (checkbox)
+/* Switch (checkbox)
    ========================================================================== */
 
 .form__option--switch {
@@ -739,7 +770,7 @@ label[for] {
 }
 
 
-/* Form inner actions
+/* Inner actions
    ========================================================================== */
 
 .form__inner-header {
@@ -810,7 +841,7 @@ label[for] {
 }
 
 
-/* Form extra actions
+/* Extra actions
    ========================================================================== */
 
 .form__extra-actions {
@@ -835,7 +866,7 @@ label[for] {
 }
 
 
-/* Form columns (simple grid system)
+/* Columns (simple grid system)
    ========================================================================== */
 
 .form__hascol {
@@ -887,7 +918,7 @@ label[for] {
 }
 
 
-/* Form misc
+/* Misc
    ========================================================================== */
 
 .form__help {
