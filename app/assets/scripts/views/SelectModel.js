@@ -39,7 +39,7 @@ class SelectModel extends Component {
             <article className='card card--sumary card--model'>
               <Link to={`/explore/${m.id}`} className='card__contents' title={`Select ${name}`}>
                 <header className='card__header'>
-                  <h1 className='card__title'>{m.name}</h1>
+                  <h1 className='card__title'><span>{m.name}</span> <small className='label'><span>V1.0</span></small></h1>
                 </header>
                 <div className='card__body'>
                   <div className='card__prose'>

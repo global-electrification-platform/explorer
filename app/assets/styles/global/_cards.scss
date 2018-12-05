@@ -51,7 +51,7 @@ a.card__contents {
 .card__header {
   display: flex;
   align-items: flex-start;
-  padding: $global-spacing;
+  padding: $global-spacing * 2;
   min-width: 0;
 
   > *:not(:first-child) {
@@ -75,7 +75,6 @@ a.card__contents {
 
 .card__title {
   @include heading(1rem);
-  @extend .truncated;
   margin: 0;
 
   a {
@@ -107,7 +106,7 @@ a.card__contents {
 .card__body {
   flex: 1;
   width: 100%;
-  padding: $global-spacing;
+  padding: $global-spacing * 2;
 
   .card__header + & {
     padding-top: 0;

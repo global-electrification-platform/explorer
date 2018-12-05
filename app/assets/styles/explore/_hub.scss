@@ -17,6 +17,14 @@
    ========================================================================== */
 
 .card--country {
+  .card__header {
+    padding: $global-spacing;
+  }
+
+  .card__title {
+    @extend .truncated;
+  }
+
   .card__contents {
     flex-flow: row nowrap;
     align-items: center;
@@ -41,6 +49,21 @@
    ========================================================================== */
 
 .card--model {
+  .card__title {
+    display: flex;
+    flex-flow: row nowrap;
+    width: 100%;
+    align-items: flex-start;
+
+    > span {
+      margin-right: $global-spacing;
+    }
+
+    .label {
+      margin-left: auto;
+    }
+  }
+
   .card__details {
     display: grid;
     grid-template-columns: repeat(12, 1fr);
