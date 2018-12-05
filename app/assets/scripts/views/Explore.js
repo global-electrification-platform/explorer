@@ -61,8 +61,7 @@ class Explore extends Component {
             <header className='inpage__header'>
               <div className='inpage__subheader'>
                 <div className='inpage__headline'>
-                  <h1 className='inpage__title'>Explore</h1>
-                  <h2 className='inpage__sectitle'>{countryName}</h2>
+                  <h1 className='inpage__title'><span className='visually-hidden'>Explore</span> {countryName}</h1>
                   <p className='inpage__subtitle'>{model.name}</p>
                 </div>
                 <div className='inpage__hactions'>

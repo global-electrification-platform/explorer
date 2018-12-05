@@ -7,10 +7,6 @@
     overflow: hidden; /* Fixed for ShadowScrollbar */
   }
 
-  .inpage__title {
-    @extend .visually-hidden;
-  }
-
   .inpage__subheader {
     box-shadow: none;
   }

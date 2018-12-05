@@ -67,8 +67,8 @@ class SelectModel extends Component {
           <header className='inpage__header'>
             <div className='inpage__subheader'>
               <div className='inpage__headline'>
-                <h1 className='inpage__title'>Explore</h1>
-                <h2 className='inpage__sectitle'>Select model</h2>
+                <h1 className='inpage__title'>Explore Malawi</h1>
+                <p className='inpage__subtitle'>Select model</p>
               </div>
               <div className='inpage__hactions'>
                 <Link
@@ -76,7 +76,7 @@ class SelectModel extends Component {
                   className='exp-change-button'
                   title='Change country'
                 >
-                  <span>Country</span>
+                  <span>Change</span>
                 </Link>
               </div>
             </div>

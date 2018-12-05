@@ -70,7 +70,7 @@ class SelectCountry extends Component {
             <div className='inpage__subheader'>
               <div className='inpage__headline'>
                 <h1 className='inpage__title'>Explore</h1>
-                <h2 className='inpage__sectitle'>Select country</h2>
+                <p className='inpage__subtitle'>Select country</p>
               </div>
             </div>
           </header>
