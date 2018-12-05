@@ -68,7 +68,7 @@ class Explore extends Component {
                   <Link
                     to={`/countries/${model.country}/models`}
                     className='exp-change-button'
-                    title='Change country and model'
+                    title='Change model'
                   >
                     <span>Change</span>
                   </Link>
