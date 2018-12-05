@@ -62,7 +62,7 @@ class SelectModel extends Component {
 
   render () {
     const countryName = this.props.country.isReady() ? this.props.country.getData().name : '';
-    
+
     return (
       <App pageTitle='Select model'>
         <section className='inpage inpage--hub inpage--explore'>

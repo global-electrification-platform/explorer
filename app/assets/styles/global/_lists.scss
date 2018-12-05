@@ -15,20 +15,7 @@
 
   > * {
     grid-column: span 6;
-
-    @include media(large-up) {
-      grid-column: span 4;
-    }
-
-    @include media(xlarge-up) {
-      grid-column: span 3;
-    }
-  }
-}
-
-.model-list {
-  > * {
-    grid-column: span 6;
+    display: flex;
 
     @include media(large-up) {
       grid-column: span 4;

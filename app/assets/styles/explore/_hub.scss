@@ -6,6 +6,12 @@
   .inpage__hactions {
     margin-left: 0;
   }
+
+  .inpage__body {
+    > * {
+      max-width: 72rem;
+    }
+  }
 }
 
 
@@ -48,43 +54,14 @@
   .card__title {
     display: flex;
     flex-flow: row nowrap;
-    width: 100%;
     align-items: flex-start;
 
     > span {
-      margin-right: $global-spacing;
+      padding-right: $global-spacing;
     }
 
     .label {
       margin-left: auto;
-    }
-  }
-
-  .card__details {
-    display: grid;
-    grid-template-columns: repeat(12, 1fr);
-    grid-gap: 0 $global-spacing $global-spacing $global-spacing;
-
-    > * {
-      grid-column: auto / span 6;
-      margin: 0;
-    }
-
-    dt {
-      font-size: 0.75rem;
-    }
-
-    dd {
-      font-size: 0.875rem;
-      font-weight: $base-font-bold;
-
-      &:nth-of-type(1) {
-        order: 3;
-      }
-
-      &:nth-of-type(2) {
-        order: 4;
-      }
     }
   }
 }
