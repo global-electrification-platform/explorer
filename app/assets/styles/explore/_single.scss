@@ -120,12 +120,12 @@
   }
 
   .form__output-group {
-    padding-left: 0.75rem;
+    padding: 0 0.625rem;
   }
 
   .input-range {
-    margin: (-$global-spacing * 1.25) 0.75rem 0 0.75rem;
-    width: calc(100% - 1.5rem);
+    margin: (-$global-spacing * 1.25) 0.625rem 0 0.625rem;
+    width: calc(100% - 1.25rem);
   }
 
   .input-range__label--value {
