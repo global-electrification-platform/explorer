@@ -53,9 +53,6 @@ class Map extends React.Component {
     // Disable map rotation using touch rotation gesture.
     this.map.touchZoomRotate.disableRotation();
 
-    // Disable scroll zoom
-    this.map.scrollZoom.disable();
-
     // Add zoom controls.
     this.map.addControl(new mapboxgl.NavigationControl(), 'bottom-left');
 
