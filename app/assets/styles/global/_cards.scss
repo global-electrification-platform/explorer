@@ -80,6 +80,7 @@ a.card__contents {
 
 .card__title {
   @include heading(1rem);
+  line-height: 1.25rem;
   margin: 0;
 
   a {
