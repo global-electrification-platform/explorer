@@ -39,8 +39,13 @@ a.card__contents {
   color: inherit;
 
   &:hover {
+    @extend %card-skin--active;
+    transform: translate(0, -0.125rem);
     opacity: 1;
-    background-color: rgba($base-color, 0.02);
+  }
+
+  &:active {
+    transform: translate(0, 0);
   }
 }
 
