@@ -63,7 +63,7 @@
   .card__details {
     display: grid;
     grid-template-columns: repeat(12, 1fr);
-    grid-gap: 0 ($global-spacing) ($global-spacing) ($global-spacing);
+    grid-gap: 0 $global-spacing $global-spacing $global-spacing;
 
     > * {
       grid-column: auto / span 6;
