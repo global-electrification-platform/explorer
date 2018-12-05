@@ -14,22 +14,21 @@
 
 %pane-skin {
   background: #fff;
-  box-shadow: 0 0 16px 4px rgba($base-color, 0.08);   // Elevation index: 3
+  box-shadow: 0 0 16px 4px rgba($base-color, 0.08);
 }
 
 %drop-skin {
-  background: #fff;
-  box-shadow: 0 0 0 $base-border-width rgba($base-color, 0.04), 0 4px 16px 2px rgba($base-color, 0.08);   // Elevation Index: 4
   border-radius: $base-border-radius;
+  background: #fff;
+  box-shadow: 0 0 32px 2px rgba($base-color, 0.08), 0 16px 48px -16px rgba($base-color, 0.16);
 }
 
 %popover-skin {
-  background: #fff;
   border-radius: $base-border-radius;
-  box-shadow: 0 0 0 $base-border-width rgba($base-color, 0.08), $base-border-width $base-border-width 0 rgba($base-color, 0.06);   // $base-border-width border + projected shadow (elevation index: 2)
+  background: #fff;
+  box-shadow: 0 0 32px 2px rgba($base-color, 0.08), 0 16px 48px -16px rgba($base-color, 0.16);
 }
 
 %inset-skin {
-  // background: rgba($base-color, 0.04);
   background: tint($base-color, 96%);
 }
