@@ -112,6 +112,7 @@ a.card__contents {
   flex: 1;
   width: 100%;
   padding: $global-spacing * 2;
+  margin-top: -$global-spacing / 2;
 
   .card__header + & {
     padding-top: 0;
