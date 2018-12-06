@@ -7,15 +7,11 @@
     overflow: hidden; /* Fixed for ShadowScrollbar */
   }
 
-  .inpage__title {
-    @extend .visually-hidden;
-  }
-
   .inpage__subheader {
     box-shadow: none;
   }
 
-  .inpage__sectitle,
+  .inpage__title,
   .inpage__subtitle {
     @extend .truncated;
     max-width: 100%;
@@ -34,7 +30,6 @@
    ========================================================================== */
 
 .econtrols {
-  margin: 0 (-$global-spacing) (-$global-spacing) (-$global-spacing) !important;
   flex: 1;
   display: flex;
   flex-flow: column nowrap;
@@ -47,7 +42,7 @@
   }
 
   .nav__tablist {
-    padding: 0 $global-spacing;
+    padding: 0 $contained-spacing;
   }
 }
 
@@ -86,7 +81,7 @@
 }
 
 .econtrols__item {
-  padding: $global-spacing;
+  padding: $global-spacing $contained-spacing;
   box-shadow: inset 0 -1px 0 0 $base-alpha-color;
   margin: 0;
 
@@ -123,13 +118,8 @@
     }
   }
 
-  .form__output-group {
-    padding-left: 0.75rem;
-  }
-
   .input-range {
-    margin: (-$global-spacing * 1.25) 0.75rem 0 0.75rem;
-    width: calc(100% - 1.5rem);
+    margin: (-$global-spacing * 1.25) 0 0 0;
   }
 
   .input-range__label--value {
@@ -140,7 +130,7 @@
 .econtrols__actions {
   position: relative;
   z-index: 80;
-  padding: $global-spacing;
+  padding: $global-spacing $contained-spacing;
   box-shadow: 0 -1px 0 0 $base-alpha-color;
   text-align: center;
 }
@@ -200,7 +190,7 @@
   z-index: 80;
   display: flex;
   flex-flow: row nowrap;
-  padding: $global-spacing;
+  padding: $global-spacing $contained-spacing;
   box-shadow: 0 1px 0 0 $base-alpha-color;
 
   > *:last-child {
@@ -213,15 +203,6 @@
   margin-bottom: 0;
 }
 
-.exp-summary__hactions {
-  margin-left: auto;
-  padding: ($global-spacing / 8) 0 ($global-spacing / 8) $global-spacing;
-
-  > * {
-    vertical-align: top;
-  }
-}
-
 .exp-summary__body {
   position: relative;
   z-index: 60;
@@ -232,7 +213,7 @@
 .exp-summary__footer {
   position: relative;
   z-index: 80;
-  padding: $global-spacing;
+  padding: $global-spacing $contained-spacing;
   box-shadow: 0 -1px 0 0 $base-alpha-color;
   text-align: center;
 }
@@ -248,7 +229,7 @@
 }
 
 .sum-block {
-  padding: $global-spacing;
+  padding: $global-spacing $contained-spacing;
   box-shadow: 0 1px 0 0 $base-alpha-color;
 
   &:last-child {
@@ -262,4 +243,34 @@
 
 .sum-block__title {
   @extend .visually-hidden;
+}
+
+.sum-number-list {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+
+  > * {
+    grid-column: auto / span 12;
+    margin: 0;
+  }
+
+  dt {
+    font-size: 0.75rem;
+    margin-bottom: $global-spacing;
+
+    &:last-of-type {
+      margin-bottom: 0;
+    }
+  }
+
+  dd {
+    font-size: 1.25rem;
+    font-weight: $base-font-bold;
+
+    @for $child from 1 through 6 {
+      &:nth-of-type(#{$child}) {
+        grid-row: 2 * $child - 1;
+      }
+    }
+  }
 }

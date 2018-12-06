@@ -91,13 +91,18 @@
 }
 
 .mapboxgl-ctrl-group {
-  @extend .button-group, .button-group--vertical;
-  box-shadow: ($base-border-width * 2) ($base-border-width * 2) 0 rgba($base-color, 0.06);
-  border-radius: $base-border-radius;
+  @extend .button-group, .button-group--vertical, %control-skin;
 
   > button {
     @extend .button, .button--base-raised-light, .button--text-hidden;
     font-size: 0;
+    box-shadow: none;
+
+    &:hover,
+    &:active {
+      @extend .button--primary-raised-light;
+      box-shadow: none;
+    }
 
     &::before {
       font-size: 1rem;
@@ -232,7 +237,7 @@ a.mapboxgl-ctrl-logo {
 /* stylelint-disable */
 
 .mapboxgl-ctrl-attrib .mapbox-improve-map {
-  font-weight: bold;
+  font-weight: $base-font-bold;
   margin-left: 2px;
 }
 

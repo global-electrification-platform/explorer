@@ -45,7 +45,7 @@ class Summary extends Component {
 
             <div className='sum-block'>
               <h2 className='sum-block__title'>Aggregated numbers</h2>
-              <dl>
+              <dl className='sum-number-list'>
                 <dt>Population Electrified</dt>
                 <dd>{summary.electrifiedPopulation}</dd>
                 <dt>Investment Required</dt>
