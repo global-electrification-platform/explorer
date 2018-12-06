@@ -56,16 +56,8 @@ a.card__contents {
 .card__header {
   display: flex;
   align-items: flex-start;
-  padding: $global-spacing * 2;
+  padding: $contained-spacing;
   min-width: 0;
-
-  > *:not(:first-child) {
-    margin-left: $global-spacing;
-  }
-
-  > *:last-child {
-    margin-bottom: 0;
-  }
 
   .link-wrapper {
     color: inherit;
@@ -116,8 +108,7 @@ a.card__contents {
   justify-content: flex-start;
   flex: 1;
   width: 100%;
-  padding: $global-spacing * 2;
-  margin-top: -$global-spacing / 2;
+  padding: $contained-spacing;
 
   .card__header + & {
     padding-top: 0;
@@ -174,7 +165,7 @@ a.card__contents {
    ========================================================================== */
 
 .card__footer {
-  padding: $global-spacing;
+  padding: $contained-spacing;
 
   .card__body + & {
     padding-top: 0;

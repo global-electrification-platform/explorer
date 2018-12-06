@@ -4,11 +4,9 @@
 
 .exp-change-button {
   @extend .button, .button--small, .button--primary-plain, .button--text-hidden;
-  position: absolute;
-  left: $global-spacing / 4;
 
   /* Animation */
-  animation: slide-in-left 0.64s ease-in-out 0s 1;
+  animation: slide-in-right 0.64s ease-in-out 0s 1;
 
   &::before {
     @extend %collecticon-arrow-left-right;
