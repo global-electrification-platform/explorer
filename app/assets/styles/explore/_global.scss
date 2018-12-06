@@ -1,3 +1,14 @@
 /* ==========================================================================
    Explore: global
    ========================================================================== */
+
+.exp-change-button {
+  @extend .button, .button--small, .button--primary-plain, .button--text-hidden;
+
+  /* Animation */
+  animation: slide-in-right 0.64s ease-in-out 0s 1;
+
+  &::before {
+    @extend %collecticon-arrow-left-right;
+  }
+}

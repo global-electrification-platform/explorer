@@ -5,8 +5,6 @@
 .label {
   @extend .antialiased;
   position: relative;
-  display: inline-block;
-  vertical-align: baseline;
   border-radius: $full-border-radius;
   padding: 0 0.5rem;
   min-width: 1.25rem;
@@ -19,6 +17,9 @@
   text-transform: uppercase;
   text-align: center;
   background: rgba($base-color, 0.64);
+  vertical-align: top;
+  display: inline-flex;
+  flex: none;
 
   &, &:visited {
     color: #fff;

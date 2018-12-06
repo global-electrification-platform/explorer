@@ -3,8 +3,13 @@
    ========================================================================== */
 
 .inpage--explore.inpage--hub {
-  .inpage__title {
-    @extend .visually-hidden;
+  .inpage__hactions {
+    margin-left: 0;
+  }
+
+  .inpage__subtitle {
+    /* Animation */
+    // animation: slide-in-right 0.64s ease-in-out 0s 1;
   }
 }
 
@@ -13,21 +18,49 @@
    ========================================================================== */
 
 .card--country {
-  .card__contents {
-    flex-flow: row nowrap;
-    overflow: hidden;
-    align-items: center;
-  }
-
-  .card__thumb {
-    img {
-      display: block;
-      width: auto;
-      height: 4rem;
-    }
+  .card__header {
+    padding: $global-spacing;
   }
 
   .card__title {
-    @include heading(1rem);
+    @extend .truncated;
+  }
+
+  .card__contents {
+    flex-flow: row nowrap;
+    align-items: center;
+  }
+
+  .card__media {
+    margin-right: 0;
+
+    img {
+      width: 4rem;
+      height: 3rem;
+    }
+  }
+
+  .card__thumb {
+    min-width: 4rem;
+  }
+}
+
+
+/* Model list
+   ========================================================================== */
+
+.card--model {
+  .card__title {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: flex-start;
+
+    > span {
+      padding-right: $global-spacing;
+    }
+
+    .label {
+      margin-left: auto;
+    }
   }
 }

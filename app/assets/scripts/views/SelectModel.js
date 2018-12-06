@@ -33,11 +33,27 @@ class SelectModel extends Component {
 
     const models = getData().models;
     return (
-      <ol className='country-list card-list'>
+      <ol className='model-list card-list'>
         {models.map(m => (
-          <li key={m.id} className='country-list__item'>
-            <Link to={`/explore/${m.id}`} title={'Explore scenario'}>{m.name}</Link>
-            <p>{m.description}</p>
+          <li key={m.id} className='model-list__item'>
+            <article className='card card--sumary card--model'>
+              <Link to={`/explore/${m.id}`} className='card__contents' title={`Select ${name}`}>
+                <header className='card__header'>
+                  <h1 className='card__title'><span>{m.name}</span> <small className='label'><span>V1.0</span></small></h1>
+                </header>
+                <div className='card__body'>
+                  <div className='card__prose'>
+                    <p>{m.description}</p>
+                  </div>
+                  <dl className='card__details'>
+                    <dt>Updated</dt>
+                    <dd>Sep 28, 2018</dd>
+                    <dt>Author</dt>
+                    <dd>Lorem ipsum</dd>
+                  </dl>
+                </div>
+              </Link>
+            </article>
           </li>
         ))}
       </ol>
@@ -45,14 +61,25 @@ class SelectModel extends Component {
   }
 
   render () {
+    const countryName = this.props.country.isReady() ? this.props.country.getData().name : '';
+
     return (
       <App pageTitle='Select model'>
         <section className='inpage inpage--hub inpage--explore'>
           <header className='inpage__header'>
             <div className='inpage__subheader'>
               <div className='inpage__headline'>
-                <h1 className='inpage__title'>Explore</h1>
-                <h2 className='inpage__sectitle'>Select Model</h2>
+                <h1 className='inpage__title'>Explore {countryName}</h1>
+                <p className='inpage__subtitle'>Select model</p>
+              </div>
+              <div className='inpage__hactions'>
+                <Link
+                  to='/countries'
+                  className='exp-change-button'
+                  title='Change country'
+                >
+                  <span>Change</span>
+                </Link>
               </div>
             </div>
           </header>

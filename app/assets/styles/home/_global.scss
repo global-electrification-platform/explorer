@@ -16,6 +16,7 @@
     display: flex;
     align-items: center;
     min-height: 100vh;
+    position: relative;
   }
 }
 
@@ -113,20 +114,24 @@
 /* Illustration
    ========================================================================== */
 
-.home-media,
-.home-media__item {
+.home-media {
   position: absolute;
   top: 0;
   left: 0;
-  right: 0;
-  bottom: 0;
+  width: 100%;
+  height: 100%;
   z-index: 1;
   margin: 0;
+  overflow: hidden;
 
   svg {
     display: block;
     width: 100%;
     height: 100%;
+
+    * {
+      transform-box: fill-box;
+    }
   }
 
   figcaption {
@@ -134,9 +139,15 @@
   }
 }
 
-#trbn1-bld1,
-#trbn2-bld1 {
-  transform-box: fill-box;
+.home-media__item {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+
+  /* Animation */
+  animation: illu-in 1.5s ease-in-out 0s 1;
 }
 
 #trbn1-bld1 {
@@ -165,6 +176,34 @@
   animation: light-toggle 12s infinite ease-in-out;
 }
 
+#cld1 {
+  animation: cloud-travel 16s infinite linear;
+}
+
+#cld2 {
+  animation: cloud-travel 25s infinite linear;
+}
+
+#cld3 {
+  animation: cloud-travel 27s infinite linear;
+}
+
+#smoke > * {
+  opacity: 0;
+}
+
+#smoke1 {
+  animation: smoke-puff1 7s linear 0s infinite;
+}
+
+#smoke2 {
+  animation: smoke-puff2 7s linear 0s infinite;
+}
+
+#smoke3 {
+  animation: smoke-puff3 7s linear 0s infinite;
+}
+
 @keyframes turbine {
   to {
     transform: rotate(-360deg);
@@ -184,8 +223,142 @@
 
 @keyframes light-toggle {
   0%    { fill: shade($primary-color, 36%); }
-  50%    { fill: shade($primary-color, 36%); }
-  52%    { fill: $secondary-color; }
-  98%  { fill: $secondary-color }
-  100%    { fill: shade($primary-color, 36%); }
+  50%   { fill: shade($primary-color, 36%); }
+  52%   { fill: $secondary-color; }
+  98%   { fill: $secondary-color }
+  100%  { fill: shade($primary-color, 36%); }
+}
+
+@keyframes illu-in {
+  from {
+    opacity: 0;
+    transform: translate(4%, 0);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate(0, 0);
+  }
+}
+
+@keyframes cloud-travel {
+  0% {
+    transform: translate(0, 0);
+    opacity: 0;
+  }
+
+  6% {
+    opacity: 1;
+  }
+
+  94% {
+    opacity: 1;
+  }
+
+  100% {
+    transform: translate(-8rem, 0);
+    opacity: 0;
+  }
+}
+
+@keyframes smoke-puff1 {
+  // 0% {
+  //   opacity: 0;
+  // }
+
+  // 14% {
+  //   opacity: 0;
+  // }
+
+  28% {
+    opacity: 0;
+  }
+
+  43% {
+    opacity: 1;
+  }
+
+  // 57% {
+  //   opacity: 1;
+  // }
+
+  // 71% {
+  //   opacity: 1;
+  // }
+
+  85% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes smoke-puff2 {
+  // 0% {
+  //   opacity: 0;
+  // }
+
+  14% {
+    opacity: 0;
+  }
+
+  28% {
+    opacity: 1;
+  }
+
+  // 43% {
+  //   opacity: 1;
+  // }
+
+  // 57% {
+  //   opacity: 1;
+  // }
+
+  71% {
+    opacity: 1;
+  }
+
+  85% {
+    opacity: 0;
+  }
+
+  // 100% {
+  //   opacity: 0;
+  // }
+}
+
+@keyframes smoke-puff3 {
+  0% {
+    opacity: 0;
+  }
+
+  14% {
+    opacity: 1;
+  }
+
+  // 28% {
+  //   opacity: 1;
+  // }
+
+  // 43% {
+  //   opacity: 1;
+  // }
+
+  57% {
+    opacity: 1;
+  }
+
+  71% {
+    opacity: 0;
+  }
+
+  // 85% {
+  //   opacity: 0;
+  // }
+
+  // 100% {
+  //   opacity: 0;
+  // }
 }

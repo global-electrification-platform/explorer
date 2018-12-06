@@ -12,8 +12,8 @@
 
 .inpage__header {
   @extend %pane-skin;
-  padding: $global-spacing ($global-spacing * 4);
   z-index: 100;
+  overflow: hidden;
 
   /* Animation */
   animation: reveal 0.32s ease 0s 1;
@@ -28,7 +28,8 @@
   z-index: 80;
   display: flex;
   flex-flow: row nowrap;
-  margin-bottom: $global-spacing * 2;
+  padding: $global-spacing $contained-spacing;
+  box-shadow: 0 1px 0 0 $base-alpha-color;
 
   > *:last-child {
     margin-bottom: 0;
@@ -48,16 +49,11 @@
   margin-bottom: 0;
 }
 
-.inpage__sectitle {
-  @include heading(1.25rem);
-  margin-bottom: 0;
-}
-
 .inpage__subtitle {
   @extend .heading-alt;
   font-size: 0.875rem;
   line-height: 1rem;
-  opacity: 0.64;
+  color: rgba($base-font-color, 0.64);
   margin: 0;
 }
 
@@ -67,6 +63,10 @@
 
   > * {
     vertical-align: top;
+
+    &:last-child {
+      margin-right: -0.25rem;
+    }
   }
 }
 
@@ -94,6 +94,12 @@
   z-index: 60;
   flex: 1;
   overflow: auto;
+
+  .rcs {
+    > div > div {
+      padding: $global-spacing $contained-spacing;
+    }
+  }
 }
 
 
@@ -109,14 +115,7 @@
     top: 0;
     left: 0;
     height: 100vh;
-    padding: $global-spacing;
     display: flex;
     flex-flow: column nowrap;
-  }
-
-  .inpage__subheader {
-    margin: (-$global-spacing) (-$global-spacing) $global-spacing (-$global-spacing);
-    box-shadow: 0 1px 0 0 $base-alpha-color;
-    padding: $global-spacing;
   }
 }
