@@ -39,8 +39,13 @@ a.card__contents {
   color: inherit;
 
   &:hover {
+    @extend %card-skin--active;
+    transform: translate(0, -0.125rem);
     opacity: 1;
-    background-color: rgba($base-color, 0.02);
+  }
+
+  &:active {
+    transform: translate(0, 0);
   }
 }
 
@@ -51,16 +56,8 @@ a.card__contents {
 .card__header {
   display: flex;
   align-items: flex-start;
-  padding: $global-spacing;
+  padding: $contained-spacing;
   min-width: 0;
-
-  > *:not(:first-child) {
-    margin-left: $global-spacing;
-  }
-
-  > *:last-child {
-    margin-bottom: 0;
-  }
 
   .link-wrapper {
     color: inherit;
@@ -75,8 +72,9 @@ a.card__contents {
 
 .card__title {
   @include heading(1rem);
-  @extend .truncated;
+  line-height: 1.25rem;
   margin: 0;
+  flex: 1;
 
   a {
     color: inherit;
@@ -105,9 +103,12 @@ a.card__contents {
    ========================================================================== */
 
 .card__body {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: flex-start;
   flex: 1;
   width: 100%;
-  padding: $global-spacing;
+  padding: $contained-spacing;
 
   .card__header + & {
     padding-top: 0;
@@ -119,6 +120,7 @@ a.card__contents {
 }
 
 .card__prose {
+  flex: 1;
   font-size: 0.875rem;
   line-height: 1.25rem;
   color: tint($base-color, 32%);
@@ -129,12 +131,41 @@ a.card__contents {
   }
 }
 
+.card__details {
+  flex: 0;
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-gap: 0 $global-spacing $global-spacing $global-spacing;
+
+  > * {
+    grid-column: auto / span 6;
+    margin: 0;
+  }
+
+  dt {
+    font-size: 0.75rem;
+  }
+
+  dd {
+    font-size: 0.875rem;
+    font-weight: $base-font-bold;
+
+    &:nth-of-type(1) {
+      order: 3;
+    }
+
+    &:nth-of-type(2) {
+      order: 4;
+    }
+  }
+}
+
 
 /* Footer
    ========================================================================== */
 
 .card__footer {
-  padding: $global-spacing;
+  padding: $contained-spacing;
 
   .card__body + & {
     padding-top: 0;

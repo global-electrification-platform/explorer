@@ -60,11 +60,7 @@ class GlobalLoading extends React.Component {
   renderLoading () {
     return (
       <div className='loading-pane'>
-        <div className='spinner'>
-          <div className='spinner__bounce'></div>
-          <div className='spinner__bounce'></div>
-          <div className='spinner__bounce'></div>
-        </div>
+        <div className='loading-worm' />
       </div>
     );
   }

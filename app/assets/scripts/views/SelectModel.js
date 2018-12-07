@@ -39,7 +39,7 @@ class SelectModel extends Component {
             <article className='card card--sumary card--model'>
               <Link to={`/explore/${m.id}`} className='card__contents' title={`Select ${name}`}>
                 <header className='card__header'>
-                  <h1 className='card__title'>{m.name}</h1>
+                  <h1 className='card__title'><span>{m.name}</span> <small className='label'><span>V1.0</span></small></h1>
                 </header>
                 <div className='card__body'>
                   <div className='card__prose'>
@@ -61,14 +61,16 @@ class SelectModel extends Component {
   }
 
   render () {
+    const countryName = this.props.country.isReady() ? this.props.country.getData().name : '';
+
     return (
       <App pageTitle='Select model'>
         <section className='inpage inpage--hub inpage--explore'>
           <header className='inpage__header'>
             <div className='inpage__subheader'>
               <div className='inpage__headline'>
-                <h1 className='inpage__title'>Explore</h1>
-                <h2 className='inpage__sectitle'>Select model</h2>
+                <h1 className='inpage__title'>Explore {countryName}</h1>
+                <p className='inpage__subtitle'>Select model</p>
               </div>
               <div className='inpage__hactions'>
                 <Link
@@ -76,7 +78,7 @@ class SelectModel extends Component {
                   className='exp-change-button'
                   title='Change country'
                 >
-                  <span>Country</span>
+                  <span>Change</span>
                 </Link>
               </div>
             </div>

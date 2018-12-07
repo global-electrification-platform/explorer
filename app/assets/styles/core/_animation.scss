@@ -15,6 +15,30 @@
   }
 }
 
+@keyframes slide-in-right {
+  0% {
+    opacity: 0;
+    transform: translate(100%, 0);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translate(0, 0);
+  }
+}
+
+@keyframes slide-in-left {
+  0% {
+    opacity: 0;
+    transform: translate(-100%, 0);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translate(0, 0);
+  }
+}
+
 
 /* Spin clockwise
    ========================================================================== */
@@ -57,27 +81,5 @@
   }
   100% {
     opacity: 1;
-  }
-}
-
-/* Active marker animation
-   ========================================================================== */
-
-@keyframes marker-pulse {
-  0%   {
-    opacity: 0;
-    width: 0.5rem;
-    height: 0.5rem;
-  }
-  25%  {
-    opacity: 1;
-  }
-  75%  {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0;
-    width: 2rem;
-    height: 2rem;
   }
 }

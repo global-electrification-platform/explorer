@@ -4,69 +4,55 @@
 
 .loading-pane {
   @extend .antialiased;
+  background: radial-gradient(farthest-side, #fff, transparent);
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  width: 100%;
+  height: 100%;
   z-index: 9997;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   cursor: not-allowed;
-
-  .spinner {
-    position: absolute;
-    z-index: 2;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-  }
 }
 
 
-/* Spinner
+/* Worm
     ========================================================================== */
 
-.spinner {
-  font-size: 0;
+.loading-worm {
+  position: relative;
+  height: 0.75rem;
   border-radius: $full-border-radius;
-  background: rgba($base-color, 0.8);
-  padding: $global-spacing / 2;
-}
+  background: rgba($base-color, 0.24);
+  width: 16rem;
+  overflow: hidden;
 
-.spinner__bounce {
-  width: 1rem;
-  height: 1rem;
-  background: #fff;
-  border-radius: $full-border-radius;
-  display: inline-block;
-  margin: 0 ($global-spacing / 4);
-  animation: spinner-bouncedelay 1.4s infinite ease-in-out both;
+  &::before {
+    position: absolute;
+    content: '';
+    height: 100%;
+    background: $primary-color;
+    border-radius: $full-border-radius;
 
-  &:first-child {
-    margin-left: 0;
-  }
-
-  &:last-child {
-    margin-right: 0;
+    /* Animation */
+    animation: worm-run 1.64s infinite ease-in-out;
   }
 }
 
-.spinner__bounce:nth-child(1) {
-  animation-delay: -0.32s;
-}
-
-.spinner__bounce:nth-child(2) {
-  animation-delay: -0.16s;
-}
-
-@keyframes spinner-bouncedelay {
-  0%,
-  80%,
-  100% { 
-    transform: scale(0);
+@keyframes worm-run {
+  0% {
+    left: 0;
+    width: 0;
   }
 
-  40% { 
-    transform: scale(1.0);
+  50% {
+    width: 100%;
+    right: 0;
+  }
+
+  100% {
+    left: 100%;
+    width: 0;
   }
 }
 
