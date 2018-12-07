@@ -1,3 +1,5 @@
+import qs from 'qs';
+
 import { fetchDispatchCacheFactory, fetchDispatchFactory } from './utils';
 import { dataServiceUrl } from '../config';
 
@@ -61,10 +63,16 @@ export function receiveScenario (data, error = null) {
   };
 }
 
-export function fetchScenario (scenarioId) {
+export function fetchScenario (scenarioId, filters) {
+  let queryString = '';
+
+  if (filters && filters.length > 0) {
+    queryString = `?${qs.stringify({ filters })}`;
+  }
+
   return fetchDispatchFactory({
     statePath: ['scenario'],
-    url: `${dataServiceUrl}/scenarios/${scenarioId}`,
+    url: `${dataServiceUrl}/scenarios/${scenarioId}${queryString}`,
     requestFn: requestScenario,
     receiveFn: receiveScenario
   });
@@ -136,7 +144,7 @@ export function fetchCountries () {
     requestFn: requestCountries,
     receiveFn: receiveCountries,
     // Convert to array.
-    mutator: (res) => res.countries
+    mutator: res => res.countries
   });
 }
 

@@ -14,6 +14,7 @@ class Dashboard extends Component {
 
     this.handleFilterChange = this.handleFilterChange.bind(this);
     this.handleLeverChange = this.handleLeverChange.bind(this);
+    this.renderTabs = this.renderTabs.bind(this);
 
     this.state = {
       activeTab: 'scenarios',
@@ -26,7 +27,6 @@ class Dashboard extends Component {
         : [],
       leversState: makeZeroFilledArray(props.model.levers.length)
     };
-    this.renderTabs = this.renderTabs.bind(this);
   }
 
   handleLeverChange (leverId, optionId) {
@@ -49,12 +49,12 @@ class Dashboard extends Component {
       else if (value.max > max) value.max = max;
     }
 
+    // Update state
     const filtersState = cloneArrayAndChangeCell(
       this.state.filtersState,
       i,
       value
     );
-
     this.setState({ filtersState });
   }
 
@@ -87,10 +87,10 @@ class Dashboard extends Component {
       const { leversState } = this.state;
       return (
         <Levers
-          levers={levers}
-          leversState={leversState}
-          handleLeverChange={this.handleLeverChange}
           updateScenario={this.props.updateScenario}
+          handleLeverChange={this.handleLeverChange}
+          leversConfig={levers}
+          leversState={leversState}
         />
       );
     } else if (activeTab === 'filters') {
@@ -98,7 +98,8 @@ class Dashboard extends Component {
       const { filtersState } = this.state;
       return (
         <Filters
-          filters={filters}
+          updateScenario={this.props.updateScenario}
+          filtersConfig={filters}
           filtersState={filtersState}
           handleFilterChange={this.handleFilterChange}
         />
@@ -123,6 +124,8 @@ class Dashboard extends Component {
 if (environment !== 'production') {
   Dashboard.propTypes = {
     updateScenario: T.func,
+    filtersState: T.array,
+    leversState: T.array,
     model: T.object
   };
 }
