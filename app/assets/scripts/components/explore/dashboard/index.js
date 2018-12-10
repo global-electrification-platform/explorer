@@ -45,8 +45,10 @@ class Dashboard extends Component {
     const filter = this.props.model.filters[i];
     if (filter.type === 'range') {
       const { min, max } = filter.range;
-      if (value.min < min) value.min = min;
-      else if (value.max > max) value.max = max;
+      if (value.min <= min) value.min = min;
+
+      // Compare using Math.floor because the input uses step=1 and returns a lower integer value when max is float.
+      if (value.max >= Math.floor(max)) value.max = max;
     }
 
     // Update state

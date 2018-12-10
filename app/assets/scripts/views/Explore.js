@@ -67,17 +67,17 @@ class Explore extends Component {
 
     // Compare filters to model defaults to identify actionable filters
     for (let i = 0; i < model.filters.length; i++) {
-      const { property } = model.filters[i];
+      const { key } = model.filters[i];
       const type = model.filters[i].type;
       const defaultRange = model.filters[i].range;
 
       if (type === 'range') {
         const { min, max } = filters[i];
         if (min !== defaultRange.min) {
-          selectedFilters.push({ id: property, min });
+          selectedFilters.push({ key, min });
         }
         if (max !== defaultRange.max) {
-          selectedFilters.push({ id: property, max });
+          selectedFilters.push({ key, max });
         }
       }
     }
