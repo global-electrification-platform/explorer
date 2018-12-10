@@ -52,18 +52,18 @@ class Filters extends Component {
             return (
               <label
                 key={option.id}
-                className='form__option form__option--custom-radio'
+                className='form__option form__option--custom-checkbox'
               >
                 <input
-                  type='radio'
+                  type='checkbox'
                   name={`form-radio-${filter.id}`}
                   id={`form-radio-${i}`}
                   value={i}
-                  checked={filterState === i}
+                  checked={filterState.indexOf(option.value) > -1}
                   onChange={this.props.handleFilterChange.bind(
                     this,
                     filter.id,
-                    i
+                    option.value
                   )}
                 />
                 <span className='form__option__ui' />

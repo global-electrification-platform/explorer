@@ -69,15 +69,21 @@ class Explore extends Component {
     for (let i = 0; i < model.filters.length; i++) {
       const { key } = model.filters[i];
       const type = model.filters[i].type;
-      const defaultRange = model.filters[i].range;
 
       if (type === 'range') {
+        const defaultRange = model.filters[i].range;
         const { min, max } = filters[i];
         if (min !== defaultRange.min) {
           selectedFilters.push({ key, min });
         }
         if (max !== defaultRange.max) {
           selectedFilters.push({ key, max });
+        }
+      } else {
+        const defaultOptions = model.filters[i].options;
+
+        if (defaultOptions.length !== filters[i].length) {
+          selectedFilters.push({ key, options: filters[i] });
         }
       }
     }
