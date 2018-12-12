@@ -9,7 +9,8 @@ export default class DeviceMessage extends React.PureComponent {
       <section className='device-message'>
         <div className='inner'>
           <h2>We're sorry</h2>
-          <p>This tool is optimized for desktop and tablets in landscape mode. If your device is smaller than 1024x768 pixels, please try exploring the tool on your desktop or tablet in landscape mode.</p>
+          <p>This section of the tool is optimized for desktop and tablets in landscape mode.</p>
+          <p>If your device is smaller than <strong>1024x768 pixels</strong>, please try exploring this section on your desktop or tablet in landscape mode.</p>
         </div>
       </section>
     );
