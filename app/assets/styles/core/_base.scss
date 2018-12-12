@@ -40,7 +40,11 @@ body {
   font-family: $base-font-family;
   font-weight: $base-font-weight;
   font-style: $base-font-style;
-  min-width: $row-min-width;
+  min-width: 320px;
+
+  @include media(large-up) {
+    min-width: $row-min-width;
+  }
 
   &.reveal-nav,
   &.reveal-search {
