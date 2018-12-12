@@ -5,18 +5,22 @@
 .inpage--home {
   @extend .antialiased;
   position: relative;
-  background-image: linear-gradient(to bottom, shade($primary-color, 20%) 0%, shade($primary-color, 20%) 37.5%, shade($primary-color, 36%) 37.5%);
+  background: shade($primary-color, 36%);
   color: #fff;
+
+  @include media(large-up) {
+    background: linear-gradient(to bottom, shade($primary-color, 20%) 0%, shade($primary-color, 20%) 37.5%, shade($primary-color, 36%) 37.5%);
+  }
 
   .inpage__header {
     @extend .visually-hidden;
   }
 
   .inpage__body {
+    position: relative;
+    height: 100%;
     display: flex;
     align-items: center;
-    min-height: 100vh;
-    position: relative;
   }
 }
 
@@ -25,21 +29,35 @@
 }
 
 .home-intro__title {
-  @include heading(3.5rem);
+  @include heading(2rem);
+
+  @include media(large-up) {
+    @include heading(3.5rem);
+  }
 
   span {
     display: block;
-    font-size: 1.25rem;
-    line-height: 1rem;
+    font-size: 1rem;
+    line-height: 1;
     text-transform: uppercase;
-    margin-bottom: $global-spacing / 2;
+    margin-bottom: $global-spacing / 4;
+
+    @include media(large-up) {
+      font-size: 1.25rem;
+      margin-bottom: $global-spacing / 2;
+    }
   }
 }
 
 .home-intro__lead {
-  font-size: 1.5rem;
-  line-height: 2rem;
+  font-size: 1.25rem;
+  line-height: 1.75rem;
   margin-bottom: $global-spacing * 2;
+
+  @include media(large-up) {
+    font-size: 1.5rem;
+    line-height: 2rem;
+  }
 
   > *:last-child {
     margin-bottom: 0;
@@ -61,9 +79,14 @@
 
   dt {
     color: inherit;
-    font-size: 1.25rem;
+    font-size: 1rem;
     margin-right: $global-spacing * 2;
-    padding: 0 0 ($global-spacing / 2) 0;
+    padding: 0 0 ($global-spacing / 8) 0;
+
+    @include media(large-up) {
+      font-size: 1.25rem;
+      padding: 0 0 ($global-spacing / 2) 0;
+    }
 
     &:nth-of-type(1) {
       order: 2;
@@ -72,13 +95,22 @@
     &:nth-of-type(2) {
       order: 4;
     }
+
+    &:last-of-type {
+      margin-right: 0;
+    }
   }
 
   dd {
     color: $secondary-color;
-    font-size: 4rem;
+    font-size: 2rem;
     line-height: 1;
-    margin-right: $global-spacing;
+    margin-right: $global-spacing / 2;
+
+    @include media(large-up) {
+      font-size: 4rem;
+      margin-right: $global-spacing;
+    }
 
     &:nth-of-type(1) {
       order: 1;
@@ -91,15 +123,29 @@
 }
 
 .cta-wrapper {
+  display: flex;
   small {
     @extend .visually-hidden;
   }
 }
 
 .ctab {
-  @extend .button, .button--xlarge;
-  margin-right: $global-spacing;
-  min-width: 12rem;
+  @extend .button;
+  margin-right: $global-spacing / 2;
+  flex: 1;
+
+  @include media(small-up) {
+    flex: 0;
+    min-width: 12rem;
+  }
+
+  @include media(large-up) {
+    min-width: 12rem;
+    line-height: 2rem;
+    font-size: 0.875rem;
+    padding: 0.5rem 2rem;
+    margin-right: $global-spacing;
+  }
 }
 
 .ctab--explore {

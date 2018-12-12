@@ -3,6 +3,10 @@
    ========================================================================== */
 
 .page {
+  display: grid;
+  min-height: 100vh;
+  grid-template-rows: auto 1fr;
+
   @include media(large-up) {
     display: grid;
     grid-template-columns: ($global-spacing * 4) auto 0;
@@ -16,7 +20,7 @@
 .page__header {
   @extend .antialiased;
   background: $primary-color;
-  padding: $global-spacing;
+  padding: 0.75rem $global-spacing;
   color: #fff;
   display: flex;
   flex-flow: row nowrap;
@@ -30,6 +34,8 @@
     left: 0;
     bottom: 0;
     flex-flow: column nowrap;
+    height: 100vh;
+    padding: $global-spacing;
   }
 }
 
@@ -44,14 +50,16 @@
 }
 
 .page__title {
-  font-size: 1.25rem;
+  display: table-caption;
+  font-size: 1rem;
   line-height: 1;
   text-transform: uppercase;
-  padding-top: $global-spacing / 4;
+  text-align: center;
 
   @include media(large-up) {
     width: 2.5rem;
-    text-align: center;
+    font-size: 1.25rem;
+    padding-top: $global-spacing / 4;
   }
 
   a {
