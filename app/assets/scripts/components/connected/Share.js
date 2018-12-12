@@ -7,47 +7,52 @@ import Clipboard from 'clipboard';
 import { environment } from '../../config';
 
 import Dropdown from '../Dropdown';
+import Breakpoint from '../Breakpoint';
 
 class ShareOptions extends React.Component {
   render () {
     const url = window.location.toString();
     return (
-      <Dropdown
-        className='share-menu'
-        triggerClassName='global-menu__link global-menu__link--share'
-        triggerActiveClassName='button--active'
-        triggerText='Share'
-        triggerTitle='Toggle share options'
-        direction='up'
-        alignment='left'
-      >
-        <h6 className='drop__title'>Share</h6>
-        <ul className='drop__menu drop__menu--iconified'>
-          <li>
-            <a
-              href={`https://www.facebook.com/sharer/sharer.php?u=${url}`}
-              className='drop__menu-item share-facebook'
-              title='Share on Facebook'
-              target='_blank'
-            >
-              <span>Facebook</span>
-            </a>
-          </li>
-          <li>
-            <a
-              href={`https://twitter.com/intent/tweet?url=${url}`}
-              className='drop__menu-item share-twitter'
-              title='Share on Twitter'
-              target='_blank'
-            >
-              <span>Twitter</span>
-            </a>
-          </li>
-        </ul>
-        <div className='drop__inset'>
-          <CopyField value={url} />
-        </div>
-      </Dropdown>
+      <Breakpoint>
+        {({largeUp}) => (
+          <Dropdown
+            className='share-menu'
+            triggerClassName='global-menu__link global-menu__link--share'
+            triggerActiveClassName='button--active'
+            triggerText='Share'
+            triggerTitle='Toggle share options'
+            direction={largeUp ? 'up' : 'down'}
+            alignment={largeUp ? 'left' : 'right'}
+          >
+            <h6 className='drop__title'>Share</h6>
+            <ul className='drop__menu drop__menu--iconified'>
+              <li>
+                <a
+                  href={`https://www.facebook.com/sharer/sharer.php?u=${url}`}
+                  className='drop__menu-item share-facebook'
+                  title='Share on Facebook'
+                  target='_blank'
+                >
+                  <span>Facebook</span>
+                </a>
+              </li>
+              <li>
+                <a
+                  href={`https://twitter.com/intent/tweet?url=${url}`}
+                  className='drop__menu-item share-twitter'
+                  title='Share on Twitter'
+                  target='_blank'
+                >
+                  <span>Twitter</span>
+                </a>
+              </li>
+            </ul>
+            <div className='drop__inset'>
+              <CopyField value={url} />
+            </div>
+          </Dropdown>
+      )}
+      </Breakpoint>
     );
   }
 }
