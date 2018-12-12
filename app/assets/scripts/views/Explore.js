@@ -7,6 +7,7 @@ import App from './App';
 import Dashboard from '../components/explore/dashboard';
 import Map from '../components/explore/Map';
 import Summary from '../components/explore/Summary';
+import DeviceMessage from '../components/DeviceMessage';
 
 import { environment } from '../config';
 import { wrapApiResult, getFromState } from '../redux/utils';
@@ -81,6 +82,7 @@ class Explore extends Component {
               <Map scenario={this.props.scenario} />
               <Summary scenario={scenario} />
             </div>
+            <DeviceMessage />
           </section>
         )}
       </App>

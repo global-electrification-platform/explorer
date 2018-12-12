@@ -8,6 +8,7 @@ import { fetchCountries } from '../redux/actions';
 import { environment } from '../config';
 
 import App from './App';
+import DeviceMessage from '../components/DeviceMessage';
 import { showGlobalLoading, hideGlobalLoading } from '../components/GlobalLoading';
 
 const CountryCard = ({ iso, name }) => {
@@ -76,6 +77,7 @@ class SelectCountry extends Component {
           </header>
           <div className='inpage__body'>
             {this.renderCoutntryList()}
+            <DeviceMessage />
           </div>
         </section>
       </App>

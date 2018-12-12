@@ -1,0 +1,42 @@
+/* ==========================================================================
+   Global: messages
+   ========================================================================== */
+
+.device-message {
+  @extend .antialiased;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: red;
+  z-index: 9998;
+  background: shade($primary-color, 36%);
+  color: #fff;
+  padding: $global-spacing;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  /* Animation */
+
+  @include animation(reveal 0.32s ease 0s 1);
+
+  @include media(large-up) {
+    display: none;
+  }
+
+  .inner {
+    @extend .prose;
+    max-width: 32rem;
+  }
+
+  h2::before {
+    @extend %collecticon-face-sad;
+    font-size: 3rem;
+    opacity: 0.32;
+    display: block;
+    margin-bottom: 1rem;
+  }
+}
