@@ -156,12 +156,4 @@
    ========================================================================== */
 
 .page__footer {
-  background: tint($base-color, 96%);
-  padding: ($global-spacing * 2) 0;
-
-  > .inner {
-    > *:last-child {
-      margin-bottom: 0
-    }
-  }
 }

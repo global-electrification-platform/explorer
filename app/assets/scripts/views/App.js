@@ -4,7 +4,6 @@ import c from 'classnames';
 
 import MetaTags from '../components/MetaTags';
 import PageHeader from '../components/PageHeader';
-import PageFooter from '../components/PageFooter';
 import GlobalLoading from '../components/GlobalLoading';
 
 import { environment, appTitle, appDescription } from '../config';
@@ -24,7 +23,6 @@ class App extends Component {
         <main className='page__body' role='main'>
           {children}
         </main>
-        <PageFooter location={location} />
       </div>
     );
   }
