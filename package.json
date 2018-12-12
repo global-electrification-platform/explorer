@@ -95,6 +95,7 @@
     "watchify": "^3.11.0"
   },
   "dependencies": {
+    "@turf/turf": "^5.1.6",
     "babel-polyfill": "^6.26.0",
     "classnames": "^2.2.6",
     "clipboard": "^2.0.4",
