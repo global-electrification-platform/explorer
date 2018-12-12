@@ -101,7 +101,11 @@
   }
 
   dd {
-    grid-column: auto / span 4;
+    grid-column: auto / span 6;
+
+    @include media(small-up) {
+      grid-column: auto / span 4;
+    }
   }
 
   a {
