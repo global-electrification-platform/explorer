@@ -13,7 +13,7 @@
   }
 
   .inpage__header {
-    @extend .visually-hidden;
+    height: 0;
   }
 
   .inpage__body {
@@ -21,6 +21,10 @@
     height: 100%;
     display: flex;
     align-items: center;
+
+    @include media(large-up) {
+      min-height: 100vh;
+    }
   }
 }
 

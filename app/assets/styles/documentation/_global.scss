@@ -3,6 +3,8 @@
    ========================================================================== */
 
 .index-menu {
+  max-width: 24rem;
+  
   dt:not(:first-child) {
     margin-top: $global-spacing;
   }

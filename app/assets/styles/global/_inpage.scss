@@ -3,7 +3,9 @@
    ========================================================================== */
 
 .inpage {
+  display: grid;
   height: 100%;
+  grid-template-rows: auto 1fr;
 }
 
 
@@ -102,6 +104,11 @@
   z-index: 60;
   flex: 1;
   overflow: auto;
+  min-height: 12rem;
+
+  @include media(large-up) {
+    min-height: none;
+  }
 
   .rcs {
     > div > div {
@@ -115,15 +122,19 @@
    ========================================================================== */
 
 .inpage--horizontal {
-  display: grid;
-  grid-template-columns: ($global-spacing * 20) auto;
+  @include media(large-up) {
+    grid-template-columns: ($global-spacing * 20) auto;
+  }
 
   .inpage__header {
-    position: sticky;
-    top: 0;
-    left: 0;
-    height: 100vh;
     display: flex;
     flex-flow: column nowrap;
+
+    @include media(large-up) {
+      position: sticky;
+      top: 0;
+      left: 0;
+      height: 100vh;
+    }
   }
 }
