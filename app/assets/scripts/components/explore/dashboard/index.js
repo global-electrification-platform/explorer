@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { PropTypes as T } from 'prop-types';
+import clone from 'lodash.clone';
+import pull from 'lodash.pull';
 
 import Layers from './Layers';
 import Levers from './Levers';
@@ -14,6 +16,7 @@ class Dashboard extends Component {
 
     this.handleFilterChange = this.handleFilterChange.bind(this);
     this.handleLeverChange = this.handleLeverChange.bind(this);
+    this.renderTabs = this.renderTabs.bind(this);
 
     this.state = {
       activeTab: 'scenarios',
@@ -21,12 +24,13 @@ class Dashboard extends Component {
         ? props.model.filters.map(filter => {
           if (filter.type === 'range') {
             return filter.range;
-          } else return 0;
+          } else {
+            return filter.options.map(option => option.value);
+          }
         })
         : [],
       leversState: makeZeroFilledArray(props.model.levers.length)
     };
-    this.renderTabs = this.renderTabs.bind(this);
   }
 
   handleLeverChange (leverId, optionId) {
@@ -41,19 +45,36 @@ class Dashboard extends Component {
   }
 
   handleFilterChange (i, value) {
-    // Ensure that range values are between min and max
     const filter = this.props.model.filters[i];
-    if (filter.type === 'range') {
-      const { min, max } = filter.range;
-      if (value.min < min) value.min = min;
-      else if (value.max > max) value.max = max;
-    }
+    const filtersState = clone(this.state.filtersState);
 
-    const filtersState = cloneArrayAndChangeCell(
-      this.state.filtersState,
-      i,
-      value
-    );
+    if (filter.type === 'range') {
+      let newRange = clone(value);
+
+      // Ensure that range values are between min and max
+      const { min, max } = filter.range;
+      if (newRange.min <= min) newRange.min = min;
+
+      // Compare using Math.floor because the input uses step=1 and returns a lower integer value when max is float.
+      if (newRange.max >= Math.floor(max)) newRange.max = max;
+
+      filtersState[i] = newRange;
+    } else {
+      // Get current selected options
+      let selectedOptions = clone(this.state.filtersState[i]);
+
+      // Toggle filter value from select options
+      if (selectedOptions.indexOf(value) > -1) {
+        pull(selectedOptions, value);
+      } else {
+        selectedOptions.push(value);
+      }
+
+      // Do not allow less than one option selected
+      if (selectedOptions.length > 0) {
+        filtersState[i] = selectedOptions;
+      }
+    }
 
     this.setState({ filtersState });
   }
@@ -87,10 +108,10 @@ class Dashboard extends Component {
       const { leversState } = this.state;
       return (
         <Levers
-          levers={levers}
-          leversState={leversState}
-          handleLeverChange={this.handleLeverChange}
           updateScenario={this.props.updateScenario}
+          handleLeverChange={this.handleLeverChange}
+          leversConfig={levers}
+          leversState={leversState}
         />
       );
     } else if (activeTab === 'filters') {
@@ -98,7 +119,8 @@ class Dashboard extends Component {
       const { filtersState } = this.state;
       return (
         <Filters
-          filters={filters}
+          updateScenario={this.props.updateScenario}
+          filtersConfig={filters}
           filtersState={filtersState}
           handleFilterChange={this.handleFilterChange}
         />
@@ -123,6 +145,8 @@ class Dashboard extends Component {
 if (environment !== 'production') {
   Dashboard.propTypes = {
     updateScenario: T.func,
+    filtersState: T.array,
+    leversState: T.array,
     model: T.object
   };
 }

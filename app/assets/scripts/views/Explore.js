@@ -3,15 +3,16 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { PropTypes as T } from 'prop-types';
 
+import { environment } from '../config';
+import { makeZeroFilledArray } from '../utils';
+import { wrapApiResult, getFromState } from '../redux/utils';
+import { fetchModel, fetchScenario, fetchCountry } from '../redux/actions';
+
 import App from './App';
 import Dashboard from '../components/explore/dashboard';
 import Map from '../components/explore/Map';
 import Summary from '../components/explore/Summary';
 import DeviceMessage from '../components/DeviceMessage';
-
-import { environment } from '../config';
-import { wrapApiResult, getFromState } from '../redux/utils';
-import { fetchModel, fetchScenario, fetchCountry } from '../redux/actions';
 
 class Explore extends Component {
   constructor (props) {
@@ -20,16 +21,10 @@ class Explore extends Component {
     this.updateScenario = this.updateScenario.bind(this);
 
     this.state = {
-      dashboardChangedAt: Date.now()
+      dashboardChangedAt: Date.now(),
+      activeFilters: [],
+      activeLevers: []
     };
-  }
-
-  async fetchModelData () {
-    await this.props.fetchModel(this.props.match.params.modelId);
-    const { hasError, getData } = this.props.model;
-    if (!hasError()) {
-      this.props.fetchCountry(getData().country);
-    }
   }
 
   componentDidMount () {
@@ -42,18 +37,77 @@ class Explore extends Component {
     }
   }
 
-  updateScenario (scenarioId) {
-    const { modelId } = this.props.match.params;
-    this.props.fetchScenario(`${modelId}-${scenarioId}`);
+  async fetchModelData () {
+    await this.props.fetchModel(this.props.match.params.modelId);
+    const { hasError, getData } = this.props.model;
+    if (!hasError()) {
+      const model = getData();
+
+      // Fetch country data to render titles
+      this.props.fetchCountry(model.country);
+
+      // Initialize levers and filters
+      this.setState({
+        activeLevers: makeZeroFilledArray(model.levers.length),
+        activeFilters: model.filters
+          ? model.filters.map(filter => {
+            if (filter.type === 'range') {
+              return filter.range;
+            } else return 0;
+          })
+          : []
+      });
+    }
+  }
+
+  updateScenario (options) {
+    const model = this.props.model.getData();
+    const levers = options.levers || this.state.activeLevers;
+    const filters = options.filters || this.state.activeFilters;
+    const selectedFilters = [];
+
+    // Compare filters to model defaults to identify actionable filters
+    for (let i = 0; i < model.filters.length; i++) {
+      const { key } = model.filters[i];
+      const type = model.filters[i].type;
+
+      if (type === 'range') {
+        const defaultRange = model.filters[i].range;
+        const { min, max } = filters[i];
+        if (min !== defaultRange.min) {
+          selectedFilters.push({ key, min });
+        }
+        if (max !== defaultRange.max) {
+          selectedFilters.push({ key, max });
+        }
+      } else {
+        const defaultOptions = model.filters[i].options;
+
+        if (defaultOptions.length !== filters[i].length) {
+          selectedFilters.push({ key, options: filters[i] });
+        }
+      }
+    }
+
+    // Update state if levers are changed
+    this.setState({ activeLevers: levers, activeFilters: filters });
+
+    this.props.fetchScenario(
+      `${model.id}-${levers.join('_')}`,
+      selectedFilters
+    );
   }
 
   render () {
-    const { isReady, getData } = this.props.model;
+    const { filtersState, leversState } = this.state;
 
+    const { isReady, getData } = this.props.model;
     const model = getData();
     const scenario = this.props.scenario.getData();
 
-    const countryName = this.props.country.isReady() ? this.props.country.getData().name : '';
+    const countryName = this.props.country.isReady()
+      ? this.props.country.getData().name
+      : '';
 
     return (
       <App pageTitle='Explore'>
@@ -76,7 +130,12 @@ class Explore extends Component {
                 </div>
               </div>
 
-              <Dashboard updateScenario={this.updateScenario} model={model} />
+              <Dashboard
+                filtersState={filtersState}
+                leversState={leversState}
+                model={model}
+                updateScenario={this.updateScenario}
+              />
             </header>
             <div className='inpage__body'>
               <Map scenario={this.props.scenario} />
