@@ -12,6 +12,7 @@ import App from './App';
 import Dashboard from '../components/explore/dashboard';
 import Map from '../components/explore/Map';
 import Summary from '../components/explore/Summary';
+import DeviceMessage from '../components/DeviceMessage';
 
 class Explore extends Component {
   constructor (props) {
@@ -140,6 +141,7 @@ class Explore extends Component {
               <Map scenario={this.props.scenario} />
               <Summary scenario={scenario} />
             </div>
+            <DeviceMessage />
           </section>
         )}
       </App>

@@ -20,8 +20,11 @@
   .inpage__body {
     display: grid;
     grid-template-columns: auto 16rem;
-    min-height: 100vh;
     padding: 0;
+
+    @include media(large-up) {
+      min-height: 100vh;
+    }
   }
 }
 

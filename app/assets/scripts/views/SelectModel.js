@@ -8,6 +8,7 @@ import { fetchCountry } from '../redux/actions';
 import { environment } from '../config';
 
 import App from './App';
+import DeviceMessage from '../components/DeviceMessage';
 import { showGlobalLoading, hideGlobalLoading } from '../components/GlobalLoading';
 
 class SelectModel extends Component {
@@ -85,6 +86,7 @@ class SelectModel extends Component {
           </header>
           <div className='inpage__body'>
             {this.renderModelList()}
+            <DeviceMessage />
           </div>
         </section>
       </App>

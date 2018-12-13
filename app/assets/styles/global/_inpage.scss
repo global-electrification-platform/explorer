@@ -3,7 +3,10 @@
    ========================================================================== */
 
 .inpage {
-  min-height: 100vh;
+  position: relative;
+  display: grid;
+  height: 100%;
+  grid-template-rows: auto 1fr;
 }
 
 
@@ -28,8 +31,12 @@
   z-index: 80;
   display: flex;
   flex-flow: row nowrap;
-  padding: $global-spacing $contained-spacing;
+  padding: $global-spacing;
   box-shadow: 0 1px 0 0 $base-alpha-color;
+
+  @include media(large-up) {
+    padding: $global-spacing $contained-spacing;
+  }
 
   > *:last-child {
     margin-bottom: 0;
@@ -75,7 +82,11 @@
    ========================================================================== */
 
 .inpage__body {
-  padding: $global-spacing * 4;
+  padding: ($global-spacing * 2) $global-spacing;
+
+  @include media(large-up) {
+    padding: $global-spacing * 4;
+  }
 
   /* Animation */
   animation: reveal 0.48s ease 0s 1;
@@ -94,6 +105,11 @@
   z-index: 60;
   flex: 1;
   overflow: auto;
+  min-height: 12rem;
+
+  @include media(large-up) {
+    min-height: none;
+  }
 
   .rcs {
     > div > div {
@@ -107,15 +123,19 @@
    ========================================================================== */
 
 .inpage--horizontal {
-  display: grid;
-  grid-template-columns: ($global-spacing * 20) auto;
+  @include media(large-up) {
+    grid-template-columns: ($global-spacing * 20) auto;
+  }
 
   .inpage__header {
-    position: sticky;
-    top: 0;
-    left: 0;
-    height: 100vh;
     display: flex;
     flex-flow: column nowrap;
+
+    @include media(large-up) {
+      position: sticky;
+      top: 0;
+      left: 0;
+      height: 100vh;
+    }
   }
 }

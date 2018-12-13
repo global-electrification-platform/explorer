@@ -11,11 +11,19 @@
   padding: 0;
   display: grid;
   grid-template-columns: repeat(12, 1fr);
-  grid-gap: ($global-spacing * 2);
+  grid-gap: $global-spacing 0;
+
+  @include media(small-up) {
+    grid-gap: ($global-spacing * 2);
+  }
 
   > * {
-    grid-column: span 6;
+    grid-column: span 12;
     display: flex;
+
+    @include media(small-up) {
+      grid-column: span 6;
+    }
 
     @include media(large-up) {
       grid-column: span 4;
@@ -101,7 +109,11 @@
   }
 
   dd {
-    grid-column: auto / span 4;
+    grid-column: auto / span 6;
+
+    @include media(small-up) {
+      grid-column: auto / span 4;
+    }
   }
 
   a {

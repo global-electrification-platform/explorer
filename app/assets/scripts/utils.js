@@ -37,3 +37,8 @@ export function makeZeroFilledArray (length) {
 export function cloneArrayAndChangeCell (array, index, value) {
   return Object.assign([...array], { [index]: value });
 }
+
+
+export function objForeach (obj, callbackFn) {
+  return Object.keys(obj).some(k => callbackFn(obj[k], k))
+}
