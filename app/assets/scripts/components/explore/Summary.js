@@ -37,13 +37,6 @@ class Summary extends Component {
             </div>
 
             <div className='sum-block'>
-              <h2 className='sum-block__title'>Charts</h2>
-              <div className='chart'>Chart 1</div>
-              <div className='chart'>Chart 2</div>
-              <div className='chart'>Chart 3</div>
-            </div>
-
-            <div className='sum-block'>
               <h2 className='sum-block__title'>Aggregated numbers</h2>
               <dl className='sum-number-list'>
                 <dt>Population Electrified</dt>
