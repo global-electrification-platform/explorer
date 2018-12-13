@@ -1,15 +1,71 @@
 import React from 'react';
 import mapboxgl from 'mapbox-gl';
+import bbox from '@turf/bbox';
 import { PropTypes as T } from 'prop-types';
 
 import { mapboxAccessToken, environment } from '../../config';
 mapboxgl.accessToken = mapboxAccessToken;
+
+const sourceId = 'gep-vt';
+const sourceLayer = 'mw';
+const mapLayers = [
+  {
+    id: '1',
+    paint: {
+      'fill-color': '#fe5931'
+    }
+  },
+  {
+    id: '2',
+    paint: {
+      'fill-color': '#ffC700'
+    }
+  },
+  {
+    id: '3',
+    paint: {
+      'fill-color': '#1ea896'
+    }
+  },
+  {
+    id: '4',
+    paint: {
+      'fill-color': '#19647e'
+    }
+  },
+  {
+    id: '5',
+    paint: {
+      'fill-color': 'pink'
+    }
+  },
+  {
+    id: '6',
+    paint: {
+      'fill-color': 'red'
+    }
+  },
+  {
+    id: '7',
+    paint: {
+      'fill-color': 'purple'
+    }
+  },
+  {
+    id: '8',
+    paint: {
+      'fill-color': 'cyan'
+    }
+  }
+];
 
 class Map extends React.Component {
   constructor (props) {
     super(props);
 
     this.updateScenario = this.updateScenario.bind(this);
+    this.clearMap = this.clearMap.bind(this);
+    this.zoomToFeatures = this.zoomToFeatures.bind(this);
     this.state = {
       mapLoaded: false
     };
@@ -62,70 +118,71 @@ class Map extends React.Component {
     this.map.on('load', () => {
       this.setState({ mapLoaded: true });
 
-      this.map.addSource('gep-vt', {
+      this.map.addSource(sourceId, {
         type: 'vector',
         url: 'mapbox://devseed.2a5bvzlz'
       });
 
-      this.map.addLayer({
-        id: 'grid',
-        type: 'fill',
-        source: 'gep-vt',
-        'source-layer': 'mw',
-        paint: {
-          'fill-color': '#fe5931'
-        },
-        filter: ['==', 'id', 'nothing']
-      });
-      this.map.addLayer({
-        id: 'diesel',
-        type: 'fill',
-        source: 'gep-vt',
-        'source-layer': 'mw',
-        paint: {
-          'fill-color': '#ffC700'
-        },
-        filter: ['==', 'id', 'nothing']
-      });
-      this.map.addLayer({
-        id: 'pv',
-        type: 'fill',
-        source: 'gep-vt',
-        'source-layer': 'mw',
-        paint: {
-          'fill-color': '#1ea896'
-        },
-        filter: ['==', 'id', 'nothing']
-      });
-      this.map.addLayer({
-        id: 'mini-grid',
-        type: 'fill',
-        source: 'gep-vt',
-        'source-layer': 'mw',
-        paint: {
-          'fill-color': '#19647e'
-        },
-        filter: ['==', 'id', 'nothing']
-      });
+      // Setup layers
+      for (const layer of mapLayers) {
+        this.map.addLayer(
+          Object.assign(
+            {
+              type: 'fill',
+              source: sourceId,
+              'source-layer': sourceLayer,
+              filter: ['==', 'id_int', 'nothing']
+            },
+            layer
+          )
+        );
+      }
 
       this.updateScenario();
     });
   }
 
-  updateScenario () {
-    const eTypes = ['grid', 'diesel', 'pv', 'mini-grid'];
-    let features = {};
-
-    for (let index = 0; index < 216906; index++) {
-      const randomIndex = Math.floor(Math.random() * 4);
-      const eType = eTypes[randomIndex];
-      if (!features[eType]) features[eType] = [];
-      features[eType].push(`mw-${index}`);
-    }
-
-    eTypes.forEach(eType => {
-      this.map.setFilter(eType, ['in', 'id'].concat(features[eType]));
+  zoomToFeatures (featuresIds) {
+    const features = this.map.querySourceFeatures(sourceId, {
+      sourceLayer,
+      filter: ['in', 'id_int'].concat(featuresIds)
     });
+
+    if (features.length > 0) {
+      const mapBbox = bbox({
+        type: 'FeatureCollection',
+        features
+      });
+      this.map.fitBounds(mapBbox, { padding: 20 });
+    }
+  }
+
+  clearMap () {
+    for (const layer of mapLayers) {
+      this.map.setFilter(layer.id, ['==', 'id_int', 'nothing']);
+    }
+  }
+
+  updateScenario () {
+    const { fetched, getData } = this.props.scenario;
+
+    this.clearMap();
+
+    if (fetched) {
+      const data = getData();
+      const { layers } = data;
+      const layerIds = Object.keys(layers);
+
+      let featuresIds = [];
+      for (const layerId of layerIds) {
+        // Accumulate feature ids to perform map zoom
+        featuresIds = featuresIds.concat(layers[layerId]);
+
+        // Apply style to features on this layer
+        this.map.setFilter(layerId, ['in', 'id_int'].concat(layers[layerId]));
+      }
+      this.zoomToFeatures(featuresIds);
+    }
   }
 
   render () {

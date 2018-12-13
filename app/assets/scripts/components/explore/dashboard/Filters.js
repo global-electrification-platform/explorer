@@ -23,8 +23,12 @@ class Filters extends Component {
           {filter.label}
         </label>
         <div className='form__output-group'>
-          <output htmlFor={`slider-${filter.id}`} className='form__output'>{filterState.min}</output>
-          <output htmlFor={`slider-${filter.id}`} className='form__output'>{filterState.max}</output>
+          <output htmlFor={`slider-${filter.id}`} className='form__output'>
+            {filterState.min}
+          </output>
+          <output htmlFor={`slider-${filter.id}`} className='form__output'>
+            {filterState.max}
+          </output>
         </div>
         <InputRange
           minValue={min}
@@ -48,18 +52,18 @@ class Filters extends Component {
             return (
               <label
                 key={option.id}
-                className='form__option form__option--custom-radio'
+                className='form__option form__option--custom-checkbox'
               >
                 <input
-                  type='radio'
+                  type='checkbox'
                   name={`form-radio-${filter.id}`}
                   id={`form-radio-${i}`}
                   value={i}
-                  checked={filterState === i}
+                  checked={filterState.indexOf(option.value) > -1}
                   onChange={this.props.handleFilterChange.bind(
                     this,
                     filter.id,
-                    i
+                    option.value
                   )}
                 />
                 <span className='form__option__ui' />
@@ -81,7 +85,7 @@ class Filters extends Component {
   }
 
   render () {
-    const { filters } = this.props;
+    const { filtersConfig, updateScenario, filtersState } = this.props;
 
     return (
       <section className='econtrols__section' id='econtrols-filters'>
@@ -89,11 +93,21 @@ class Filters extends Component {
         <form className='form econtrols__block' id='#econtrols__scenarios'>
           <div className='econtrols__subblock'>
             <ShadowScrollbars theme='light'>
-              {filters && filters.length > 0 && this.renderFilters(filters)}
+              {filtersConfig &&
+                filtersConfig.length > 0 &&
+                this.renderFilters(filtersConfig)}
             </ShadowScrollbars>
           </div>
           <div className='form__actions econtrols__actions'>
-            <button type='submit' className='econtrols__submit' title='Apply'>
+            <button
+              type='submit'
+              className='econtrols__submit'
+              title='Apply'
+              onClick={e => {
+                e.preventDefault();
+                updateScenario({ filters: filtersState });
+              }}
+            >
               <span>Apply changes</span>
             </button>
           </div>
@@ -105,7 +119,8 @@ class Filters extends Component {
 
 if (environment !== 'production') {
   Filters.propTypes = {
-    filters: T.array,
+    updateScenario: T.func,
+    filtersConfig: T.array,
     filtersState: T.array,
     handleFilterChange: T.func
   };
