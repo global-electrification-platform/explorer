@@ -103,7 +103,6 @@ class Explore extends Component {
 
     const { isReady, getData } = this.props.model;
     const model = getData();
-    const scenario = this.props.scenario.getData();
 
     const countryName = this.props.country.isReady()
       ? this.props.country.getData().name
@@ -139,7 +138,7 @@ class Explore extends Component {
             </header>
             <div className='inpage__body'>
               <Map scenario={this.props.scenario} />
-              <Summary scenario={scenario} />
+              <Summary scenario={this.props.scenario} />
             </div>
             <DeviceMessage />
           </section>

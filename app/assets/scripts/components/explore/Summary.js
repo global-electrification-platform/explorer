@@ -8,11 +8,18 @@ import Legend from './Legend';
 
 class Summary extends Component {
   render () {
-    const summary = this.props.scenario.summary || {
-      investmentCost: '-',
-      newCapacity: '-',
-      electrifiedPopulation: '-'
-    };
+    const { isReady, getData } = this.props.scenario;
+
+    const scenario = getData();
+
+    // Check if scenario is ready and contains features
+    const summary = isReady() && Object.keys(scenario.layers).length > 0
+      ? scenario.summary
+      : {
+        investmentCost: '-',
+        newCapacity: '-',
+        electrifiedPopulation: '-'
+      };
 
     return (
       <section className='exp-summary'>
@@ -23,7 +30,7 @@ class Summary extends Component {
         </header>
         <div className='exp-summary__body'>
           <ShadowScrollbars theme='light'>
-            <Legend scenario={this.props.scenario} />
+            <Legend scenario={scenario} />
             <div className='sum-block'>
               <h2 className='sum-block__title'>Aggregated numbers</h2>
               <dl className='sum-number-list'>

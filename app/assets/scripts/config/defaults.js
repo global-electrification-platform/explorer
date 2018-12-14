@@ -20,7 +20,7 @@ export default {
     },
     {
       id: '3',
-      label: 'Stand-alone - PV',
+      label: 'Stand-alone - Photovoltaic',
       color: '#1ea896'
     },
     {
@@ -30,7 +30,7 @@ export default {
     },
     {
       id: '5',
-      label: 'Mini-grid - PV',
+      label: 'Mini-grid - Photovoltaic',
       color: 'red'
     },
     {

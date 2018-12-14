@@ -5,12 +5,19 @@ import { environment, techLayers } from '../../config';
 
 class Legend extends Component {
   renderColor (layerId) {
-    const { title, label, color } = techLayers[layerId];
+    const layer = techLayers.filter(l => l.id === layerId)[0];
+
+    const { title, label, color } = layer || {
+      color: 'white',
+      title: 'white',
+      label: 'Unidentified tech'
+    };
+
     return (
       <Fragment key={layerId}>
         <dt>
           <span className={`lgfx`} style={{ backgroundColor: color }}>
-            {title}
+            {title || label}
           </span>
         </dt>
         <dd>{label}</dd>
@@ -24,12 +31,14 @@ class Legend extends Component {
     const layersIds = scenario.layers ? Object.keys(scenario.layers) : [];
 
     return (
-      <div className='sum-block'>
-        <h2 className='sum-block__title'>Legend</h2>
-        <dl className='legend-list'>
-          {layersIds.map(layersId => this.renderColor(layersId))}
-        </dl>
-      </div>
+      layersIds.length > 0 && (
+        <div className='sum-block'>
+          <h2 className='sum-block__title'>Legend</h2>
+          <dl className='legend-list'>
+            {layersIds.map(layersId => this.renderColor(layersId))}
+          </dl>
+        </div>
+      )
     );
   }
 }
