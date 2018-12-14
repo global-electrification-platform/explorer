@@ -61,10 +61,24 @@ function countryReducer (state = countryReducerInitialState, action) {
   return baseAPIReducer(state, action, 'COUNTRY');
 }
 
+//
+//  COUNTRY Reducer
+//
+const featureReducerInitialState = {
+  // fetching: false,
+  // fetched: false,
+  // error: null,
+  // data: []
+};
+function featureReducer (state = featureReducerInitialState, action) {
+  return baseAPIReducer(state, action, 'FEATURE');
+}
+
 export default combineReducers({
   scenario: scenarioReducer,
   individualModels: modelReducer,
   stats: statsReducer,
   countries: countriesReducer,
-  individualCountries: countryReducer
+  individualCountries: countryReducer,
+  individualFeatures: featureReducer
 });

@@ -164,7 +164,7 @@ export function fetchCountries () {
 }
 
 /*
- * Actions for indiviadual Countries
+ * Actions for indiviadul Countries
  */
 
 export const REQUEST_COUNTRY = 'REQUEST_COUNTRY';
@@ -195,5 +195,42 @@ export function fetchCountry (iso) {
     url: `${dataServiceUrl}/countries/${iso}`,
     receiveFn: receiveCountry.bind(this, iso),
     requestFn: requestCountry.bind(this, iso)
+  });
+}
+
+/*
+ * Actions for indiviadul Features
+ */
+
+export const REQUEST_FEATURE = 'REQUEST_FEATURE';
+export const RECEIVE_FEATURE = 'RECEIVE_FEATURE';
+export const INVALIDATE_FEATURE = 'INVALIDATE_FEATURE';
+
+export function invalidateFeature (key) {
+  return { type: INVALIDATE_FEATURE, id: key };
+}
+
+export function requestFeature (key) {
+  return { type: REQUEST_FEATURE, id: key };
+}
+
+export function receiveFeature (key, data, error = null) {
+  return {
+    type: RECEIVE_FEATURE,
+    id: key,
+    data,
+    error,
+    receivedAt: Date.now()
+  };
+}
+
+export function fetchFeature (scenarioId, featureId) {
+  const key = `${scenarioId}--${featureId}`;
+
+  return fetchDispatchCacheFactory({
+    statePath: ['individualFeatures', key],
+    url: `${dataServiceUrl}/scenarios/${scenarioId}/features/${featureId}`,
+    receiveFn: receiveFeature.bind(this, key),
+    requestFn: requestFeature.bind(this, key)
   });
 }
