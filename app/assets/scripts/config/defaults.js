@@ -11,37 +11,37 @@ export default {
     {
       id: '1',
       label: 'Grid extension',
-      color: '#fe5931'
+      color: '#893831'
     },
     {
       id: '2',
       label: 'Stand-alone - Diesel',
-      color: '#ffC700'
+      color: '#fe5931'
     },
     {
       id: '3',
       label: 'Stand-alone - Photovoltaic',
-      color: '#1ea896'
+      color: '#ffc700'
     },
     {
       id: '4',
       label: 'Mini-grid - Diesel',
-      color: '#19647e'
+      color: '#8fb722'
     },
     {
       id: '5',
       label: 'Mini-grid - Photovoltaic',
-      color: 'red'
+      color: '#1ea896'
     },
     {
       id: '6',
       label: 'Mini-grid - Wind',
-      color: 'blue'
+      color: '#00a2ce'
     },
     {
       id: '7',
       label: 'Mini-grid - Hydro',
-      color: 'green'
+      color: '#19647e'
     }
   ]
 };

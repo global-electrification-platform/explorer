@@ -52,9 +52,11 @@
   dt {
     grid-column: 1 / span 1;
     margin: 0;
-    font-size: 0;
     display: flex;
-    align-items: center;
+
+    .lgfx {
+      margin: 0.375rem 0;
+    }
   }
 
   dd {
@@ -63,29 +65,12 @@
 }
 
 .lgfx {
-  &::before {
-    content: '';
-    min-width: $global-spacing * 2;
-    height: $global-spacing / 2;
-    border-radius: $full-border-radius;
-    background: $base-color;
-  }
-}
-
-.lgfx--alpha::before {
-  background: $alpha-color;
-}
-
-.lgfx--beta::before {
-  background: $beta-color;
-}
-
-.lgfx--gama::before {
-  background: $gama-color;
-}
-
-.lgfx--delta::before {
-  background: $delta-color;
+  content: '';
+  min-width: $global-spacing * 1.5;
+  height: $global-spacing / 2;
+  border-radius: $full-border-radius;
+  background: $base-color;
+  font-size: 0;
 }
 
 
