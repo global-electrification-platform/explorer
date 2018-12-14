@@ -5,6 +5,7 @@ import { environment } from '../../config';
 
 import ShadowScrollbars from '../ShadowScrollbar';
 import Legend from './Legend';
+import { formatTousands } from '../../utils';
 
 class Summary extends Component {
   render () {
@@ -35,11 +36,11 @@ class Summary extends Component {
               <h2 className='sum-block__title'>Aggregated numbers</h2>
               <dl className='sum-number-list'>
                 <dt>Population electrified</dt>
-                <dd>{summary.electrifiedPopulation}</dd>
+                <dd>{formatTousands(summary.electrifiedPopulation)}</dd>
                 <dt>Investment required</dt>
-                <dd><small>$</small> {summary.investmentCost}</dd>
+                <dd><small>$</small> {formatTousands(summary.investmentCost)}</dd>
                 <dt>Capacity Added</dt>
-                <dd>{summary.newCapacity} <small>KWh</small></dd>
+                <dd>{formatTousands(summary.newCapacity)} <small>KWh</small></dd>
               </dl>
             </div>
           </ShadowScrollbars>

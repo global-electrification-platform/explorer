@@ -6,6 +6,7 @@ import { environment } from '../../../config';
 import { getFromState, wrapApiResult } from '../../../redux/utils';
 import { fetchFeature } from '../../../redux/actions';
 import { store } from '../../../store';
+import { formatTousands } from '../../../utils';
 
 class MapPopover extends React.Component {
   componentDidMount () {
@@ -31,11 +32,11 @@ class MapPopover extends React.Component {
             {isReady() ? (
               <dl className='map-number-list'>
                 <dt>Population electrified</dt>
-                <dd>{data.electrifiedPopulation}</dd>
+                <dd>{formatTousands(data.electrifiedPopulation)}</dd>
                 <dt>Investment required</dt>
-                <dd><small>$</small> {data.investmentCost}</dd>
+                <dd><small>$</small> {formatTousands(data.investmentCost)}</dd>
                 <dt>Capacity Added</dt>
-                <dd>{data.newCapacity} <small>KWh</small></dd>
+                <dd>{formatTousands(data.newCapacity)} <small>KWh</small></dd>
               </dl>
             ) : (
               <p>Loading</p>
