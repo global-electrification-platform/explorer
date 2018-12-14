@@ -46,12 +46,12 @@ class Summary extends Component {
             <div className='sum-block'>
               <h2 className='sum-block__title'>Aggregated numbers</h2>
               <dl className='sum-number-list'>
-                <dt>Population Electrified</dt>
+                <dt>Population electrified</dt>
                 <dd>{summary.electrifiedPopulation}</dd>
-                <dt>Investment Required</dt>
-                <dd>{summary.investmentCost}</dd>
+                <dt>Investment required</dt>
+                <dd><small>$</small> {summary.investmentCost}</dd>
                 <dt>Capacity Added</dt>
-                <dd>{summary.newCapacity}</dd>
+                <dd>{summary.newCapacity} <small>KWh</small></dd>
               </dl>
             </div>
           </ShadowScrollbars>

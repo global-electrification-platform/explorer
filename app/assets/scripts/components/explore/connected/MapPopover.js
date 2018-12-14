@@ -23,26 +23,24 @@ class MapPopover extends React.Component {
         <div className='popover__contents'>
           <header className='popover__header'>
             <div className='popover__headline'>
-              <h1 className='popover__title'>
-                This is the title
-              </h1>
+              <h1 className='popover__title'>Details</h1>
             </div>
             <div className='popover__header-toolbar'><a href='#' title='Close' className='tba-xmark tba--text-hidden' onClick={onCloseClick}><span>Close</span></a></div>
           </header>
           <div className='popover__body'>
             {isReady() ? (
-              <div>
-                <p>investmentCost: {data.investmentCost}</p>
-                <p>newCapacity: {data.newCapacity}</p>
-                <p>electrifiedPopulation: {data.electrifiedPopulation}</p>
-              </div>
+              <dl className='map-number-list'>
+                <dt>Population electrified</dt>
+                <dd>{data.electrifiedPopulation}</dd>
+                <dt>Investment required</dt>
+                <dd><small>$</small> {data.investmentCost}</dd>
+                <dt>Capacity Added</dt>
+                <dd>{data.newCapacity} <small>KWh</small></dd>
+              </dl>
             ) : (
               <p>Loading</p>
             )}
           </div>
-          <footer className='popover__footer'>
-            Microwave
-          </footer>
         </div>
       </article>
     );
