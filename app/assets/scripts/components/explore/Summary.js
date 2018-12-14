@@ -4,14 +4,22 @@ import { PropTypes as T } from 'prop-types';
 import { environment } from '../../config';
 
 import ShadowScrollbars from '../ShadowScrollbar';
+import Legend from './Legend';
 
 class Summary extends Component {
   render () {
-    const summary = this.props.scenario.summary || {
-      investmentCost: '-',
-      newCapacity: '-',
-      electrifiedPopulation: '-'
-    };
+    const { isReady, getData } = this.props.scenario;
+
+    const scenario = getData();
+
+    // Check if scenario is ready and contains features
+    const summary = isReady() && Object.keys(scenario.layers).length > 0
+      ? scenario.summary
+      : {
+        investmentCost: '-',
+        newCapacity: '-',
+        electrifiedPopulation: '-'
+      };
 
     return (
       <section className='exp-summary'>
@@ -22,27 +30,7 @@ class Summary extends Component {
         </header>
         <div className='exp-summary__body'>
           <ShadowScrollbars theme='light'>
-            <div className='sum-block'>
-              <h2 className='sum-block__title'>Legend</h2>
-              <dl className='legend-list'>
-                <dt className='lgfx lgfx--alpha'>Red</dt>
-                <dd>Grid</dd>
-                <dt className='lgfx lgfx--beta'>Blue</dt>
-                <dd>Stand alone diesel</dd>
-                <dt className='lgfx lgfx--gama'>Yellow</dt>
-                <dd>Stand alone PV</dd>
-                <dt className='lgfx lgfx--delta'>Green</dt>
-                <dd>Mini-grid</dd>
-              </dl>
-            </div>
-
-            <div className='sum-block'>
-              <h2 className='sum-block__title'>Charts</h2>
-              <div className='chart'>Chart 1</div>
-              <div className='chart'>Chart 2</div>
-              <div className='chart'>Chart 3</div>
-            </div>
-
+            <Legend scenario={scenario} />
             <div className='sum-block'>
               <h2 className='sum-block__title'>Aggregated numbers</h2>
               <dl className='sum-number-list'>
@@ -72,7 +60,8 @@ class Summary extends Component {
 
 if (environment !== 'production') {
   Summary.propTypes = {
-    scenario: T.object
+    scenario: T.object,
+    model: T.object
   };
 }
 

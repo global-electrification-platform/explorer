@@ -5,62 +5,12 @@ import bbox from '@turf/bbox';
 import { PropTypes as T } from 'prop-types';
 
 import MapPopover from './connected/MapPopover';
+import { mapboxAccessToken, environment, techLayers } from '../../config';
 
-import { mapboxAccessToken, environment } from '../../config';
 mapboxgl.accessToken = mapboxAccessToken;
 
 const sourceId = 'gep-vt';
 const sourceLayer = 'mw';
-const mapLayers = [
-  {
-    id: '1',
-    paint: {
-      'fill-color': '#fe5931'
-    }
-  },
-  {
-    id: '2',
-    paint: {
-      'fill-color': '#ffC700'
-    }
-  },
-  {
-    id: '3',
-    paint: {
-      'fill-color': '#1ea896'
-    }
-  },
-  {
-    id: '4',
-    paint: {
-      'fill-color': '#19647e'
-    }
-  },
-  {
-    id: '5',
-    paint: {
-      'fill-color': 'pink'
-    }
-  },
-  {
-    id: '6',
-    paint: {
-      'fill-color': 'red'
-    }
-  },
-  {
-    id: '7',
-    paint: {
-      'fill-color': 'purple'
-    }
-  },
-  {
-    id: '8',
-    paint: {
-      'fill-color': 'cyan'
-    }
-  }
-];
 
 class Map extends React.Component {
   constructor (props) {
@@ -127,18 +77,17 @@ class Map extends React.Component {
       });
 
       // Setup layers
-      for (const layer of mapLayers) {
-        this.map.addLayer(
-          Object.assign(
-            {
-              type: 'fill',
-              source: sourceId,
-              'source-layer': sourceLayer,
-              filter: ['==', 'id_int', 'nothing']
-            },
-            layer
-          )
-        );
+      for (const layer of techLayers) {
+        this.map.addLayer({
+          id: layer.id,
+          type: 'fill',
+          source: sourceId,
+          'source-layer': sourceLayer,
+          filter: ['==', 'id_int', 'nothing'],
+          paint: {
+            'fill-color': layer.color
+          }
+        });
       }
 
       const mapLayersIds = mapLayers.map(l => l.id);
@@ -176,7 +125,7 @@ class Map extends React.Component {
   }
 
   clearMap () {
-    for (const layer of mapLayers) {
+    for (const layer of techLayers) {
       this.map.setFilter(layer.id, ['==', 'id_int', 'nothing']);
     }
   }
