@@ -65,7 +65,17 @@ class Dashboard extends Component {
           handleFilterChange={this.props.handleFilterChange}
         />
       );
-    } else if (activeTab === 'layers') return <Layers />;
+    } else if (activeTab === 'layers') {
+      const { layers } = this.props.model.map;
+      const { layersState } = this.props;
+      return (
+        <Layers
+          layersConfig={layers}
+          layersState={layersState}
+          handleLayerChange={this.props.handleLayerChange}
+        />
+      );
+    }
   }
 
   popoverRenderFn (code) {
@@ -126,9 +136,11 @@ if (environment !== 'production') {
     updateScenario: T.func,
     handleLeverChange: T.func,
     handleFilterChange: T.func,
+    handleLayerChange: T.func,
     model: T.object,
     leversState: T.array,
-    filtersState: T.array
+    filtersState: T.array,
+    layersState: T.array
   };
 }
 

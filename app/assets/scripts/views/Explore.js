@@ -24,11 +24,13 @@ class Explore extends Component {
     this.updateScenario = this.updateScenario.bind(this);
     this.handleFilterChange = this.handleFilterChange.bind(this);
     this.handleLeverChange = this.handleLeverChange.bind(this);
+    this.handleLayerChange = this.handleLayerChange.bind(this);
 
     this.state = {
       dashboardChangedAt: Date.now(),
       filtersState: [],
-      leversState: []
+      leversState: [],
+      layersState: []
     };
   }
 
@@ -90,6 +92,17 @@ class Explore extends Component {
     this.setState({ filtersState });
   }
 
+  handleLayerChange (leverIdx) {
+    const active = this.state.layersState[leverIdx];
+    const layersState = cloneArrayAndChangeCell(
+      this.state.layersState,
+      leverIdx,
+      !active
+    );
+
+    this.setState({ layersState });
+  }
+
   async fetchModelData () {
     showGlobalLoading();
     await this.props.fetchModel(this.props.match.params.modelId);
@@ -109,7 +122,8 @@ class Explore extends Component {
               return filter.range;
             } else return filter.options.map(option => option.value);
           })
-          : []
+          : [],
+        layersState: model.map.layers.map(() => false)
       });
     }
 
@@ -190,8 +204,10 @@ class Explore extends Component {
                 updateScenario={this.updateScenario}
                 handleLeverChange={this.handleLeverChange}
                 handleFilterChange={this.handleFilterChange}
+                handleLayerChange={this.handleLayerChange}
                 leversState={this.state.leversState}
                 filtersState={this.state.filtersState}
+                layersState={this.state.layersState}
               />
             </header>
             <div className='inpage__body'>
