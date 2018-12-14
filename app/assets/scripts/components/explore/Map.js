@@ -77,12 +77,14 @@ class Map extends React.Component {
 
   componentDidUpdate (prevProps) {
     const { scenario } = this.props;
-    if (
-      this.state.mapLoaded &&
-      scenario.fetched &&
-      !prevProps.scenario.fetched
-    ) {
-      this.updateScenario();
+    if (this.state.mapLoaded) {
+      if (scenario.fetching && !prevProps.scenario.fetching) {
+        this.clearMap();
+      }
+
+      if (scenario.fetched && !prevProps.scenario.fetched) {
+        this.updateScenario();
+      }
     }
   }
 
