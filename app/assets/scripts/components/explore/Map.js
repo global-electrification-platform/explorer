@@ -90,7 +90,7 @@ class Map extends React.Component {
         });
       }
 
-      const mapLayersIds = mapLayers.map(l => l.id);
+      const mapLayersIds = techLayers.map(l => l.id);
 
       this.map.on('mousemove', e => {
         const features = this.map.queryRenderedFeatures(e.point, { layers: mapLayersIds });
