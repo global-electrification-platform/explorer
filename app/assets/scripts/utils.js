@@ -37,3 +37,65 @@ export function makeZeroFilledArray (length) {
 export function cloneArrayAndChangeCell (array, index, value) {
   return Object.assign([...array], { [index]: value });
 }
+
+export function objForeach (obj, callbackFn) {
+  return Object.keys(obj).some(k => callbackFn(obj[k], k));
+}
+
+/**
+ * Rounds a number to a specified amount of decimals.
+ *
+ * @param {number} value The value to round
+ * @param {number} decimals The number of decimals to keep. Default to 2
+ */
+export function round (value, decimals = 2) {
+  return Math.round(value * Math.pow(10, decimals)) / Math.pow(10, decimals);
+}
+
+/**
+ * Adds spaces every 3 digits and rounds the number.
+ *
+ * @param {number} num The number to format.
+ * @param {number} decimals Amount of decimals to keep. (Default 2)
+ * @param {boolean} forceDecimals Force the existence of decimal. (Default false)
+ *                  Eg: Using 2 decimals and force `true` would result:
+ *                  formatTousands(1 /2, 2, true) => 0.50
+ *
+ * @example
+ * formatTousands(1)               1
+ * formatTousands(1000)            1 000
+ * formatTousands(10000000)        10 000 000
+ * formatTousands(1/3)             0.33
+ * formatTousands(100000/3)        33 333.33
+ * formatTousands()                --
+ * formatTousands('asdasdas')      --
+ * formatTousands(1/2, 0)          1
+ * formatTousands(1/2, 0, true)    1
+ * formatTousands(1/2, 5)          0.5
+ * formatTousands(1/2, 5, true)    0.50000
+ *
+ */
+export function formatTousands (num, decimals = 2, forceDecimals = false) {
+  // isNaN(null) === true
+  if (isNaN(num) || (!num && num !== 0)) {
+    return '--';
+  }
+
+  const repeat = (char, length) => {
+    let str = '';
+    for (let i = 0; i < length; i++) str += char + '';
+    return str;
+  };
+
+  let [int, dec] = Number(round(num, decimals))
+    .toString()
+    .split('.');
+  // Space the integer part of the number.
+  int = int.replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+  // Round the decimals.
+  dec = (dec || '').substr(0, decimals);
+  // Add decimals if forced.
+  dec = forceDecimals ? `${dec}${repeat(0, decimals - dec.length)}` : dec;
+
+  return dec !== '' ? `${int}.${dec}` : int;
+}

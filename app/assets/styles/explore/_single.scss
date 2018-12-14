@@ -20,8 +20,11 @@
   .inpage__body {
     display: grid;
     grid-template-columns: auto 16rem;
-    min-height: 100vh;
     padding: 0;
+
+    @include media(large-up) {
+      min-height: 100vh;
+    }
   }
 }
 
@@ -166,6 +169,40 @@
   @extend .visually-hidden;
 }
 
+.map-number-list {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+
+  > * {
+    grid-column: auto / span 12;
+    margin: 0;
+  }
+
+  dt {
+    font-size: 0.75rem;
+    margin-bottom: $global-spacing;
+
+    &:last-of-type {
+      margin-bottom: 0;
+    }
+  }
+
+  dd {
+    font-size: 1rem;
+    font-weight: $base-font-bold;
+
+    @for $child from 1 through 6 {
+      &:nth-of-type(#{$child}) {
+        grid-row: 2 * $child - 1;
+      }
+    }
+  }
+
+  small {
+    font-size: inherit;
+  }
+}
+
 
 /* Summary
    ========================================================================== */
@@ -272,5 +309,9 @@
         grid-row: 2 * $child - 1;
       }
     }
+  }
+
+  small {
+    font-size: inherit;
   }
 }

@@ -2,6 +2,15 @@
    Explore: global
    ========================================================================== */
 
+.inpage--explore {
+  .inpage__header,
+  .inpage__body > *:not(.device-message) {
+    @include media(large-down) {
+      display: none;
+    }
+  }
+}
+
 .exp-change-button {
   @extend .button, .button--small, .button--primary-plain, .button--text-hidden;
 

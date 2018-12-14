@@ -1,3 +1,5 @@
+import qs from 'qs';
+
 import { fetchDispatchCacheFactory, fetchDispatchFactory } from './utils';
 import { dataServiceUrl } from '../config';
 
@@ -53,6 +55,21 @@ export function requestScenario () {
 }
 
 export function receiveScenario (data, error = null) {
+  const layers = {};
+  const featureTypes = data.featureTypes ? data.featureTypes.split(',') : [];
+
+  // Parse feature id by type 
+  for (let i = 0; i < featureTypes.length; i++) {
+    const type = featureTypes[i];
+
+    if (type.length > 0) {
+      if (typeof layers[type] === 'undefined') layers[type] = [];
+      layers[type].push(i);
+    }
+  }
+  data.layers = layers;
+  delete data.featureTypes;
+
   return {
     type: RECEIVE_SCENARIO,
     data,
@@ -61,10 +78,16 @@ export function receiveScenario (data, error = null) {
   };
 }
 
-export function fetchScenario (scenarioId) {
+export function fetchScenario (scenarioId, filters) {
+  let queryString = '';
+
+  if (filters && filters.length > 0) {
+    queryString = `?${qs.stringify({ filters })}`;
+  }
+
   return fetchDispatchFactory({
     statePath: ['scenario'],
-    url: `${dataServiceUrl}/scenarios/${scenarioId}`,
+    url: `${dataServiceUrl}/scenarios/${scenarioId}${queryString}`,
     requestFn: requestScenario,
     receiveFn: receiveScenario
   });
@@ -136,12 +159,12 @@ export function fetchCountries () {
     requestFn: requestCountries,
     receiveFn: receiveCountries,
     // Convert to array.
-    mutator: (res) => res.countries
+    mutator: res => res.countries
   });
 }
 
 /*
- * Actions for indiviadual Countries
+ * Actions for indiviadul Countries
  */
 
 export const REQUEST_COUNTRY = 'REQUEST_COUNTRY';
@@ -172,5 +195,42 @@ export function fetchCountry (iso) {
     url: `${dataServiceUrl}/countries/${iso}`,
     receiveFn: receiveCountry.bind(this, iso),
     requestFn: requestCountry.bind(this, iso)
+  });
+}
+
+/*
+ * Actions for indiviadul Features
+ */
+
+export const REQUEST_FEATURE = 'REQUEST_FEATURE';
+export const RECEIVE_FEATURE = 'RECEIVE_FEATURE';
+export const INVALIDATE_FEATURE = 'INVALIDATE_FEATURE';
+
+export function invalidateFeature (key) {
+  return { type: INVALIDATE_FEATURE, id: key };
+}
+
+export function requestFeature (key) {
+  return { type: REQUEST_FEATURE, id: key };
+}
+
+export function receiveFeature (key, data, error = null) {
+  return {
+    type: RECEIVE_FEATURE,
+    id: key,
+    data,
+    error,
+    receivedAt: Date.now()
+  };
+}
+
+export function fetchFeature (scenarioId, featureId) {
+  const key = `${scenarioId}--${featureId}`;
+
+  return fetchDispatchCacheFactory({
+    statePath: ['individualFeatures', key],
+    url: `${dataServiceUrl}/scenarios/${scenarioId}/features/${featureId}`,
+    receiveFn: receiveFeature.bind(this, key),
+    requestFn: requestFeature.bind(this, key)
   });
 }

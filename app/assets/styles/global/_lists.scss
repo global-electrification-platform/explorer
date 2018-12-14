@@ -11,11 +11,19 @@
   padding: 0;
   display: grid;
   grid-template-columns: repeat(12, 1fr);
-  grid-gap: ($global-spacing * 2);
+  grid-gap: $global-spacing 0;
+
+  @include media(small-up) {
+    grid-gap: ($global-spacing * 2);
+  }
 
   > * {
-    grid-column: span 6;
+    grid-column: span 12;
     display: flex;
+
+    @include media(small-up) {
+      grid-column: span 6;
+    }
 
     @include media(large-up) {
       grid-column: span 4;
@@ -44,9 +52,11 @@
   dt {
     grid-column: 1 / span 1;
     margin: 0;
-    font-size: 0;
     display: flex;
-    align-items: center;
+
+    .lgfx {
+      margin: 0.375rem 0;
+    }
   }
 
   dd {
@@ -55,29 +65,12 @@
 }
 
 .lgfx {
-  &::before {
-    content: '';
-    min-width: $global-spacing * 2;
-    height: $global-spacing / 2;
-    border-radius: $full-border-radius;
-    background: $base-color;
-  }
-}
-
-.lgfx--alpha::before {
-  background: $alpha-color;
-}
-
-.lgfx--beta::before {
-  background: $beta-color;
-}
-
-.lgfx--gama::before {
-  background: $gama-color;
-}
-
-.lgfx--delta::before {
-  background: $delta-color;
+  content: '';
+  min-width: $global-spacing * 1.5;
+  height: $global-spacing / 2;
+  border-radius: $full-border-radius;
+  background: $base-color;
+  font-size: 0;
 }
 
 
@@ -101,7 +94,11 @@
   }
 
   dd {
-    grid-column: auto / span 4;
+    grid-column: auto / span 6;
+
+    @include media(small-up) {
+      grid-column: auto / span 4;
+    }
   }
 
   a {
