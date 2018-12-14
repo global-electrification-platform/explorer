@@ -13,6 +13,7 @@ import Dashboard from '../components/explore/dashboard';
 import Map from '../components/explore/Map';
 import Summary from '../components/explore/Summary';
 import DeviceMessage from '../components/DeviceMessage';
+import { showGlobalLoading, hideGlobalLoading } from '../components/GlobalLoading';
 
 class Explore extends Component {
   constructor (props) {
@@ -38,6 +39,7 @@ class Explore extends Component {
   }
 
   async fetchModelData () {
+    showGlobalLoading();
     await this.props.fetchModel(this.props.match.params.modelId);
     const { hasError, getData } = this.props.model;
     if (!hasError()) {
@@ -58,9 +60,11 @@ class Explore extends Component {
           : []
       });
     }
+    hideGlobalLoading();
   }
 
-  updateScenario (options) {
+  async updateScenario (options) {
+    showGlobalLoading();
     const model = this.props.model.getData();
     const levers = options.levers || this.state.activeLevers;
     const filters = options.filters || this.state.activeFilters;
@@ -92,10 +96,11 @@ class Explore extends Component {
     // Update state if levers are changed
     this.setState({ activeLevers: levers, activeFilters: filters });
 
-    this.props.fetchScenario(
+    await this.props.fetchScenario(
       `${model.id}-${levers.join('_')}`,
       selectedFilters
     );
+    hideGlobalLoading();
   }
 
   render () {
