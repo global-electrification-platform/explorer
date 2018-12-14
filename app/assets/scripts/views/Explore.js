@@ -104,8 +104,6 @@ class Explore extends Component {
   }
 
   render () {
-    const { filtersState, leversState } = this.state;
-
     const { isReady, getData } = this.props.model;
     const model = getData();
 
@@ -135,8 +133,6 @@ class Explore extends Component {
               </div>
 
               <Dashboard
-                filtersState={filtersState}
-                leversState={leversState}
                 model={model}
                 updateScenario={this.updateScenario}
               />

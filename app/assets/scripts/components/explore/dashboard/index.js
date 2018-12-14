@@ -33,6 +33,13 @@ class Dashboard extends Component {
     };
   }
 
+  componentDidMount () {
+    this.props.updateScenario({
+      filters: this.state.filtersState,
+      levers: this.state.leversState
+    });
+  }
+
   handleLeverChange (leverId, optionId) {
     const leversState = cloneArrayAndChangeCell(
       this.state.leversState,
@@ -145,8 +152,6 @@ class Dashboard extends Component {
 if (environment !== 'production') {
   Dashboard.propTypes = {
     updateScenario: T.func,
-    filtersState: T.array,
-    leversState: T.array,
     model: T.object
   };
 }
