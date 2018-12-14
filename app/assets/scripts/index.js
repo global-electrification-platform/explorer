@@ -3,7 +3,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { Redirect, Router, Route, Switch } from 'react-router-dom';
-import createHistory from 'history/createBrowserHistory';
 
 import config from './config';
 
@@ -17,12 +16,11 @@ import SelectModel from './views/SelectModel';
 import UhOh from './views/UhOh';
 
 // Store
-import configureStore from './store';
-const { store } = configureStore();
+import { store, history } from './store';
 
 ReactDOM.render(
   <Provider store={store}>
-    <Router history={createHistory()}>
+    <Router history={history}>
       <Switch>
         <Route exact path='/' component={Home} />
         <Redirect exact from='/explore' to='/countries' />

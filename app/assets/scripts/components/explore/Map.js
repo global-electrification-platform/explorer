@@ -4,6 +4,8 @@ import mapboxgl from 'mapbox-gl';
 import bbox from '@turf/bbox';
 import { PropTypes as T } from 'prop-types';
 
+import MapPopover from './connected/MapPopover';
+
 import { mapboxAccessToken, environment } from '../../config';
 mapboxgl.accessToken = mapboxAccessToken;
 
@@ -204,9 +206,13 @@ class Map extends React.Component {
   showPopover (feature, lngLat) {
     let popoverContent = document.createElement('div');
 
+    const fid = feature.properties.id_int;
+    const sid = this.props.scenario.getData().id;
     // The road score has to be scaled to accurately compare roads
     // within provinces.
     render(<MapPopover
+      featureId={fid}
+      scenarioId={sid}
       onCloseClick={(e) => { e.preventDefault(); this.popover.remove(); }}
     />, popoverContent);
 
@@ -245,32 +251,3 @@ if (environment !== 'production') {
 }
 
 export default Map;
-
-const MapPopover = ({ onCloseClick }) => {
-  return (
-    <article className='popover popover--map'>
-      <div className='popover__contents'>
-        <header className='popover__header'>
-          <div className='popover__headline'>
-            <h1 className='popover__title'>
-              This is the title
-            </h1>
-          </div>
-          <div className='popover__header-toolbar'><a href='#' title='Close' className='tba-xmark tba--text-hidden' onClick={onCloseClick}><span>Close</span></a></div>
-        </header>
-        <div className='popover__body'>
-          This is the body
-        </div>
-        <footer className='popover__footer'>
-          Microwave
-        </footer>
-      </div>
-    </article>
-  );
-};
-
-if (environment !== 'production') {
-  MapPopover.propTypes = {
-    onCloseClick: T.func
-  };
-}
