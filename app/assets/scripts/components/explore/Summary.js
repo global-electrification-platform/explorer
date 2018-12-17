@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { PropTypes as T } from 'prop-types';
 
-import { environment, techLayers } from '../../config';
+import { environment } from '../../config';
 
 import ShadowScrollbars from '../ShadowScrollbar';
 import Charts from './Charts';

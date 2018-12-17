@@ -105,12 +105,22 @@ class Map extends React.Component {
           layers: mapLayersIds
         });
         if (features.length) {
-          console.log('features[0]', features[0]);
           this.showPopover(features[0], e.lngLat);
         }
       });
 
-      this.updateScenario();
+      const onSourceData = e => {
+        if (
+          e.sourceId === 'gep-vt' &&
+          e.isSourceLoaded &&
+          e.tile
+        ) {
+          this.map.off('sourcedata', onSourceData);
+          this.updateScenario();
+        }
+      };
+
+      this.map.on('sourcedata', onSourceData);
     });
   }
 

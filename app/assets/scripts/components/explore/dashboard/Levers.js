@@ -12,26 +12,26 @@ class Levers extends Component {
     this.renderLever = this.renderLever.bind(this);
   }
 
-  renderLever (lever) {
+  renderLever (lever, leverIdx) {
     const { leversState } = this.props;
-    const checkedOption = leversState[lever.id];
+    const checkedOptionIdx = leversState[leverIdx];
 
     return (
       <div className='form__group econtrols__item' key={`${lever.id}`}>
         <label className='form__label'>{lever.label}</label>
-        {lever.options.map((option, i) => {
+        {lever.options.map((option, oIdx) => {
           return (
             <label
-              key={`${lever.id}-${i}`}
+              key={`${lever.id}-${oIdx}`}
               className='form__option form__option--custom-radio'
             >
               <input
                 type='radio'
                 name={`form-radio-${lever.id}`}
-                id={`form-radio-${i}`}
-                value={i}
-                checked={checkedOption === i}
-                onChange={this.props.handleLeverChange.bind(this, lever.id, i)}
+                id={`form-radio-${oIdx}`}
+                value={oIdx}
+                checked={checkedOptionIdx === oIdx}
+                onChange={this.props.handleLeverChange.bind(this, leverIdx, oIdx)}
               />
               <span className='form__option__ui' />
               <span className='form__option__text'>{option.value}</span>

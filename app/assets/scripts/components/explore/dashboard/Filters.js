@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { PropTypes as T } from 'prop-types';
 import InputRange from 'react-input-range';
+import c from 'classnames';
 
 import { environment } from '../../../config';
 
@@ -13,8 +14,8 @@ class Filters extends Component {
     this.renderRangeFilter = this.renderRangeFilter.bind(this);
   }
 
-  renderRangeFilter (filter) {
-    const filterState = this.props.filtersState[filter.id];
+  renderRangeFilter (filter, filterIdx) {
+    const filterState = this.props.filtersState[filterIdx];
     const { min, max } = filter.range;
 
     return (
@@ -36,33 +37,38 @@ class Filters extends Component {
           name={`slider-${filter.id}`}
           id={`slider-${filter.id}`}
           value={filterState}
-          onChange={this.props.handleFilterChange.bind(this, filter.id)}
+          onChange={this.props.handleFilterChange.bind(this, filterIdx)}
         />
       </div>
     );
   }
 
-  renderOptionsFilter (filter) {
-    const filterState = this.props.filtersState[filter.id];
+  renderOptionsFilter (filter, filterIdx) {
+    const filterState = this.props.filtersState[filterIdx];
+
     return (
       <div className='form__group econtrols__item' key={`${filter.id}`}>
         <label className='form__label'>{filter.label}</label>
         {filter.options &&
-          filter.options.map((option, i) => {
+          filter.options.map(option => {
             return (
               <label
                 key={option.id}
-                className='form__option form__option--custom-checkbox'
+                className={c('form__option form__option--custom-checkbox', {
+                  disabled:
+                    filterState.length === 1 &&
+                    filterState.indexOf(option.value) > -1
+                })}
               >
                 <input
                   type='checkbox'
                   name={`form-radio-${filter.id}`}
-                  id={`form-radio-${i}`}
-                  value={i}
+                  id={`form-radio-${option.id}`}
+                  value={option.id}
                   checked={filterState.indexOf(option.value) > -1}
                   onChange={this.props.handleFilterChange.bind(
                     this,
-                    filter.id,
+                    filterIdx,
                     option.value
                   )}
                 />
@@ -78,9 +84,10 @@ class Filters extends Component {
   }
 
   renderFilters (filters) {
-    return filters.map(filter => {
-      if (filter.type === 'range') return this.renderRangeFilter(filter);
-      else return this.renderOptionsFilter(filter);
+    return filters.map((filter, filterIdx) => {
+      if (filter.type === 'range') {
+        return this.renderRangeFilter(filter, filterIdx);
+      } else return this.renderOptionsFilter(filter, filterIdx);
     });
   }
 

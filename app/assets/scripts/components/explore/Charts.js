@@ -44,7 +44,7 @@ const indicatorsLabels = {
   newCapacity: {
     label: 'added capactiy',
     format: n => {
-      return `${formatter(n)} MW`;
+      return `${formatter(n)} kW`;
     }
   }
 };

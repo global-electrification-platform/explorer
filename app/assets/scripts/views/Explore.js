@@ -2,9 +2,11 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { PropTypes as T } from 'prop-types';
+import clone from 'lodash.clone';
+import pull from 'lodash.pull';
 
 import { environment } from '../config';
-import { makeZeroFilledArray } from '../utils';
+import { makeZeroFilledArray, cloneArrayAndChangeCell } from '../utils';
 import { wrapApiResult, getFromState } from '../redux/utils';
 import { fetchModel, fetchScenario, fetchCountry } from '../redux/actions';
 
@@ -20,22 +22,72 @@ class Explore extends Component {
     super(props);
 
     this.updateScenario = this.updateScenario.bind(this);
+    this.handleFilterChange = this.handleFilterChange.bind(this);
+    this.handleLeverChange = this.handleLeverChange.bind(this);
 
     this.state = {
       dashboardChangedAt: Date.now(),
-      activeFilters: [],
-      activeLevers: []
+      filtersState: [],
+      leversState: []
     };
   }
 
-  componentDidMount () {
-    this.fetchModelData();
+  async componentDidMount () {
+    await this.fetchModelData();
+    this.updateScenario({
+      filters: this.state.filtersState,
+      levers: this.state.leversState
+    });
   }
 
   componentDidUpdate (prevProps) {
     if (prevProps.match.params.modelId !== this.props.match.params.modelId) {
       this.fetchModelData();
     }
+  }
+
+  handleLeverChange (leverIdx, optionIdx) {
+    const leversState = cloneArrayAndChangeCell(
+      this.state.leversState,
+      leverIdx,
+      optionIdx
+    );
+    this.setState({ leversState });
+  }
+
+  handleFilterChange (filterIdx, value) {
+    const filter = this.props.model.getData().filters[filterIdx];
+    const filtersState = clone(this.state.filtersState);
+
+    if (filter.type === 'range') {
+      let newRange = clone(value);
+
+      // Ensure that range values are between min and max
+      const { min, max } = filter.range;
+      if (newRange.min <= min) newRange.min = min;
+
+      // Compare using Math.floor because the input uses step=1 and returns a lower integer value when max is float.
+      if (newRange.max >= Math.floor(max)) newRange.max = max;
+
+      filtersState[filterIdx] = newRange;
+    } else {
+      // Get current selected options
+      let selectedOptions = clone(this.state.filtersState[filterIdx]);
+
+      // Toggle filter value from select options
+      if (selectedOptions.indexOf(value) > -1) {
+        pull(selectedOptions, value);
+      } else {
+        selectedOptions.push(value);
+      }
+
+      // Do not allow less than one option selected
+      if (selectedOptions.length > 0) {
+        filtersState[filterIdx] = selectedOptions;
+      }
+    }
+
+    this.setState({ filtersState });
   }
 
   async fetchModelData () {
@@ -50,24 +102,25 @@ class Explore extends Component {
 
       // Initialize levers and filters
       this.setState({
-        activeLevers: makeZeroFilledArray(model.levers.length),
-        activeFilters: model.filters
+        leversState: makeZeroFilledArray(model.levers.length),
+        filtersState: model.filters
           ? model.filters.map(filter => {
             if (filter.type === 'range') {
               return filter.range;
-            } else return 0;
+            } else return filter.options.map(option => option.value);
           })
           : []
       });
     }
+
     hideGlobalLoading();
   }
 
   async updateScenario (options) {
     showGlobalLoading();
     const model = this.props.model.getData();
-    const levers = options.levers || this.state.activeLevers;
-    const filters = options.filters || this.state.activeFilters;
+    const levers = options.levers || this.state.leversState;
+    const filters = options.filters || this.state.filtersState;
     const selectedFilters = [];
 
     // Compare filters to model defaults to identify actionable filters
@@ -94,7 +147,7 @@ class Explore extends Component {
     }
 
     // Update state if levers are changed
-    this.setState({ activeLevers: levers, activeFilters: filters });
+    this.setState({ leversState: levers, filtersState: filters });
 
     await this.props.fetchScenario(
       `${model.id}-${levers.join('_')}`,
@@ -104,8 +157,6 @@ class Explore extends Component {
   }
 
   render () {
-    const { filtersState, leversState } = this.state;
-
     const { isReady, getData } = this.props.model;
     const model = getData();
 
@@ -135,10 +186,12 @@ class Explore extends Component {
               </div>
 
               <Dashboard
-                filtersState={filtersState}
-                leversState={leversState}
                 model={model}
                 updateScenario={this.updateScenario}
+                handleLeverChange={this.handleLeverChange}
+                handleFilterChange={this.handleFilterChange}
+                leversState={this.state.leversState}
+                filtersState={this.state.filtersState}
               />
             </header>
             <div className='inpage__body'>
