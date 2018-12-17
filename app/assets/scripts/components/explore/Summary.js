@@ -1,25 +1,15 @@
 import React, { Component } from 'react';
 import { PropTypes as T } from 'prop-types';
 
-import { environment } from '../../config';
+import { environment, techLayers } from '../../config';
 
 import ShadowScrollbars from '../ShadowScrollbar';
+import Charts from './Charts';
 import Legend from './Legend';
 
 class Summary extends Component {
   render () {
     const { isReady, getData } = this.props.scenario;
-
-    const scenario = getData();
-
-    // Check if scenario is ready and contains features
-    const summary = isReady() && Object.keys(scenario.layers).length > 0
-      ? scenario.summary
-      : {
-        investmentCost: '-',
-        newCapacity: '-',
-        electrifiedPopulation: '-'
-      };
 
     return (
       <section className='exp-summary'>
@@ -28,22 +18,18 @@ class Summary extends Component {
             <h1 className='exp-summary__title'>Summary</h1>
           </div>
         </header>
-        <div className='exp-summary__body'>
-          <ShadowScrollbars theme='light'>
-            <Legend scenario={scenario} />
-            <div className='sum-block'>
-              <h2 className='sum-block__title'>Aggregated numbers</h2>
-              <dl className='sum-number-list'>
-                <dt>Population electrified</dt>
-                <dd>{summary.electrifiedPopulation}</dd>
-                <dt>Investment required</dt>
-                <dd><small>$</small> {summary.investmentCost}</dd>
-                <dt>Capacity Added</dt>
-                <dd>{summary.newCapacity} <small>KWh</small></dd>
-              </dl>
-            </div>
-          </ShadowScrollbars>
-        </div>
+        {isReady() && (
+          <div className='exp-summary__body'>
+            <ShadowScrollbars theme='light'>
+              <Legend scenario={getData()} />
+              <div className='sum-block'>
+                <h2 className='sum-block__title'>Aggregated numbers</h2>
+                <Charts scenario={getData()} />
+              </div>
+            </ShadowScrollbars>
+          </div>
+        )}
+
         <footer className='exp-summary__footer'>
           <button
             type='button'
