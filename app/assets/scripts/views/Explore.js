@@ -211,7 +211,11 @@ class Explore extends Component {
               />
             </header>
             <div className='inpage__body'>
-              <Map scenario={this.props.scenario} />
+              <Map
+                scenario={this.props.scenario}
+                externalLayers={model.map.layers}
+                layersState={this.state.layersState}
+              />
               <Summary scenario={this.props.scenario} />
             </div>
             <DeviceMessage />

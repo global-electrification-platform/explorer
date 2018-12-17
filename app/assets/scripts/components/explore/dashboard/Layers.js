@@ -17,7 +17,7 @@ class Layers extends Component {
           <div className='econtrols__subblock'>
             <ShadowScrollbars theme='light'>
               {layersConfig.map((l, idx) => (
-                <div key={l.id * idx} className='form__group econtrols__item'>
+                <div key={l.id} className='form__group econtrols__item'>
                   <label htmlFor={`layer-${l.label}`} className='form__option form__option--switch' title='Toggle on/off'>
                     <input type='checkbox' name={`layer-${l.label}`} id={`layer-${l.label}`} value='on' checked={layersState[idx]} onChange={() => handleLayerChange(idx)} />
                     <span className='form__option__text'>{l.label}</span>
