@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { PropTypes as T } from 'prop-types';
+import ReactTooltip from 'react-tooltip';
 
 import Layers from './Layers';
 import Levers from './Levers';
@@ -67,6 +68,19 @@ class Dashboard extends Component {
     } else if (activeTab === 'layers') return <Layers />;
   }
 
+  popoverRenderFn (leverIdx) {
+    if (leverIdx === null) return;
+    leverIdx = parseInt(leverIdx);
+    const lever = this.props.model.levers[leverIdx];
+    if (!lever) return null;
+
+    return (
+      <div className='popover__contents'>
+        <div className='popover__body'>{lever.description}</div>
+      </div>
+    );
+  }
+
   render () {
     return (
       <div className='econtrols'>
@@ -76,6 +90,15 @@ class Dashboard extends Component {
           </ul>
         </nav>
         {this.renderTabContent()}
+        <ReactTooltip
+          id='lever-popover'
+          effect='solid'
+          type='light'
+          className='popover'
+          wrapper='article'
+          globalEventOff='click'
+          getContent={(dataTip) => this.popoverRenderFn(dataTip)}
+        />
       </div>
     );
   }

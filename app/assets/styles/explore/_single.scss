@@ -148,6 +148,19 @@
   }
 }
 
+/* 'eci' stands for econtrol item */
+.eci-info {
+  @extend .button, .button--small, .button--primary-plain, .button--text-hidden;
+
+  span {
+    @extend .visually-hidden;
+  }
+
+  &::before {
+    @extend %collecticon-circle-information;
+  }
+}
+
 
 /* Map
    ========================================================================== */
