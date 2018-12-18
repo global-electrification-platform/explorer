@@ -354,3 +354,37 @@
   font-size: 0.75rem;
   line-height: 1rem;
 }
+
+.chart-number-list {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+
+  > * {
+    grid-column: auto / span 12;
+    margin: 0;
+  }
+
+  dt {
+    font-size: 0.75rem;
+    margin-bottom: $global-spacing;
+
+    &:last-of-type {
+      margin-bottom: 0;
+    }
+  }
+
+  dd {
+    font-size: 1rem;
+    font-weight: $base-font-bold;
+
+    @for $child from 1 through 6 {
+      &:nth-of-type(#{$child}) {
+        grid-row: 2 * $child - 1;
+      }
+    }
+  }
+
+  small {
+    font-size: inherit;
+  }
+}

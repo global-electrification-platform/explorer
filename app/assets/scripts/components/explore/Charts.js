@@ -77,15 +77,18 @@ class Charts extends Component {
                 </div>
               </header>
               <div className='popover__body'>
-                {Object.keys(summary).map(layerId => {
-                  const { format } = indicatorsLabels[keyIndicator];
-                  const layer = techLayers.filter(l => l.id === layerId)[0];
-                  return (
-                    <p key={layerId}>
-                      {layer.label}: {format(summary[layerId])}
-                    </p>
-                  );
-                })}
+                <dl className='chart-number-list'>
+                  {Object.keys(summary).map(layerId => {
+                    const { format } = indicatorsLabels[keyIndicator];
+                    const layer = techLayers.filter(l => l.id === layerId)[0];
+                    return (
+                      <Fragment key={layerId}>
+                        <dt>{layer.label}</dt>
+                        <dd>{format(summary[layerId])}</dd>
+                      </Fragment>
+                    );
+                  })}
+                </dl>
               </div>
             </div>
           </article>
@@ -151,7 +154,7 @@ class Charts extends Component {
                   popoverIsVisible: true,
                   popoverPosition: {
                     yAxis,
-                    right: window.outerWidth - left
+                    right: window.innerWidth - left
                   },
                   keyIndicator
                 });
