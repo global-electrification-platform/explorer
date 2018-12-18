@@ -296,6 +296,10 @@
   }
 }
 
+.sum-block--charts {
+  padding: ($global-spacing * 2) $contained-spacing;
+}
+
 .sum-block__title {
   @extend .visually-hidden;
 }
@@ -320,6 +324,75 @@
 
   dd {
     font-size: 1.25rem;
+    font-weight: $base-font-bold;
+
+    @for $child from 1 through 6 {
+      &:nth-of-type(#{$child}) {
+        grid-row: 2 * $child - 1;
+      }
+    }
+  }
+
+  small {
+    font-size: inherit;
+  }
+}
+
+.sum-chart-media {
+  text-align: center;
+  margin-bottom: $global-spacing * 1.5;
+
+  /* Animation */
+  animation: pop-in 0.16s ease 0s 1;
+}
+
+.sum-chart-media__item {
+  margin-bottom: $global-spacing / 2;
+
+  svg {
+    vertical-align: top;
+  }
+
+  .slice {
+    stroke: #fff;
+    stroke-width: 2;
+  }
+
+  text {
+    font-size: 1.25rem;
+    font-weight: $base-font-bold;
+    fill: $base-color;
+    opacity: 0.8;
+  }
+}
+
+.sum-chart-media__caption {
+  @extend .heading-alt;
+  color: rgba($base-font-color, 0.64);
+  font-size: 0.75rem;
+  line-height: 1rem;
+}
+
+.chart-number-list {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+
+  > * {
+    grid-column: auto / span 12;
+    margin: 0;
+  }
+
+  dt {
+    font-size: 0.75rem;
+    margin-bottom: $global-spacing;
+
+    &:last-of-type {
+      margin-bottom: 0;
+    }
+  }
+
+  dd {
+    font-size: 1rem;
     font-weight: $base-font-bold;
 
     @for $child from 1 through 6 {

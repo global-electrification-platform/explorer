@@ -14,7 +14,7 @@ class ShareOptions extends React.Component {
     const url = window.location.toString();
     return (
       <Breakpoint>
-        {({largeUp}) => (
+        {({ largeUp }) => (
           <Dropdown
             className='share-menu'
             triggerClassName='global-menu__link global-menu__link--share'
@@ -51,7 +51,7 @@ class ShareOptions extends React.Component {
               <CopyField value={url} />
             </div>
           </Dropdown>
-      )}
+        )}
       </Breakpoint>
     );
   }

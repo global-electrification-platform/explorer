@@ -1260,6 +1260,38 @@
     "@turf/invariant" "^5.1.5"
     d3-voronoi "1.1.2"
 
+"@vx/curve@0.0.182":
+  version "0.0.182"
+  resolved "https://registry.yarnpkg.com/@vx/curve/-/curve-0.0.182.tgz#55487fe71fb00ccc2299437e76b2c68b88c37c7f"
+  integrity sha512-tpuRMx/zs1mvSPUuxynN/7Kj4Mqf94vCdmUvO9LdnrgL5kgFpNgyYN9e0mZyfetbS+FDhBrtR9GC7d6vD36NrA==
+  dependencies:
+    d3-shape "^1.0.6"
+
+"@vx/group@0.0.182", "@vx/group@^0.0.182":
+  version "0.0.182"
+  resolved "https://registry.yarnpkg.com/@vx/group/-/group-0.0.182.tgz#991ca37c4a0116cf071d0ebef6a6189ad64c79ec"
+  integrity sha512-T9LzQlNPmPDI8A6j3J7T5914xeeaZaVVgDh4NQa0H0BL7G/kHL94XAa4GbG618W6jbsyxoqmyGUqny1LO99S0w==
+  dependencies:
+    classnames "^2.2.5"
+
+"@vx/point@0.0.182":
+  version "0.0.182"
+  resolved "https://registry.yarnpkg.com/@vx/point/-/point-0.0.182.tgz#72abfa6ae923cf9bad23d9dd51709b2f31d81bf8"
+  integrity sha512-ZWDFVL5+RQXDSY6a5DZDRAoTFUmz0nxqUJidIHP9kDN1MGwoX43yaG7Ss1iJxe5a7Np5XGB2sm3xvmgZvf4a6g==
+
+"@vx/shape@^0.0.182":
+  version "0.0.182"
+  resolved "https://registry.yarnpkg.com/@vx/shape/-/shape-0.0.182.tgz#7ebd9040eb68190eed4d6a6b34e17d96d8c7331b"
+  integrity sha512-GXvr8ZLCRZcBao7X+4f+wr3COdqTS68zMJ9ch/ZcXj8P7xZJsrhx/eQF7t6jleIED/Wb0ly/3wdSpRJ6QKnSMw==
+  dependencies:
+    "@vx/curve" "0.0.182"
+    "@vx/group" "0.0.182"
+    "@vx/point" "0.0.182"
+    classnames "^2.2.5"
+    d3-path "^1.0.5"
+    d3-shape "^1.2.0"
+    prop-types "^15.5.10"
+
 JSONStream@^1.0.3:
   version "1.3.5"
   resolved "https://registry.yarnpkg.com/JSONStream/-/JSONStream-1.3.5.tgz#3208c1f08d3a4d99261ab64f92302bc15e111ca0"
@@ -3628,6 +3660,18 @@ d3-geo@1.7.1:
   integrity sha512-O4AempWAr+P5qbk2bC2FuN/sDW4z+dN2wDf9QV3bxQt4M5HfOEeXLgJ/UKQW0+o1Dj8BE+L5kiDbdWUMjsmQpw==
   dependencies:
     d3-array "1"
+
+d3-path@1, d3-path@^1.0.5:
+  version "1.0.7"
+  resolved "https://registry.yarnpkg.com/d3-path/-/d3-path-1.0.7.tgz#8de7cd693a75ac0b5480d3abaccd94793e58aae8"
+  integrity sha512-q0cW1RpvA5c5ma2rch62mX8AYaiLX0+bdaSM2wxSU9tXjU4DNvkx9qiUvjkuWCj3p22UO/hlPivujqMiR9PDzA==
+
+d3-shape@^1.0.6, d3-shape@^1.2.0:
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/d3-shape/-/d3-shape-1.2.2.tgz#f9dba3777a5825f9a8ce8bc928da08c17679e9a7"
+  integrity sha512-hUGEozlKecFZ2bOSNt7ENex+4Tk9uc/m0TtTEHBvitCBxUNjhzm5hS2GrrVRD/ae4IylSmxGeqX5tWC2rASMlQ==
+  dependencies:
+    d3-path "1"
 
 d3-voronoi@1.1.2:
   version "1.1.2"
@@ -7223,6 +7267,11 @@ lodash.keys@~2.4.1:
     lodash._isnative "~2.4.1"
     lodash._shimkeys "~2.4.1"
     lodash.isobject "~2.4.1"
+
+lodash.map@^4.6.0:
+  version "4.6.0"
+  resolved "https://registry.yarnpkg.com/lodash.map/-/lodash.map-4.6.0.tgz#771ec7839e3473d9c4cde28b19394c3562f4f6d3"
+  integrity sha1-dx7Hg540c9nEzeKLGTlMNWL09tM=
 
 lodash.memoize@~3.0.3:
   version "3.0.4"
