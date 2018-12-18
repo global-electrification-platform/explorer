@@ -110,9 +110,14 @@ export function formatKeyIndicator (n) {
   let divider;
   let digits = 1;
 
-  if (n > 1000000) {
+  if (n > 1000000000) {
+    unit = 'B';
+    divider = 1000000000;
+    digits = 1;
+  } else if (n > 1000000) {
     unit = 'M';
     divider = 1000000;
+    digits = 0;
   } else if (n > 1000) {
     unit = 'k';
     divider = 1000;

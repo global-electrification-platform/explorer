@@ -26,7 +26,7 @@ const indicatorsLabels = {
   newCapacity: {
     label: 'Added Capactiy',
     format: n => {
-      return `${formatKeyIndicator(n)} kW`;
+      return `${formatKeyIndicator(n)}W`;
     }
   }
 };

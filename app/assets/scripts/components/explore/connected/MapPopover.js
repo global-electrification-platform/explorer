@@ -36,7 +36,7 @@ class MapPopover extends React.Component {
                 <dt>Investment required</dt>
                 <dd><small>$</small> {formatTousands(data.investmentCost)}</dd>
                 <dt>Capacity Added</dt>
-                <dd>{formatTousands(data.newCapacity)} <small>KWh</small></dd>
+                <dd>{formatTousands(data.newCapacity)} <small>KW</small></dd>
               </dl>
             ) : (
               <p>Loading</p>
