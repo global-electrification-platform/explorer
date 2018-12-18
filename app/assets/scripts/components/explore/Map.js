@@ -34,7 +34,6 @@ class Map extends React.Component {
       if (scenario.fetching && !prevProps.scenario.fetching) {
         this.clearMap();
       }
-
       if (scenario.fetched && !prevProps.scenario.fetched) {
         this.updateScenario();
       }
@@ -95,12 +94,16 @@ class Map extends React.Component {
       const mapLayersIds = techLayers.map(l => l.id);
 
       this.map.on('mousemove', e => {
-        const features = this.map.queryRenderedFeatures(e.point, { layers: mapLayersIds });
+        const features = this.map.queryRenderedFeatures(e.point, {
+          layers: mapLayersIds
+        });
         this.map.getCanvas().style.cursor = features.length ? 'pointer' : '';
       });
 
       this.map.on('click', e => {
-        const features = this.map.queryRenderedFeatures(e.point, { layers: mapLayersIds });
+        const features = this.map.queryRenderedFeatures(e.point, {
+          layers: mapLayersIds
+        });
         if (features.length) {
           this.showPopover(features[0], e.lngLat);
         }
@@ -171,11 +174,17 @@ class Map extends React.Component {
     const sid = this.props.scenario.getData().id;
     // The road score has to be scaled to accurately compare roads
     // within provinces.
-    render(<MapPopover
-      featureId={fid}
-      scenarioId={sid}
-      onCloseClick={(e) => { e.preventDefault(); this.popover.remove(); }}
-    />, popoverContent);
+    render(
+      <MapPopover
+        featureId={fid}
+        scenarioId={sid}
+        onCloseClick={e => {
+          e.preventDefault();
+          this.popover.remove();
+        }}
+      />,
+      popoverContent
+    );
 
     // Populate the popup and set its coordinates
     // based on the feature found.

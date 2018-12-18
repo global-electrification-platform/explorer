@@ -1,6 +1,6 @@
 {
   "name": "gep-explorer",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Web application to explore least electrification scenarios on Global Electrification Platform.",
   "main": "index.js",
   "repository": {
@@ -96,6 +96,8 @@
   },
   "dependencies": {
     "@turf/turf": "^5.1.6",
+    "@vx/group": "^0.0.182",
+    "@vx/shape": "^0.0.182",
     "babel-polyfill": "^6.26.0",
     "classnames": "^2.2.6",
     "clipboard": "^2.0.4",
@@ -105,6 +107,7 @@
     "lodash.clone": "^4.5.0",
     "lodash.defaultsdeep": "^4.6.0",
     "lodash.get": "^4.4.2",
+    "lodash.map": "^4.6.0",
     "lodash.pull": "^4.1.0",
     "mapbox-gl": "^0.51.0",
     "prop-types": "^15.6.2",
@@ -118,6 +121,7 @@
     "react-router": "^4.3.1",
     "react-router-dom": "^4.3.1",
     "react-tether": "^1.0.4",
+    "react-tooltip": "^3.9.0",
     "react-transition-group": "^2.5.0",
     "redux": "^4.0.1",
     "redux-thunk": "^2.3.0"

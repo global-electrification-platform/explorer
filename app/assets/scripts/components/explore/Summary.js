@@ -1,26 +1,15 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { PropTypes as T } from 'prop-types';
 
 import { environment } from '../../config';
 
 import ShadowScrollbars from '../ShadowScrollbar';
+import Charts from './Charts';
 import Legend from './Legend';
-import { formatTousands } from '../../utils';
 
 class Summary extends Component {
   render () {
     const { isReady, getData } = this.props.scenario;
-
-    const scenario = getData();
-
-    // Check if scenario is ready and contains features
-    const summary = isReady() && Object.keys(scenario.layers).length > 0
-      ? scenario.summary
-      : {
-        investmentCost: '-',
-        newCapacity: '-',
-        electrifiedPopulation: '-'
-      };
 
     return (
       <section className='exp-summary'>
@@ -31,18 +20,15 @@ class Summary extends Component {
         </header>
         <div className='exp-summary__body'>
           <ShadowScrollbars theme='light'>
-            <Legend scenario={scenario} />
-            <div className='sum-block'>
-              <h2 className='sum-block__title'>Aggregated numbers</h2>
-              <dl className='sum-number-list'>
-                <dt>Population electrified</dt>
-                <dd>{formatTousands(summary.electrifiedPopulation)}</dd>
-                <dt>Investment required</dt>
-                <dd><small>$</small> {formatTousands(summary.investmentCost)}</dd>
-                <dt>Capacity Added</dt>
-                <dd>{formatTousands(summary.newCapacity)} <small>KWh</small></dd>
-              </dl>
-            </div>
+            {isReady() && (
+              <Fragment>
+                <Legend scenario={getData()} />
+                <div className='sum-block sum-block--charts'>
+                  <h2 className='sum-block__title'>Charts</h2>
+                  <Charts scenario={getData()} />
+                </div>
+              </Fragment>
+            )}
           </ShadowScrollbars>
         </div>
         <footer className='exp-summary__footer'>

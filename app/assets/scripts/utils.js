@@ -99,3 +99,36 @@ export function formatTousands (num, decimals = 2, forceDecimals = false) {
 
   return dec !== '' ? `${int}.${dec}` : int;
 }
+
+/**
+ * Format key indicators
+ *
+ * @param {number} value The value to round
+ */
+export function formatKeyIndicator (n) {
+  let unit;
+  let divider;
+  let digits = 1;
+
+  if (n > 1000000000) {
+    unit = 'B';
+    divider = 1000000000;
+    digits = 1;
+  } else if (n > 1000000) {
+    unit = 'M';
+    divider = 1000000;
+    digits = 0;
+  } else if (n > 1000) {
+    unit = 'k';
+    divider = 1000;
+    digits = 0;
+  } else {
+    unit = '';
+    divider = 1;
+    digits = 0;
+  }
+  return `${Math.round(n / divider).toLocaleString('en-US', {
+    minimumFractionDigits: digits,
+    maximumFractionDigits: digits
+  })} ${unit}`;
+}

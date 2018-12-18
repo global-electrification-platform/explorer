@@ -58,7 +58,7 @@ export function receiveScenario (data, error = null) {
   const layers = {};
   const featureTypes = data.featureTypes ? data.featureTypes.split(',') : [];
 
-  // Parse feature id by type 
+  // Parse feature id by type
   for (let i = 0; i < featureTypes.length; i++) {
     const type = featureTypes[i];
 

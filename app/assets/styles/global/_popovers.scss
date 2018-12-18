@@ -165,6 +165,10 @@
   }
 }
 
+#econtrol-popover .popover__contents {
+  font-size: 0.875rem;
+}
+
 
 /*
   React specific styles to handle animations.
@@ -191,4 +195,18 @@
   &.popover-trans-exit-active {
     opacity: 0;
   }
+}
+
+
+/*
+  Chart Popover
+ */
+
+#chart-popover .popover {
+  @extend %popover-skin;
+  transform: translate(0, -50%);
+  z-index: 1000;
+  position: absolute;
+  width: 18rem;
+  top: 0;
 }
