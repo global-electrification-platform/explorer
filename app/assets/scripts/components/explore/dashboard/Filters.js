@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { PropTypes as T } from 'prop-types';
 import InputRange from 'react-input-range';
+import ReactTooltip from 'react-tooltip';
 import c from 'classnames';
 
 import { environment } from '../../../config';
@@ -14,15 +15,26 @@ class Filters extends Component {
     this.renderRangeFilter = this.renderRangeFilter.bind(this);
   }
 
+  componentDidMount () {
+    ReactTooltip.rebuild();
+  }
+
   renderRangeFilter (filter, filterIdx) {
     const filterState = this.props.filtersState[filterIdx];
     const { min, max } = filter.range;
 
     return (
       <div className='form__group econtrols__item' key={`${filter.id}`}>
-        <label htmlFor={`slider-${filter.id}`} className='form__label'>
-          {filter.label}
-        </label>
+        <div className='form__inner-header'>
+          <div className='form__inner-headline'>
+            <label className='form__label' htmlFor={`slider-${filter.id}`}>{filter.label}</label>
+          </div>
+          {filter.description && (
+            <div className='form__inner-actions'>
+              <button type='button' className='eci-info' data-tip={`filter-${filterIdx}`} data-for='econtrol-popover' data-event='click'><span>Lever info</span></button>
+            </div>
+          )}
+        </div>
         <div className='form__output-group'>
           <output htmlFor={`slider-${filter.id}`} className='form__output'>
             {filterState.min}
@@ -48,7 +60,16 @@ class Filters extends Component {
 
     return (
       <div className='form__group econtrols__item' key={`${filter.id}`}>
-        <label className='form__label'>{filter.label}</label>
+        <div className='form__inner-header'>
+          <div className='form__inner-headline'>
+            <label className='form__label'>{filter.label}</label>
+          </div>
+          {filter.description && (
+            <div className='form__inner-actions'>
+              <button type='button' className='eci-info' data-tip={`filter-${filterIdx}`} data-for='econtrol-popover' data-event='click'><span>Lever info</span></button>
+            </div>
+          )}
+        </div>
         {filter.options &&
           filter.options.map(option => {
             return (
