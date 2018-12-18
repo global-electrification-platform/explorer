@@ -278,6 +278,10 @@
   }
 }
 
+.sum-block--charts {
+  padding: ($global-spacing * 2) $contained-spacing;
+}
+
 .sum-block__title {
   @extend .visually-hidden;
 }
@@ -314,4 +318,31 @@
   small {
     font-size: inherit;
   }
+}
+
+.sum-chart-media {
+  text-align: center;
+  margin-bottom: $global-spacing * 1.5;
+}
+
+.sum-chart-media__item {
+  margin-bottom: $global-spacing / 2;
+
+  svg {
+    vertical-align: top;
+  }
+
+  text {
+    font-size: 1.25rem;
+    font-weight: $base-font-bold;
+    fill: $base-color;
+    opacity: 0.8;
+  }
+}
+
+.sum-chart-media__caption {
+  @extend .heading-alt;
+  color: rgba($base-font-color, 0.64);
+  font-size: 0.75rem;
+  line-height: 1rem;
 }

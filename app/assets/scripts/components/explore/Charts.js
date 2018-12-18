@@ -32,17 +32,17 @@ const formatter = n => {
 
 const indicatorsLabels = {
   electrifiedPopulation: {
-    label: 'people affected',
+    label: 'People Affected',
     format: formatter
   },
   investmentCost: {
-    label: 'investment',
+    label: 'Investment Required',
     format: n => {
       return `$${formatter(n)}`;
     }
   },
   newCapacity: {
-    label: 'added capactiy',
+    label: 'Added Capactiy',
     format: n => {
       return `${formatter(n)} kW`;
     }
@@ -60,7 +60,7 @@ class Charts extends Component {
     const { summary, summaryByType } = this.props.scenario;
     const { label, format } = indicatorsLabels[keyIndicator];
 
-    const height = 180;
+    const height = 128;
     const padding = 0;
     const radius = (height - 2 * padding) / 2;
     const thickness = 20;
@@ -72,33 +72,35 @@ class Charts extends Component {
     });
 
     return (
-      <svg width={height} height={height} key={keyIndicator}>
-        <Group top={height / 2} left={height / 2}>
-          <text textAnchor='middle' dy='-0.5em'>
-            {format(summary[keyIndicator])}
-          </text>
-          <text textAnchor='middle' dy='0.5em'>
-            {label}
-          </text>
-          <Pie
-            data={data}
-            pieValue={d => d.value}
-            fillOpacity={0.8}
-            outerRadius={radius}
-            innerRadius={radius - thickness}
-          >
-            {pie => {
-              return pie.arcs.map((arc, i) => {
-                return (
-                  <g key={`letters-${arc.data.label}-${i}`}>
-                    <path d={pie.path(arc)} fill={arc.data.layer.color} />
-                  </g>
-                );
-              });
-            }}
-          </Pie>
-        </Group>
-      </svg>
+      <figure className='sum-chart-media'>
+        <div className='sum-chart-media__item'>
+          <svg width={height} height={height} key={keyIndicator}>
+            <Group top={height / 2} left={height / 2}>
+              <text textAnchor='middle' dy='0.5em'>
+                {format(summary[keyIndicator])}
+              </text>
+              <Pie
+                data={data}
+                pieValue={d => d.value}
+                fillOpacity={0.8}
+                outerRadius={radius}
+                innerRadius={radius - thickness}
+              >
+                {pie => {
+                  return pie.arcs.map((arc, i) => {
+                    return (
+                      <g key={`letters-${arc.data.label}-${i}`}>
+                        <path d={pie.path(arc)} fill={arc.data.layer.color} />
+                      </g>
+                    );
+                  });
+                }}
+              </Pie>
+            </Group>
+          </svg>
+        </div>
+        <figcaption className='sum-chart-media__caption'>{label}</figcaption>
+      </figure>
     );
   }
   render () {

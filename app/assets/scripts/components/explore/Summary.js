@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { PropTypes as T } from 'prop-types';
 
 import { environment } from '../../config';
@@ -18,18 +18,19 @@ class Summary extends Component {
             <h1 className='exp-summary__title'>Summary</h1>
           </div>
         </header>
-        {isReady() && (
-          <div className='exp-summary__body'>
-            <ShadowScrollbars theme='light'>
+        <div className='exp-summary__body'>
+          <ShadowScrollbars theme='light'>
+            {isReady() && (
+            <Fragment>
               <Legend scenario={getData()} />
-              <div className='sum-block'>
-                <h2 className='sum-block__title'>Aggregated numbers</h2>
+              <div className='sum-block sum-block--charts'>
+                <h2 className='sum-block__title'>Charts</h2>
                 <Charts scenario={getData()} />
               </div>
-            </ShadowScrollbars>
-          </div>
-        )}
-
+            </Fragment>
+            )}
+          </ShadowScrollbars>
+        </div>
         <footer className='exp-summary__footer'>
           <button
             type='button'
