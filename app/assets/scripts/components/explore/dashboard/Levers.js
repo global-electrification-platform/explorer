@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { PropTypes as T } from 'prop-types';
+import ReactTooltip from 'react-tooltip';
 
 import { environment } from '../../../config';
 
@@ -10,6 +11,10 @@ class Levers extends Component {
     super(props);
 
     this.renderLever = this.renderLever.bind(this);
+  }
+
+  componentDidMount () {
+    ReactTooltip.rebuild();
   }
 
   renderLever (lever, leverIdx) {
@@ -24,7 +29,7 @@ class Levers extends Component {
           </div>
           {lever.description && (
             <div className='form__inner-actions'>
-              <button type='button' className='eci-info' data-tip={leverIdx} data-for='lever-popover' data-event='click'><span>Lever info</span></button>
+              <button type='button' className='eci-info' data-tip={`lever-${leverIdx}`} data-for='econtrol-popover' data-event='click'><span>Lever info</span></button>
             </div>
           )}
         </div>

@@ -68,15 +68,32 @@ class Dashboard extends Component {
     } else if (activeTab === 'layers') return <Layers />;
   }
 
-  popoverRenderFn (leverIdx) {
-    if (leverIdx === null) return;
-    leverIdx = parseInt(leverIdx);
-    const lever = this.props.model.levers[leverIdx];
-    if (!lever) return null;
+  popoverRenderFn (code) {
+    if (code === null) return;
+    // Because of the way that ReactTooltip works, code has to be a string.
+    // It has the following format: <type>-<idx>
+    // Example: lever-0
+    const match = code.match(/^([a-z0-9]+)-(.+)/);
+    if (!match) return;
+
+    const [ , type, n ] = match;
+    const idx = parseInt(n);
+
+    let obj;
+
+    if (type === 'lever') {
+      obj = this.props.model.levers[idx];
+    } else if (type === 'filter') {
+      obj = this.props.model.filters[idx];
+    } else {
+      return;
+    }
+
+    if (!obj) return;
 
     return (
       <div className='popover__contents'>
-        <div className='popover__body'>{lever.description}</div>
+        <div className='popover__body'>{obj.description}</div>
       </div>
     );
   }
@@ -91,7 +108,7 @@ class Dashboard extends Component {
         </nav>
         {this.renderTabContent()}
         <ReactTooltip
-          id='lever-popover'
+          id='econtrol-popover'
           effect='solid'
           type='light'
           className='popover'
