@@ -60,8 +60,8 @@ class Charts extends Component {
     const { summary, summaryByType } = this.props.scenario;
     const { label, format } = indicatorsLabels[keyIndicator];
 
-    const height = 128;
-    const padding = 0;
+    const height = 144;
+    const padding = 8;
     const radius = (height - 2 * padding) / 2;
     const thickness = 20;
 
@@ -90,7 +90,7 @@ class Charts extends Component {
                   return pie.arcs.map((arc, i) => {
                     return (
                       <g key={`letters-${arc.data.label}-${i}`}>
-                        <path d={pie.path(arc)} fill={arc.data.layer.color} />
+                        <path className='slice' d={pie.path(arc)} fill={arc.data.layer.color} />
                       </g>
                     );
                   });

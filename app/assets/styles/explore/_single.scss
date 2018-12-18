@@ -332,6 +332,11 @@
     vertical-align: top;
   }
 
+  .slice {
+    stroke: #fff;
+    stroke-width: 2;
+  }
+
   text {
     font-size: 1.25rem;
     font-weight: $base-font-bold;
