@@ -83,3 +83,23 @@
     opacity: 1;
   }
 }
+
+
+/* Pop in
+   ========================================================================== */
+
+@keyframes pop-in {
+  0% {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+
+  90% {
+    opacity: 1;
+    transform: scale(1.15);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
