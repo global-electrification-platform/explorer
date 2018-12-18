@@ -21,13 +21,13 @@ class Summary extends Component {
         <div className='exp-summary__body'>
           <ShadowScrollbars theme='light'>
             {isReady() && (
-            <Fragment>
-              <Legend scenario={getData()} />
-              <div className='sum-block sum-block--charts'>
-                <h2 className='sum-block__title'>Charts</h2>
-                <Charts scenario={getData()} />
-              </div>
-            </Fragment>
+              <Fragment>
+                <Legend scenario={getData()} />
+                <div className='sum-block sum-block--charts'>
+                  <h2 className='sum-block__title'>Charts</h2>
+                  <Charts scenario={getData()} />
+                </div>
+              </Fragment>
             )}
           </ShadowScrollbars>
         </div>
