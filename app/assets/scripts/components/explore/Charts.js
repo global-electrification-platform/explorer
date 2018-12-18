@@ -1,59 +1,97 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { PropTypes as T } from 'prop-types';
 import map from 'lodash.map';
-
-import { environment, techLayers } from '../../config';
-
 import { Group } from '@vx/group';
 import { Pie } from '@vx/shape';
 
-const formatter = n => {
-  let unit;
-  let divider;
-  let digits = 1;
+import { environment, techLayers } from '../../config';
+import { formatKeyIndicator } from '../../utils';
 
-  if (n > 1000000) {
-    unit = 'M';
-    divider = 1000000;
-  } else if (n > 1000) {
-    unit = 'k';
-    divider = 1000;
-    digits = 0;
-  } else {
-    unit = '';
-    divider = 1;
-    digits = 0;
-  }
-  return `${Math.round(n / divider).toLocaleString('en-US', {
-    minimumFractionDigits: digits,
-    maximumFractionDigits: digits
-  })} ${unit}`;
-};
+import Modal from '../Modal';
 
+/**
+ * Labels and formatter for Key Indicators
+ */
 const indicatorsLabels = {
   electrifiedPopulation: {
     label: 'People Affected',
-    format: formatter
+    format: formatKeyIndicator
   },
   investmentCost: {
     label: 'Investment Required',
     format: n => {
-      return `$${formatter(n)}`;
+      return `$${formatKeyIndicator(n)}`;
     }
   },
   newCapacity: {
     label: 'Added Capactiy',
     format: n => {
-      return `${formatter(n)} kW`;
+      return `${formatKeyIndicator(n)} kW`;
     }
   }
 };
 
+/**
+ * The Chart component
+ */
 class Charts extends Component {
   constructor (props) {
     super(props);
 
+    this.state = {
+      popoverIsVisible: false,
+      popoverPosition: {}
+    };
+
     this.renderChart = this.renderChart.bind(this);
+    this.renderPopover = this.renderPopover.bind(this);
+    this.updatePopover = this.updatePopover.bind(this);
+  }
+
+  updatePopover (popoverIsVisible, keyIndicator) {
+    this.setState({
+      popoverIsVisible,
+      keyIndicator
+    });
+  }
+
+  renderPopover () {
+    const {
+      popoverIsVisible,
+      popoverPosition: { yAxis, right },
+      keyIndicator
+    } = this.state;
+
+    const summary = this.props.scenario.summaryByType[keyIndicator];
+
+    return (
+      popoverIsVisible && (
+        <Modal elementId={'#chart-popover'}>
+          <article className='popover' style={{ top: yAxis, right }}>
+            <div className='popover__contents'>
+              <header className='popover__header'>
+                <div className='popover__headline'>
+                  <h1 className='popover__title'>
+                    {indicatorsLabels[keyIndicator].label}
+                  </h1>
+                </div>
+              </header>
+              <div className='popover__body'>
+                {Object.keys(summary).map(layerId => {
+                  const { format } = indicatorsLabels[keyIndicator];
+                  const layer = techLayers.filter(l => l.id === layerId)[0];
+                  return (
+                    <p key={layerId}>
+                      {layer.label}: {format(summary[layerId])}
+                    </p>
+                  );
+                })}
+              </div>
+            </div>
+          </article>
+        </Modal>
+      )
+    );
   }
 
   renderChart (keyIndicator) {
@@ -72,9 +110,9 @@ class Charts extends Component {
     });
 
     return (
-      <figure className='sum-chart-media'>
+      <figure className='sum-chart-media' key={keyIndicator}>
         <div className='sum-chart-media__item'>
-          <svg width={height} height={height} key={keyIndicator}>
+          <svg width={height} height={height}>
             <Group top={height / 2} left={height / 2}>
               <text textAnchor='middle' dy='0.5em'>
                 {format(summary[keyIndicator])}
@@ -90,13 +128,41 @@ class Charts extends Component {
                   return pie.arcs.map((arc, i) => {
                     return (
                       <g key={`letters-${arc.data.label}-${i}`}>
-                        <path className='slice' d={pie.path(arc)} fill={arc.data.layer.color} />
+                        <path
+                          className='slice'
+                          d={pie.path(arc)}
+                          fill={arc.data.layer.color}
+                        />
                       </g>
                     );
                   });
                 }}
               </Pie>
             </Group>
+            <rect
+              width={height}
+              height={height}
+              opacity={0}
+              onMouseEnter={event => {
+                const { target } = event;
+                const { top, height, left } = target.getBoundingClientRect();
+                const yAxis = top + height / 2;
+                this.setState({
+                  popoverIsVisible: true,
+                  popoverPosition: {
+                    yAxis,
+                    right: window.outerWidth - left
+                  },
+                  keyIndicator
+                });
+              }}
+              onMouseLeave={() => {
+                this.setState({
+                  popoverIsVisible: false,
+                  keyIndicator: null
+                });
+              }}
+            />
           </svg>
         </div>
         <figcaption className='sum-chart-media__caption'>{label}</figcaption>
@@ -104,10 +170,15 @@ class Charts extends Component {
     );
   }
   render () {
-    return ['electrifiedPopulation', 'investmentCost', 'newCapacity'].map(
-      indicator => {
-        return this.renderChart(indicator);
-      }
+    return (
+      <Fragment>
+        {this.renderPopover()}
+        {['electrifiedPopulation', 'investmentCost', 'newCapacity'].map(
+          indicator => {
+            return this.renderChart(indicator);
+          }
+        )}
+      </Fragment>
     );
   }
 }

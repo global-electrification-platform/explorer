@@ -192,3 +192,17 @@
     opacity: 0;
   }
 }
+
+
+/*
+  Chart Popover
+ */
+
+#chart-popover .popover {
+  @extend %popover-skin;
+  transform: translate(0, -50%);
+  z-index: 1000;
+  position: absolute;
+  width: 18rem;
+  top: 0;
+}
