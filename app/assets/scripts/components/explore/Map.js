@@ -42,13 +42,12 @@ const buildLayersForSource = (sourceId, sourceLayer) => [
   },
   {
     id: `${sourceId}-point`,
-    type: 'symbol',
+    type: 'circle',
     source: sourceId,
     'source-layer': sourceLayer,
     filter: ['==', '$type', 'Point'],
-    layout: {
-      visibility: 'none',
-      'icon-image': 'marker-15'
+    paint: {
+      'circle-color': 'purple'
     }
   }
 ];
