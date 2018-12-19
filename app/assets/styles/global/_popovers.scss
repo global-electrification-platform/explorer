@@ -210,3 +210,25 @@
   width: 18rem;
   top: 0;
 }
+
+
+/* Mapbox specific
+   ========================================================================== */
+
+.popover__contents {
+  .mapboxgl-popup-anchor-top-left & {
+    border-radius: 0 $base-border-radius $base-border-radius $base-border-radius;
+  }
+
+  .mapboxgl-popup-anchor-top-right & {
+    border-radius: $base-border-radius 0 $base-border-radius $base-border-radius;
+  }
+
+  .mapboxgl-popup-anchor-bottom-right & {
+    border-radius: $base-border-radius $base-border-radius 0 $base-border-radius;
+  }
+
+  .mapboxgl-popup-anchor-bottom-left & {
+    border-radius: $base-border-radius $base-border-radius $base-border-radius 0;
+  }
+}
