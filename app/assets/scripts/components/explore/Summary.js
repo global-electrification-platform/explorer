@@ -31,9 +31,8 @@ class Summary extends Component {
           <Fragment>
             <div className='sum-block sum-block--message'>
               <h2 className='sum-block__title'>Scenario not found</h2>
-              <p className='sum-block__title'>
-                Nno data is available for this scenario, please choose a
-                different set of levers.
+              <p>
+                No data is available for this scenario. Please choose a different set of levers.
               </p>
             </div>
           </Fragment>
@@ -44,7 +43,7 @@ class Summary extends Component {
         <Fragment>
           <div className='sum-block sum-block--message'>
             <h2 className='sum-block__title'>Loading</h2>
-            <p className='sum-block__title'>Fetching data for scenario...</p>
+            <p>Fetching data for scenario...</p>
           </div>
         </Fragment>
       );
