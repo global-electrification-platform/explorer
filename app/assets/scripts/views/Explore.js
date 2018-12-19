@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { PropTypes as T } from 'prop-types';
+import c from 'classnames';
 import clone from 'lodash.clone';
 import pull from 'lodash.pull';
 
@@ -166,15 +167,12 @@ class Explore extends Component {
     /**
      * Get country data. If there is only one model for this country, disable "Change Model" button.
      */
-    let country = '';
     let countryName = '';
-    let changeModelStatus = 'disabled';
+    let hasMultipleModels = false;
     if (this.props.country.isReady()) {
-      country = this.props.country.getData();
-      countryName = country.name;
-      if (country.models.length > 1) {
-        changeModelStatus = '';
-      }
+      const { name, models } = this.props.country.getData();
+      countryName = name;
+      hasMultipleModels = models.length > 1;
     }
 
     return (
@@ -185,7 +183,7 @@ class Explore extends Component {
               <div className='inpage__subheader'>
                 <div className='inpage__headline'>
                   <h1 className='inpage__title'>
-                    <span className='visually-hidden'>Explore</span>{' '}
+                    <span className='visually-hidden'>Explore</span>
                     {countryName}
                   </h1>
                   <p className='inpage__subtitle'>{model.name}</p>
@@ -193,7 +191,9 @@ class Explore extends Component {
                 <div className='inpage__hactions'>
                   <Link
                     to={`/countries/${model.country}/models`}
-                    className={`exp-change-button ${changeModelStatus}`}
+                    className={c('exp-change-button', {
+                      disabled: !hasMultipleModels
+                    })}
                     title='Change model'
                   >
                     <span>Change</span>
