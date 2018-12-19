@@ -202,7 +202,6 @@
    ========================================================================== */
 
 #chart-popover .popover {
-  @extend %popover-skin;
   transform: translate(0, -50%);
   z-index: 1000;
   position: absolute;
