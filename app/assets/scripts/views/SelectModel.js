@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { PropTypes as T } from 'prop-types';
 
@@ -33,6 +33,12 @@ class SelectModel extends Component {
     if (hasError()) return <p>Something went wrong. Try again.</p>;
 
     const models = getData().models;
+
+    if (models.length === 1) {
+      const model = models[0];
+      return <Redirect push to={`/explore/${model.id}`} />;
+    }
+
     return (
       <ol className='model-list card-list'>
         {models.map(m => (
