@@ -83,7 +83,11 @@ class Charts extends Component {
                     const layer = techLayers.filter(l => l.id === layerId)[0];
                     return (
                       <Fragment key={layerId}>
-                        <dt>{layer.label}</dt>
+                        <dt>
+                          <span className={`lgfx`} style={{ backgroundColor: layer.color }}>
+                            {layer.label}
+                          </span>
+                        </dt>
                         <dd>{format(summary[layerId])}</dd>
                       </Fragment>
                     );
