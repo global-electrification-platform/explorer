@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { PropTypes as T } from 'prop-types';
+import c from 'classnames';
 import clone from 'lodash.clone';
 import pull from 'lodash.pull';
 
@@ -15,7 +16,10 @@ import Dashboard from '../components/explore/dashboard';
 import Map from '../components/explore/Map';
 import Summary from '../components/explore/Summary';
 import DeviceMessage from '../components/DeviceMessage';
-import { showGlobalLoading, hideGlobalLoading } from '../components/GlobalLoading';
+import {
+  showGlobalLoading,
+  hideGlobalLoading
+} from '../components/GlobalLoading';
 
 class Explore extends Component {
   constructor (props) {
@@ -160,9 +164,16 @@ class Explore extends Component {
     const { isReady, getData } = this.props.model;
     const model = getData();
 
-    const countryName = this.props.country.isReady()
-      ? this.props.country.getData().name
-      : '';
+    /**
+     * Get country data. If there is only one model for this country, disable "Change Model" button.
+     */
+    let countryName = '';
+    let hasMultipleModels = false;
+    if (this.props.country.isReady()) {
+      const { name, models } = this.props.country.getData();
+      countryName = name;
+      hasMultipleModels = models.length > 1;
+    }
 
     return (
       <App pageTitle='Explore'>
@@ -171,13 +182,18 @@ class Explore extends Component {
             <header className='inpage__header'>
               <div className='inpage__subheader'>
                 <div className='inpage__headline'>
-                  <h1 className='inpage__title'><span className='visually-hidden'>Explore</span> {countryName}</h1>
+                  <h1 className='inpage__title'>
+                    <span className='visually-hidden'>Explore</span>
+                    {countryName}
+                  </h1>
                   <p className='inpage__subtitle'>{model.name}</p>
                 </div>
                 <div className='inpage__hactions'>
                   <Link
                     to={`/countries/${model.country}/models`}
-                    className='exp-change-button'
+                    className={c('exp-change-button', {
+                      disabled: !hasMultipleModels
+                    })}
                     title='Change model'
                   >
                     <span>Change</span>
