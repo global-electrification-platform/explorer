@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { PropTypes as T } from 'prop-types';
 
@@ -9,15 +9,27 @@ import { environment } from '../config';
 
 import App from './App';
 import DeviceMessage from '../components/DeviceMessage';
-import { showGlobalLoading, hideGlobalLoading } from '../components/GlobalLoading';
+import {
+  showGlobalLoading,
+  hideGlobalLoading
+} from '../components/GlobalLoading';
 
 const CountryCard = ({ iso, name }) => {
   return (
     <article className='card card--sumary card--country'>
-      <Link to={`/countries/${iso}/models`} className='card__contents' title={`Select ${name}`}>
+      <Link
+        to={`/countries/${iso}/models`}
+        className='card__contents'
+        title={`Select ${name}`}
+      >
         <figure className='card__media'>
           <div className='card__thumb'>
-            <img width='640' height='480' src={`/assets/graphics/content/flags-4x3/${iso}.svg`} alt='Country flag' />
+            <img
+              width='640'
+              height='480'
+              src={`/assets/graphics/content/flags-4x3/${iso}.svg`}
+              alt='Country flag'
+            />
           </div>
         </figure>
         <header className='card__header'>
@@ -42,21 +54,24 @@ class SelectCountry extends Component {
     hideGlobalLoading();
   }
 
-  renderCoutntryList () {
+  renderCountryList () {
     const { isReady, hasError, getData } = this.props.countries;
 
     if (!isReady()) return null;
     if (hasError()) return <p>Something went wrong. Try again.</p>;
 
     const countries = getData();
+
+    if (countries.length === 1) {
+      const country = countries[0];
+      return <Redirect push to={`/countries/${country.id}/models`} />;
+    }
+
     return (
       <ol className='country-list card-list'>
         {countries.map(c => (
           <li key={c.id} className='country-list__item'>
-            <CountryCard
-              iso={c.id}
-              name={c.name}
-            />
+            <CountryCard iso={c.id} name={c.name} />
           </li>
         ))}
       </ol>
@@ -76,7 +91,7 @@ class SelectCountry extends Component {
             </div>
           </header>
           <div className='inpage__body'>
-            {this.renderCoutntryList()}
+            {this.renderCountryList()}
             <DeviceMessage />
           </div>
         </section>
