@@ -12,6 +12,46 @@ mapboxgl.accessToken = mapboxAccessToken;
 const sourceId = 'gep-vt';
 const sourceLayer = 'mw';
 
+// Adds layers for points
+const buildLayersForSource = (sourceId, sourceLayer) => [
+  {
+    id: `${sourceId}-line`,
+    type: 'line',
+    source: sourceId,
+    'source-layer': sourceLayer,
+    filter: ['==', '$type', 'LineString'],
+    layout: {
+      visibility: 'none'
+    },
+    paint: {
+      'line-color': 'red'
+    }
+  },
+  {
+    id: `${sourceId}-polygon`,
+    type: 'fill',
+    source: sourceId,
+    'source-layer': sourceLayer,
+    filter: ['==', '$type', 'Polygon'],
+    layout: {
+      visibility: 'none'
+    },
+    paint: {
+      'fill-color': 'blue'
+    }
+  },
+  {
+    id: `${sourceId}-point`,
+    type: 'circle',
+    source: sourceId,
+    'source-layer': sourceLayer,
+    filter: ['==', '$type', 'Point'],
+    paint: {
+      'circle-color': 'purple'
+    }
+  }
+];
+
 class Map extends React.Component {
   constructor (props) {
     super(props);
@@ -37,6 +77,13 @@ class Map extends React.Component {
       if (scenario.fetched && !prevProps.scenario.fetched) {
         this.updateScenario();
       }
+    }
+
+    // Quick and dirty diffing.
+    const prevLState = prevProps.layersState.join('');
+    const lState = this.props.layersState.join('');
+    if (prevLState !== lState) {
+      this.toggleExternalLayers();
     }
   }
 
@@ -72,6 +119,71 @@ class Map extends React.Component {
     this.map.on('load', () => {
       this.setState({ mapLoaded: true });
 
+      const mapLayersIds = techLayers.map(l => l.id);
+
+      // Add external layers.
+      // Layers come from the model. Each layer object must have:
+      // id:            Id of the layer
+      // label:         Label for display
+      // type:          (vector|raster)
+      // url:           Url to a tilejson or mapbox://. Use interchangeably with tiles
+      // tiles:         Array of tile url. Use interchangeably with url
+      // vectorLayers:  Array of source layers to show. Only in case of type vector
+      this.props.externalLayers.forEach(layer => {
+        if (layer.type === 'vector') {
+          if (!layer.vectorLayers || !layer.vectorLayers.length) {
+            return console.warn( // eslint-disable-line
+              `Layer [${layer.label}] has missing (vectorLayers) property.`
+            );
+          }
+          if ((!layer.tiles || !layer.tiles.length) && !layer.url) {
+            return console.warn( // eslint-disable-line
+              `Layer [${layer.label}] must have (url) or (tiles) property.`
+            );
+          }
+
+          const sourceId = `ext-${layer.id}`;
+          let options = { type: 'vector' };
+
+          if (layer.tiles) {
+            options.tiles = layer.tiles;
+          } else if (layer.url) {
+            options.url = layer.url;
+          }
+
+          this.map.addSource(sourceId, options);
+          layer.vectorLayers.forEach(vt => {
+            buildLayersForSource(sourceId, vt).forEach(l => {
+              this.map.addLayer(l);
+            });
+          });
+
+        // Raster layer type.
+        } else if (layer.type === 'raster') {
+          if ((!layer.tiles || !layer.tiles.length)) {
+            return console.warn( // eslint-disable-line
+              `Layer [${layer.label}] must have (tiles) property.`
+            );
+          }
+          const sourceId = `ext-${layer.id}`;
+          this.map.addSource(sourceId, {
+            type: 'raster',
+            tiles: layer.tiles
+          });
+          this.map.addLayer({
+            id: `${sourceId}-tiles`,
+            type: 'raster',
+            source: sourceId
+          });
+        } else {
+          console.warn( // eslint-disable-line
+            `Layer [${layer.label}] has unsupported type [layer.type] and won't be added.`
+          );
+        }
+      });
+
+      this.toggleExternalLayers();
+
       this.map.addSource(sourceId, {
         type: 'vector',
         url: 'mapbox://devseed.2a5bvzlz'
@@ -91,8 +203,6 @@ class Map extends React.Component {
         });
       }
 
-      const mapLayersIds = techLayers.map(l => l.id);
-
       this.map.on('mousemove', e => {
         const features = this.map.queryRenderedFeatures(e.point, {
           layers: mapLayersIds
@@ -110,17 +220,36 @@ class Map extends React.Component {
       });
 
       const onSourceData = e => {
-        if (
-          e.sourceId === 'gep-vt' &&
-          e.isSourceLoaded &&
-          e.tile
-        ) {
+        if (e.sourceId === 'gep-vt' && e.isSourceLoaded && e.tile) {
           this.map.off('sourcedata', onSourceData);
           this.updateScenario();
         }
       };
 
       this.map.on('sourcedata', onSourceData);
+    });
+  }
+
+  toggleExternalLayers () {
+    if (!this.state.mapLoaded) return;
+
+    const { externalLayers, layersState } = this.props;
+
+    externalLayers.forEach((layer, lIdx) => {
+      if (layer.type === 'vector') {
+        const layers = [
+          `ext-${layer.id}-line`,
+          `ext-${layer.id}-polygon`,
+          `ext-${layer.id}-point`
+        ];
+        const visibility = layersState[lIdx] ? 'visible' : 'none';
+        layers.forEach(l =>
+          this.map.setLayoutProperty(l, 'visibility', visibility)
+        );
+      } else if (layer.type === 'raster') {
+        const visibility = layersState[lIdx] ? 'visible' : 'none';
+        this.map.setLayoutProperty(`ext-${layer.id}-tiles`, 'visibility', visibility);
+      }
     });
   }
 
@@ -216,7 +345,9 @@ class Map extends React.Component {
 
 if (environment !== 'production') {
   Map.propTypes = {
-    scenario: T.object
+    scenario: T.object,
+    externalLayers: T.array,
+    layersState: T.array
   };
 }
 

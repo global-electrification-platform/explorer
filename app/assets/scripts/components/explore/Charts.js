@@ -67,7 +67,7 @@ class Charts extends Component {
     return (
       popoverIsVisible && (
         <Modal elementId={'#chart-popover'}>
-          <article className='popover' style={{ top: yAxis, right }}>
+          <article className='popover popover--anchor-right' style={{ top: yAxis, right: right + 12 }}>
             <div className='popover__contents'>
               <header className='popover__header'>
                 <div className='popover__headline'>
@@ -83,7 +83,11 @@ class Charts extends Component {
                     const layer = techLayers.filter(l => l.id === layerId)[0];
                     return (
                       <Fragment key={layerId}>
-                        <dt>{layer.label}</dt>
+                        <dt>
+                          <span className={`lgfx`} style={{ backgroundColor: layer.color }}>
+                            {layer.label}
+                          </span>
+                        </dt>
                         <dd>{format(summary[layerId])}</dd>
                       </Fragment>
                     );
@@ -101,10 +105,10 @@ class Charts extends Component {
     const { summary, summaryByType } = this.props.scenario;
     const { label, format } = indicatorsLabels[keyIndicator];
 
-    const height = 144;
-    const padding = 8;
+    const height = 132;
+    const padding = 2;
     const radius = (height - 2 * padding) / 2;
-    const thickness = 20;
+    const thickness = 16;
 
     const data = map(summaryByType[keyIndicator], (value, type) => {
       // Get layer configuration for type
