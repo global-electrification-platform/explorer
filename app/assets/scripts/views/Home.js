@@ -66,7 +66,7 @@ class Home extends Component {
               <div className='home-intro__lead'>
                 <p>
                   Explore least cost electrification strategies around the
-                  world, interacting with country contextual data and diferent
+                  world, interacting with country contextual data and different
                   investment scenarios.
                 </p>
               </div>
