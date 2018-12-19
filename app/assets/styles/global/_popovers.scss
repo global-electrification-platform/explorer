@@ -210,6 +210,94 @@
 }
 
 
+/* Anchor modifiers (triangle tip)
+   ========================================================================== */
+
+.popover__contents {
+  &::before {
+    @extend %popover-skin;
+    position: absolute;
+    content: '';
+    width: 1rem;
+    height: 1rem;
+    pointer-events: none;
+    border-radius: 0;
+  }
+
+  .popover--anchor-top-left & {
+    border-top-left-radius: 0;
+
+    &::before {
+      transform: translate(0, -100%);
+      clip-path: polygon(0 50%, 0% 100%, 50% 100%);
+    }
+  }
+
+  .popover--anchor-top & {
+    &::before {
+      left: 50%;
+      transform: translate(-50%, -100%);
+      clip-path: polygon(50% 50%, 0% 100%, 100% 100%);
+    }
+  }
+
+  .popover--anchor-top-right & {
+    border-top-right-radius: 0;
+
+    &::before {
+      right: 0;
+      transform: translate(0, -100%);
+      clip-path: polygon(100% 50%, 50% 100%, 100% 100%);
+    }
+  }
+
+  .popover--anchor-right & {
+    &::before {
+      top: 50%;
+      right: 0;
+      transform: translate(100%, -50%);
+      clip-path: polygon(50% 50%, 0 0, 0 100%);
+    }
+  }
+
+  .popover--anchor-bottom-right & {
+    border-bottom-right-radius: 0;
+
+    &::before {
+      top: 100%;
+      right: 0;
+      clip-path: polygon(100% 0, 50% 0, 100% 50%);
+    }
+  }
+
+  .popover--anchor-bottom & {
+    &::before {
+      top: 100%;
+      left: 50%;
+      transform: translate(-50%, 0);
+      clip-path: polygon(100% 0, 0 0, 50% 50%);
+    }
+  }
+
+  .popover--anchor-bottom-left & {
+    border-bottom-left-radius: 0;
+
+    &::before {
+      top: 100%;
+      clip-path: polygon(50% 0, 0 0, 0 50%);
+    }
+  }
+
+  .popover--anchor-left & {
+    &::before {
+      top: 50%;
+      transform: translate(-100%, -50%);
+      clip-path: polygon(100% 0, 50% 50%, 100% 100%);
+    }
+  }
+}
+
+
 /* Mapbox specific
    ========================================================================== */
 

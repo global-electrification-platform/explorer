@@ -67,7 +67,7 @@ class Charts extends Component {
     return (
       popoverIsVisible && (
         <Modal elementId={'#chart-popover'}>
-          <article className='popover' style={{ top: yAxis, right: right + 8 }}>
+          <article className='popover popover--anchor-right' style={{ top: yAxis, right: right + 12 }}>
             <div className='popover__contents'>
               <header className='popover__header'>
                 <div className='popover__headline'>
