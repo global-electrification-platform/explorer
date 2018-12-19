@@ -121,25 +121,6 @@ class Map extends React.Component {
     this.map.on('load', () => {
       this.setState({ mapLoaded: true });
 
-      this.map.addSource(sourceId, {
-        type: 'vector',
-        url: 'mapbox://devseed.2a5bvzlz'
-      });
-
-      // Setup layers
-      for (const layer of techLayers) {
-        this.map.addLayer({
-          id: layer.id,
-          type: 'fill',
-          source: sourceId,
-          'source-layer': sourceLayer,
-          filter: ['==', 'id_int', 'nothing'],
-          paint: {
-            'fill-color': layer.color
-          }
-        });
-      }
-
       const mapLayersIds = techLayers.map(l => l.id);
 
       // Add external layers.
@@ -204,6 +185,25 @@ class Map extends React.Component {
       });
 
       this.toggleExternalLayers();
+
+      this.map.addSource(sourceId, {
+        type: 'vector',
+        url: 'mapbox://devseed.2a5bvzlz'
+      });
+
+      // Setup layers
+      for (const layer of techLayers) {
+        this.map.addLayer({
+          id: layer.id,
+          type: 'fill',
+          source: sourceId,
+          'source-layer': sourceLayer,
+          filter: ['==', 'id_int', 'nothing'],
+          paint: {
+            'fill-color': layer.color
+          }
+        });
+      }
 
       this.map.on('mousemove', e => {
         const features = this.map.queryRenderedFeatures(e.point, {
