@@ -296,10 +296,6 @@
   }
 }
 
-.sum-block--charts {
-  padding: ($global-spacing * 2) $contained-spacing;
-}
-
 .sum-block__title {
   @extend .visually-hidden;
 }
@@ -340,7 +336,7 @@
 
 .sum-chart-media {
   text-align: center;
-  margin-bottom: $global-spacing * 1.5;
+  margin-bottom: $global-spacing;
 
   /* Animation */
   animation: pop-in 0.16s ease 0s 1;
@@ -351,6 +347,14 @@
 
   svg {
     vertical-align: top;
+    cursor: pointer;
+
+    /* Animation */
+    transition: transform 0.16s ease 0s;
+
+    &:hover {
+      transform: scale(1.05);
+    }
   }
 
   .slice {

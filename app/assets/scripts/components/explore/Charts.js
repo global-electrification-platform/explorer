@@ -67,7 +67,7 @@ class Charts extends Component {
     return (
       popoverIsVisible && (
         <Modal elementId={'#chart-popover'}>
-          <article className='popover' style={{ top: yAxis, right }}>
+          <article className='popover' style={{ top: yAxis, right: right + 8 }}>
             <div className='popover__contents'>
               <header className='popover__header'>
                 <div className='popover__headline'>
@@ -101,10 +101,10 @@ class Charts extends Component {
     const { summary, summaryByType } = this.props.scenario;
     const { label, format } = indicatorsLabels[keyIndicator];
 
-    const height = 144;
-    const padding = 8;
+    const height = 132;
+    const padding = 2;
     const radius = (height - 2 * padding) / 2;
-    const thickness = 20;
+    const thickness = 16;
 
     const data = map(summaryByType[keyIndicator], (value, type) => {
       // Get layer configuration for type
