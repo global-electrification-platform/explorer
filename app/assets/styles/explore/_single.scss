@@ -296,6 +296,19 @@
   }
 }
 
+.sum-block--message {
+  height: 100%;
+  text-align: center;
+  color: rgba($base-font-color, 0.64);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.sum-block--charts {
+  padding: ($global-spacing * 2) $contained-spacing;
+}
+
 .sum-block__title {
   @extend .visually-hidden;
 }
