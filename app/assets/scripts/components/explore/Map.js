@@ -6,6 +6,8 @@ import { PropTypes as T } from 'prop-types';
 
 import MapPopover from './connected/MapPopover';
 import { mapboxAccessToken, environment, techLayers } from '../../config';
+import MapboxControl from '../MapboxReactControl';
+import LayerControlDropdown from './MapLayerControl';
 
 mapboxgl.accessToken = mapboxAccessToken;
 
@@ -85,6 +87,9 @@ class Map extends React.Component {
     if (prevLState !== lState) {
       this.toggleExternalLayers();
     }
+
+    // Manually render dectached component.
+    this.layerDropdownControl && this.layerDropdownControl.render(this.props, this.state);
   }
 
   componentWillUnmount () {
@@ -103,6 +108,16 @@ class Map extends React.Component {
       style: 'mapbox://styles/devseed/cjpbi9n1811yd2snwl9ezys5p',
       bounds: [[32.34375, -9.145486056167277], [36.2109375, -17.35063837604883]]
     });
+
+    this.layerDropdownControl = new MapboxControl((props, state) => (
+      <LayerControlDropdown
+        layersConfig={this.props.externalLayers}
+        layersState={this.props.layersState}
+        handleLayerChange={this.props.handleLayerChange}
+      />
+    ));
+
+    this.map.addControl(this.layerDropdownControl, 'bottom-left');
 
     // Disable map rotation using right click + drag.
     this.map.dragRotate.disable();
@@ -346,6 +361,7 @@ class Map extends React.Component {
 if (environment !== 'production') {
   Map.propTypes = {
     scenario: T.object,
+    handleLayerChange: T.func,
     externalLayers: T.array,
     layersState: T.array
   };

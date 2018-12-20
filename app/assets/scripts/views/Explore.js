@@ -229,6 +229,7 @@ class Explore extends Component {
                 scenario={this.props.scenario}
                 externalLayers={model.map.layers}
                 layersState={this.state.layersState}
+                handleLayerChange={this.handleLayerChange}
               />
               <Summary scenario={this.props.scenario} />
             </div>
