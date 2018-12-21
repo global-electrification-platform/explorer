@@ -4,6 +4,7 @@ import { PropTypes as T } from 'prop-types';
 
 import { environment } from '../../config';
 
+import ShadowScrollbars from '../ShadowScrollbar';
 import Dropdown from '../Dropdown';
 
 // React component for the layer control.
@@ -15,25 +16,34 @@ export default class LayerControlDropdown extends React.Component {
 
     return (
       <Dropdown
-        className='exp-map-layers-menu'
-        triggerClassName='exp-map-layers-menu__trigger'
+        className='layers-menu'
+        triggerClassName='layers-menu-trigger'
         triggerActiveClassName='button--active'
         triggerText='Map layers'
         triggerTitle='Toggle map layers'
         direction='up'
         alignment='left' >
-        <h6 className='drop__title'>Toggle layers</h6>
-        {layersConfig.map((l, idx) => (
-          <div key={l.id} className='form__group econtrols__item'>
-            <Toggle
-              text={l.label}
-              name={`switch-${l.id}`}
-              title='Toggle on/off'
-              checked={layersState[idx]}
-              onChange={() => handleLayerChange(idx)}
-            />
-          </div>
-        ))}
+        <ShadowScrollbars theme='light'>
+          <h6 className='drop__title'>Toggle layers</h6>
+          <ul className='layers-list'>
+          {layersConfig.map((l, idx) => (
+            <li className='layers-list__item'>
+              <div key={l.id} className='form__group'>
+                <Toggle
+                  text={l.label}
+                  name={`switch-${l.id}`}
+                  title='Toggle on/off'
+                  checked={layersState[idx]}
+                  onChange={() => handleLayerChange(idx)}
+                />
+              </div>
+              <div className='form__help'>
+                <p>Source: lorem ipsum <a href='#' title='View'>dolor sit</a> amet.</p>
+              </div>
+            </li>
+          ))}
+          </ul>
+        </ShadowScrollbars>
       </Dropdown>
     );
   }
