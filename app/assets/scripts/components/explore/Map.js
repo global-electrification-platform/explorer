@@ -132,12 +132,14 @@ class Map extends React.Component {
       this.props.externalLayers.forEach(layer => {
         if (layer.type === 'vector') {
           if (!layer.vectorLayers || !layer.vectorLayers.length) {
-            return console.warn( // eslint-disable-line
+            // eslint-disable-next-line no-console
+            return console.warn(
               `Layer [${layer.label}] has missing (vectorLayers) property.`
             );
           }
           if ((!layer.tiles || !layer.tiles.length) && !layer.url) {
-            return console.warn( // eslint-disable-line
+            // eslint-disable-next-line no-console
+            return console.warn(
               `Layer [${layer.label}] must have (url) or (tiles) property.`
             );
           }
@@ -158,10 +160,11 @@ class Map extends React.Component {
             });
           });
 
-        // Raster layer type.
+          // Raster layer type.
         } else if (layer.type === 'raster') {
-          if ((!layer.tiles || !layer.tiles.length)) {
-            return console.warn( // eslint-disable-line
+          if (!layer.tiles || !layer.tiles.length) {
+            // eslint-disable-next-line no-console
+            return console.warn(
               `Layer [${layer.label}] must have (tiles) property.`
             );
           }
@@ -176,8 +179,11 @@ class Map extends React.Component {
             source: sourceId
           });
         } else {
-          console.warn( // eslint-disable-line
-            `Layer [${layer.label}] has unsupported type [layer.type] and won't be added.`
+          // eslint-disable-next-line no-console
+          console.warn(
+            `Layer [${
+              layer.label
+            }] has unsupported type [layer.type] and won't be added.`
           );
         }
       });
@@ -189,7 +195,7 @@ class Map extends React.Component {
         url: 'mapbox://devseed.2a5bvzlz'
       });
 
-      // Setup layers
+      // Init cluster polygon layers
       for (const layer of techLayers) {
         this.map.addLayer({
           id: layer.id,
@@ -203,11 +209,71 @@ class Map extends React.Component {
         });
       }
 
+      /**
+       * Hover outline layer
+       */
+      this.map.addLayer({
+        id: 'hovered-outline',
+        type: 'line',
+        source: sourceId,
+        'source-layer': sourceLayer,
+        filter: ['==', 'id_int', 'nothing'],
+        paint: {
+          'line-color': '#14213d',
+          'line-opacity': 0.64,
+          'line-width': 2
+        }
+      });
+
+      /**
+       * Hover fill layer
+       */
+      this.map.addLayer({
+        id: 'hovered-fill',
+        type: 'fill',
+        source: sourceId,
+        'source-layer': sourceLayer,
+        filter: ['==', 'id_int', 'nothing'],
+        paint: {
+          'fill-color': 'transparent'
+        }
+      });
+
+      /**
+       * Selected feature layer
+       */
+      this.map.addLayer({
+        id: 'selected',
+        type: 'line',
+        source: sourceId,
+        'source-layer': sourceLayer,
+        filter: ['==', 'id_int', 'nothing'],
+        paint: {
+          'line-color': '#14213d',
+          'line-opacity': 0.64,
+          'line-width': 2
+        }
+      });
+
       this.map.on('mousemove', e => {
         const features = this.map.queryRenderedFeatures(e.point, {
           layers: mapLayersIds
         });
-        this.map.getCanvas().style.cursor = features.length ? 'pointer' : '';
+
+        if (features.length > 0) {
+          this.map.getCanvas().style.cursor = 'pointer';
+
+          const featureId = features[0].properties.id_int;
+          this.map.setFilter('hovered-fill', ['==', 'id_int'].concat(featureId));
+          this.map.setFilter('hovered-outline', ['==', 'id_int'].concat(featureId));
+        } else {
+          this.map.getCanvas().style.cursor = '';
+        }
+      });
+
+      this.map.on('mouseleave', 'hovered-fill', () => {
+        this.map.setFilter('hovered-fill', ['==', 'id_int', 'nothing']);
+        this.map.setFilter('hovered-outline', ['==', 'id_int', 'nothing']);
       });
 
       this.map.on('click', e => {
@@ -248,7 +314,11 @@ class Map extends React.Component {
         );
       } else if (layer.type === 'raster') {
         const visibility = layersState[lIdx] ? 'visible' : 'none';
-        this.map.setLayoutProperty(`ext-${layer.id}-tiles`, 'visibility', visibility);
+        this.map.setLayoutProperty(
+          `ext-${layer.id}-tiles`,
+          'visibility',
+          visibility
+        );
       }
     });
   }
@@ -301,8 +371,7 @@ class Map extends React.Component {
 
     const fid = feature.properties.id_int;
     const sid = this.props.scenario.getData().id;
-    // The road score has to be scaled to accurately compare roads
-    // within provinces.
+
     render(
       <MapPopover
         featureId={fid}
@@ -315,15 +384,21 @@ class Map extends React.Component {
       popoverContent
     );
 
-    // Populate the popup and set its coordinates
-    // based on the feature found.
     if (this.popover != null) {
       this.popover.remove();
     }
 
-    this.popover = new mapboxgl.Popup({ closeButton: false })
+    // Populate the popup and set its coordinates
+    // based on the feature found.
+    this.popover = new mapboxgl.Popup({ closeButton: false, offset: 10 })
       .setLngLat(lngLat)
       .setDOMContent(popoverContent)
+      .once('open', e => {
+        this.map.setFilter('selected', ['in', 'id_int'].concat(fid));
+      })
+      .once('close', e => {
+        this.map.setFilter('selected', ['in', 'id_int', 'nothing']);
+      })
       .addTo(this.map);
   }
 
