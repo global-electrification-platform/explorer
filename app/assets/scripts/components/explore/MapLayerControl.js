@@ -22,26 +22,34 @@ export default class LayerControlDropdown extends React.Component {
         triggerText='Map layers'
         triggerTitle='Toggle map layers'
         direction='up'
-        alignment='left' >
+        alignment='left'
+      >
         <ShadowScrollbars theme='light'>
           <h6 className='drop__title'>Toggle layers</h6>
           <ul className='layers-list'>
-          {layersConfig.map((l, idx) => (
-            <li className='layers-list__item'>
-              <div key={l.id} className='form__group'>
-                <Toggle
-                  text={l.label}
-                  name={`switch-${l.id}`}
-                  title='Toggle on/off'
-                  checked={layersState[idx]}
-                  onChange={() => handleLayerChange(idx)}
-                />
-              </div>
-              <div className='form__help'>
-                <p>Source: lorem ipsum <a href='#' title='View'>dolor sit</a> amet.</p>
-              </div>
-            </li>
-          ))}
+            {layersConfig.map((l, idx) => (
+              <li className='layers-list__item' key={l.id}>
+                <div className='form__group'>
+                  <Toggle
+                    text={l.label}
+                    name={`switch-${l.id}`}
+                    title='Toggle on/off'
+                    checked={layersState[idx]}
+                    onChange={() => handleLayerChange(idx)}
+                  />
+                </div>
+                {l.source && (
+                  <div className='form__help'>
+                    <p>
+                      Source:{' '}
+                      <a target='_blank' href={l.source.url} title='View'>
+                        {l.source.description}
+                      </a>
+                    </p>
+                  </div>
+                )}
+              </li>
+            ))}
           </ul>
         </ShadowScrollbars>
       </Dropdown>
@@ -57,20 +65,25 @@ if (environment !== 'production') {
   };
 }
 
-const Toggle = (props) => {
-  const {
-    text,
-    name,
-    title,
-    checked,
-    onChange
-  } = props;
+const Toggle = props => {
+  const { text, name, title, checked, onChange } = props;
 
   return (
-    <label htmlFor={name} className='form__option form__option--switch' title={title}>
-      <input type='checkbox' name={name} id={name} value='on' checked={checked} onChange={onChange}/>
+    <label
+      htmlFor={name}
+      className='form__option form__option--switch'
+      title={title}
+    >
+      <input
+        type='checkbox'
+        name={name}
+        id={name}
+        value='on'
+        checked={checked}
+        onChange={onChange}
+      />
       <span className='form__option__text'>{text}</span>
-      <span className='form__option__ui'></span>
+      <span className='form__option__ui' />
     </label>
   );
 };
