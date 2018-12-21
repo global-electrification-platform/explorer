@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg version="1.1" id="collecticon-lock" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="16px" height="16px" viewBox="0 0 16 16">
+  <rect fill="none" width="16" height="16" />
+  <path d="M8,9L0,5l8-4l8,4L8,9z M14.4,7.2L16,8l-8,4L0,8l1.6-0.8L8,10.4L14.4,7.2z M14.4,10.2L16,11l-8,4l-8-4l1.6-0.8L8,13.4 L14.4,10.2z" />
+</svg>

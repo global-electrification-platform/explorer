@@ -79,7 +79,6 @@
   flex-flow: column nowrap;
   margin: 0;
   overflow: hidden; /* Fixed for ShadowScrollbar */
-
   height: 300px;
 }
 
@@ -141,7 +140,7 @@
 .econtrols__actions {
   position: relative;
   z-index: 80;
-  padding: $global-spacing $contained-spacing;
+  padding: $contained-spacing;
   box-shadow: 0 -1px 0 0 $base-alpha-color;
   text-align: center;
 }
@@ -181,6 +180,10 @@
 
   /* Animation */
   animation: reveal 0.64s ease 0s 1;
+
+  .mapboxgl-ctrl-group {
+    margin-bottom: 0;
+  }
 }
 
 .exp-map__title {
@@ -218,6 +221,92 @@
 
   small {
     font-size: inherit;
+  }
+}
+
+.mapboxgl-ctrl > button {
+  @extend .button, .button--base-raised-light, .button--text-hidden;
+}
+
+.layers-menu-trigger::before {
+  @extend %collecticon-iso-stack;
+}
+
+.layers-menu {
+  width: 20rem;
+  height: 15.5rem;
+  padding: 0;
+
+  .drop__title {
+    margin-bottom: $global-spacing * 1.5;
+  }
+
+  .rcs {
+    > div > div {
+      padding: $global-spacing;
+    }
+  }
+}
+
+.layers-list {
+  list-style: none;
+  margin: 0 (-$global-spacing);
+  padding: 0;
+
+  &__item {
+    padding: $global-spacing;
+    box-shadow: 0 1px 0 0 $base-alpha-color;
+
+    &:first-child {
+      padding-top: 0;
+    }
+
+    &:last-child {
+      box-shadow: none;
+    }
+
+    > *:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  .form__group {
+    margin-bottom: $global-spacing / 2;
+  }
+
+  .form__option--switch {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: flex-start;
+    margin: 0;
+
+    .form__option__text {
+      order: -1;
+      font-size: 0.875rem;
+      line-height: 1.25rem;
+      padding-right: $global-spacing;
+      margin: 0;
+    }
+
+    .form__option__ui {
+      margin: 0.25rem 0 0.25rem auto;
+    }
+  }
+
+  .form__help {
+    position: relative;
+    padding-top: $global-spacing / 2;
+    text-align: left;
+
+    &::before {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 2rem;
+      height: 1px;
+      content: '';
+      background: $base-alpha-color;
+    }
   }
 }
 
@@ -268,7 +357,7 @@
 .exp-summary__footer {
   position: relative;
   z-index: 80;
-  padding: $global-spacing $contained-spacing;
+  padding: $contained-spacing;
   box-shadow: 0 -1px 0 0 $base-alpha-color;
   text-align: center;
 }
@@ -294,6 +383,19 @@
   > *:last-child {
     margin-bottom: 0;
   }
+}
+
+.sum-block--message {
+  height: 100%;
+  text-align: center;
+  color: rgba($base-font-color, 0.64);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.sum-block--charts {
+  padding: ($global-spacing * 2) $contained-spacing;
 }
 
 .sum-block__title {

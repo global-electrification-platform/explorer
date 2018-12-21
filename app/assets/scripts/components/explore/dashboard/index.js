@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { PropTypes as T } from 'prop-types';
 import ReactTooltip from 'react-tooltip';
 
-import Layers from './Layers';
 import Levers from './Levers';
 import Filters from './Filters';
 
@@ -22,7 +21,7 @@ class Dashboard extends Component {
   renderTabs () {
     const self = this;
     const { activeTab } = this.state;
-    return ['scenarios', 'filters', 'layers'].map((tab, index) => {
+    return ['scenarios', 'filters'].map((tab, index) => {
       return (
         <li className='nav__tab' role='presentation' key={index}>
           <a
@@ -63,16 +62,6 @@ class Dashboard extends Component {
           filtersConfig={filters}
           filtersState={filtersState}
           handleFilterChange={this.props.handleFilterChange}
-        />
-      );
-    } else if (activeTab === 'layers') {
-      const { layers } = this.props.model.map;
-      const { layersState } = this.props;
-      return (
-        <Layers
-          layersConfig={layers}
-          layersState={layersState}
-          handleLayerChange={this.props.handleLayerChange}
         />
       );
     }
@@ -136,11 +125,9 @@ if (environment !== 'production') {
     updateScenario: T.func,
     handleLeverChange: T.func,
     handleFilterChange: T.func,
-    handleLayerChange: T.func,
     model: T.object,
     leversState: T.array,
-    filtersState: T.array,
-    layersState: T.array
+    filtersState: T.array
   };
 }
 

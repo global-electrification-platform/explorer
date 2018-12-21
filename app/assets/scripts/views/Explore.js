@@ -220,10 +220,8 @@ class Explore extends Component {
                 updateScenario={this.updateScenario}
                 handleLeverChange={this.handleLeverChange}
                 handleFilterChange={this.handleFilterChange}
-                handleLayerChange={this.handleLayerChange}
                 leversState={this.state.leversState}
                 filtersState={this.state.filtersState}
-                layersState={this.state.layersState}
               />
             </header>
             <div className='inpage__body'>
@@ -231,6 +229,7 @@ class Explore extends Component {
                 scenario={this.props.scenario}
                 externalLayers={model.map.layers}
                 layersState={this.state.layersState}
+                handleLayerChange={this.handleLayerChange}
               />
               <Summary scenario={this.props.scenario} />
             </div>
