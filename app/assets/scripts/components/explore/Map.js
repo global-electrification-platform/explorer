@@ -219,7 +219,9 @@ class Map extends React.Component {
         'source-layer': sourceLayer,
         filter: ['==', 'id_int', 'nothing'],
         paint: {
-          'line-color': 'blue'
+          'line-color': '#14213d',
+          'line-opacity': 0.64,
+          'line-width': 2
         }
       });
 
@@ -233,7 +235,7 @@ class Map extends React.Component {
         'source-layer': sourceLayer,
         filter: ['==', 'id_int', 'nothing'],
         paint: {
-          'fill-color': 'red'
+          'fill-color': 'transparent'
         }
       });
 
@@ -242,12 +244,14 @@ class Map extends React.Component {
        */
       this.map.addLayer({
         id: 'selected',
-        type: 'fill',
+        type: 'line',
         source: sourceId,
         'source-layer': sourceLayer,
         filter: ['==', 'id_int', 'nothing'],
         paint: {
-          'fill-color': 'red'
+          'line-color': '#14213d',
+          'line-opacity': 0.64,
+          'line-width': 2
         }
       });
 
