@@ -57,6 +57,7 @@ class Map extends React.Component {
     super(props);
 
     this.updateScenario = this.updateScenario.bind(this);
+    this.initMap = this.initMap.bind(this);
     this.clearMap = this.clearMap.bind(this);
     this.zoomToFeatures = this.zoomToFeatures.bind(this);
     this.state = {
@@ -210,6 +211,34 @@ class Map extends React.Component {
       }
 
       /**
+       * Hover outline layer
+       */
+      this.map.addLayer({
+        id: 'hovered-outline',
+        type: 'line',
+        source: sourceId,
+        'source-layer': sourceLayer,
+        filter: ['==', 'id_int', 'nothing'],
+        paint: {
+          'line-color': 'blue'
+        }
+      });
+
+      /**
+       * Hover fill layer
+       */
+      this.map.addLayer({
+        id: 'hovered-fill',
+        type: 'fill',
+        source: sourceId,
+        'source-layer': sourceLayer,
+        filter: ['==', 'id_int', 'nothing'],
+        paint: {
+          'fill-color': 'red'
+        }
+      });
+
+      /**
        * Selected feature layer
        */
       this.map.addLayer({
@@ -227,7 +256,21 @@ class Map extends React.Component {
         const features = this.map.queryRenderedFeatures(e.point, {
           layers: mapLayersIds
         });
-        this.map.getCanvas().style.cursor = features.length ? 'pointer' : '';
+
+        if (features.length > 0) {
+          this.map.getCanvas().style.cursor = 'pointer';
+
+          const featureId = features[0].properties.id_int;
+          this.map.setFilter('hovered-fill', ['==', 'id_int'].concat(featureId));
+          this.map.setFilter('hovered-outline', ['==', 'id_int'].concat(featureId));
+        } else {
+          this.map.getCanvas().style.cursor = '';
+        }
+      });
+
+      this.map.on('mouseleave', 'hovered-fill', () => {
+        this.map.setFilter('hovered-fill', ['==', 'id_int', 'nothing']);
+        this.map.setFilter('hovered-outline', ['==', 'id_int', 'nothing']);
       });
 
       this.map.on('click', e => {
@@ -344,7 +387,7 @@ class Map extends React.Component {
 
     // Populate the popup and set its coordinates
     // based on the feature found.
-    this.popover = new mapboxgl.Popup({ closeButton: false })
+    this.popover = new mapboxgl.Popup({ closeButton: false, offset: 10 })
       .setLngLat(lngLat)
       .setDOMContent(popoverContent)
       .once('open', e => {
