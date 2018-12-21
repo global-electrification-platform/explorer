@@ -6,6 +6,8 @@ import { PropTypes as T } from 'prop-types';
 
 import MapPopover from './connected/MapPopover';
 import { mapboxAccessToken, environment, techLayers } from '../../config';
+import MapboxControl from '../MapboxReactControl';
+import LayerControlDropdown from './MapLayerControl';
 
 mapboxgl.accessToken = mapboxAccessToken;
 
@@ -85,6 +87,9 @@ class Map extends React.Component {
     if (prevLState !== lState) {
       this.toggleExternalLayers();
     }
+
+    // Manually render dectached component.
+    this.layerDropdownControl && this.layerDropdownControl.render(this.props, this.state);
   }
 
   componentWillUnmount () {
@@ -112,6 +117,16 @@ class Map extends React.Component {
 
     // Add zoom controls.
     this.map.addControl(new mapboxgl.NavigationControl(), 'bottom-left');
+
+    this.layerDropdownControl = new MapboxControl((props, state) => (
+      <LayerControlDropdown
+        layersConfig={this.props.externalLayers}
+        layersState={this.props.layersState}
+        handleLayerChange={this.props.handleLayerChange}
+      />
+    ));
+
+    this.map.addControl(this.layerDropdownControl, 'bottom-left');
 
     // Remove compass.
     document.querySelector('.mapboxgl-ctrl .mapboxgl-ctrl-compass').remove();
@@ -421,6 +436,7 @@ class Map extends React.Component {
 if (environment !== 'production') {
   Map.propTypes = {
     scenario: T.object,
+    handleLayerChange: T.func,
     externalLayers: T.array,
     layersState: T.array
   };

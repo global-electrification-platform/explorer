@@ -50,59 +50,40 @@
 }
 
 .mapboxgl-ctrl-top-left {
-  top: $global-spacing;
-  left: $global-spacing;
-
-  @include media(large-up) {
-    left: $global-spacing * 1.5;
-  }
+  top: $contained-spacing;
+  left: $contained-spacing;
 }
 
 .mapboxgl-ctrl-top-right {
-  top: $global-spacing;
-  right: $global-spacing;
-
-  @include media(large-up) {
-    right: $global-spacing * 1.5;
-  }
+  top: $contained-spacing;
+  right: $contained-spacing;
 }
 
 .mapboxgl-ctrl-bottom-left {
-  bottom: $global-spacing;
-  left: $global-spacing;
-
-  @include media(large-up) {
-    left: $global-spacing * 1.5;
-  }
+  bottom: $contained-spacing;
+  left: $contained-spacing;
 }
 
 .mapboxgl-ctrl-bottom-right {
-  bottom: $global-spacing;
-  right: $global-spacing;
-
-  @include media(large-up) {
-  right: $global-spacing * 1.5;
-  }
+  right: $contained-spacing;
+  bottom: $contained-spacing;
 }
 
 .mapboxgl-ctrl {
   clear: both;
-  pointer-events: auto
+  pointer-events: auto;
+  margin: 0 0 ($global-spacing / 2) 0;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
 }
 
 .mapboxgl-ctrl-group {
   @extend .button-group, .button-group--vertical, %control-skin;
 
   > button {
-    @extend .button, .button--base-raised-light, .button--text-hidden;
     font-size: 0;
-    box-shadow: none;
-
-    &:hover,
-    &:active {
-      @extend .button--primary-raised-light;
-      box-shadow: none;
-    }
 
     &::before {
       font-size: 1rem;
