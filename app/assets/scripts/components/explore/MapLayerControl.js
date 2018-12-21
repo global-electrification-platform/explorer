@@ -38,12 +38,12 @@ export default class LayerControlDropdown extends React.Component {
                     onChange={() => handleLayerChange(idx)}
                   />
                 </div>
-                {l.source && (
+                {l.source && l.source.label && l.source.url && (
                   <div className='form__help'>
                     <p>
                       Source:{' '}
                       <a target='_blank' href={l.source.url} title='View'>
-                        {l.source.description}
+                        {l.source.label} 
                       </a>
                     </p>
                   </div>
