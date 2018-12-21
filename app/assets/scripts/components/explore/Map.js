@@ -57,7 +57,6 @@ class Map extends React.Component {
     super(props);
 
     this.updateScenario = this.updateScenario.bind(this);
-    this.initMap = this.initMap.bind(this);
     this.clearMap = this.clearMap.bind(this);
     this.zoomToFeatures = this.zoomToFeatures.bind(this);
     this.state = {
