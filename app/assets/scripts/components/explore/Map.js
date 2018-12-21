@@ -109,6 +109,15 @@ class Map extends React.Component {
       bounds: [[32.34375, -9.145486056167277], [36.2109375, -17.35063837604883]]
     });
 
+    // Disable map rotation using right click + drag.
+    this.map.dragRotate.disable();
+
+    // Disable map rotation using touch rotation gesture.
+    this.map.touchZoomRotate.disableRotation();
+
+    // Add zoom controls.
+    this.map.addControl(new mapboxgl.NavigationControl(), 'bottom-left');
+
     this.layerDropdownControl = new MapboxControl((props, state) => (
       <LayerControlDropdown
         layersConfig={this.props.externalLayers}
@@ -118,15 +127,6 @@ class Map extends React.Component {
     ));
 
     this.map.addControl(this.layerDropdownControl, 'bottom-left');
-
-    // Disable map rotation using right click + drag.
-    this.map.dragRotate.disable();
-
-    // Disable map rotation using touch rotation gesture.
-    this.map.touchZoomRotate.disableRotation();
-
-    // Add zoom controls.
-    this.map.addControl(new mapboxgl.NavigationControl(), 'bottom-left');
 
     // Remove compass.
     document.querySelector('.mapboxgl-ctrl .mapboxgl-ctrl-compass').remove();

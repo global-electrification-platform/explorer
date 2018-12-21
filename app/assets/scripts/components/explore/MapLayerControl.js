@@ -15,12 +15,12 @@ export default class LayerControlDropdown extends React.Component {
 
     return (
       <Dropdown
-        className='eta-vis__overlays-menu'
-        triggerClassName='etavb-overlays'
+        className='exp-map-layers-menu'
+        triggerClassName='exp-map-layers-menu__trigger'
         triggerActiveClassName='button--active'
         triggerText='Map layers'
         triggerTitle='Toggle map layers'
-        direction='down'
+        direction='up'
         alignment='left' >
         <h6 className='drop__title'>Toggle layers</h6>
         {layersConfig.map((l, idx) => (

@@ -141,7 +141,7 @@
 .econtrols__actions {
   position: relative;
   z-index: 80;
-  padding: $global-spacing $contained-spacing;
+  padding: $contained-spacing;
   box-shadow: 0 -1px 0 0 $base-alpha-color;
   text-align: center;
 }
@@ -181,6 +181,10 @@
 
   /* Animation */
   animation: reveal 0.64s ease 0s 1;
+
+  .mapboxgl-ctrl-group {
+    margin-bottom: 0;
+  }
 }
 
 .exp-map__title {
@@ -219,6 +223,14 @@
   small {
     font-size: inherit;
   }
+}
+
+.mapboxgl-ctrl > button {
+  @extend .button, .button--base-raised-light, .button--text-hidden;
+}
+
+.exp-map-layers-menu__trigger::before {
+  @extend %collecticon-iso-stack;
 }
 
 
@@ -268,7 +280,7 @@
 .exp-summary__footer {
   position: relative;
   z-index: 80;
-  padding: $global-spacing $contained-spacing;
+  padding: $contained-spacing;
   box-shadow: 0 -1px 0 0 $base-alpha-color;
   text-align: center;
 }
