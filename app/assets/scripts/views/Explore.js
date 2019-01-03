@@ -248,6 +248,7 @@ class Explore extends Component {
                 country={this.props.country}
                 model={this.props.model}
                 scenario={this.props.scenario}
+                defaultFilters={this.state.defaultFilters}
                 leversState={this.state.leversState}
                 filtersState={this.state.filtersState}
               />

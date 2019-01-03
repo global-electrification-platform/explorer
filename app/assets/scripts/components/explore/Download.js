@@ -105,7 +105,7 @@ export function downloadPDF (props) {
   const mapWidth = options.colWidthThreeCol * 2 + options.gutterThreeCol;
   const mapHeight = aspectRatio > 1 ? mapWidth : mapWidth * aspectRatio;
 
-  const { country, model, scenario, leversState, filtersState } = props;
+  const { country, model, scenario, defaultFilters, leversState, filtersState } = props;
 
   // // HEADER
 
@@ -190,22 +190,6 @@ export function downloadPDF (props) {
     .fillColor('#192F35', 0.08)
     .fill();
 
-  // Indicator Headers
-  doc.fontSize(12);
-  doc.fillColor(options.baseFontColor, 1)
-    .text('Scenarios', options.margin, options.headerHeight + mapHeight + 20);
-
-  doc.rect(options.margin, options.headerHeight + mapHeight + 38, 28, 2)
-    .fill(options.primaryColor);
-
-  const lorem = 'These results were generated based on the following assumptions.';
-  doc.fontSize(8);
-  doc.fillColor(options.baseFontColor)
-    .text(lorem, options.margin, options.headerHeight + mapHeight + 52, {
-      width: options.colWidthTwoCol,
-      align: 'left'
-    });
-
   // Result Header
   doc.fontSize(12);
   doc.fillColor(options.baseFontColor)
@@ -221,29 +205,6 @@ export function downloadPDF (props) {
       width: options.colWidthTwoCol,
       align: 'left'
     });
-
-  // Levers
-  const levers = model.data.levers;
-  levers.forEach((lever, index) => {
-    let leverOption = lever.options.find(o => o.id === leversState[index]);
-
-    doc.fontSize(8);
-    doc.fillColor(options.secondaryFontColor, 1)
-      .text(prettifyString(lever.label), options.margin, options.headerHeight + mapHeight + 112 - 2 + (index * 24));
-
-    doc.fontSize(8);
-    doc.fillColor(options.baseFontColor)
-      .text((leverOption.value), options.margin, options.headerHeight + mapHeight + 112 - 2 + (index * 24), {
-        width: options.colWidthTwoCol,
-        align: 'right'
-      });
-
-    if (index !== levers.length - 1) {
-      doc.rect(options.margin, options.headerHeight + mapHeight + 126 + (index * 24), options.colWidthTwoCol, 1)
-        .fillColor('#192F35', 0.08)
-        .fill();
-    }
-  });
 
   // Analysis
   const { electrifiedPopulation, investmentCost, newCapacity } = scenario.data.summary;
@@ -273,7 +234,118 @@ export function downloadPDF (props) {
 
   drawFooter(doc, options);
 
-  // Second page
+  // // SECOND PAGE
+  doc.addPage();
+
+  // // BODY
+  // Body has a 2 column layout
+
+  // Scenario header - left column
+  doc.fontSize(12);
+  doc.fillColor(options.baseFontColor, 1)
+    .text('Scenarios', options.margin, options.headerHeight + 20);
+
+  doc.rect(options.margin, options.headerHeight + 38, 28, 2)
+    .fill(options.primaryColor);
+
+  const scenarioDescription = 'The model determined the least cost electrification option for each area based on the following assumptions.';
+  doc.fontSize(8);
+  doc.fillColor(options.baseFontColor)
+    .text(scenarioDescription, options.margin, options.headerHeight + 52, {
+      width: options.colWidthTwoCol,
+      align: 'left'
+    });
+
+  // Scenario levers - left column
+  const levers = model.data.levers;
+  levers.forEach((lever, index) => {
+    let leverOption = lever.options.find(o => o.id === leversState[index]);
+
+    doc.fontSize(8);
+    doc.fillColor(options.secondaryFontColor, 1)
+      .text(prettifyString(lever.label), options.margin, options.headerHeight + 112 - 2 + (index * 24));
+
+    doc.fontSize(8);
+    doc.fillColor(options.baseFontColor)
+      .text((leverOption.value), options.margin, options.headerHeight + 112 - 2 + (index * 24), {
+        width: options.colWidthTwoCol,
+        align: 'right'
+      });
+
+    if (index !== levers.length - 1) {
+      doc.rect(options.margin, options.headerHeight + 126 + (index * 24), options.colWidthTwoCol, 1)
+        .fillColor('#192F35', 0.08)
+        .fill();
+    }
+  });
+
+  // Filter header - right column
+  doc.fontSize(12);
+  doc.fillColor(options.baseFontColor)
+    .text('Filters', options.margin + options.colWidthTwoCol + options.gutterTwoCol, options.headerHeight + 20);
+
+  doc.rect(options.margin + options.colWidthTwoCol + options.gutterTwoCol, options.headerHeight + 38, 28, 2)
+    .fill(options.primaryColor);
+
+  const filterDescription = 'The model results were further narrowed down using the following filters.';
+  doc.fontSize(8);
+  doc.fillColor(options.baseFontColor)
+    .text(filterDescription, options.margin + options.colWidthTwoCol + options.gutterTwoCol, options.headerHeight + 52, {
+      width: options.colWidthTwoCol,
+      align: 'left'
+    });
+
+  // Filter options - right column
+  let filterLeft = options.margin + options.colWidthTwoCol + options.gutterTwoCol;
+
+  // Print only the filters that are active
+  const activeFilters = defaultFilters
+    .reduce((acc, def, index) => def ? acc : acc.concat(model.data.filters[index]), []);
+
+  if (activeFilters.length) {
+    activeFilters.forEach((filter, index) => {
+      doc.fillColor(options.secondaryFontColor, 1)
+        .font(options.boldFont)
+        .text(filter.label, filterLeft, options.headerHeight + 112 - 2 + (index * 44));
+
+      let filterValues = filtersState[filter.id];
+
+      doc.fontSize(8)
+        .font(options.baseFont)
+        .fillColor(options.baseFontColor);
+
+      if (filter.type === 'range') {
+        doc.text(`${filterValues.min} - ${filterValues.max}`, filterLeft, options.headerHeight + 126 - 2 + (index * 44), {
+          width: options.colWidthTwoCol,
+          align: 'left'
+        });
+      } else {
+        let valueString = filterValues
+          .reduce((acc, value) => acc.concat(filter.options.find(f => f.value === value)['label']), [])
+          .toString();
+
+        // doc.text(`${valueString}`, options.pageWidth - options.colWidthTwoCol - options.margin, options.headerHeight + 112 - 2 + (index * 24), {
+        doc.text(`${valueString}`, filterLeft, options.headerHeight + 126 - 2 + (index * 44), {
+          width: options.colWidthTwoCol,
+          align: 'left'
+        });
+      }
+
+      // if (index !== activeFilters.length - 1) {
+      //   doc.rect(filterLeft, options.headerHeight + 148 + (index * 36), options.colWidthTwoCol, 1)
+      //     .fillColor('#192F35', 0.08)
+      //     .fill();
+      // }
+    });
+  } else {
+    doc.fillColor(options.secondaryFontColor, 1)
+      .fontSize(8)
+      .text('No filters applied to the model results.', filterLeft, options.headerHeight + 112 - 2);
+  }
+
+  drawFooter(doc, options);
+
+  // // THIRD PAGE
   doc.addPage();
 
   // About the model
@@ -287,7 +359,6 @@ export function downloadPDF (props) {
   doc.fontSize(10);
   doc.fillColor(options.secondaryFontColor)
     .text(model.data.description, options.margin, options.headerHeight + 52, {
-      // width: options.colWidthTwoCol,
       align: 'left'
     });
 
