@@ -119,6 +119,13 @@ class Dashboard extends Component {
             >
               <span>Apply changes</span>
             </button>
+            <button
+              type='button'
+              className='econtrols__time-select'
+              title='Select year'
+            >
+              <span>2019</span>
+            </button>
           </div>
         </div>
         <ReactTooltip

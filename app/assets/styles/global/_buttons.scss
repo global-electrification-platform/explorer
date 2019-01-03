@@ -242,8 +242,7 @@
 
 .button-group {
   position: relative;
-  display: inline-block;
-  vertical-align: middle;
+  display: inline-flex;
 
   > .button {
     display: block;
@@ -256,9 +255,7 @@
 /* Horizontal */
 
 .button-group--horizontal {
-  > .button {
-    float: left;
-  }
+  flex-flow: row nowrap;
 
   > .button:first-child:not(:last-child) {
     border-top-right-radius: 0;
@@ -285,11 +282,7 @@
 /* Vertical */
 
 .button-group--vertical {
-  > .button {
-    clear: both;
-    width: 100%;
-    border-radius: $base-border-radius;
-  }
+  flex-flow: column;
 
   > .button:first-child:not(:last-child) {
     border-bottom-right-radius: 0;
