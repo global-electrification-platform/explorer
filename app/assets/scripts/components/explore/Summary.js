@@ -87,6 +87,7 @@ if (environment !== 'production') {
     country: T.object,
     model: T.object,
     scenario: T.object,
+    defaultFilters: T.array,
     leversState: T.array,
     filtersState: T.array
   };

@@ -3,6 +3,7 @@ import PDFDocument from 'pdfkit';
 import blobStream from 'blob-stream';
 
 import config from '../../config';
+import { formatThousands, round } from '../../utils';
 
 // fetch fonts & images on init for use in PDF
 // let MSLight, MSSemiBold, Logo
@@ -34,8 +35,12 @@ function prettifyString (string) {
 }
 
 function drawFooter (doc, options) {
-  doc.fontSize(8);
-  doc.fillColor(options.secondaryFontColor, 1);
+  doc.rect(0, options.pageHeight - options.margin * 2 - 1, options.pageWidth, 1)
+    .fillColor('#192F35', 0.08)
+    .fill();
+
+  doc.fontSize(8)
+    .fillOpacity(1);
 
   // // Footer
   doc.image(Logo, options.margin, options.pageHeight - (options.margin * 1.5), { height: 20 });
@@ -163,16 +168,17 @@ export function downloadPDF (props) {
     .fill(options.primaryColor);
 
   // Legend
-  const legendKeys = Object.keys(scenario.data.layers);
-  legendKeys.forEach((key, index) => {
+  const layerKeys = Object.keys(scenario.data.layers);
+  layerKeys.forEach((key, index) => {
     // Currently picked up from the app config. Will be switched to model config from the props
     let legendItem = config.techLayers.find(l => l.id === key);
 
     let itemTop = options.headerHeight + 56 + (index * 24);
 
     // Legend marker
-    doc.fill(legendItem.color)
-      .roundedRect(legendLeft, itemTop + 1, 12, 4, 2);
+    doc.roundedRect(legendLeft, itemTop + 1, 12, 4, 2)
+      .fillColor(legendItem.color, 1)
+      .fill();
 
     // Legend label
     doc.fillColor(options.secondaryFontColor, 1)
@@ -180,56 +186,52 @@ export function downloadPDF (props) {
       .text(prettifyString(legendItem.label), legendLeft + 12 + 4, itemTop);
   });
 
-  // // BODY
-  // Body has a 2 column layout
+  // // RESULTS SUMMARY
+  // Results summary has a 3 column layout
+  const outputs = [
+    { name: 'People affected', id: 'electrifiedPopulation' },
+    { name: 'Investment required ', id: 'investmentCost' },
+    { name: 'Added capacity', id: 'newCapacity' }
+  ];
 
   doc.rect(0, options.headerHeight + mapHeight, options.pageWidth, options.pageHeight - (options.headerHeight + mapHeight) - options.margin * 2)
     .fill('#f6f7f7');
 
-  doc.rect(0, options.pageHeight - options.margin * 2 - 1, options.pageWidth, 1)
-    .fillColor('#192F35', 0.08)
-    .fill();
-
-  // Result Header
-  doc.fontSize(12);
-  doc.fillColor(options.baseFontColor)
-    .text('Results', options.margin + options.colWidthTwoCol + options.gutterTwoCol, options.headerHeight + mapHeight + 20);
-
-  doc.rect(options.margin + options.colWidthTwoCol + options.gutterTwoCol, options.headerHeight + mapHeight + 38, 28, 2)
-    .fill(options.primaryColor);
-
-  const loremTwo = 'A summary of the results.';
-  doc.fontSize(8);
-  doc.fillColor(options.baseFontColor)
-    .text(loremTwo, options.margin + options.colWidthTwoCol + options.gutterTwoCol, options.headerHeight + mapHeight + 52, {
-      width: options.colWidthTwoCol,
-      align: 'left'
-    });
-
-  // Analysis
-  const { electrifiedPopulation, investmentCost, newCapacity } = scenario.data.summary;
-  const outputs = [
-    { name: 'People affected', value: electrifiedPopulation },
-    { name: 'Investment required ', value: investmentCost },
-    { name: 'Added capacity', value: newCapacity }
-  ];
+  // Result headers
   outputs.forEach((output, index) => {
-    doc.fontSize(8);
-    doc.fillColor(options.secondaryFontColor, 1)
-      .text(output.name, options.margin + options.colWidthTwoCol + options.gutterTwoCol, options.headerHeight + mapHeight + 112 - 2 + (index * 24));
+    let outputLeft = options.margin + ((options.colWidthThreeCol + options.gutterThreeCol) * index);
 
-    doc.fontSize(8);
     doc.fillColor(options.baseFontColor)
-      .text(output.value, options.pageWidth - options.colWidthTwoCol - options.margin, options.headerHeight + mapHeight + 112 - 2 + (index * 24), {
-        width: options.colWidthTwoCol,
-        align: 'right'
-      });
+      .fontSize(12)
+      .text(output.name, outputLeft, options.headerHeight + mapHeight + 20);
 
-    if (index !== outputs.length - 1) {
-      doc.rect(options.margin + options.colWidthTwoCol + options.gutterTwoCol, options.headerHeight + mapHeight + 126 + (index * 24), options.colWidthTwoCol, 1)
-        .fillColor('#192F35', 0.08)
+    doc.rect(outputLeft, options.headerHeight + mapHeight + 38, 28, 2)
+      .fill(options.primaryColor);
+
+    layerKeys.forEach((layer, i) => {
+      // Currently picked up from the app config. Will be switched to model config from the props
+      let layerItem = config.techLayers.find(l => l.id === layer);
+      let itemTop = options.headerHeight + mapHeight + 112 - 2 + (i * 24);
+
+      // Marker
+      doc.roundedRect(outputLeft, itemTop + 1, 12, 4, 2)
+        .fillColor(layerItem.color, 1)
         .fill();
-    }
+
+      let itemValue = formatThousands(round(scenario.data.summaryByType[output.id][layer], 0));
+      doc.fontSize(8)
+        .fillColor(options.baseFontColor)
+        .text(itemValue, outputLeft, itemTop, {
+          width: options.colWidthThreeCol,
+          align: 'right'
+        });
+
+      if (i !== layerKeys.length - 1) {
+        doc.rect(outputLeft, itemTop + 16, options.colWidthThreeCol, 1)
+          .fillColor('#192F35', 0.08)
+          .fill();
+      }
+    });
   });
 
   drawFooter(doc, options);
@@ -324,18 +326,11 @@ export function downloadPDF (props) {
           .reduce((acc, value) => acc.concat(filter.options.find(f => f.value === value)['label']), [])
           .toString();
 
-        // doc.text(`${valueString}`, options.pageWidth - options.colWidthTwoCol - options.margin, options.headerHeight + 112 - 2 + (index * 24), {
         doc.text(`${valueString}`, filterLeft, options.headerHeight + 126 - 2 + (index * 44), {
           width: options.colWidthTwoCol,
           align: 'left'
         });
       }
-
-      // if (index !== activeFilters.length - 1) {
-      //   doc.rect(filterLeft, options.headerHeight + 148 + (index * 36), options.colWidthTwoCol, 1)
-      //     .fillColor('#192F35', 0.08)
-      //     .fill();
-      // }
     });
   } else {
     doc.fillColor(options.secondaryFontColor, 1)
