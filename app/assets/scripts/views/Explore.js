@@ -235,6 +235,8 @@ class Explore extends Component {
                 country={this.props.country}
                 model={this.props.model}
                 scenario={this.props.scenario}
+                leversState={this.state.leversState}
+                filtersState={this.state.filtersState}
               />
             </div>
             <DeviceMessage />

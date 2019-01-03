@@ -5,7 +5,7 @@ import { environment } from '../../config';
 
 import ShadowScrollbars from '../ShadowScrollbar';
 import Charts from './Charts';
-import downloadPDF from './DownloadPDF';
+import downloadPDF from './Download';
 import Legend from './Legend';
 
 class Summary extends Component {
@@ -86,7 +86,9 @@ if (environment !== 'production') {
   Summary.propTypes = {
     country: T.object,
     model: T.object,
-    scenario: T.object
+    scenario: T.object,
+    leversState: T.array,
+    filtersState: T.array
   };
 }
 

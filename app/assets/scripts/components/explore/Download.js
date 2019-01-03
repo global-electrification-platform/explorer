@@ -68,6 +68,7 @@ function drawFooter (doc, options) {
 }
 
 export function downloadPDF (props) {
+  console.log(props)
   const doc = new PDFDocument();
   const stream = doc.pipe(blobStream());
 
@@ -95,18 +96,16 @@ export function downloadPDF (props) {
   const mapWidth = mapHeight / aspectRatio;
   const mapMargin = mapWidth === options.pageWidth ? 0 : (options.pageWidth - mapWidth) / 2;
 
-  const { country, model, scenario } = props;
+  const { country, model, scenario, leversState, filtersState } = props;
 
   // Title
   doc.fontSize(20);
   doc.fillColor(options.baseFontColor)
-    // .font(MSSemiBold)
     .text(country.data.name, options.margin, options.margin);
 
   // Right Title
   doc.fontSize(12);
   doc.fillColor(options.baseFontColor)
-    // .font(MSSemiBold)
     .text(config.appTitle, options.pageWidth - options.column - options.margin, options.margin, {
       width: options.column,
       align: 'right'
@@ -140,16 +139,14 @@ export function downloadPDF (props) {
   // Indicator Headers
   doc.fontSize(12);
   doc.fillColor(options.baseFontColor, 1)
-    // .font(MSSemiBold)
-    .text('Scenarios and filters', options.margin, 80 + mapHeight + 20);
+    .text('Scenarios', options.margin, 80 + mapHeight + 20);
 
   doc.rect(options.margin, 80 + mapHeight + 38, 28, 2)
     .fill(options.primaryColor);
 
-  const lorem = 'The selected scenario and filters.';
+  const lorem = 'These results were generated based on the following assumptions.';
   doc.fontSize(8);
   doc.fillColor(options.baseFontColor)
-    // .font(MSLight)
     .text(lorem, options.margin, 80 + mapHeight + 52, {
       width: options.column,
       align: 'left'
@@ -158,7 +155,6 @@ export function downloadPDF (props) {
   // Result Header
   doc.fontSize(12);
   doc.fillColor(options.baseFontColor)
-    // .font(MSSemiBold)
     .text('Results', options.margin + options.column + options.gutter, 80 + mapHeight + 20);
 
   doc.rect(options.margin + options.column + options.gutter, 80 + mapHeight + 38, 28, 2)
@@ -167,7 +163,6 @@ export function downloadPDF (props) {
   const loremTwo = 'A summary of the results.';
   doc.fontSize(8);
   doc.fillColor(options.baseFontColor)
-    // .font(MSLight)
     .text(loremTwo, options.margin + options.column + options.gutter, 80 + mapHeight + 52, {
       width: options.column,
       align: 'left'
@@ -176,18 +171,15 @@ export function downloadPDF (props) {
   // Levers
   const levers = model.data.levers;
   levers.forEach((lever, index) => {
-    // doc.circle(margin + 3, 80 + mapHeight + 112 + 3 + (index * 24), 3)
-    //    // .fill(getLayerColor(layer.datasetName))
+    let leverOption = lever.options.find(o => o.id === leversState[index])
 
     doc.fontSize(8);
     doc.fillColor(options.secondaryFontColor, 1)
-      // .font(MSLight)
       .text(prettifyString(lever.label), options.margin, 80 + mapHeight + 112 - 2 + (index * 24));
 
     doc.fontSize(8);
     doc.fillColor(options.baseFontColor)
-      // .font(MSSemiBold)
-      .text(('Yellow yellow'), options.margin, 80 + mapHeight + 112 - 2 + (index * 24), {
+      .text((leverOption.value), options.margin, 80 + mapHeight + 112 - 2 + (index * 24), {
         width: options.column,
         align: 'right'
       });
@@ -209,12 +201,10 @@ export function downloadPDF (props) {
   outputs.forEach((output, index) => {
     doc.fontSize(8);
     doc.fillColor(options.secondaryFontColor, 1)
-      // .font(MSLight)
       .text(output.name, options.margin + options.column + options.gutter, 80 + mapHeight + 112 - 2 + (index * 24));
 
     doc.fontSize(8);
     doc.fillColor(options.baseFontColor)
-      // .font(MSSemiBold)
       .text(output.value, options.pageWidth - options.column - options.margin, 80 + mapHeight + 112 - 2 + (index * 24), {
         width: options.column,
         align: 'right'
@@ -235,7 +225,6 @@ export function downloadPDF (props) {
   // About the model
   doc.fontSize(12);
   doc.fillColor(options.baseFontColor, 1)
-    // .font(MSSemiBold)
     .text('About the model', options.margin, 80 + 20);
 
   doc.rect(options.margin, 80 + 38, 28, 2)
@@ -243,7 +232,6 @@ export function downloadPDF (props) {
 
   doc.fontSize(10);
   doc.fillColor(options.secondaryFontColor)
-    // .font(MSLight)
     .text(model.data.description, options.margin, 80 + 52, {
       // width: options.column,
       align: 'left'
