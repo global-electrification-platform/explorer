@@ -47,7 +47,6 @@ class Dashboard extends Component {
       const { leversState } = this.props;
       return (
         <Levers
-          updateScenario={this.props.updateScenario}
           handleLeverChange={this.props.handleLeverChange}
           leversConfig={levers}
           leversState={leversState}
@@ -58,7 +57,6 @@ class Dashboard extends Component {
       const { filtersState } = this.props;
       return (
         <Filters
-          updateScenario={this.props.updateScenario}
           filtersConfig={filters}
           filtersState={filtersState}
           handleFilterChange={this.props.handleFilterChange}

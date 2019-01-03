@@ -113,7 +113,7 @@ class Filters extends Component {
   }
 
   render () {
-    const { filtersConfig, updateScenario, filtersState } = this.props;
+    const { filtersConfig } = this.props;
 
     return (
       <section className='econtrols__section' id='econtrols-filters'>
@@ -134,7 +134,6 @@ class Filters extends Component {
 
 if (environment !== 'production') {
   Filters.propTypes = {
-    updateScenario: T.func,
     filtersConfig: T.array,
     filtersState: T.array,
     handleFilterChange: T.func
