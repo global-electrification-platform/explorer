@@ -5,6 +5,7 @@ import { environment } from '../../config';
 
 import ShadowScrollbars from '../ShadowScrollbar';
 import Charts from './Charts';
+import downloadPDF from './DownloadPDF';
 import Legend from './Legend';
 
 class Summary extends Component {
@@ -65,9 +66,13 @@ class Summary extends Component {
         </div>
         <footer className='exp-summary__footer'>
           <button
-            type='button'
-            className='exp-download-button disabled'
+            type='submit'
+            className='exp-download-button'
             title='Download the data'
+            onClick={e => {
+              e.preventDefault();
+              downloadPDF(this.props);
+            }}
           >
             <span>Export</span>
           </button>
@@ -79,8 +84,9 @@ class Summary extends Component {
 
 if (environment !== 'production') {
   Summary.propTypes = {
-    scenario: T.object,
-    model: T.object
+    country: T.object,
+    model: T.object,
+    scenario: T.object
   };
 }
 

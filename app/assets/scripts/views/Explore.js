@@ -231,7 +231,11 @@ class Explore extends Component {
                 layersState={this.state.layersState}
                 handleLayerChange={this.handleLayerChange}
               />
-              <Summary scenario={this.props.scenario} />
+              <Summary
+                country={this.props.country}
+                model={this.props.model}
+                scenario={this.props.scenario}
+              />
             </div>
             <DeviceMessage />
           </section>
