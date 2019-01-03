@@ -126,19 +126,6 @@ class Filters extends Component {
                 this.renderFilters(filtersConfig)}
             </ShadowScrollbars>
           </div>
-          <div className='form__actions econtrols__actions'>
-            <button
-              type='submit'
-              className='econtrols__submit'
-              title='Apply'
-              onClick={e => {
-                e.preventDefault();
-                updateScenario({ filters: filtersState });
-              }}
-            >
-              <span>Apply changes</span>
-            </button>
-          </div>
         </form>
       </section>
     );

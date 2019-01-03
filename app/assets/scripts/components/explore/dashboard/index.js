@@ -106,6 +106,21 @@ class Dashboard extends Component {
           </ul>
         </nav>
         {this.renderTabContent()}
+        <div className='econtrols__actions'>
+          <div className='button-group button-group--horizontal'>
+            <button
+              type='submit'
+              className='econtrols__submit'
+              title='Apply'
+              onClick={e => {
+                e.preventDefault();
+                updateScenario({ filters: filtersState });
+              }}
+            >
+              <span>Apply changes</span>
+            </button>
+          </div>
+        </div>
         <ReactTooltip
           id='econtrol-popover'
           effect='solid'

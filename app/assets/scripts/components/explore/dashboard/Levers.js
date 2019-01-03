@@ -67,19 +67,6 @@ class Levers extends Component {
               {leversConfig.map(this.renderLever)}
             </ShadowScrollbars>
           </div>
-          <div className='form__actions econtrols__actions'>
-            <button
-              type='submit'
-              className='econtrols__submit'
-              title='Apply'
-              onClick={e => {
-                e.preventDefault();
-                updateScenario({ levers: leversState });
-              }}
-            >
-              <span>Apply changes</span>
-            </button>
-          </div>
         </form>
       </section>
     );
