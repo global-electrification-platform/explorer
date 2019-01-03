@@ -21,6 +21,18 @@ Clone this repository locally and run:
 
     yarn
 
+### Add Mapbox token
+
+Create file `app/assets/scripts/config/local.js` with your Mapbox API token. Example:
+
+```
+'use strict';
+
+export default {
+  mapboxAccessToken: 'ADD MAPBOX API TOKEN HERE'
+};
+```
+
 ### Development
 
 Start server with live code reload at [http://localhost:9000](http://localhost:9000):
