@@ -109,6 +109,7 @@
     "lodash.clone": "^4.5.0",
     "lodash.defaultsdeep": "^4.6.0",
     "lodash.get": "^4.4.2",
+    "lodash.isequal": "^4.5.0",
     "lodash.map": "^4.6.0",
     "lodash.pull": "^4.1.0",
     "mapbox-gl": "^0.52.0",
