@@ -78,12 +78,11 @@ export function receiveScenario (data, error = null) {
   };
 }
 
-export function fetchScenario (scenarioId, filters) {
-  let queryString = '';
-
-  if (filters && filters.length > 0) {
-    queryString = `?${qs.stringify({ filters })}`;
-  }
+export function fetchScenario (scenarioId, filters, year) {
+  const queryString = qs.stringify({
+    filters,
+    year
+  }, { addQueryPrefix: true, skipNulls: true });
 
   return fetchDispatchFactory({
     statePath: ['scenario'],

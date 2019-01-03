@@ -299,7 +299,7 @@ if (process.env.NODE_ENV !== 'production') {
     triggerClassName: T.string,
     triggerActiveClassName: T.string,
     triggerTitle: T.string,
-    triggerText: T.string.isRequired,
+    triggerText: T.oneOfType([T.string, T.number]).isRequired,
 
     direction: T.oneOf(['up', 'down', 'left', 'right']),
     alignment: T.oneOf(['left', 'center', 'right', 'top', 'middle', 'bottom']),
