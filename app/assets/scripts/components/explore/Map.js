@@ -1,5 +1,6 @@
 import React from 'react';
 import { render } from 'react-dom';
+import throttle from 'lodash.throttle';
 import mapboxgl from 'mapbox-gl';
 import bbox from '@turf/bbox';
 import { PropTypes as T } from 'prop-types';
@@ -89,7 +90,8 @@ class Map extends React.Component {
     }
 
     // Manually render dectached component.
-    this.layerDropdownControl && this.layerDropdownControl.render(this.props, this.state);
+    this.layerDropdownControl &&
+      this.layerDropdownControl.render(this.props, this.state);
   }
 
   componentWillUnmount () {
@@ -270,26 +272,39 @@ class Map extends React.Component {
         }
       });
 
-      this.map.on('mousemove', e => {
-        const features = this.map.queryRenderedFeatures(e.point, {
-          layers: mapLayersIds
-        });
+      const self = this;
+      const highlighFeature = throttle(
+        function (e) {
+          // console.log('event');
+          const features = self.map.queryRenderedFeatures(e.point, {
+            layers: mapLayersIds
+          });
 
-        if (features.length > 0) {
-          this.map.getCanvas().style.cursor = 'pointer';
+          if (features.length > 0) {
+            self.map.getCanvas().style.cursor = 'pointer';
 
-          const featureId = features[0].properties.id_int;
-          this.map.setFilter('hovered-fill', ['==', 'id_int'].concat(featureId));
-          this.map.setFilter('hovered-outline', ['==', 'id_int'].concat(featureId));
-        } else {
-          this.map.getCanvas().style.cursor = '';
+            const featureId = features[0].properties.id_int;
+            self.map.setFilter(
+              'hovered-fill',
+              ['==', 'id_int'].concat(featureId)
+            );
+            self.map.setFilter(
+              'hovered-outline',
+              ['==', 'id_int'].concat(featureId)
+            );
+          } else {
+            self.map.getCanvas().style.cursor = '';
+            self.map.setFilter('hovered-fill', ['==', 'id_int', 'nothing']);
+            self.map.setFilter('hovered-outline', ['==', 'id_int', 'nothing']);
+          }
+        },
+        100,
+        {
+          leading: true
         }
-      });
+      );
 
-      this.map.on('mouseleave', 'hovered-fill', () => {
-        this.map.setFilter('hovered-fill', ['==', 'id_int', 'nothing']);
-        this.map.setFilter('hovered-outline', ['==', 'id_int', 'nothing']);
-      });
+      this.map.on('mousemove', highlighFeature);
 
       this.map.on('click', e => {
         const features = this.map.queryRenderedFeatures(e.point, {
