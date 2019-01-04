@@ -391,6 +391,7 @@ class Map extends React.Component {
       <MapPopover
         featureId={fid}
         scenarioId={sid}
+        year={this.props.year}
         onCloseClick={e => {
           e.preventDefault();
           this.popover.remove();
@@ -436,6 +437,7 @@ class Map extends React.Component {
 if (environment !== 'production') {
   Map.propTypes = {
     scenario: T.object,
+    year: T.number,
     handleLayerChange: T.func,
     externalLayers: T.array,
     layersState: T.array

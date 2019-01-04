@@ -37,7 +37,8 @@ class Explore extends Component {
       filtersState: [],
       leversState: [],
       layersState: [],
-      year: null
+      year: null,
+      appliedState: {}
     };
   }
 
@@ -143,6 +144,15 @@ class Explore extends Component {
     showGlobalLoading();
     const model = this.props.model.getData();
     const { leversState: levers, filtersState: filters, year } = this.state;
+
+    this.setState({
+      appliedState: {
+        filtersState: filters,
+        leversState: levers,
+        year: year
+      }
+    });
+
     const selectedFilters = [];
 
     // Compare filters to model defaults to identify actionable filters
@@ -170,7 +180,8 @@ class Explore extends Component {
 
     await this.props.fetchScenario(
       `${model.id}-${levers.join('_')}`,
-      selectedFilters
+      selectedFilters,
+      year
     );
     hideGlobalLoading();
   }
@@ -230,11 +241,15 @@ class Explore extends Component {
             <div className='inpage__body'>
               <Map
                 scenario={this.props.scenario}
+                year={this.state.year}
                 externalLayers={model.map.layers}
                 layersState={this.state.layersState}
                 handleLayerChange={this.handleLayerChange}
               />
-              <Summary scenario={this.props.scenario} />
+              <Summary
+                scenario={this.props.scenario}
+                appliedYear={this.state.appliedState.year}
+              />
             </div>
             <DeviceMessage />
           </section>

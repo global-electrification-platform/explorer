@@ -223,12 +223,15 @@ export function receiveFeature (key, data, error = null) {
   };
 }
 
-export function fetchFeature (scenarioId, featureId) {
+export function fetchFeature (scenarioId, featureId, year) {
   const key = `${scenarioId}--${featureId}`;
+  const queryString = qs.stringify({
+    year
+  }, { addQueryPrefix: true, skipNulls: true });
 
   return fetchDispatchCacheFactory({
     statePath: ['individualFeatures', key],
-    url: `${dataServiceUrl}/scenarios/${scenarioId}/features/${featureId}`,
+    url: `${dataServiceUrl}/scenarios/${scenarioId}/features/${featureId}${queryString}`,
     receiveFn: receiveFeature.bind(this, key),
     requestFn: requestFeature.bind(this, key)
   });

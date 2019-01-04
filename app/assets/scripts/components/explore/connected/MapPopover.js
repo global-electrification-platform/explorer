@@ -10,8 +10,8 @@ import { formatTousands } from '../../../utils';
 
 class MapPopover extends React.Component {
   componentDidMount () {
-    const { scenarioId, featureId, fetchFeature } = this.props;
-    fetchFeature(scenarioId, featureId);
+    const { scenarioId, featureId, fetchFeature, year } = this.props;
+    fetchFeature(scenarioId, featureId, year);
   }
 
   render () {
@@ -54,6 +54,7 @@ if (environment !== 'production') {
     fetchFeature: T.func,
     scenarioId: T.string,
     featureId: T.number,
+    year: T.number,
     feature: T.object
   };
 }

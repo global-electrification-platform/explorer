@@ -176,6 +176,7 @@ class Charts extends Component {
       </figure>
     );
   }
+
   render () {
     return (
       <Fragment>

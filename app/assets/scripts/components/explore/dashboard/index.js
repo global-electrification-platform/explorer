@@ -128,6 +128,7 @@ class Dashboard extends Component {
                   <a
                     href='#'
                     className={classes}
+                    data-hook='dropdown:close'
                     onClick={this.onYearClick.bind(this, t)}
                   >
                     {t}

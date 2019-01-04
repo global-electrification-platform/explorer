@@ -355,6 +355,14 @@
   margin-bottom: 0;
 }
 
+.exp-summary__subtitle {
+  @extend .heading-alt;
+  font-size: 0.75rem;
+  line-height: 1rem;
+  color: rgba($base-font-color, 0.64);
+  margin: 0;
+}
+
 .exp-summary__body {
   position: relative;
   z-index: 60;
