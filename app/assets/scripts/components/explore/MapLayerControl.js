@@ -43,7 +43,7 @@ export default class LayerControlDropdown extends React.Component {
                     <p>
                       Source:{' '}
                       <a target='_blank' href={l.source.url} title='View'>
-                        {l.source.label} 
+                        {l.source.label}
                       </a>
                     </p>
                   </div>

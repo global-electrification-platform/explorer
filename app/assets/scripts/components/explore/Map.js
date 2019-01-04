@@ -275,7 +275,6 @@ class Map extends React.Component {
       const self = this;
       const highlighFeature = throttle(
         function (e) {
-          // console.log('event');
           const features = self.map.queryRenderedFeatures(e.point, {
             layers: mapLayersIds
           });
@@ -303,7 +302,6 @@ class Map extends React.Component {
           leading: true
         }
       );
-
       this.map.on('mousemove', highlighFeature);
 
       this.map.on('click', e => {
