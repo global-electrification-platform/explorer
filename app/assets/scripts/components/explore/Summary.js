@@ -52,7 +52,6 @@ class Summary extends Component {
   }
 
   render () {
-    console.log(this.props)
     return (
       <section className='exp-summary'>
         <header className='exp-summary__header'>

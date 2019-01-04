@@ -150,7 +150,7 @@ export function downloadPDF (props) {
   const { country, model, scenario, defaultFilters, appliedState } = props;
 
   // Use the filters and levers that are actually applied
-  const { leversState, filtersState } = appliedState;
+  const { leversState, filtersState, year } = appliedState;
 
   doc.font(baseFont);
 
@@ -209,8 +209,19 @@ export function downloadPDF (props) {
   // Legend (1/3)
   let legendLeft = options.pageWidth - options.margin - options.colWidthThreeCol;
 
+  // Year header
+  drawSectionHeader('Year', legendLeft, options.headerHeight + 20, doc, options);
+
+  doc.fillColor(options.baseFontColor)
+    .fontSize(8)
+    .font(baseFont)
+    .text(year, legendLeft, options.headerHeight + 20 + 36, {
+      align: 'left'
+    });
+
   // Legend header
-  drawSectionHeader('Technologies', legendLeft, options.headerHeight + 20, doc, options);
+  let legendTop = options.headerHeight + 20 + 36 + 36;
+  drawSectionHeader('Technologies', legendLeft, legendTop, doc, options);
 
   // Legend
   const layerKeys = Object.keys(scenario.data.layers);
@@ -218,7 +229,7 @@ export function downloadPDF (props) {
     // Currently picked up from the app config. Will be switched to model config from the props
     let legendItem = config.techLayers.find(l => l.id === key);
 
-    let itemTop = options.headerHeight + 56 + (index * 24);
+    let itemTop = legendTop + 36 + (index * 24);
 
     // Legend marker
     doc.roundedRect(legendLeft, itemTop + 3, 12, 4, 2)
