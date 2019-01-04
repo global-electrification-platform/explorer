@@ -6,6 +6,7 @@ import c from 'classnames';
 import clone from 'lodash.clone';
 import isEqual from 'lodash.isequal';
 import pull from 'lodash.pull';
+import get from 'lodash.get';
 
 import { environment } from '../config';
 import { makeZeroFilledArray, cloneArrayAndChangeCell } from '../utils';
@@ -30,22 +31,22 @@ class Explore extends Component {
     this.handleFilterChange = this.handleFilterChange.bind(this);
     this.handleLeverChange = this.handleLeverChange.bind(this);
     this.handleLayerChange = this.handleLayerChange.bind(this);
+    this.handleYearChange = this.handleYearChange.bind(this);
 
     this.state = {
       dashboardChangedAt: Date.now(),
       defaultFilters: [],
       filtersState: [],
       leversState: [],
-      layersState: []
+      layersState: [],
+      year: null,
+      appliedState: {}
     };
   }
 
   async componentDidMount () {
     await this.fetchModelData();
-    this.updateScenario({
-      filters: this.state.filtersState,
-      levers: this.state.leversState
-    });
+    this.updateScenario();
   }
 
   componentDidUpdate (prevProps) {
@@ -119,6 +120,10 @@ class Explore extends Component {
     this.setState({ layersState });
   }
 
+  handleYearChange (year) {
+    this.setState({ year });
+  }
+
   async fetchModelData () {
     showGlobalLoading();
     await this.props.fetchModel(this.props.match.params.modelId);
@@ -140,18 +145,27 @@ class Explore extends Component {
             } else return filter.options.map(option => option.value);
           })
           : [],
-        layersState: model.map.layers.map(() => false)
+        layersState: model.map.layers.map(() => false),
+        year: get(model.timesteps, '0', null)
       });
     }
 
     hideGlobalLoading();
   }
 
-  async updateScenario (options) {
+  async updateScenario () {
     showGlobalLoading();
     const model = this.props.model.getData();
-    const levers = options.levers || this.state.leversState;
-    const filters = options.filters || this.state.filtersState;
+    const { leversState: levers, filtersState: filters, year } = this.state;
+
+    this.setState({
+      appliedState: {
+        filtersState: filters,
+        leversState: levers,
+        year: year
+      }
+    });
+
     const selectedFilters = [];
 
     // Compare filters to model defaults to identify actionable filters
@@ -177,12 +191,10 @@ class Explore extends Component {
       }
     }
 
-    // Update state if levers are changed
-    this.setState({ leversState: levers, filtersState: filters });
-
     await this.props.fetchScenario(
       `${model.id}-${levers.join('_')}`,
-      selectedFilters
+      selectedFilters,
+      year
     );
     hideGlobalLoading();
   }
@@ -233,13 +245,16 @@ class Explore extends Component {
                 updateScenario={this.updateScenario}
                 handleLeverChange={this.handleLeverChange}
                 handleFilterChange={this.handleFilterChange}
+                handleYearChange={this.handleYearChange}
                 leversState={this.state.leversState}
                 filtersState={this.state.filtersState}
+                year={this.state.year}
               />
             </header>
             <div className='inpage__body'>
               <Map
                 scenario={this.props.scenario}
+                year={this.state.year}
                 externalLayers={model.map.layers}
                 layersState={this.state.layersState}
                 handleLayerChange={this.handleLayerChange}
@@ -251,6 +266,7 @@ class Explore extends Component {
                 defaultFilters={this.state.defaultFilters}
                 leversState={this.state.leversState}
                 filtersState={this.state.filtersState}
+                appliedYear={this.state.appliedState.year}
               />
             </div>
             <DeviceMessage />

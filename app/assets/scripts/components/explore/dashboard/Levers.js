@@ -57,7 +57,7 @@ class Levers extends Component {
   }
 
   render () {
-    const { leversConfig, updateScenario, leversState } = this.props;
+    const { leversConfig } = this.props;
     return (
       <section className='econtrols__section' id='econtrols-scenarios'>
         <h1 className='econtrols__title'>Scenarios</h1>
@@ -67,19 +67,6 @@ class Levers extends Component {
               {leversConfig.map(this.renderLever)}
             </ShadowScrollbars>
           </div>
-          <div className='form__actions econtrols__actions'>
-            <button
-              type='submit'
-              className='econtrols__submit'
-              title='Apply'
-              onClick={e => {
-                e.preventDefault();
-                updateScenario({ levers: leversState });
-              }}
-            >
-              <span>Apply changes</span>
-            </button>
-          </div>
         </form>
       </section>
     );
@@ -88,7 +75,6 @@ class Levers extends Component {
 
 if (environment !== 'production') {
   Levers.propTypes = {
-    updateScenario: T.func,
     handleLeverChange: T.func,
     leversConfig: T.array,
     leversState: T.array

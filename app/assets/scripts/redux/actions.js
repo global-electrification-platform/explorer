@@ -78,12 +78,11 @@ export function receiveScenario (data, error = null) {
   };
 }
 
-export function fetchScenario (scenarioId, filters) {
-  let queryString = '';
-
-  if (filters && filters.length > 0) {
-    queryString = `?${qs.stringify({ filters })}`;
-  }
+export function fetchScenario (scenarioId, filters, year) {
+  const queryString = qs.stringify({
+    filters,
+    year
+  }, { addQueryPrefix: true, skipNulls: true });
 
   return fetchDispatchFactory({
     statePath: ['scenario'],
@@ -224,12 +223,15 @@ export function receiveFeature (key, data, error = null) {
   };
 }
 
-export function fetchFeature (scenarioId, featureId) {
+export function fetchFeature (scenarioId, featureId, year) {
   const key = `${scenarioId}--${featureId}`;
+  const queryString = qs.stringify({
+    year
+  }, { addQueryPrefix: true, skipNulls: true });
 
   return fetchDispatchCacheFactory({
     statePath: ['individualFeatures', key],
-    url: `${dataServiceUrl}/scenarios/${scenarioId}/features/${featureId}`,
+    url: `${dataServiceUrl}/scenarios/${scenarioId}/features/${featureId}${queryString}`,
     receiveFn: receiveFeature.bind(this, key),
     requestFn: requestFeature.bind(this, key)
   });

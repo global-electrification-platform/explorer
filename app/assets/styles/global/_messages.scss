@@ -21,7 +21,7 @@
 
   /* Animation */
 
-  @include animation(reveal 0.32s ease 0s 1);
+  animation: reveal 0.32s ease 0s 1;
 
   @include media(large-up) {
     display: none;
