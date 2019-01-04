@@ -34,6 +34,24 @@ function prettifyString (string) {
   return string.split('-').map(m => capitalize(m)).join(' ');
 }
 
+// label and value are strings to print.
+// dlLeft and dlTop are pixel positions of the full container
+// index is the index of the item
+function drawDefinitionItem (label, value, dlLeft, dlTop, index, doc, options) {
+  doc.fillColor(options.secondaryFontColor, 1)
+    .font(options.boldFont)
+    .text(label, dlLeft, dlTop + (index * 44));
+
+  doc.fontSize(8)
+    .font(options.baseFont)
+    .fillColor(options.baseFontColor);
+
+  doc.text(value, dlLeft, dlTop + 14 + (index * 44), {
+    width: options.colWidthTwoCol,
+    align: 'left'
+  });
+}
+
 function drawFooter (doc, options) {
   doc.rect(0, options.pageHeight - options.margin * 2 - 1, options.pageWidth, 1)
     .fillColor('#192F35', 0.08)
@@ -263,22 +281,7 @@ export function downloadPDF (props) {
   levers.forEach((lever, index) => {
     let leverOption = lever.options.find(o => o.id === leversState[index]);
 
-    doc.fontSize(8);
-    doc.fillColor(options.secondaryFontColor, 1)
-      .text(prettifyString(lever.label), options.margin, options.headerHeight + 112 - 2 + (index * 24));
-
-    doc.fontSize(8);
-    doc.fillColor(options.baseFontColor)
-      .text((leverOption.value), options.margin, options.headerHeight + 112 - 2 + (index * 24), {
-        width: options.colWidthTwoCol,
-        align: 'right'
-      });
-
-    if (index !== levers.length - 1) {
-      doc.rect(options.margin, options.headerHeight + 126 + (index * 24), options.colWidthTwoCol, 1)
-        .fillColor('#192F35', 0.08)
-        .fill();
-    }
+    drawDefinitionItem(lever.label, leverOption.value, options.margin, options.headerHeight + 112, index, doc, options);
   });
 
   // Filter header - right column
@@ -306,31 +309,17 @@ export function downloadPDF (props) {
 
   if (activeFilters.length) {
     activeFilters.forEach((filter, index) => {
-      doc.fillColor(options.secondaryFontColor, 1)
-        .font(options.boldFont)
-        .text(filter.label, filterLeft, options.headerHeight + 112 - 2 + (index * 44));
-
       let filterValues = filtersState[filter.id];
 
-      doc.fontSize(8)
-        .font(options.baseFont)
-        .fillColor(options.baseFontColor);
-
-      if (filter.type === 'range') {
-        doc.text(`${filterValues.min} - ${filterValues.max}`, filterLeft, options.headerHeight + 126 - 2 + (index * 44), {
-          width: options.colWidthTwoCol,
-          align: 'left'
-        });
-      } else {
-        let valueString = filterValues
+      // Depending on the filter type, generate a string for the value.
+      // Range is simple min - max, anything else a stringified array
+      let valueString = filter.type === 'range'
+        ? `${filterValues.min} - ${filterValues.max}`
+        : filterValues
           .reduce((acc, value) => acc.concat(filter.options.find(f => f.value === value)['label']), [])
           .toString();
 
-        doc.text(`${valueString}`, filterLeft, options.headerHeight + 126 - 2 + (index * 44), {
-          width: options.colWidthTwoCol,
-          align: 'left'
-        });
-      }
+      drawDefinitionItem(filter.label, valueString, filterLeft, options.headerHeight + 112, index, doc, options);
     });
   } else {
     doc.fillColor(options.secondaryFontColor, 1)
