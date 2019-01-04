@@ -264,9 +264,7 @@ class Explore extends Component {
                 model={this.props.model}
                 scenario={this.props.scenario}
                 defaultFilters={this.state.defaultFilters}
-                leversState={this.state.leversState}
-                filtersState={this.state.filtersState}
-                appliedYear={this.state.appliedState.year}
+                appliedState={this.state.appliedState}
               />
             </div>
             <DeviceMessage />

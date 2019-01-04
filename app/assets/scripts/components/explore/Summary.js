@@ -52,12 +52,13 @@ class Summary extends Component {
   }
 
   render () {
+    console.log(this.props)
     return (
       <section className='exp-summary'>
         <header className='exp-summary__header'>
           <div className='exp-summary__headline'>
             <h1 className='exp-summary__title'>Summary</h1>
-            <p className='exp-summary__subtitle'>Results for {this.props.appliedYear}</p>
+            <p className='exp-summary__subtitle'>Results for {this.props.appliedState.year}</p>
           </div>
         </header>
         <div className='exp-summary__body'>
@@ -91,7 +92,7 @@ if (environment !== 'production') {
     defaultFilters: T.array,
     leversState: T.array,
     filtersState: T.array,
-    appliedYear: T.number
+    appliedState: T.object
   };
 }
 

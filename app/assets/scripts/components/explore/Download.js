@@ -147,7 +147,10 @@ export function downloadPDF (props) {
   const mapWidth = options.colWidthThreeCol * 2 + options.gutterThreeCol;
   const mapHeight = aspectRatio > 1 ? mapWidth : mapWidth * aspectRatio;
 
-  const { country, model, scenario, defaultFilters, leversState, filtersState } = props;
+  const { country, model, scenario, defaultFilters, appliedState } = props;
+
+  // Use the filters and levers that are actually applied
+  const { leversState, filtersState } = appliedState;
 
   doc.font(baseFont);
 
