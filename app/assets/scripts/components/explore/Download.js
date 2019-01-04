@@ -6,20 +6,20 @@ import config from '../../config';
 import { formatThousands, round } from '../../utils';
 
 // fetch fonts & images on init for use in PDF
-// let MSLight, MSSemiBold, Logo
-// fetch('assets/fonts/Montserrat-Light.ttf')
-//   .then(response => response.arrayBuffer())
-//   .then(font => {
-//     MSLight = font
-//   })
+let baseFont, boldFont, Logo;
 
-// fetch('assets/fonts/Montserrat-SemiBold.ttf')
-//   .then(response => response.arrayBuffer())
-//   .then(font => {
-//     MSSemiBold = font
-//   })
+fetch('/assets/fonts/Rubik-Light.ttf')
+  .then(response => response.arrayBuffer())
+  .then(font => {
+    baseFont = font;
+  });
 
-let Logo;
+fetch('/assets/fonts/Rubik-Medium.ttf')
+  .then(response => response.arrayBuffer())
+  .then(font => {
+    boldFont = font;
+  });
+
 fetch('/assets/graphics/meta/android-chrome.png')
   .then(response => response.arrayBuffer())
   .then(logo => {
@@ -34,16 +34,37 @@ function prettifyString (string) {
   return string.split('-').map(m => capitalize(m)).join(' ');
 }
 
+function drawSectionHeader (label, left, top, doc, options) {
+  doc.fontSize(12);
+  doc.fillColor(options.baseFontColor, 1)
+    .font(boldFont)
+    .text(label, left, top);
+
+  doc.rect(left, top + 18, 28, 2)
+    .fill(options.primaryColor);
+}
+
+// left and top of the 'section'
+function drawSectionDescription (text, left, top, width, doc, options) {
+  doc.fillColor(options.baseFontColor)
+    .fontSize(8)
+    .font(baseFont)
+    .text(text, left, top + 32, {
+      width: width,
+      align: 'left'
+    });
+}
+
 // label and value are strings to print.
 // dlLeft and dlTop are pixel positions of the full container
 // index is the index of the item
 function drawDefinitionItem (label, value, dlLeft, dlTop, index, doc, options) {
   doc.fillColor(options.secondaryFontColor, 1)
-    .font(options.boldFont)
+    .font(boldFont)
     .text(label, dlLeft, dlTop + (index * 44));
 
   doc.fontSize(8)
-    .font(options.baseFont)
+    .font(baseFont)
     .fillColor(options.baseFontColor);
 
   doc.text(value, dlLeft, dlTop + 14 + (index * 44), {
@@ -65,7 +86,7 @@ function drawFooter (doc, options) {
 
   // Left Title
   doc.fillColor(options.primaryColor)
-    .font(options.boldFont)
+    .font(boldFont)
     .text(config.appTitle, options.margin + 20 + 8, options.pageHeight - (options.margin * 1.5), {
       width: options.colWidthTwoCol,
       height: 16,
@@ -75,7 +96,7 @@ function drawFooter (doc, options) {
 
   // Left Subtitle
   doc.fillColor(options.secondaryFontColor)
-    .font(options.baseFont)
+    .font(baseFont)
     .text(config.baseUrl, options.margin + 20 + 8, options.pageHeight - (options.margin * 1.5) + 12, {
       width: options.colWidthTwoCol,
       height: 16,
@@ -112,8 +133,6 @@ export function downloadPDF (props) {
     pageWidth: 612, // Letter; http://www.a4papersize.org/a4-paper-size-in-pixels.php
     pageHeight: 792,
     headerHeight: 96,
-    baseFont: 'Helvetica',
-    boldFont: 'Helvetica-Bold',
     baseFontColor: '#3a455c',
     secondaryFontColor: '#6d788f',
     primaryColor: '#5860ff',
@@ -130,20 +149,25 @@ export function downloadPDF (props) {
 
   const { country, model, scenario, defaultFilters, leversState, filtersState } = props;
 
+  doc.font(baseFont);
+
   // // HEADER
 
   // Left Title
   doc.fillColor(options.baseFontColor)
+    .font(boldFont)
     .fontSize(20)
     .text(country.data.name, options.margin, options.margin);
 
   // Left Subtitle
   doc.fillColor(options.secondaryFontColor)
+    .font(baseFont)
     .fontSize(8)
     .text(model.data.name, options.margin, options.margin + 24);
 
   // Right Title
   doc.fillColor(options.baseFontColor)
+    .font(boldFont)
     .fontSize(12)
     .text(config.appTitle, options.pageWidth - options.colWidthTwoCol - options.margin, options.margin, {
       width: options.colWidthTwoCol,
@@ -152,6 +176,7 @@ export function downloadPDF (props) {
 
   // Right Subtitle
   doc.fillColor(options.secondaryFontColor)
+    .font(baseFont)
     .fontSize(8)
     .text(config.appDescription, options.pageWidth - options.colWidthTwoCol - options.margin, options.margin + 16, {
       width: options.colWidthTwoCol,
@@ -161,6 +186,10 @@ export function downloadPDF (props) {
 
   // // MAP AREA
   // Map area has a three column layout
+
+  // Background color on the full map area
+  doc.rect(0, options.headerHeight, options.pageWidth, mapHeight)
+    .fill('#f6f7f7');
 
   // Map (2/3)
   doc.image(dataURL, options.margin, options.headerHeight, { fit: [options.pageWidth, mapHeight] });
@@ -178,12 +207,7 @@ export function downloadPDF (props) {
   let legendLeft = options.pageWidth - options.margin - options.colWidthThreeCol;
 
   // Legend header
-  doc.fontSize(12);
-  doc.fillColor(options.baseFontColor, 1)
-    .text('Technologies', legendLeft, options.headerHeight + 20);
-
-  doc.rect(legendLeft, options.headerHeight + 38, 28, 2)
-    .fill(options.primaryColor);
+  drawSectionHeader('Technologies', legendLeft, options.headerHeight + 20, doc, options);
 
   // Legend
   const layerKeys = Object.keys(scenario.data.layers);
@@ -194,12 +218,13 @@ export function downloadPDF (props) {
     let itemTop = options.headerHeight + 56 + (index * 24);
 
     // Legend marker
-    doc.roundedRect(legendLeft, itemTop + 1, 12, 4, 2)
+    doc.roundedRect(legendLeft, itemTop + 3, 12, 4, 2)
       .fillColor(legendItem.color, 1)
       .fill();
 
     // Legend label
     doc.fillColor(options.secondaryFontColor, 1)
+      .font(baseFont)
       .fontSize(8)
       .text(prettifyString(legendItem.label), legendLeft + 12 + 4, itemTop);
   });
@@ -212,19 +237,11 @@ export function downloadPDF (props) {
     { name: 'Added capacity', id: 'newCapacity' }
   ];
 
-  doc.rect(0, options.headerHeight + mapHeight, options.pageWidth, options.pageHeight - (options.headerHeight + mapHeight) - options.margin * 2)
-    .fill('#f6f7f7');
-
   // Result headers
   outputs.forEach((output, index) => {
     let outputLeft = options.margin + ((options.colWidthThreeCol + options.gutterThreeCol) * index);
 
-    doc.fillColor(options.baseFontColor)
-      .fontSize(12)
-      .text(output.name, outputLeft, options.headerHeight + mapHeight + 20);
-
-    doc.rect(outputLeft, options.headerHeight + mapHeight + 38, 28, 2)
-      .fill(options.primaryColor);
+    drawSectionHeader(output.name, outputLeft, options.headerHeight + mapHeight + 20, doc, options);
 
     layerKeys.forEach((layer, i) => {
       // Currently picked up from the app config. Will be switched to model config from the props
@@ -232,22 +249,34 @@ export function downloadPDF (props) {
       let itemTop = options.headerHeight + mapHeight + 112 - 2 + (i * 24);
 
       // Marker
-      doc.roundedRect(outputLeft, itemTop + 1, 12, 4, 2)
+      doc.roundedRect(outputLeft, itemTop + 3, 12, 4, 2)
         .fillColor(layerItem.color, 1)
         .fill();
 
       let itemValue = formatThousands(round(scenario.data.summaryByType[output.id][layer], 0));
       doc.fontSize(8)
+        .font(baseFont)
         .fillColor(options.baseFontColor)
         .text(itemValue, outputLeft, itemTop, {
           width: options.colWidthThreeCol,
           align: 'right'
         });
 
-      if (i !== layerKeys.length - 1) {
-        doc.rect(outputLeft, itemTop + 16, options.colWidthThreeCol, 1)
-          .fillColor('#192F35', 0.08)
-          .fill();
+      // Dividing line
+      doc.rect(outputLeft, itemTop + 16, options.colWidthThreeCol, 1)
+        .fillColor('#192F35', 0.08)
+        .fill();
+
+      // At the end, print the total
+      if (i === layerKeys.length - 1) {
+        let total = formatThousands(round(scenario.data.summary[output.id], 0));
+        doc.fontSize(8)
+          .font(boldFont)
+          .fillColor(options.baseFontColor, 1)
+          .text(total, outputLeft, itemTop + 16 + 1 + 8, {
+            width: options.colWidthThreeCol,
+            align: 'right'
+          });
       }
     });
   });
@@ -261,20 +290,10 @@ export function downloadPDF (props) {
   // Body has a 2 column layout
 
   // Scenario header - left column
-  doc.fontSize(12);
-  doc.fillColor(options.baseFontColor, 1)
-    .text('Scenarios', options.margin, options.headerHeight + 20);
-
-  doc.rect(options.margin, options.headerHeight + 38, 28, 2)
-    .fill(options.primaryColor);
+  drawSectionHeader('Scenarios', options.margin, options.headerHeight + 20, doc, options);
 
   const scenarioDescription = 'The model determined the least cost electrification option for each area based on the following assumptions.';
-  doc.fontSize(8);
-  doc.fillColor(options.baseFontColor)
-    .text(scenarioDescription, options.margin, options.headerHeight + 52, {
-      width: options.colWidthTwoCol,
-      align: 'left'
-    });
+  drawSectionDescription(scenarioDescription, options.margin, options.headerHeight + 20, options.colWidthTwoCol, doc, options);
 
   // Scenario levers - left column
   const levers = model.data.levers;
@@ -285,23 +304,14 @@ export function downloadPDF (props) {
   });
 
   // Filter header - right column
-  doc.fontSize(12);
-  doc.fillColor(options.baseFontColor)
-    .text('Filters', options.margin + options.colWidthTwoCol + options.gutterTwoCol, options.headerHeight + 20);
+  let filterLeft = options.margin + options.colWidthTwoCol + options.gutterTwoCol;
 
-  doc.rect(options.margin + options.colWidthTwoCol + options.gutterTwoCol, options.headerHeight + 38, 28, 2)
-    .fill(options.primaryColor);
+  drawSectionHeader('Filters', filterLeft, options.headerHeight + 20, doc, options);
 
   const filterDescription = 'The model results were further narrowed down using the following filters.';
-  doc.fontSize(8);
-  doc.fillColor(options.baseFontColor)
-    .text(filterDescription, options.margin + options.colWidthTwoCol + options.gutterTwoCol, options.headerHeight + 52, {
-      width: options.colWidthTwoCol,
-      align: 'left'
-    });
+  drawSectionDescription(filterDescription, filterLeft, options.headerHeight + 20, options.colWidthTwoCol, doc, options);
 
   // Filter options - right column
-  let filterLeft = options.margin + options.colWidthTwoCol + options.gutterTwoCol;
 
   // Print only the filters that are active
   const activeFilters = defaultFilters
@@ -333,17 +343,29 @@ export function downloadPDF (props) {
   doc.addPage();
 
   // About the model
-  doc.fontSize(12);
-  doc.fillColor(options.baseFontColor, 1)
-    .text('About the model', options.margin, options.headerHeight + 20);
+  drawSectionHeader('About the model', options.margin, options.headerHeight + 20, doc, options);
 
-  doc.rect(options.margin, options.headerHeight + 38, 28, 2)
-    .fill(options.primaryColor);
-
-  doc.fontSize(10);
   doc.fillColor(options.secondaryFontColor)
-    .text(model.data.description, options.margin, options.headerHeight + 52, {
+    .fontSize(10)
+    .font(baseFont)
+    .text(`Developed by: ${model.data.attribution.author}`, options.margin, options.headerHeight + 52, {
+      align: 'left',
+      link: model.data.attribution.link
+    });
+
+  doc.fillColor(options.secondaryFontColor)
+    .fontSize(10)
+    .font(baseFont)
+    .text(`Last updated: ${model.data.updatedAt}`, options.margin + options.colWidthTwoCol + options.gutterTwoCol, options.headerHeight + 52, {
       align: 'left'
+    });
+
+  doc.fillColor(options.secondaryFontColor)
+    .fontSize(10)
+    .font(baseFont)
+    .text(model.data.description, options.margin, options.headerHeight + 52 + 28, {
+      align: 'left',
+      lineGap: 4
     });
 
   drawFooter(doc, options);
