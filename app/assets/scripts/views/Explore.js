@@ -10,6 +10,7 @@ import { environment } from '../config';
 import { makeZeroFilledArray, cloneArrayAndChangeCell } from '../utils';
 import { wrapApiResult, getFromState } from '../redux/utils';
 import { fetchModel, fetchScenario, fetchCountry } from '../redux/actions';
+import QsState from '../utils/qs-state';
 
 import App from './App';
 import Dashboard from '../components/explore/dashboard';
@@ -25,7 +26,7 @@ class Explore extends Component {
   constructor (props) {
     super(props);
 
-    this.updateScenario = this.updateScenario.bind(this);
+    this.onApplyClick = this.onApplyClick.bind(this);
     this.handleFilterChange = this.handleFilterChange.bind(this);
     this.handleLeverChange = this.handleLeverChange.bind(this);
     this.handleLayerChange = this.handleLayerChange.bind(this);
@@ -39,6 +40,50 @@ class Explore extends Component {
       year: null,
       appliedState: {}
     };
+
+    // Setup the qsState for url state management.
+    this.qsState = new QsState({
+      year: {
+        accessor: 'year',
+        hydrator: v => parseInt(v)
+      },
+      scenario: {
+        accessor: 'leversState',
+        hydrator: v => v ? v.split('_').map(v => parseFloat(v)) : null,
+        dehydrator: v => v ? v.join('_') : null
+      },
+      // The filters have a complex structure.
+      // To ensure that the look good on the url and that it doesn't get too
+      // big, we're encoding them.
+      filters: {
+        accessor: 'filtersState',
+        // Filters that are ranges are decoded to a {min, max} object.
+        // Filters that are options are decoded as an [1, 2, 3] of options.
+        hydrator: v => {
+          if (!v) return null;
+          const pieces = v.split('|');
+          return pieces.map(p => {
+            if (p.match(/^r/)) {
+              const [min, max] = p.substr(1).split('_');
+              return { min: parseFloat(min), max: parseFloat(max) };
+            }
+            return p.split('_').map(v => parseFloat(v));
+          });
+        },
+        // The filters that are a range are encoded as r[min]_[max]
+        // The filters that are options are enoded as [opt]_[opt]_[opt]
+        // The various filters are concatenated with a |
+        dehydrator: v => {
+          if (!v) return null;
+          return v.map(s => {
+            if (s.min || s.max) {
+              return `r${s.min || 0}_${s.max || 0}`;
+            }
+            return s.join('_');
+          }).join('|');
+        }
+      }
+    });
   }
 
   async componentDidMount () {
@@ -111,6 +156,14 @@ class Explore extends Component {
     this.setState({ year });
   }
 
+  onApplyClick () {
+    // Update location.
+    const qString = this.qsState.getQs(this.state);
+    this.props.history.push({ search: qString });
+
+    this.updateScenario();
+  }
+
   async fetchModelData () {
     showGlobalLoading();
     await this.props.fetchModel(this.props.match.params.modelId);
@@ -136,6 +189,15 @@ class Explore extends Component {
           ? model.timesteps[model.timesteps.length - 1]
           : null
       });
+
+      // Use levers and filters from the qstring if they exist.
+      // Clean up undefined keys.
+      let qsState = this.qsState.getState(this.props.location.search.substr(1));
+      Object.keys(qsState).forEach(k => {
+        if (qsState[k] === undefined) delete qsState[k];
+      });
+
+      this.setState({ ...qsState });
     }
 
     hideGlobalLoading();
@@ -230,7 +292,7 @@ class Explore extends Component {
 
               <Dashboard
                 model={model}
-                updateScenario={this.updateScenario}
+                onApplyClick={this.onApplyClick}
                 handleLeverChange={this.handleLeverChange}
                 handleFilterChange={this.handleFilterChange}
                 handleYearChange={this.handleYearChange}
@@ -266,6 +328,8 @@ if (environment !== 'production') {
     fetchScenario: T.func,
     fetchCountry: T.func,
     match: T.object,
+    history: T.object,
+    location: T.object,
     model: T.object,
     country: T.object,
     scenario: T.object

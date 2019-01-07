@@ -149,7 +149,7 @@ class Dashboard extends Component {
           title='Apply'
           onClick={e => {
             e.preventDefault();
-            this.props.updateScenario();
+            this.props.onApplyClick();
           }}
         >
           <span>Apply changes</span>
@@ -187,7 +187,7 @@ class Dashboard extends Component {
 
 if (environment !== 'production') {
   Dashboard.propTypes = {
-    updateScenario: T.func,
+    onApplyClick: T.func,
     handleLeverChange: T.func,
     handleFilterChange: T.func,
     handleYearChange: T.func,
