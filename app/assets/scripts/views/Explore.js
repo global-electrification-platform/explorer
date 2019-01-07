@@ -21,6 +21,7 @@ import {
   showGlobalLoading,
   hideGlobalLoading
 } from '../components/GlobalLoading';
+import { getCountryBoundsNWSE } from '../utils/ne-110m_bbox';
 
 class Explore extends Component {
   constructor (props) {
@@ -204,9 +205,13 @@ class Explore extends Component {
     const { isReady, getData } = this.props.model;
     const model = getData();
 
-    /**
-     * Get country data. If there is only one model for this country, disable "Change Model" button.
-     */
+    let bounds = null;
+    if (isReady()) {
+      bounds = getCountryBoundsNWSE(model.country);
+    }
+
+    // Get country data. If there is only one model for this country,
+    // disable "Change Model" button.
     let countryName = '';
     let hasMultipleModels = false;
     if (this.props.country.isReady()) {
@@ -254,6 +259,7 @@ class Explore extends Component {
             </header>
             <div className='inpage__body'>
               <Map
+                bounds={bounds}
                 scenario={this.props.scenario}
                 year={this.state.year}
                 externalLayers={model.map.layers}

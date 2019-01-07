@@ -108,7 +108,7 @@ class Map extends React.Component {
     this.map = new mapboxgl.Map({
       container: this.refs.mapEl,
       style: 'mapbox://styles/devseed/cjpbi9n1811yd2snwl9ezys5p',
-      bounds: [[32.34375, -9.145486056167277], [36.2109375, -17.35063837604883]],
+      bounds: this.props.bounds,
       preserveDrawingBuffer: true
     });
 
@@ -450,6 +450,7 @@ class Map extends React.Component {
 
 if (environment !== 'production') {
   Map.propTypes = {
+    bounds: T.array,
     scenario: T.object,
     year: T.number,
     handleLayerChange: T.func,
