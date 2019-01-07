@@ -207,7 +207,7 @@ export function downloadPDF (props) {
     .fill();
 
   // Legend (1/3)
-  let legendLeft = options.pageWidth - options.margin - options.colWidthThreeCol;
+  const legendLeft = options.pageWidth - options.margin - options.colWidthThreeCol;
 
   // Year header
   drawSectionHeader('Year', legendLeft, options.headerHeight + 20, doc, options);
@@ -220,7 +220,7 @@ export function downloadPDF (props) {
     });
 
   // Legend header
-  let legendTop = options.headerHeight + 20 + 36 + 36;
+  const legendTop = options.headerHeight + 20 + 36 + 36;
   drawSectionHeader('Technologies', legendLeft, legendTop, doc, options);
 
   // Legend
@@ -228,7 +228,6 @@ export function downloadPDF (props) {
   layerKeys.forEach((key, index) => {
     // Currently picked up from the app config. Will be switched to model config from the props
     let legendItem = config.techLayers.find(l => l.id === key);
-
     let itemTop = legendTop + 36 + (index * 24);
 
     // Legend marker
@@ -318,7 +317,7 @@ export function downloadPDF (props) {
   });
 
   // Filter header - right column
-  let filterLeft = options.margin + options.colWidthTwoCol + options.gutterTwoCol;
+  const filterLeft = options.margin + options.colWidthTwoCol + options.gutterTwoCol;
 
   drawSectionHeader('Filters', filterLeft, options.headerHeight + 20, doc, options);
 
