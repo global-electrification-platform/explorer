@@ -5,7 +5,6 @@ import { PropTypes as T } from 'prop-types';
 import c from 'classnames';
 import clone from 'lodash.clone';
 import pull from 'lodash.pull';
-import get from 'lodash.get';
 
 import { environment } from '../config';
 import { makeZeroFilledArray, cloneArrayAndChangeCell } from '../utils';
@@ -133,7 +132,9 @@ class Explore extends Component {
           })
           : [],
         layersState: model.map.layers.map(() => false),
-        year: get(model.timesteps, '0', null)
+        year: model.timesteps
+          ? model.timesteps[model.timesteps.length - 1]
+          : null
       });
     }
 
