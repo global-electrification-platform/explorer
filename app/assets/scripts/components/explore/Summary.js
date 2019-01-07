@@ -5,6 +5,7 @@ import { environment } from '../../config';
 
 import ShadowScrollbars from '../ShadowScrollbar';
 import Charts from './Charts';
+import downloadPDF from './Download';
 import Legend from './Legend';
 
 class Summary extends Component {
@@ -56,7 +57,7 @@ class Summary extends Component {
         <header className='exp-summary__header'>
           <div className='exp-summary__headline'>
             <h1 className='exp-summary__title'>Summary</h1>
-            <p className='exp-summary__subtitle'>Results for {this.props.appliedYear}</p>
+            <p className='exp-summary__subtitle'>Results for {this.props.appliedState.year}</p>
           </div>
         </header>
         <div className='exp-summary__body'>
@@ -66,9 +67,13 @@ class Summary extends Component {
         </div>
         <footer className='exp-summary__footer'>
           <button
-            type='button'
-            className='exp-download-button disabled'
+            type='submit'
+            className='exp-download-button'
             title='Download the data'
+            onClick={e => {
+              e.preventDefault();
+              downloadPDF(this.props);
+            }}
           >
             <span>Export</span>
           </button>
@@ -80,9 +85,13 @@ class Summary extends Component {
 
 if (environment !== 'production') {
   Summary.propTypes = {
-    scenario: T.object,
+    country: T.object,
     model: T.object,
-    appliedYear: T.number
+    scenario: T.object,
+    defaultFilters: T.array,
+    leversState: T.array,
+    filtersState: T.array,
+    appliedState: T.object
   };
 }
 

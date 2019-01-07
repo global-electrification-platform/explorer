@@ -62,20 +62,20 @@ export function round (value, decimals = 2) {
  *                  formatTousands(1 /2, 2, true) => 0.50
  *
  * @example
- * formatTousands(1)               1
- * formatTousands(1000)            1 000
- * formatTousands(10000000)        10 000 000
- * formatTousands(1/3)             0.33
- * formatTousands(100000/3)        33 333.33
- * formatTousands()                --
- * formatTousands('asdasdas')      --
- * formatTousands(1/2, 0)          1
- * formatTousands(1/2, 0, true)    1
- * formatTousands(1/2, 5)          0.5
- * formatTousands(1/2, 5, true)    0.50000
+ * formatThousands(1)               1
+ * formatThousands(1000)            1 000
+ * formatThousands(10000000)        10 000 000
+ * formatThousands(1/3)             0.33
+ * formatThousands(100000/3)        33 333.33
+ * formatThousands()                --
+ * formatThousands('asdasdas')      --
+ * formatThousands(1/2, 0)          1
+ * formatThousands(1/2, 0, true)    1
+ * formatThousands(1/2, 5)          0.5
+ * formatThousands(1/2, 5, true)    0.50000
  *
  */
-export function formatTousands (num, decimals = 2, forceDecimals = false) {
+export function formatThousands (num, decimals = 2, forceDecimals = false) {
   // isNaN(null) === true
   if (isNaN(num) || (!num && num !== 0)) {
     return '--';

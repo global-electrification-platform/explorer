@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { PropTypes as T } from 'prop-types';
 import c from 'classnames';
 import clone from 'lodash.clone';
+import isEqual from 'lodash.isequal';
 import pull from 'lodash.pull';
 
 import { environment } from '../config';
@@ -33,6 +34,7 @@ class Explore extends Component {
 
     this.state = {
       dashboardChangedAt: Date.now(),
+      defaultFilters: [],
       filtersState: [],
       leversState: [],
       layersState: [],
@@ -64,6 +66,7 @@ class Explore extends Component {
   handleFilterChange (filterIdx, value) {
     const filter = this.props.model.getData().filters[filterIdx];
     const filtersState = clone(this.state.filtersState);
+    const defaultFilters = clone(this.state.defaultFilters);
 
     if (filter.type === 'range') {
       let newRange = clone(value);
@@ -76,6 +79,9 @@ class Explore extends Component {
       if (newRange.max >= Math.floor(max)) newRange.max = max;
 
       filtersState[filterIdx] = newRange;
+
+      // Set flag if filter is not default
+      defaultFilters[filterIdx] = isEqual(filter.range, newRange);
     } else {
       // Get current selected options
       let selectedOptions = clone(this.state.filtersState[filterIdx]);
@@ -91,9 +97,15 @@ class Explore extends Component {
       if (selectedOptions.length > 0) {
         filtersState[filterIdx] = selectedOptions;
       }
+
+      // Set flag if filter is not default
+      defaultFilters[filterIdx] = filter.options.length === selectedOptions.length;
     }
 
-    this.setState({ filtersState });
+    this.setState({
+      defaultFilters: defaultFilters,
+      filtersState: filtersState
+    });
   }
 
   handleLayerChange (leverIdx) {
@@ -123,6 +135,7 @@ class Explore extends Component {
 
       // Initialize levers and filters
       this.setState({
+        defaultFilters: new Array(model.filters.length).fill(true),
         leversState: makeZeroFilledArray(model.levers.length),
         filtersState: model.filters
           ? model.filters.map(filter => {
@@ -248,8 +261,11 @@ class Explore extends Component {
                 handleLayerChange={this.handleLayerChange}
               />
               <Summary
+                country={this.props.country}
+                model={this.props.model}
                 scenario={this.props.scenario}
-                appliedYear={this.state.appliedState.year}
+                defaultFilters={this.state.defaultFilters}
+                appliedState={this.state.appliedState}
               />
             </div>
             <DeviceMessage />
