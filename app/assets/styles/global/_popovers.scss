@@ -214,14 +214,17 @@
    ========================================================================== */
 
 .popover__contents {
-  &::before {
-    @extend %popover-skin;
-    position: absolute;
-    content: '';
-    width: 1rem;
-    height: 1rem;
-    pointer-events: none;
-    border-radius: 0;
+  [class^='popover--anchor'] &,
+  [class*=' popover--anchor'] & {
+    &::before {
+      @extend %popover-skin;
+      position: absolute;
+      content: '';
+      width: 1rem;
+      height: 1rem;
+      pointer-events: none;
+      border-radius: 0;
+    }
   }
 
   .popover--anchor-top-left & {

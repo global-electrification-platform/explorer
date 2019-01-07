@@ -56,6 +56,7 @@ class Summary extends Component {
         <header className='exp-summary__header'>
           <div className='exp-summary__headline'>
             <h1 className='exp-summary__title'>Summary</h1>
+            <p className='exp-summary__subtitle'>Results for {this.props.appliedYear}</p>
           </div>
         </header>
         <div className='exp-summary__body'>
@@ -80,7 +81,8 @@ class Summary extends Component {
 if (environment !== 'production') {
   Summary.propTypes = {
     scenario: T.object,
-    model: T.object
+    model: T.object,
+    appliedYear: T.number
   };
 }
 

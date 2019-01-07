@@ -113,7 +113,7 @@ class Filters extends Component {
   }
 
   render () {
-    const { filtersConfig, updateScenario, filtersState } = this.props;
+    const { filtersConfig } = this.props;
 
     return (
       <section className='econtrols__section' id='econtrols-filters'>
@@ -126,19 +126,6 @@ class Filters extends Component {
                 this.renderFilters(filtersConfig)}
             </ShadowScrollbars>
           </div>
-          <div className='form__actions econtrols__actions'>
-            <button
-              type='submit'
-              className='econtrols__submit'
-              title='Apply'
-              onClick={e => {
-                e.preventDefault();
-                updateScenario({ filters: filtersState });
-              }}
-            >
-              <span>Apply changes</span>
-            </button>
-          </div>
         </form>
       </section>
     );
@@ -147,7 +134,6 @@ class Filters extends Component {
 
 if (environment !== 'production') {
   Filters.propTypes = {
-    updateScenario: T.func,
     filtersConfig: T.array,
     filtersState: T.array,
     handleFilterChange: T.func

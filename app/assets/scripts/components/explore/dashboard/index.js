@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import { PropTypes as T } from 'prop-types';
 import ReactTooltip from 'react-tooltip';
+import c from 'classnames';
 
 import Levers from './Levers';
 import Filters from './Filters';
+import Dropdown from '../../Dropdown';
 
 import { environment } from '../../../config';
 
@@ -16,6 +18,11 @@ class Dashboard extends Component {
     this.state = {
       activeTab: 'scenarios'
     };
+  }
+
+  onYearClick (year, e) {
+    e.preventDefault();
+    this.props.handleYearChange(year);
   }
 
   renderTabs () {
@@ -47,7 +54,6 @@ class Dashboard extends Component {
       const { leversState } = this.props;
       return (
         <Levers
-          updateScenario={this.props.updateScenario}
           handleLeverChange={this.props.handleLeverChange}
           leversConfig={levers}
           leversState={leversState}
@@ -58,7 +64,6 @@ class Dashboard extends Component {
       const { filtersState } = this.props;
       return (
         <Filters
-          updateScenario={this.props.updateScenario}
           filtersConfig={filters}
           filtersState={filtersState}
           handleFilterChange={this.props.handleFilterChange}
@@ -75,7 +80,7 @@ class Dashboard extends Component {
     const match = code.match(/^([a-z0-9]+)-(.+)/);
     if (!match) return;
 
-    const [ , type, n ] = match;
+    const [, type, n] = match;
     const idx = parseInt(n);
 
     let obj;
@@ -97,6 +102,63 @@ class Dashboard extends Component {
     );
   }
 
+  renderApplyControls () {
+    const { model, year } = this.props;
+    const hasTimesteps = !!model.timesteps;
+
+    let yearSelectorElement = null;
+    if (hasTimesteps) {
+      yearSelectorElement = (
+        <Dropdown
+          triggerClassName='econtrols__time-select'
+          triggerActiveClassName='button--active'
+          triggerText={year || 'n/a'}
+          triggerTitle='Select year'
+          direction='up'
+          alignment='center'
+        >
+          <ul className='drop__menu drop__menu--select'>
+            {model.timesteps.map(t => {
+              const classes = c('drop__menu-item', {
+                'drop__menu-item--active': year === t
+              });
+
+              return (
+                <li key={t}>
+                  <a
+                    href='#'
+                    className={classes}
+                    data-hook='dropdown:close'
+                    onClick={this.onYearClick.bind(this, t)}
+                  >
+                    {t}
+                  </a>
+                </li>
+              );
+            })}
+          </ul>
+        </Dropdown>
+      );
+    }
+
+    return (
+      <div className='button-group button-group--horizontal'>
+        <button
+          type='submit'
+          className='econtrols__submit'
+          title='Apply'
+          onClick={e => {
+            e.preventDefault();
+            this.props.updateScenario();
+          }}
+        >
+          <span>Apply changes</span>
+        </button>
+        {yearSelectorElement}
+      </div>
+    );
+  }
+
   render () {
     return (
       <div className='econtrols'>
@@ -106,6 +168,9 @@ class Dashboard extends Component {
           </ul>
         </nav>
         {this.renderTabContent()}
+        <div className='econtrols__actions'>
+          {this.renderApplyControls()}
+        </div>
         <ReactTooltip
           id='econtrol-popover'
           effect='solid'
@@ -113,7 +178,7 @@ class Dashboard extends Component {
           className='popover'
           wrapper='article'
           globalEventOff='click'
-          getContent={(dataTip) => this.popoverRenderFn(dataTip)}
+          getContent={dataTip => this.popoverRenderFn(dataTip)}
         />
       </div>
     );
@@ -125,9 +190,11 @@ if (environment !== 'production') {
     updateScenario: T.func,
     handleLeverChange: T.func,
     handleFilterChange: T.func,
+    handleYearChange: T.func,
     model: T.object,
     leversState: T.array,
-    filtersState: T.array
+    filtersState: T.array,
+    year: T.number
   };
 }
 
