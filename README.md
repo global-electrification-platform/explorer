@@ -21,15 +21,22 @@ Clone this repository locally and run:
 
     yarn
 
-### Add Mapbox token
+#### Config files
+The config files can be found in `app/assets/scripts/config`. After installing the project, there will be an empty `local.js` that you can use to set the config. This file should not be committed.
 
-Create file `app/assets/scripts/config/local.js` with your Mapbox API token. Example:
+The configuration is overridable by environment variables, expressed between []:
 
+- `appTitle` - Meta information. The app title.
+- `appShortTitle` - Meta information. The short app title.
+- `appDescription` - Meta information. The app description.
+- `dataServiceUrl` - The address for the API. [API]
+- `mapboxAccessToken` - The Mapbox Token to load map tiles from. [MB_TOKEN]
+
+Example:
 ```
-'use strict';
-
-export default {
-  mapboxAccessToken: 'ADD MAPBOX API TOKEN HERE'
+module.exports = {
+  api: 'http://localhost:3000',
+  mbtoken: 'asfd23rlmksjdf023rnnsafd'
 };
 ```
 
