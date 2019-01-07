@@ -7,6 +7,7 @@ export default {
     'Explore least cost electrification strategies around the world.',
   baseUrl: 'http://localhost:9000',
   dataServiceUrl: 'http://localhost:3000',
+  mapboxAccessToken: null,
   techLayers: [
     {
       id: '1',
