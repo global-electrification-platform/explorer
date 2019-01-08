@@ -113,6 +113,7 @@
     "lodash.isequal": "^4.5.0",
     "lodash.map": "^4.6.0",
     "lodash.pull": "^4.1.0",
+    "lodash.set": "^4.3.2",
     "lodash.throttle": "^4.1.1",
     "mapbox-gl": "^0.52.0",
     "pdfkit": "^0.8.3",
