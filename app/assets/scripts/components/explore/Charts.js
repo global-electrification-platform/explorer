@@ -4,7 +4,7 @@ import map from 'lodash.map';
 import { Group } from '@vx/group';
 import { Pie } from '@vx/shape';
 
-import { environment, techLayers } from '../../config';
+import { environment } from '../../config';
 import { formatKeyIndicator } from '../../utils';
 
 import Modal from '../Modal';
@@ -63,6 +63,7 @@ class Charts extends Component {
     } = this.state;
 
     const summary = this.props.scenario.summaryByType[keyIndicator];
+    const techLayers = this.props.techLayers;
 
     return (
       popoverIsVisible && (
@@ -103,6 +104,7 @@ class Charts extends Component {
 
   renderChart (keyIndicator) {
     const { summary, summaryByType } = this.props.scenario;
+    const techLayers = this.props.techLayers;
     const { label, format } = indicatorsLabels[keyIndicator];
 
     const height = 132;
@@ -193,7 +195,8 @@ class Charts extends Component {
 
 if (environment !== 'production') {
   Charts.propTypes = {
-    scenario: T.object
+    scenario: T.object,
+    techLayers: T.array
   };
 }
 

@@ -1,11 +1,11 @@
 import React, { Component, Fragment } from 'react';
 import { PropTypes as T } from 'prop-types';
 
-import { environment, techLayers } from '../../config';
+import { environment } from '../../config';
 
 class Legend extends Component {
   renderColor (layerId) {
-    const layer = techLayers.filter(l => l.id === layerId)[0];
+    const layer = this.props.techLayers.filter(l => l.id === layerId)[0];
 
     const { title, label, color } = layer || {
       color: 'white',
@@ -45,7 +45,8 @@ class Legend extends Component {
 
 if (environment !== 'production') {
   Legend.propTypes = {
-    scenario: T.object
+    scenario: T.object,
+    techLayers: T.array
   };
 }
 
