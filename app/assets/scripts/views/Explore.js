@@ -14,6 +14,7 @@ import { fetchModel, fetchScenario, fetchCountry } from '../redux/actions';
 import QsState from '../utils/qs-state';
 
 import App from './App';
+import UhOh from './UhOh';
 import Dashboard from '../components/explore/dashboard';
 import Map from '../components/explore/Map';
 import Summary from '../components/explore/Summary';
@@ -52,8 +53,8 @@ class Explore extends Component {
       },
       scenario: {
         accessor: 'leversState',
-        hydrator: v => v ? v.split('_').map(v => parseFloat(v)) : null,
-        dehydrator: v => v ? v.join('_') : null
+        hydrator: v => (v ? v.split('_').map(v => parseFloat(v)) : null),
+        dehydrator: v => (v ? v.join('_') : null)
       },
       // The filters have a complex structure.
       // To ensure that the look good on the url and that it doesn't get too
@@ -78,12 +79,14 @@ class Explore extends Component {
         // The various filters are concatenated with a |
         dehydrator: v => {
           if (!v) return null;
-          return v.map(s => {
-            if (s.min || s.max) {
-              return `r${s.min || 0}_${s.max || 0}`;
-            }
-            return s.join('_');
-          }).join('|');
+          return v
+            .map(s => {
+              if (s.min || s.max) {
+                return `r${s.min || 0}_${s.max || 0}`;
+              }
+              return s.join('_');
+            })
+            .join('|');
         }
       }
     });
@@ -91,7 +94,8 @@ class Explore extends Component {
 
   async componentDidMount () {
     await this.fetchModelData();
-    this.updateScenario();
+    const { hasError } = this.props.model;
+    if (!hasError()) this.updateScenario();
   }
 
   componentDidUpdate (prevProps) {
@@ -145,7 +149,8 @@ class Explore extends Component {
       }
 
       // Set flag if filter is not default
-      defaultFilters[filterIdx] = filter.options.length === selectedOptions.length;
+      defaultFilters[filterIdx] =
+        filter.options.length === selectedOptions.length;
     }
 
     this.setState({
@@ -264,8 +269,13 @@ class Explore extends Component {
   }
 
   render () {
-    const { isReady, getData } = this.props.model;
+    const { isReady, getData, hasError } = this.props.model;
     const model = getData();
+
+    if (hasError()) {
+      hideGlobalLoading();
+      return <UhOh />;
+    }
 
     let bounds = null;
     if (isReady()) {
