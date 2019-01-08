@@ -59,7 +59,7 @@ class SelectModel extends Component {
                   <h1 className='card__title'>
                     <span>{m.name}</span>{' '}
                     <small className='label'>
-                      <span>V1.0</span>
+                      <span>{m.version}</span>
                     </small>
                   </h1>
                 </header>
@@ -69,9 +69,9 @@ class SelectModel extends Component {
                   </div>
                   <dl className='card__details'>
                     <dt>Updated</dt>
-                    <dd>Sep 28, 2018</dd>
+                    <dd>{m.updatedAt}</dd>
                     <dt>Author</dt>
-                    <dd>Lorem ipsum</dd>
+                    <dd>{m.attribution && m.attribution.author}</dd>
                   </dl>
                 </div>
               </Link>
