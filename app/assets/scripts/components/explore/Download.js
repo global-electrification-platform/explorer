@@ -166,7 +166,7 @@ export function downloadPDF (props) {
   doc.fillColor(options.secondaryFontColor)
     .font(baseFont)
     .fontSize(8)
-    .text(model.data.name, options.margin, options.margin + 24);
+    .text(model.name, options.margin, options.margin + 24);
 
   // Right Title
   doc.fillColor(options.baseFontColor)
@@ -227,7 +227,7 @@ export function downloadPDF (props) {
   const layerKeys = Object.keys(scenario.data.layers);
   layerKeys.forEach((key, index) => {
     // Currently picked up from the app config. Will be switched to model config from the props
-    let legendItem = config.techLayers.find(l => l.id === key);
+    let legendItem = model.map.techLayersConfig.find(l => l.id === key);
     let itemTop = legendTop + 36 + (index * 24);
 
     // Legend marker
@@ -258,7 +258,7 @@ export function downloadPDF (props) {
 
     layerKeys.forEach((layer, i) => {
       // Currently picked up from the app config. Will be switched to model config from the props
-      let layerItem = config.techLayers.find(l => l.id === layer);
+      let layerItem = model.map.techLayersConfig.find(l => l.id === layer);
       let itemTop = options.headerHeight + mapHeight + 112 - 2 + (i * 24);
 
       // Marker
@@ -309,7 +309,7 @@ export function downloadPDF (props) {
   drawSectionDescription(scenarioDescription, options.margin, options.headerHeight + 20, options.colWidthTwoCol, doc, options);
 
   // Scenario levers - left column
-  const levers = model.data.levers;
+  const levers = model.levers;
   levers.forEach((lever, index) => {
     let leverOption = lever.options.find(o => o.id === leversState[index]);
 
@@ -328,7 +328,7 @@ export function downloadPDF (props) {
 
   // Print only the filters that are active
   const activeFilters = defaultFilters
-    .reduce((acc, def, index) => def ? acc : acc.concat(model.data.filters[index]), []);
+    .reduce((acc, def, index) => def ? acc : acc.concat(model.filters[index]), []);
 
   if (activeFilters.length) {
     activeFilters.forEach((filter, index) => {
@@ -361,22 +361,22 @@ export function downloadPDF (props) {
   doc.fillColor(options.secondaryFontColor)
     .fontSize(10)
     .font(baseFont)
-    .text(`Developed by: ${model.data.attribution.author}`, options.margin, options.headerHeight + 52, {
+    .text(`Developed by: ${model.attribution.author}`, options.margin, options.headerHeight + 52, {
       align: 'left',
-      link: model.data.attribution.link
+      link: model.attribution.link
     });
 
   doc.fillColor(options.secondaryFontColor)
     .fontSize(10)
     .font(baseFont)
-    .text(`Last updated: ${model.data.updatedAt}`, options.margin + options.colWidthTwoCol + options.gutterTwoCol, options.headerHeight + 52, {
+    .text(`Last updated: ${model.updatedAt}`, options.margin + options.colWidthTwoCol + options.gutterTwoCol, options.headerHeight + 52, {
       align: 'left'
     });
 
   doc.fillColor(options.secondaryFontColor)
     .fontSize(10)
     .font(baseFont)
-    .text(model.data.description, options.margin, options.headerHeight + 52 + 28, {
+    .text(model.description, options.margin, options.headerHeight + 52 + 28, {
       align: 'left',
       lineGap: 4
     });

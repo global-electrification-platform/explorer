@@ -6,7 +6,7 @@ import bbox from '@turf/bbox';
 import { PropTypes as T } from 'prop-types';
 
 import MapPopover from './connected/MapPopover';
-import { mapboxAccessToken, environment, techLayers } from '../../config';
+import { mapboxAccessToken, environment } from '../../config';
 import MapboxControl from '../MapboxReactControl';
 import LayerControlDropdown from './MapLayerControl';
 
@@ -105,10 +105,18 @@ class Map extends React.Component {
       return;
     }
 
+    const {
+      bounds,
+      externalLayers,
+      techLayers,
+      layersState,
+      handleLayerChange
+    } = this.props;
+
     this.map = new mapboxgl.Map({
       container: this.refs.mapEl,
       style: 'mapbox://styles/devseed/cjpbi9n1811yd2snwl9ezys5p',
-      bounds: this.props.bounds,
+      bounds: bounds,
       preserveDrawingBuffer: true
     });
 
@@ -123,9 +131,9 @@ class Map extends React.Component {
 
     this.layerDropdownControl = new MapboxControl((props, state) => (
       <LayerControlDropdown
-        layersConfig={this.props.externalLayers}
-        layersState={this.props.layersState}
-        handleLayerChange={this.props.handleLayerChange}
+        layersConfig={externalLayers}
+        layersState={layersState}
+        handleLayerChange={handleLayerChange}
       />
     ));
 
@@ -147,7 +155,7 @@ class Map extends React.Component {
       // url:           Url to a tilejson or mapbox://. Use interchangeably with tiles
       // tiles:         Array of tile url. Use interchangeably with url
       // vectorLayers:  Array of source layers to show. Only in case of type vector
-      this.props.externalLayers.forEach(layer => {
+      externalLayers.forEach(layer => {
         if (layer.type === 'vector') {
           if (!layer.vectorLayers || !layer.vectorLayers.length) {
             // eslint-disable-next-line no-console
@@ -368,7 +376,7 @@ class Map extends React.Component {
   }
 
   clearMap () {
-    for (const layer of techLayers) {
+    for (const layer of this.props.techLayers) {
       this.map.setFilter(layer.id, ['==', 'id_int', 'nothing']);
     }
   }
@@ -455,6 +463,7 @@ if (environment !== 'production') {
     year: T.number,
     handleLayerChange: T.func,
     externalLayers: T.array,
+    techLayers: T.array,
     layersState: T.array
   };
 }

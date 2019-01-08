@@ -20,10 +20,16 @@ class Summary extends Component {
       if (Object.keys(scenario.layers).length > 0) {
         return (
           <Fragment>
-            <Legend scenario={scenario} />
+            <Legend
+              scenario={scenario}
+              techLayers={this.props.model.map.techLayersConfig}
+            />
             <div className='sum-block sum-block--charts'>
               <h2 className='sum-block__title'>Charts</h2>
-              <Charts scenario={scenario} />
+              <Charts
+                scenario={scenario}
+                techLayers={this.props.model.map.techLayersConfig}
+              />
             </div>
           </Fragment>
         );

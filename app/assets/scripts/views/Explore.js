@@ -325,12 +325,13 @@ class Explore extends Component {
                 scenario={this.props.scenario}
                 year={this.state.year}
                 externalLayers={model.map.layers}
+                techLayers={model.map.techLayersConfig}
                 layersState={this.state.layersState}
                 handleLayerChange={this.handleLayerChange}
               />
               <Summary
                 country={this.props.country}
-                model={this.props.model}
+                model={model}
                 scenario={this.props.scenario}
                 defaultFilters={this.state.defaultFilters}
                 appliedState={this.state.appliedState}
