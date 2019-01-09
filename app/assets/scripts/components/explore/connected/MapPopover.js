@@ -32,11 +32,11 @@ class MapPopover extends React.Component {
             {isReady() ? (
               <dl className='map-number-list'>
                 <dt>Population electrified</dt>
-                <dd>{formatThousands(data.electrifiedPopulation)}</dd>
+                <dd>{formatThousands(data.electrifiedPopulation, 0)}</dd>
                 <dt>Investment required</dt>
-                <dd><small>$</small> {formatThousands(data.investmentCost)}</dd>
+                <dd><small>$</small> {formatThousands(data.investmentCost, 0)}</dd>
                 <dt>Capacity Added</dt>
-                <dd>{formatThousands(data.newCapacity)} <small>KW</small></dd>
+                <dd>{formatThousands(data.newCapacity)} <small>kW</small></dd>
               </dl>
             ) : (
               <p>Loading</p>
