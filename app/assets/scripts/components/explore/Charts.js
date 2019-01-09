@@ -20,13 +20,13 @@ const indicatorsLabels = {
   investmentCost: {
     label: 'Investment Required',
     format: n => {
-      return `$${formatKeyIndicator(n)}`;
+      return `$${formatKeyIndicator(n, 'metric')}`;
     }
   },
   newCapacity: {
     label: 'Added Capactiy',
     format: n => {
-      return `${formatKeyIndicator(n)}kW`;
+      return `${formatKeyIndicator(n, 'power')}`;
     }
   }
 };
