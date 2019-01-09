@@ -21,6 +21,25 @@ Clone this repository locally and run:
 
     yarn
 
+#### Config files
+The config files can be found in `app/assets/scripts/config`. After installing the project, there will be an empty `local.js` that you can use to set the config. This file should not be committed.
+
+The configuration is overridable by environment variables, expressed between []:
+
+- `appTitle` - Meta information. The app title.
+- `appShortTitle` - Meta information. The short app title.
+- `appDescription` - Meta information. The app description.
+- `dataServiceUrl` - The address for the API. [API]
+- `mapboxAccessToken` - The Mapbox Token to load map tiles from. [MB_TOKEN]
+
+Example:
+```
+module.exports = {
+  api: 'http://localhost:3000',
+  mbtoken: 'asfd23rlmksjdf023rnnsafd'
+};
+```
+
 ### Development
 
 Start server with live code reload at [http://localhost:9000](http://localhost:9000):

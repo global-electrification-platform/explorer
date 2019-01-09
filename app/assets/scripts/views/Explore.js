@@ -4,14 +4,17 @@ import { connect } from 'react-redux';
 import { PropTypes as T } from 'prop-types';
 import c from 'classnames';
 import clone from 'lodash.clone';
+import isEqual from 'lodash.isequal';
 import pull from 'lodash.pull';
 
 import { environment } from '../config';
 import { makeZeroFilledArray, cloneArrayAndChangeCell } from '../utils';
 import { wrapApiResult, getFromState } from '../redux/utils';
 import { fetchModel, fetchScenario, fetchCountry } from '../redux/actions';
+import QsState from '../utils/qs-state';
 
 import App from './App';
+import UhOh from './UhOh';
 import Dashboard from '../components/explore/dashboard';
 import Map from '../components/explore/Map';
 import Summary from '../components/explore/Summary';
@@ -20,30 +23,79 @@ import {
   showGlobalLoading,
   hideGlobalLoading
 } from '../components/GlobalLoading';
+import { getCountryBoundsNWSE } from '../utils/ne-110m_bbox';
 
 class Explore extends Component {
   constructor (props) {
     super(props);
 
-    this.updateScenario = this.updateScenario.bind(this);
+    this.onApplyClick = this.onApplyClick.bind(this);
     this.handleFilterChange = this.handleFilterChange.bind(this);
     this.handleLeverChange = this.handleLeverChange.bind(this);
     this.handleLayerChange = this.handleLayerChange.bind(this);
+    this.handleYearChange = this.handleYearChange.bind(this);
 
     this.state = {
       dashboardChangedAt: Date.now(),
+      defaultFilters: [],
       filtersState: [],
       leversState: [],
-      layersState: []
+      layersState: [],
+      year: null,
+      appliedState: {}
     };
+
+    // Setup the qsState for url state management.
+    this.qsState = new QsState({
+      year: {
+        accessor: 'year',
+        hydrator: v => parseInt(v)
+      },
+      scenario: {
+        accessor: 'leversState',
+        hydrator: v => (v ? v.split('_').map(v => parseFloat(v)) : null),
+        dehydrator: v => (v ? v.join('_') : null)
+      },
+      // The filters have a complex structure.
+      // To ensure that the look good on the url and that it doesn't get too
+      // big, we're encoding them.
+      filters: {
+        accessor: 'filtersState',
+        // Filters that are ranges are decoded to a {min, max} object.
+        // Filters that are options are decoded as an [1, 2, 3] of options.
+        hydrator: v => {
+          if (!v) return null;
+          const pieces = v.split('|');
+          return pieces.map(p => {
+            if (p.match(/^r/)) {
+              const [min, max] = p.substr(1).split('_');
+              return { min: parseFloat(min), max: parseFloat(max) };
+            }
+            return p.split('_').map(v => parseFloat(v));
+          });
+        },
+        // The filters that are a range are encoded as r[min]_[max]
+        // The filters that are options are enoded as [opt]_[opt]_[opt]
+        // The various filters are concatenated with a |
+        dehydrator: v => {
+          if (!v) return null;
+          return v
+            .map(s => {
+              if (s.min || s.max) {
+                return `r${s.min || 0}_${s.max || 0}`;
+              }
+              return s.join('_');
+            })
+            .join('|');
+        }
+      }
+    });
   }
 
   async componentDidMount () {
     await this.fetchModelData();
-    this.updateScenario({
-      filters: this.state.filtersState,
-      levers: this.state.leversState
-    });
+    const { hasError } = this.props.model;
+    if (!hasError()) this.updateScenario();
   }
 
   componentDidUpdate (prevProps) {
@@ -64,6 +116,7 @@ class Explore extends Component {
   handleFilterChange (filterIdx, value) {
     const filter = this.props.model.getData().filters[filterIdx];
     const filtersState = clone(this.state.filtersState);
+    const defaultFilters = clone(this.state.defaultFilters);
 
     if (filter.type === 'range') {
       let newRange = clone(value);
@@ -76,6 +129,9 @@ class Explore extends Component {
       if (newRange.max >= Math.floor(max)) newRange.max = max;
 
       filtersState[filterIdx] = newRange;
+
+      // Set flag if filter is not default
+      defaultFilters[filterIdx] = isEqual(filter.range, newRange);
     } else {
       // Get current selected options
       let selectedOptions = clone(this.state.filtersState[filterIdx]);
@@ -91,9 +147,16 @@ class Explore extends Component {
       if (selectedOptions.length > 0) {
         filtersState[filterIdx] = selectedOptions;
       }
+
+      // Set flag if filter is not default
+      defaultFilters[filterIdx] =
+        filter.options.length === selectedOptions.length;
     }
 
-    this.setState({ filtersState });
+    this.setState({
+      defaultFilters: defaultFilters,
+      filtersState: filtersState
+    });
   }
 
   handleLayerChange (leverIdx) {
@@ -105,6 +168,18 @@ class Explore extends Component {
     );
 
     this.setState({ layersState });
+  }
+
+  handleYearChange (year) {
+    this.setState({ year });
+  }
+
+  onApplyClick () {
+    // Update location.
+    const qString = this.qsState.getQs(this.state);
+    this.props.history.push({ search: qString });
+
+    this.updateScenario();
   }
 
   async fetchModelData () {
@@ -119,6 +194,7 @@ class Explore extends Component {
 
       // Initialize levers and filters
       this.setState({
+        defaultFilters: new Array(model.filters.length).fill(true),
         leversState: makeZeroFilledArray(model.levers.length),
         filtersState: model.filters
           ? model.filters.map(filter => {
@@ -127,18 +203,38 @@ class Explore extends Component {
             } else return filter.options.map(option => option.value);
           })
           : [],
-        layersState: model.map.layers.map(() => false)
+        layersState: model.map.layers.map(() => false),
+        year: model.timesteps
+          ? model.timesteps[model.timesteps.length - 1]
+          : null
       });
+
+      // Use levers and filters from the qstring if they exist.
+      // Clean up undefined keys.
+      let qsState = this.qsState.getState(this.props.location.search.substr(1));
+      Object.keys(qsState).forEach(k => {
+        if (qsState[k] === undefined) delete qsState[k];
+      });
+
+      this.setState({ ...qsState });
     }
 
     hideGlobalLoading();
   }
 
-  async updateScenario (options) {
+  async updateScenario () {
     showGlobalLoading();
     const model = this.props.model.getData();
-    const levers = options.levers || this.state.leversState;
-    const filters = options.filters || this.state.filtersState;
+    const { leversState: levers, filtersState: filters, year } = this.state;
+
+    this.setState({
+      appliedState: {
+        filtersState: filters,
+        leversState: levers,
+        year: year
+      }
+    });
+
     const selectedFilters = [];
 
     // Compare filters to model defaults to identify actionable filters
@@ -164,23 +260,30 @@ class Explore extends Component {
       }
     }
 
-    // Update state if levers are changed
-    this.setState({ leversState: levers, filtersState: filters });
-
     await this.props.fetchScenario(
       `${model.id}-${levers.join('_')}`,
-      selectedFilters
+      selectedFilters,
+      year
     );
     hideGlobalLoading();
   }
 
   render () {
-    const { isReady, getData } = this.props.model;
+    const { isReady, getData, hasError } = this.props.model;
     const model = getData();
 
-    /**
-     * Get country data. If there is only one model for this country, disable "Change Model" button.
-     */
+    if (hasError()) {
+      hideGlobalLoading();
+      return <UhOh />;
+    }
+
+    let bounds = null;
+    if (isReady()) {
+      bounds = getCountryBoundsNWSE(model.country);
+    }
+
+    // Get country data. If there is only one model for this country,
+    // disable "Change Model" button.
     let countryName = '';
     let hasMultipleModels = false;
     if (this.props.country.isReady()) {
@@ -217,21 +320,32 @@ class Explore extends Component {
 
               <Dashboard
                 model={model}
-                updateScenario={this.updateScenario}
+                onApplyClick={this.onApplyClick}
                 handleLeverChange={this.handleLeverChange}
                 handleFilterChange={this.handleFilterChange}
+                handleYearChange={this.handleYearChange}
                 leversState={this.state.leversState}
                 filtersState={this.state.filtersState}
+                year={this.state.year}
               />
             </header>
             <div className='inpage__body'>
               <Map
+                bounds={bounds}
                 scenario={this.props.scenario}
+                year={this.state.year}
                 externalLayers={model.map.layers}
+                techLayers={model.map.techLayersConfig}
                 layersState={this.state.layersState}
                 handleLayerChange={this.handleLayerChange}
               />
-              <Summary scenario={this.props.scenario} />
+              <Summary
+                country={this.props.country}
+                model={model}
+                scenario={this.props.scenario}
+                defaultFilters={this.state.defaultFilters}
+                appliedState={this.state.appliedState}
+              />
             </div>
             <DeviceMessage />
           </section>
@@ -247,6 +361,8 @@ if (environment !== 'production') {
     fetchScenario: T.func,
     fetchCountry: T.func,
     match: T.object,
+    history: T.object,
+    location: T.object,
     model: T.object,
     country: T.object,
     scenario: T.object

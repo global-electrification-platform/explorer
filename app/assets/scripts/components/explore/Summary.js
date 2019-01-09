@@ -5,6 +5,7 @@ import { environment } from '../../config';
 
 import ShadowScrollbars from '../ShadowScrollbar';
 import Charts from './Charts';
+import downloadPDF from './Download';
 import Legend from './Legend';
 
 class Summary extends Component {
@@ -19,10 +20,16 @@ class Summary extends Component {
       if (Object.keys(scenario.layers).length > 0) {
         return (
           <Fragment>
-            <Legend scenario={scenario} />
+            <Legend
+              scenario={scenario}
+              techLayers={this.props.model.map.techLayersConfig}
+            />
             <div className='sum-block sum-block--charts'>
               <h2 className='sum-block__title'>Charts</h2>
-              <Charts scenario={scenario} />
+              <Charts
+                scenario={scenario}
+                techLayers={this.props.model.map.techLayersConfig}
+              />
             </div>
           </Fragment>
         );
@@ -56,6 +63,7 @@ class Summary extends Component {
         <header className='exp-summary__header'>
           <div className='exp-summary__headline'>
             <h1 className='exp-summary__title'>Summary</h1>
+            <p className='exp-summary__subtitle'>Results for {this.props.appliedState.year}</p>
           </div>
         </header>
         <div className='exp-summary__body'>
@@ -65,9 +73,13 @@ class Summary extends Component {
         </div>
         <footer className='exp-summary__footer'>
           <button
-            type='button'
-            className='exp-download-button disabled'
+            type='submit'
+            className='exp-download-button'
             title='Download the data'
+            onClick={e => {
+              e.preventDefault();
+              downloadPDF(this.props);
+            }}
           >
             <span>Export</span>
           </button>
@@ -79,8 +91,13 @@ class Summary extends Component {
 
 if (environment !== 'production') {
   Summary.propTypes = {
+    country: T.object,
+    model: T.object,
     scenario: T.object,
-    model: T.object
+    defaultFilters: T.array,
+    leversState: T.array,
+    filtersState: T.array,
+    appliedState: T.object
   };
 }
 

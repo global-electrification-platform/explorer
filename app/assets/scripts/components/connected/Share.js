@@ -10,8 +10,27 @@ import Dropdown from '../Dropdown';
 import Breakpoint from '../Breakpoint';
 
 class ShareOptions extends React.Component {
+  constructor (props) {
+    super(props);
+
+    this.state = {
+      url: window.location.toString()
+    };
+  }
+
+  componentDidMount () {
+    this.unlisten = this.props.history.listen(() => {
+      this.setState({
+        url: window.location.toString()
+      });
+    });
+  }
+  componentWillUnmount () {
+    this.unlisten();
+  }
+
   render () {
-    const url = window.location.toString();
+    const { url } = this.state;
     return (
       <Breakpoint>
         {({ largeUp }) => (
@@ -58,6 +77,12 @@ class ShareOptions extends React.Component {
 }
 
 export default withRouter(ShareOptions);
+
+if (environment !== 'production') {
+  ShareOptions.propTypes = {
+    history: T.object
+  };
+}
 
 // This needs to be a separate class because of the mount and unmount methods.
 // The dropdown unmounts when closed and the refs would be lost otherwise.

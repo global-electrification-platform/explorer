@@ -31,6 +31,7 @@ if (process.env.DS_ENV === 'staging') {
 }
 
 config.default.mapboxAccessToken = process.env.MB_TOKEN || config.default.mapboxAccessToken;
+config.default.dataServiceUrl = process.env.API || config.default.dataServiceUrl;
 
 // The require doesn't play super well with es6 imports. It creates an internal
 // 'default' property. Export that.

@@ -1,11 +1,12 @@
 import React from 'react';
 import { render } from 'react-dom';
+import throttle from 'lodash.throttle';
 import mapboxgl from 'mapbox-gl';
 import bbox from '@turf/bbox';
 import { PropTypes as T } from 'prop-types';
 
 import MapPopover from './connected/MapPopover';
-import { mapboxAccessToken, environment, techLayers } from '../../config';
+import { mapboxAccessToken, environment } from '../../config';
 import MapboxControl from '../MapboxReactControl';
 import LayerControlDropdown from './MapLayerControl';
 
@@ -89,7 +90,8 @@ class Map extends React.Component {
     }
 
     // Manually render dectached component.
-    this.layerDropdownControl && this.layerDropdownControl.render(this.props, this.state);
+    this.layerDropdownControl &&
+      this.layerDropdownControl.render(this.props, this.state);
   }
 
   componentWillUnmount () {
@@ -103,10 +105,19 @@ class Map extends React.Component {
       return;
     }
 
+    const {
+      bounds,
+      externalLayers,
+      techLayers,
+      layersState,
+      handleLayerChange
+    } = this.props;
+
     this.map = new mapboxgl.Map({
       container: this.refs.mapEl,
       style: 'mapbox://styles/devseed/cjpbi9n1811yd2snwl9ezys5p',
-      bounds: [[32.34375, -9.145486056167277], [36.2109375, -17.35063837604883]]
+      bounds: bounds,
+      preserveDrawingBuffer: true
     });
 
     // Disable map rotation using right click + drag.
@@ -120,9 +131,9 @@ class Map extends React.Component {
 
     this.layerDropdownControl = new MapboxControl((props, state) => (
       <LayerControlDropdown
-        layersConfig={this.props.externalLayers}
-        layersState={this.props.layersState}
-        handleLayerChange={this.props.handleLayerChange}
+        layersConfig={externalLayers}
+        layersState={layersState}
+        handleLayerChange={handleLayerChange}
       />
     ));
 
@@ -144,7 +155,7 @@ class Map extends React.Component {
       // url:           Url to a tilejson or mapbox://. Use interchangeably with tiles
       // tiles:         Array of tile url. Use interchangeably with url
       // vectorLayers:  Array of source layers to show. Only in case of type vector
-      this.props.externalLayers.forEach(layer => {
+      externalLayers.forEach(layer => {
         if (layer.type === 'vector') {
           if (!layer.vectorLayers || !layer.vectorLayers.length) {
             // eslint-disable-next-line no-console
@@ -270,26 +281,37 @@ class Map extends React.Component {
         }
       });
 
-      this.map.on('mousemove', e => {
-        const features = this.map.queryRenderedFeatures(e.point, {
-          layers: mapLayersIds
-        });
+      const self = this;
+      const highlighFeature = throttle(
+        function (e) {
+          const features = self.map.queryRenderedFeatures(e.point, {
+            layers: mapLayersIds
+          });
 
-        if (features.length > 0) {
-          this.map.getCanvas().style.cursor = 'pointer';
+          if (features.length > 0) {
+            self.map.getCanvas().style.cursor = 'pointer';
 
-          const featureId = features[0].properties.id_int;
-          this.map.setFilter('hovered-fill', ['==', 'id_int'].concat(featureId));
-          this.map.setFilter('hovered-outline', ['==', 'id_int'].concat(featureId));
-        } else {
-          this.map.getCanvas().style.cursor = '';
+            const featureId = features[0].properties.id_int;
+            self.map.setFilter(
+              'hovered-fill',
+              ['==', 'id_int'].concat(featureId)
+            );
+            self.map.setFilter(
+              'hovered-outline',
+              ['==', 'id_int'].concat(featureId)
+            );
+          } else {
+            self.map.getCanvas().style.cursor = '';
+            self.map.setFilter('hovered-fill', ['==', 'id_int', 'nothing']);
+            self.map.setFilter('hovered-outline', ['==', 'id_int', 'nothing']);
+          }
+        },
+        100,
+        {
+          leading: true
         }
-      });
-
-      this.map.on('mouseleave', 'hovered-fill', () => {
-        this.map.setFilter('hovered-fill', ['==', 'id_int', 'nothing']);
-        this.map.setFilter('hovered-outline', ['==', 'id_int', 'nothing']);
-      });
+      );
+      this.map.on('mousemove', highlighFeature);
 
       this.map.on('click', e => {
         const features = this.map.queryRenderedFeatures(e.point, {
@@ -354,7 +376,7 @@ class Map extends React.Component {
   }
 
   clearMap () {
-    for (const layer of techLayers) {
+    for (const layer of this.props.techLayers) {
       this.map.setFilter(layer.id, ['==', 'id_int', 'nothing']);
     }
   }
@@ -391,6 +413,7 @@ class Map extends React.Component {
       <MapPopover
         featureId={fid}
         scenarioId={sid}
+        year={this.props.year}
         onCloseClick={e => {
           e.preventDefault();
           this.popover.remove();
@@ -435,9 +458,12 @@ class Map extends React.Component {
 
 if (environment !== 'production') {
   Map.propTypes = {
+    bounds: T.array,
     scenario: T.object,
+    year: T.number,
     handleLayerChange: T.func,
     externalLayers: T.array,
+    techLayers: T.array,
     layersState: T.array
   };
 }

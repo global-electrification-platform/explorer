@@ -6,12 +6,12 @@ import { environment } from '../../../config';
 import { getFromState, wrapApiResult } from '../../../redux/utils';
 import { fetchFeature } from '../../../redux/actions';
 import { store } from '../../../store';
-import { formatTousands } from '../../../utils';
+import { formatThousands } from '../../../utils';
 
 class MapPopover extends React.Component {
   componentDidMount () {
-    const { scenarioId, featureId, fetchFeature } = this.props;
-    fetchFeature(scenarioId, featureId);
+    const { scenarioId, featureId, fetchFeature, year } = this.props;
+    fetchFeature(scenarioId, featureId, year);
   }
 
   render () {
@@ -32,11 +32,11 @@ class MapPopover extends React.Component {
             {isReady() ? (
               <dl className='map-number-list'>
                 <dt>Population electrified</dt>
-                <dd>{formatTousands(data.electrifiedPopulation)}</dd>
+                <dd>{formatThousands(data.electrifiedPopulation)}</dd>
                 <dt>Investment required</dt>
-                <dd><small>$</small> {formatTousands(data.investmentCost)}</dd>
+                <dd><small>$</small> {formatThousands(data.investmentCost)}</dd>
                 <dt>Capacity Added</dt>
-                <dd>{formatTousands(data.newCapacity)} <small>KW</small></dd>
+                <dd>{formatThousands(data.newCapacity)} <small>KW</small></dd>
               </dl>
             ) : (
               <p>Loading</p>
@@ -54,6 +54,7 @@ if (environment !== 'production') {
     fetchFeature: T.func,
     scenarioId: T.string,
     featureId: T.number,
+    year: T.number,
     feature: T.object
   };
 }
