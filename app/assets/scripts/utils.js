@@ -104,14 +104,19 @@ export function formatThousands (num, decimals = 2, forceDecimals = false) {
  * Format key indicators
  *
  * @param {number} value The value to round
+ * @param {string} type The type of indicator. One of: 'metric', 'power'
  */
-export function formatKeyIndicator (n) {
+export function formatKeyIndicator (n, type) {
   let unit;
   let divider;
   let digits = 1;
 
+  // 'power' is reported in kW. Convert to to Watt before formatting
+  n = type === 'power' ? n * 1000 : n;
+
   if (n > 1000000000) {
-    unit = 'B';
+    // 10^9 = gigawatt
+    unit = type === 'power' ? 'G' : 'B';
     divider = 1000000000;
     digits = 1;
   } else if (n > 1000000) {
@@ -127,6 +132,9 @@ export function formatKeyIndicator (n) {
     divider = 1;
     digits = 0;
   }
+
+  unit = type === 'power' ? `${unit}W` : unit;
+
   return `${Math.round(n / divider).toLocaleString('en-US', {
     minimumFractionDigits: digits,
     maximumFractionDigits: digits
