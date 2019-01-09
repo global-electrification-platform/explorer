@@ -185,7 +185,7 @@ gulp.task('collecticons', function (done) {
 // --------------------------- Helper tasks -----------------------------------//
 // ----------------------------------------------------------------------------//
 gulp.task('build', function () {
-  runSequence(['vendorScripts', 'javascript', 'collecticons'], ['styles'], ['html', 'images:imagemin'], function () {
+  runSequence(['vendorScripts', 'javascript', 'collecticons', 'fonts'], ['styles'], ['html', 'images:imagemin'], function () {
     return gulp.src('dist/**/*')
       .pipe($.size({ title: 'build', gzip: true }))
       .pipe($.exit());
@@ -253,6 +253,13 @@ gulp.task('images:imagemin', function () {
       $.imagemin.svgo({ plugins: [{ cleanupIDs: false }] })
     ]))
     .pipe(gulp.dest('dist/assets/graphics'));
+});
+
+gulp.task('fonts', function () {
+  return gulp.src([
+    'app/assets/fonts/**/*'
+  ])
+    .pipe(gulp.dest('dist/assets/fonts'));
 });
 
 /**
