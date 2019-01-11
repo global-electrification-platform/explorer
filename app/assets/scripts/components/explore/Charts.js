@@ -24,7 +24,7 @@ const indicatorsLabels = {
     }
   },
   newCapacity: {
-    label: 'Added Capactiy',
+    label: 'Added Capacity',
     format: n => {
       return `${formatKeyIndicator(n, 'power')}`;
     }
