@@ -2,10 +2,10 @@
 import { render, unmountComponentAtNode } from 'react-dom';
 
 /**
- * Since it is rendered by mapbox this component becomes detatched from
+ * Since it is rendered by Mapbox this component becomes detached from
  * react. To ensure that is becomes reconnected the render method should be
  * called with props and state on componentDidUpdate.
- * The contructor takes a render function with signature (props, state) => {}
+ * The constructor takes a render function with signature (props, state) => {}
  *
  * @example
  * initMap () { // Or wherever the map is initialized

@@ -89,7 +89,7 @@ class Map extends React.Component {
       this.toggleExternalLayers();
     }
 
-    // Manually render dectached component.
+    // Manually render detached component.
     this.layerDropdownControl &&
       this.layerDropdownControl.render(this.props, this.state);
   }
@@ -105,13 +105,7 @@ class Map extends React.Component {
       return;
     }
 
-    const {
-      bounds,
-      externalLayers,
-      techLayers,
-      layersState,
-      handleLayerChange
-    } = this.props;
+    const { bounds, externalLayers, techLayers } = this.props;
 
     this.map = new mapboxgl.Map({
       container: this.refs.mapEl,
