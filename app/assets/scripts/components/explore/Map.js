@@ -131,9 +131,9 @@ class Map extends React.Component {
 
     this.layerDropdownControl = new MapboxControl((props, state) => (
       <LayerControlDropdown
-        layersConfig={externalLayers}
-        layersState={layersState}
-        handleLayerChange={handleLayerChange}
+        layersConfig={props.externalLayers}
+        layersState={props.layersState}
+        handleLayerChange={props.handleLayerChange}
       />
     ));
 
