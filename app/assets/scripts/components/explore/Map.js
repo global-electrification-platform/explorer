@@ -233,7 +233,7 @@ class Map extends React.Component {
             type: 'fill',
             source: sourceId,
             'source-layer': sourceLayer,
-            // filter: ['==', 'id_int', 'nothing'],
+            filter: ['==', 'id_int', 'nothing'],
             paint: {
               'fill-color': layer.color
             }
