@@ -192,6 +192,8 @@ class Explore extends Component {
       // Fetch country data to render titles
       this.props.fetchCountry(model.country);
 
+      const externalLayers = model.map.layers.external || [];
+
       // Initialize levers and filters
       this.setState({
         defaultFilters: new Array(model.filters.length).fill(true),
@@ -203,7 +205,7 @@ class Explore extends Component {
             } else return filter.options.map(option => option.value);
           })
           : [],
-        layersState: model.map.layers.map(() => false),
+        layersState: externalLayers.map(() => false),
         year: model.timesteps
           ? model.timesteps[model.timesteps.length - 1]
           : null
@@ -334,7 +336,8 @@ class Explore extends Component {
                 bounds={bounds}
                 scenario={this.props.scenario}
                 year={this.state.year}
-                externalLayers={model.map.layers}
+                featuresLayer={model.map.layers.features}
+                externalLayers={model.map.layers.external || []}
                 techLayers={model.map.techLayersConfig}
                 layersState={this.state.layersState}
                 handleLayerChange={this.handleLayerChange}
