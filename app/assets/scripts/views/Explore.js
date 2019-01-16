@@ -192,7 +192,7 @@ class Explore extends Component {
       // Fetch country data to render titles
       this.props.fetchCountry(model.country);
 
-      const externalLayers = model.map.layers.external || [];
+      const externalLayers = model.map.externalLayers || [];
 
       // Initialize levers and filters
       this.setState({
@@ -336,8 +336,8 @@ class Explore extends Component {
                 bounds={bounds}
                 scenario={this.props.scenario}
                 year={this.state.year}
-                featuresLayer={model.map.layers.features}
-                externalLayers={model.map.layers.external || []}
+                modelVT={model.map.modelVT}
+                externalLayers={model.map.externalLayers || []}
                 techLayers={model.map.techLayersConfig}
                 layersState={this.state.layersState}
                 handleLayerChange={this.handleLayerChange}

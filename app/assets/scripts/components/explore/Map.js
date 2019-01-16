@@ -114,7 +114,7 @@ class Map extends React.Component {
       return;
     }
 
-    const { bounds, externalLayers, featuresLayer, techLayers } = this.props;
+    const { bounds, externalLayers, modelVT, techLayers } = this.props;
 
     this.map = new mapboxgl.Map({
       container: this.refs.mapEl,
@@ -222,11 +222,11 @@ class Map extends React.Component {
 
       this.toggleExternalLayers();
 
-      const sourceLayer = featuresLayer.id;
+      const sourceLayer = modelVT.id;
 
       this.map.addSource(gepFeaturesSourceId, {
         type: 'vector',
-        url: featuresLayer.url
+        url: modelVT.url
       });
 
       // Init cluster polygon layers
@@ -381,9 +381,9 @@ class Map extends React.Component {
   }
 
   zoomToFeatures (featuresIds) {
-    const { featuresLayer } = this.props;
+    const { modelVT } = this.props;
     const features = this.map.querySourceFeatures(gepFeaturesSourceId, {
-      sourceLayer: featuresLayer.id,
+      sourceLayer: modelVT.id,
       filter: ['in', 'id_int'].concat(featuresIds)
     });
 
@@ -483,7 +483,7 @@ if (environment !== 'production') {
     scenario: T.object,
     year: T.number,
     handleLayerChange: T.func,
-    featuresLayer: T.object,
+    modelVT: T.object,
     externalLayers: T.array,
     techLayers: T.array,
     layersState: T.array
