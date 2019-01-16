@@ -16,11 +16,13 @@ mapboxgl.accessToken = mapboxAccessToken;
  * Id of the last "topmost" layer, before which all GEP layers
  * should be added. This is needed to show place names and borders above
  * all other layers.
-**/
+ **/
 const labelsAndBordersLayer = 'admin-2-boundaries-bg';
 
-const sourceId = 'gep-vt';
-const sourceLayer = 'mw';
+/**
+ * Identifier for vector tiles source, can be any string.
+ **/
+const gepFeaturesSourceId = 'gep-vt';
 
 // Adds layers for points
 const buildLayersForSource = (sourceId, sourceLayer) => [
@@ -112,7 +114,7 @@ class Map extends React.Component {
       return;
     }
 
-    const { bounds, externalLayers, techLayers } = this.props;
+    const { bounds, externalLayers, modelVT, techLayers } = this.props;
 
     this.map = new mapboxgl.Map({
       container: this.refs.mapEl,
@@ -130,7 +132,7 @@ class Map extends React.Component {
     // Add zoom controls.
     this.map.addControl(new mapboxgl.NavigationControl(), 'bottom-left');
 
-    this.layerDropdownControl = new MapboxControl((props, state) => (
+    this.layerDropdownControl = new MapboxControl(props => (
       <LayerControlDropdown
         layersConfig={props.externalLayers}
         layersState={props.layersState}
@@ -220,9 +222,11 @@ class Map extends React.Component {
 
       this.toggleExternalLayers();
 
-      this.map.addSource(sourceId, {
+      const sourceLayer = modelVT.id;
+
+      this.map.addSource(gepFeaturesSourceId, {
         type: 'vector',
-        url: 'mapbox://devseed.2a5bvzlz'
+        url: modelVT.url
       });
 
       // Init cluster polygon layers
@@ -231,7 +235,7 @@ class Map extends React.Component {
           {
             id: layer.id,
             type: 'fill',
-            source: sourceId,
+            source: gepFeaturesSourceId,
             'source-layer': sourceLayer,
             filter: ['==', 'id_int', 'nothing'],
             paint: {
@@ -249,7 +253,7 @@ class Map extends React.Component {
         {
           id: 'hovered-outline',
           type: 'line',
-          source: sourceId,
+          source: gepFeaturesSourceId,
           'source-layer': sourceLayer,
           filter: ['==', 'id_int', 'nothing'],
           paint: {
@@ -268,7 +272,7 @@ class Map extends React.Component {
         {
           id: 'hovered-fill',
           type: 'fill',
-          source: sourceId,
+          source: gepFeaturesSourceId,
           'source-layer': sourceLayer,
           filter: ['==', 'id_int', 'nothing'],
           paint: {
@@ -285,7 +289,7 @@ class Map extends React.Component {
         {
           id: 'selected',
           type: 'line',
-          source: sourceId,
+          source: gepFeaturesSourceId,
           'source-layer': sourceLayer,
           filter: ['==', 'id_int', 'nothing'],
           paint: {
@@ -377,8 +381,9 @@ class Map extends React.Component {
   }
 
   zoomToFeatures (featuresIds) {
-    const features = this.map.querySourceFeatures(sourceId, {
-      sourceLayer,
+    const { modelVT } = this.props;
+    const features = this.map.querySourceFeatures(gepFeaturesSourceId, {
+      sourceLayer: modelVT.id,
       filter: ['in', 'id_int'].concat(featuresIds)
     });
 
@@ -478,6 +483,7 @@ if (environment !== 'production') {
     scenario: T.object,
     year: T.number,
     handleLayerChange: T.func,
+    modelVT: T.object,
     externalLayers: T.array,
     techLayers: T.array,
     layersState: T.array
