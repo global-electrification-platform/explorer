@@ -12,6 +12,13 @@ import LayerControlDropdown from './MapLayerControl';
 
 mapboxgl.accessToken = mapboxAccessToken;
 
+/**
+ * Id of the last "topmost" layer, before which all GEP layers
+ * should be added. This is needed to show place names and borders above
+ * all other layers.
+**/
+const labelsAndBordersLayer = 'admin-2-boundaries-bg';
+
 const sourceId = 'gep-vt';
 const sourceLayer = 'mw';
 
@@ -176,7 +183,7 @@ class Map extends React.Component {
           this.map.addSource(sourceId, options);
           layer.vectorLayers.forEach(vt => {
             buildLayersForSource(sourceId, vt).forEach(l => {
-              this.map.addLayer(l);
+              this.map.addLayer(l, labelsAndBordersLayer);
             });
           });
 
@@ -193,11 +200,14 @@ class Map extends React.Component {
             type: 'raster',
             tiles: layer.tiles
           });
-          this.map.addLayer({
-            id: `${sourceId}-tiles`,
-            type: 'raster',
-            source: sourceId
-          });
+          this.map.addLayer(
+            {
+              id: `${sourceId}-tiles`,
+              type: 'raster',
+              source: sourceId
+            },
+            labelsAndBordersLayer
+          );
         } else {
           // eslint-disable-next-line no-console
           console.warn(
@@ -217,63 +227,75 @@ class Map extends React.Component {
 
       // Init cluster polygon layers
       for (const layer of techLayers) {
-        this.map.addLayer({
-          id: layer.id,
-          type: 'fill',
-          source: sourceId,
-          'source-layer': sourceLayer,
-          filter: ['==', 'id_int', 'nothing'],
-          paint: {
-            'fill-color': layer.color
-          }
-        });
+        this.map.addLayer(
+          {
+            id: layer.id,
+            type: 'fill',
+            source: sourceId,
+            'source-layer': sourceLayer,
+            filter: ['==', 'id_int', 'nothing'],
+            paint: {
+              'fill-color': layer.color
+            }
+          },
+          labelsAndBordersLayer
+        );
       }
 
       /**
        * Hover outline layer
        */
-      this.map.addLayer({
-        id: 'hovered-outline',
-        type: 'line',
-        source: sourceId,
-        'source-layer': sourceLayer,
-        filter: ['==', 'id_int', 'nothing'],
-        paint: {
-          'line-color': '#14213d',
-          'line-opacity': 0.64,
-          'line-width': 2
-        }
-      });
+      this.map.addLayer(
+        {
+          id: 'hovered-outline',
+          type: 'line',
+          source: sourceId,
+          'source-layer': sourceLayer,
+          filter: ['==', 'id_int', 'nothing'],
+          paint: {
+            'line-color': '#14213d',
+            'line-opacity': 0.64,
+            'line-width': 2
+          }
+        },
+        labelsAndBordersLayer
+      );
 
       /**
        * Hover fill layer
        */
-      this.map.addLayer({
-        id: 'hovered-fill',
-        type: 'fill',
-        source: sourceId,
-        'source-layer': sourceLayer,
-        filter: ['==', 'id_int', 'nothing'],
-        paint: {
-          'fill-color': 'transparent'
-        }
-      });
+      this.map.addLayer(
+        {
+          id: 'hovered-fill',
+          type: 'fill',
+          source: sourceId,
+          'source-layer': sourceLayer,
+          filter: ['==', 'id_int', 'nothing'],
+          paint: {
+            'fill-color': 'transparent'
+          }
+        },
+        labelsAndBordersLayer
+      );
 
       /**
        * Selected feature layer
        */
-      this.map.addLayer({
-        id: 'selected',
-        type: 'line',
-        source: sourceId,
-        'source-layer': sourceLayer,
-        filter: ['==', 'id_int', 'nothing'],
-        paint: {
-          'line-color': '#14213d',
-          'line-opacity': 0.64,
-          'line-width': 2
-        }
-      });
+      this.map.addLayer(
+        {
+          id: 'selected',
+          type: 'line',
+          source: sourceId,
+          'source-layer': sourceLayer,
+          filter: ['==', 'id_int', 'nothing'],
+          paint: {
+            'line-color': '#14213d',
+            'line-opacity': 0.64,
+            'line-width': 2
+          }
+        },
+        labelsAndBordersLayer
+      );
 
       const self = this;
       const highlighFeature = throttle(
