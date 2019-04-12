@@ -237,7 +237,7 @@ class Map extends React.Component {
             type: 'fill',
             source: gepFeaturesSourceId,
             'source-layer': sourceLayer,
-            filter: ['==', 'id_int', 'nothing'],
+            filter: ['==', 'id', 'nothing'],
             paint: {
               'fill-color': layer.color
             }
@@ -255,7 +255,7 @@ class Map extends React.Component {
           type: 'line',
           source: gepFeaturesSourceId,
           'source-layer': sourceLayer,
-          filter: ['==', 'id_int', 'nothing'],
+          filter: ['==', 'id', 'nothing'],
           paint: {
             'line-color': '#14213d',
             'line-opacity': 0.64,
@@ -274,7 +274,7 @@ class Map extends React.Component {
           type: 'fill',
           source: gepFeaturesSourceId,
           'source-layer': sourceLayer,
-          filter: ['==', 'id_int', 'nothing'],
+          filter: ['==', 'id', 'nothing'],
           paint: {
             'fill-color': 'transparent'
           }
@@ -291,7 +291,7 @@ class Map extends React.Component {
           type: 'line',
           source: gepFeaturesSourceId,
           'source-layer': sourceLayer,
-          filter: ['==', 'id_int', 'nothing'],
+          filter: ['==', 'id', 'nothing'],
           paint: {
             'line-color': '#14213d',
             'line-opacity': 0.64,
@@ -311,19 +311,19 @@ class Map extends React.Component {
           if (features.length > 0) {
             self.map.getCanvas().style.cursor = 'pointer';
 
-            const featureId = features[0].properties.id_int;
+            const featureId = features[0].properties.id;
             self.map.setFilter(
               'hovered-fill',
-              ['==', 'id_int'].concat(featureId)
+              ['==', 'id'].concat(featureId)
             );
             self.map.setFilter(
               'hovered-outline',
-              ['==', 'id_int'].concat(featureId)
+              ['==', 'id'].concat(featureId)
             );
           } else {
             self.map.getCanvas().style.cursor = '';
-            self.map.setFilter('hovered-fill', ['==', 'id_int', 'nothing']);
-            self.map.setFilter('hovered-outline', ['==', 'id_int', 'nothing']);
+            self.map.setFilter('hovered-fill', ['==', 'id', 'nothing']);
+            self.map.setFilter('hovered-outline', ['==', 'id', 'nothing']);
           }
         },
         100,
@@ -384,7 +384,7 @@ class Map extends React.Component {
     const { modelVT } = this.props;
     const features = this.map.querySourceFeatures(gepFeaturesSourceId, {
       sourceLayer: modelVT.id,
-      filter: ['in', 'id_int'].concat(featuresIds)
+      filter: ['in', 'id'].concat(featuresIds)
     });
 
     if (features.length > 0) {
@@ -398,7 +398,7 @@ class Map extends React.Component {
 
   clearMap () {
     for (const layer of this.props.techLayers) {
-      this.map.setFilter(layer.id, ['==', 'id_int', 'nothing']);
+      this.map.setFilter(layer.id, ['==', 'id', 'nothing']);
     }
   }
 
@@ -418,7 +418,7 @@ class Map extends React.Component {
         featuresIds = featuresIds.concat(layers[layerId]);
 
         // Apply style to features on this layer
-        this.map.setFilter(layerId, ['in', 'id_int'].concat(layers[layerId]));
+        this.map.setFilter(layerId, ['in', 'id'].concat(layers[layerId]));
       }
       this.zoomToFeatures(featuresIds);
     }
@@ -427,7 +427,7 @@ class Map extends React.Component {
   showPopover (feature, lngLat) {
     let popoverContent = document.createElement('div');
 
-    const fid = feature.properties.id_int;
+    const fid = feature.properties.id;
     const sid = this.props.scenario.getData().id;
 
     render(
@@ -453,10 +453,10 @@ class Map extends React.Component {
       .setLngLat(lngLat)
       .setDOMContent(popoverContent)
       .once('open', e => {
-        this.map.setFilter('selected', ['in', 'id_int'].concat(fid));
+        this.map.setFilter('selected', ['in', 'id'].concat(fid));
       })
       .once('close', e => {
-        this.map.setFilter('selected', ['in', 'id_int', 'nothing']);
+        this.map.setFilter('selected', ['in', 'id', 'nothing']);
       })
       .addTo(this.map);
   }
