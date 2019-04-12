@@ -12,8 +12,17 @@ import LayerControlDropdown from './MapLayerControl';
 
 mapboxgl.accessToken = mapboxAccessToken;
 
-const sourceId = 'gep-vt';
-const sourceLayer = 'mw';
+/**
+ * Id of the last "topmost" layer, before which all GEP layers
+ * should be added. This is needed to show place names and borders above
+ * all other layers.
+ **/
+const labelsAndBordersLayer = 'admin-2-boundaries-bg';
+
+/**
+ * Identifier for vector tiles source, can be any string.
+ **/
+const gepFeaturesSourceId = 'gep-vt';
 
 // Adds layers for points
 const buildLayersForSource = (sourceId, sourceLayer) => [
@@ -89,7 +98,7 @@ class Map extends React.Component {
       this.toggleExternalLayers();
     }
 
-    // Manually render dectached component.
+    // Manually render detached component.
     this.layerDropdownControl &&
       this.layerDropdownControl.render(this.props, this.state);
   }
@@ -105,13 +114,7 @@ class Map extends React.Component {
       return;
     }
 
-    const {
-      bounds,
-      externalLayers,
-      techLayers,
-      layersState,
-      handleLayerChange
-    } = this.props;
+    const { bounds, externalLayers, modelVT, techLayers } = this.props;
 
     this.map = new mapboxgl.Map({
       container: this.refs.mapEl,
@@ -129,11 +132,11 @@ class Map extends React.Component {
     // Add zoom controls.
     this.map.addControl(new mapboxgl.NavigationControl(), 'bottom-left');
 
-    this.layerDropdownControl = new MapboxControl((props, state) => (
+    this.layerDropdownControl = new MapboxControl(props => (
       <LayerControlDropdown
-        layersConfig={externalLayers}
-        layersState={layersState}
-        handleLayerChange={handleLayerChange}
+        layersConfig={props.externalLayers}
+        layersState={props.layersState}
+        handleLayerChange={props.handleLayerChange}
       />
     ));
 
@@ -182,7 +185,7 @@ class Map extends React.Component {
           this.map.addSource(sourceId, options);
           layer.vectorLayers.forEach(vt => {
             buildLayersForSource(sourceId, vt).forEach(l => {
-              this.map.addLayer(l);
+              this.map.addLayer(l, labelsAndBordersLayer);
             });
           });
 
@@ -199,11 +202,14 @@ class Map extends React.Component {
             type: 'raster',
             tiles: layer.tiles
           });
-          this.map.addLayer({
-            id: `${sourceId}-tiles`,
-            type: 'raster',
-            source: sourceId
-          });
+          this.map.addLayer(
+            {
+              id: `${sourceId}-tiles`,
+              type: 'raster',
+              source: sourceId
+            },
+            labelsAndBordersLayer
+          );
         } else {
           // eslint-disable-next-line no-console
           console.warn(
@@ -216,70 +222,84 @@ class Map extends React.Component {
 
       this.toggleExternalLayers();
 
-      this.map.addSource(sourceId, {
+      const sourceLayer = modelVT.id;
+
+      this.map.addSource(gepFeaturesSourceId, {
         type: 'vector',
-        url: 'mapbox://devseed.2a5bvzlz'
+        url: modelVT.url
       });
 
       // Init cluster polygon layers
       for (const layer of techLayers) {
-        this.map.addLayer({
-          id: layer.id,
-          type: 'fill',
-          source: sourceId,
-          'source-layer': sourceLayer,
-          filter: ['==', 'id_int', 'nothing'],
-          paint: {
-            'fill-color': layer.color
-          }
-        });
+        this.map.addLayer(
+          {
+            id: layer.id,
+            type: 'fill',
+            source: gepFeaturesSourceId,
+            'source-layer': sourceLayer,
+            filter: ['==', 'id_int', 'nothing'],
+            paint: {
+              'fill-color': layer.color
+            }
+          },
+          labelsAndBordersLayer
+        );
       }
 
       /**
        * Hover outline layer
        */
-      this.map.addLayer({
-        id: 'hovered-outline',
-        type: 'line',
-        source: sourceId,
-        'source-layer': sourceLayer,
-        filter: ['==', 'id_int', 'nothing'],
-        paint: {
-          'line-color': '#14213d',
-          'line-opacity': 0.64,
-          'line-width': 2
-        }
-      });
+      this.map.addLayer(
+        {
+          id: 'hovered-outline',
+          type: 'line',
+          source: gepFeaturesSourceId,
+          'source-layer': sourceLayer,
+          filter: ['==', 'id_int', 'nothing'],
+          paint: {
+            'line-color': '#14213d',
+            'line-opacity': 0.64,
+            'line-width': 2
+          }
+        },
+        labelsAndBordersLayer
+      );
 
       /**
        * Hover fill layer
        */
-      this.map.addLayer({
-        id: 'hovered-fill',
-        type: 'fill',
-        source: sourceId,
-        'source-layer': sourceLayer,
-        filter: ['==', 'id_int', 'nothing'],
-        paint: {
-          'fill-color': 'transparent'
-        }
-      });
+      this.map.addLayer(
+        {
+          id: 'hovered-fill',
+          type: 'fill',
+          source: gepFeaturesSourceId,
+          'source-layer': sourceLayer,
+          filter: ['==', 'id_int', 'nothing'],
+          paint: {
+            'fill-color': 'transparent'
+          }
+        },
+        labelsAndBordersLayer
+      );
 
       /**
        * Selected feature layer
        */
-      this.map.addLayer({
-        id: 'selected',
-        type: 'line',
-        source: sourceId,
-        'source-layer': sourceLayer,
-        filter: ['==', 'id_int', 'nothing'],
-        paint: {
-          'line-color': '#14213d',
-          'line-opacity': 0.64,
-          'line-width': 2
-        }
-      });
+      this.map.addLayer(
+        {
+          id: 'selected',
+          type: 'line',
+          source: gepFeaturesSourceId,
+          'source-layer': sourceLayer,
+          filter: ['==', 'id_int', 'nothing'],
+          paint: {
+            'line-color': '#14213d',
+            'line-opacity': 0.64,
+            'line-width': 2
+          }
+        },
+        labelsAndBordersLayer
+      );
 
       const self = this;
       const highlighFeature = throttle(
@@ -361,8 +381,9 @@ class Map extends React.Component {
   }
 
   zoomToFeatures (featuresIds) {
-    const features = this.map.querySourceFeatures(sourceId, {
-      sourceLayer,
+    const { modelVT } = this.props;
+    const features = this.map.querySourceFeatures(gepFeaturesSourceId, {
+      sourceLayer: modelVT.id,
       filter: ['in', 'id_int'].concat(featuresIds)
     });
 
@@ -462,6 +483,7 @@ if (environment !== 'production') {
     scenario: T.object,
     year: T.number,
     handleLayerChange: T.func,
+    modelVT: T.object,
     externalLayers: T.array,
     techLayers: T.array,
     layersState: T.array
