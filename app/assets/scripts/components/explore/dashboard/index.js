@@ -143,6 +143,7 @@ class Dashboard extends Component {
 
     return (
       <div className='button-group button-group--horizontal'>
+        {yearSelectorElement}
         <button
           type='submit'
           className='econtrols__submit'
@@ -152,9 +153,8 @@ class Dashboard extends Component {
             this.props.onApplyClick();
           }}
         >
-          <span>Apply changes</span>
+          <span>Apply</span>
         </button>
-        {yearSelectorElement}
       </div>
     );
   }
@@ -169,6 +169,17 @@ class Dashboard extends Component {
         </nav>
         {this.renderTabContent()}
         <div className='econtrols__actions'>
+          <button
+            type='reset'
+            className='econtrols__reset'
+            title='Reset'
+            onClick={e => {
+              e.preventDefault();
+              this.props.onResetClick();
+            }}
+          >
+            <span>Reset</span>
+          </button>
           {this.renderApplyControls()}
         </div>
         <ReactTooltip
@@ -188,6 +199,7 @@ class Dashboard extends Component {
 if (environment !== 'production') {
   Dashboard.propTypes = {
     onApplyClick: T.func,
+    onResetClick: T.func,
     handleLeverChange: T.func,
     handleFilterChange: T.func,
     handleYearChange: T.func,

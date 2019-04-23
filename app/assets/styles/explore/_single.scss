@@ -138,11 +138,12 @@
 }
 
 .econtrols__actions {
+  display: flex;
+  justify-content: space-between;
   position: relative;
   z-index: 80;
   padding: $contained-spacing;
   box-shadow: 0 (-$base-border-width) 0 0 $base-alpha-color;
-  text-align: center;
 }
 
 .econtrols__submit {
@@ -160,6 +161,14 @@
   &::after {
     @extend %collecticon-sm-chevron-down;
     margin-right: -0.5rem;
+  }
+}
+
+.econtrols__reset {
+  @extend .button, .button--primary-raised-light;
+
+  &::before {
+    @extend %collecticon-arrow-loop;
   }
 }
 
