@@ -30,6 +30,7 @@ class Explore extends Component {
     super(props);
 
     this.onApplyClick = this.onApplyClick.bind(this);
+    this.onResetClick = this.onResetClick.bind(this);
     this.handleFilterChange = this.handleFilterChange.bind(this);
     this.handleLeverChange = this.handleLeverChange.bind(this);
     this.handleLayerChange = this.handleLayerChange.bind(this);
@@ -182,6 +183,26 @@ class Explore extends Component {
     this.updateScenario();
   }
 
+  onResetClick () {
+    const { hasError, getData } = this.props.model;
+    if (hasError()) return;
+
+    const model = getData();
+
+    this.setState({
+      filtersState: model.filters
+        ? model.filters.map(filter => {
+          if (filter.type === 'range') {
+            return filter.range;
+          } else return filter.options.map(option => option.value);
+        })
+        : [],
+      leversState: makeZeroFilledArray(model.levers.length)
+    }, () => {
+      this.onApplyClick();
+    });
+  }
+
   async fetchModelData () {
     showGlobalLoading();
     await this.props.fetchModel(this.props.match.params.modelId);
@@ -323,6 +344,7 @@ class Explore extends Component {
               <Dashboard
                 model={model}
                 onApplyClick={this.onApplyClick}
+                onResetClick={this.onResetClick}
                 handleLeverChange={this.handleLeverChange}
                 handleFilterChange={this.handleFilterChange}
                 handleYearChange={this.handleYearChange}

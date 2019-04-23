@@ -5,7 +5,7 @@ import { PropTypes as T } from 'prop-types';
 
 import { wrapApiResult } from '../redux/utils';
 import { fetchStats } from '../redux/actions';
-import { environment } from '../config';
+import { environment, appTitle } from '../config';
 import { padNumber } from '../utils';
 
 import App from './App';
@@ -60,8 +60,7 @@ class Home extends Component {
           <div className='inpage__body'>
             <section className='home-intro prose'>
               <h2 className='home-intro__title'>
-                <span>Welcome to the</span> Global Electrification Platform
-                Explorer
+                <span>Welcome to the</span> {appTitle}
               </h2>
               <div className='home-intro__lead'>
                 <p>
