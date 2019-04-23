@@ -1,6 +1,8 @@
 import { saveAs } from 'file-saver';
 import PDFDocument from 'pdfkit';
 import blobStream from 'blob-stream';
+import deburr from 'lodash.deburr';
+import kebabCase from 'lodash.kebabcase';
 
 import config from '../../config';
 import { formatThousands, round } from '../../utils';
@@ -385,7 +387,11 @@ export function downloadPDF (props) {
 
   doc.end();
   stream.on('finish', () => {
-    saveAs(stream.toBlob('application/pdf'), `gep-${scenario.data.id}.pdf`);
+    // Compute file name using lever option names.
+    const leversOptNames = props.appliedState.leversState
+      .map((optionIdx, leverIdx) => kebabCase(deburr(props.model.levers[leverIdx].options[optionIdx].value)))
+      .join('_');
+    saveAs(stream.toBlob('application/pdf'), `gep-${props.model.id}-${leversOptNames}.pdf`);
   });
 }
 
