@@ -12,7 +12,7 @@ export default class PageHeader extends React.PureComponent {
       <header className='page__header' role='banner'>
         <div className='page__headline'>
           <h1 className='page__title'>
-            <Link to='/' title='View page' data-ast={appShortTitle}>
+            <Link to='/' title='Visit the home page' data-ast={appShortTitle}>
               <span>{appTitle}</span>
             </Link>
           </h1>
