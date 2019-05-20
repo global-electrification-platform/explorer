@@ -18,7 +18,7 @@ export default class NavGlobalMenu extends Component {
           <NavLink
             exact
             to='/'
-            title='Home page'
+            title='Visit the home page'
             activeClassName='global-menu__link--active'
             className='global-menu__link global-menu__link--home'
           >
@@ -39,7 +39,7 @@ export default class NavGlobalMenu extends Component {
         <li>
           <NavLink
             to='/documentation'
-            title='Documentation'
+            title='Visit the documentation'
             activeClassName='global-menu__link--active'
             className='global-menu__link global-menu__link--docs'
           >
@@ -49,7 +49,7 @@ export default class NavGlobalMenu extends Component {
         <li>
           <NavLink
             to='/about'
-            title='About this platform'
+            title='Learn about this platform'
             activeClassName='global-menu__link--active'
             className='global-menu__link global-menu__link--about'
           >
