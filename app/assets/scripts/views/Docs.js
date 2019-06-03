@@ -4,9 +4,7 @@ import { Redirect, Route, Switch, NavLink } from 'react-router-dom';
 
 import App from './App';
 import ShadowScrollbars from '../components/ShadowScrollbar';
-import GlobalInput from '../components/documentation/GlobalInput';
-import GlobalLorem from '../components/documentation/GlobalLorem';
-import ModelsOnsett from '../components/documentation/ModelsOnsett';
+import MarkdownPageViewer from '../components/connected/MarkdownPageViewer';
 
 import { environment } from '../config';
 
