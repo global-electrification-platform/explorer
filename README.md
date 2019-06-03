@@ -47,8 +47,8 @@ The configuration is overridable by environment variables, expressed between []:
 Example:
 ```
 module.exports = {
-  api: 'http://localhost:3000',
-  mbtoken: 'asfd23rlmksjdf023rnnsafd'
+  dataServiceUrl: 'http://localhost:3000',
+  mapboxAccessToken: 'asfd23rlmksjdf023rnnsafd'
 };
 ```
 
