@@ -62,7 +62,7 @@ function countryReducer (state = countryReducerInitialState, action) {
 }
 
 //
-//  COUNTRY Reducer
+//  FEATURE Reducer
 //
 const featureReducerInitialState = {
   // fetching: false,
@@ -74,11 +74,25 @@ function featureReducer (state = featureReducerInitialState, action) {
   return baseAPIReducer(state, action, 'FEATURE');
 }
 
+//
+//  ABOUT PAGE Reducer
+//
+const aboutPageReducerInitialState = {
+  // fetching: false,
+  // fetched: false,
+  // error: null,
+  // data: []
+};
+function aboutPageReducer (state = aboutPageReducerInitialState, action) {
+  return baseAPIReducer(state, action, 'ABOUT_PAGE');
+}
+
 export default combineReducers({
   scenario: scenarioReducer,
   individualModels: modelReducer,
   stats: statsReducer,
   countries: countriesReducer,
   individualCountries: countryReducer,
-  individualFeatures: featureReducer
+  individualFeatures: featureReducer,
+  individualAboutPages: aboutPageReducer
 });

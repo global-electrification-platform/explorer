@@ -36,6 +36,23 @@ export async function fetchJSON (url, options) {
   }
 }
 
+async function fetchMd (url, options) {
+  const response = await fetch(url, options);
+  let data = await response.text();
+
+  // Remove yaml frontmatter.
+  data = data.replace(/^---(\n|\\n)[\s\S]+---(\n|\\n)/gm, '');
+
+  if (response.status >= 400) {
+    const err = new Error(`Request failed with status code ${response.status}`);
+    err.statusCode = response.status;
+    err.data = data;
+    throw err;
+  }
+
+  return data;
+}
+
 /**
  * Performs a query to the given url dispatching the appropriate actions.
  * If there's data in the state, that is used instead.
@@ -74,13 +91,16 @@ export function fetchDispatchCacheFactory (opts) {
  *                               it to the receive function.
  */
 export function fetchDispatchFactory (opts) {
-  let { url, requestFn, receiveFn, mutator, __devDelay } = opts;
+  let { url, requestFn, receiveFn, mutator, __devDelay, type } = opts;
   mutator = mutator || (v => v);
+  type = type || 'json';
   return async function (dispatch, getState) {
     dispatch(requestFn());
 
     try {
-      const response = await fetchJSON(url);
+      const response = type === 'md'
+        ? await fetchMd(url)
+        : await fetchJSON(url);
       const content = mutator(response);
       if (__devDelay) await delay(__devDelay);
       return dispatch(receiveFn(content));
