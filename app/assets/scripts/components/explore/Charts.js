@@ -129,7 +129,7 @@ class Charts extends Component {
                     {format(summary[keyIndicator])}
                   </tspan>
                   <tspan className='value--sub' x='0' textAnchor='middle' dy='1.25em'>
-                    of 84 M
+                    of {format(summary.totalPop)}
                   </tspan>
                 </text>
               ) : (
