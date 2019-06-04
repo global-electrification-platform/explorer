@@ -12,9 +12,9 @@ class MarkdownPageViewer extends PureComponent {
     this.props.fetchAboutPage(this.props.fileUrl);
   }
 
-  componentWillReceiveProps (nextProps) {
-    if (this.props.fileUrl !== nextProps.fileUrl) {
-      this.props.fetchAboutPage(nextProps.fileUrl);
+  componentDidUpdate (prevProps) {
+    if (this.props.fileUrl !== prevProps.fileUrl) {
+      this.props.fetchAboutPage(prevProps.fileUrl);
     }
   }
 
@@ -26,7 +26,7 @@ class MarkdownPageViewer extends PureComponent {
       return (
         <React.Fragment>
           <h1>{title}</h1>
-          <p>Loading page data</p>
+          <p>Loading page data...</p>
         </React.Fragment>
       );
     }
