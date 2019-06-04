@@ -120,10 +120,6 @@
     }
   }
 
-  .input-range {
-    margin: (-$global-spacing * 1.25) 0 0 0;
-  }
-
   .input-range__label--value {
     @extend .visually-hidden;
   }
@@ -134,6 +130,10 @@
     > *:last-child {
       margin-right: -0.375rem;
     }
+  }
+
+  .form__slider-group {
+    margin-top: -0.75rem;
   }
 }
 

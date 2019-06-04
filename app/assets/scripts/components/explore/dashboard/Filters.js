@@ -35,22 +35,24 @@ class Filters extends Component {
             </div>
           )}
         </div>
-        <div className='form__output-group'>
-          <output htmlFor={`slider-${filter.id}`} className='form__output'>
-            {filterState.min}
-          </output>
-          <output htmlFor={`slider-${filter.id}`} className='form__output'>
-            {filterState.max}
-          </output>
+        <div className='form__slider-group'>
+          <div>
+            <label>Min</label>
+            <input type='number' className='form__control form__control--small' value={filterState.min} />
+          </div>
+          <InputRange
+            minValue={min}
+            maxValue={max}
+            name={`slider-${filter.id}`}
+            id={`slider-${filter.id}`}
+            value={filterState}
+            onChange={this.props.handleFilterChange.bind(this, filterIdx)}
+          />
+          <div>
+            <label>Max</label>
+            <input type='number' className='form__control form__control--small' value={filterState.max} />
+          </div>
         </div>
-        <InputRange
-          minValue={min}
-          maxValue={max}
-          name={`slider-${filter.id}`}
-          id={`slider-${filter.id}`}
-          value={filterState}
-          onChange={this.props.handleFilterChange.bind(this, filterIdx)}
-        />
       </div>
     );
   }

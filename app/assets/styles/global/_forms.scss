@@ -57,6 +57,16 @@
   transition: all 0.24s ease 0s;
 }
 
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type="number"] {
+    -moz-appearance: textfield;
+}
+
 
 /* Control
    ========================================================================== */
@@ -450,6 +460,21 @@ select.form__control:focus {
         margin-right: ($global-spacing / 4);
       }
     }
+  }
+}
+
+
+/* Slider group
+   ========================================================================== */
+
+.form__slider-group {
+  display: grid;
+  align-items: center;
+  grid-gap: 1rem;
+  grid-template-columns: 3rem 1fr 3rem;
+
+  label {
+    @extend .visually-hidden;
   }
 }
 
