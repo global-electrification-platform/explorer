@@ -4,9 +4,7 @@ import { Redirect, Route, Switch, NavLink } from 'react-router-dom';
 
 import App from './App';
 import ShadowScrollbars from '../components/ShadowScrollbar';
-import GlobalInput from '../components/documentation/GlobalInput';
-import GlobalLorem from '../components/documentation/GlobalLorem';
-import ModelsOnsett from '../components/documentation/ModelsOnsett';
+import MarkdownPageViewer from '../components/connected/MarkdownPageViewer';
 
 import { environment } from '../config';
 
@@ -17,12 +15,14 @@ const layout = [
       {
         name: 'Input data',
         url: '',
-        component: GlobalInput
+        fileUrl:
+          'https://raw.githubusercontent.com/global-electrification-platform/docs/develop/app/posts/s0-introduction/0-1-data-overview/index.md'
       },
       {
         name: 'Lorem ipsum',
         url: '/lorem',
-        component: GlobalLorem
+        fileUrl:
+          'https://raw.githubusercontent.com/global-electrification-platform/docs/develop/app/posts/s1-preparing-the-data/1-0-model-config/index.md'
       }
     ]
   },
@@ -32,7 +32,8 @@ const layout = [
       {
         name: 'OnSETT',
         url: '/onsett',
-        component: ModelsOnsett
+        fileUrl:
+          'https://raw.githubusercontent.com/global-electrification-platform/docs/develop/app/posts/s0-introduction/0-2-the-ingest-process/index.md'
       }
     ]
   }
@@ -79,9 +80,22 @@ class Docs extends Component {
           <div className='inpage__body'>
             <div className='prose'>
               <Switch>
-                {layout.map(s => s.pages.map(page => (
-                  <Route key={page.name} exact path={`${url}${page.url}`} component={page.component} />
-                )))}
+                {layout.map(s =>
+                  s.pages.map(page => (
+                    <Route
+                      exact
+                      key={page.name}
+                      path={`${url}${page.url}`}
+                      render={props => (
+                        <MarkdownPageViewer
+                          fileUrl={page.fileUrl}
+                          title={page.name}
+                          {...props}
+                        />
+                      )}
+                    />
+                  ))
+                )}
                 <Redirect from='*' to='/documentation' />
               </Switch>
             </div>

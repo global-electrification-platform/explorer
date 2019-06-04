@@ -236,3 +236,39 @@ export function fetchFeature (scenarioId, featureId, year) {
     requestFn: requestFeature.bind(this, key)
   });
 }
+
+/*
+ * Actions form about pages
+ */
+
+export const REQUEST_ABOUT_PAGE = 'REQUEST_ABOUT_PAGE';
+export const RECEIVE_ABOUT_PAGE = 'RECEIVE_ABOUT_PAGE';
+export const INVALIDATE_ABOUT_PAGE = 'INVALIDATE_ABOUT_PAGE';
+
+export function invalidateAboutPage (key) {
+  return { type: INVALIDATE_ABOUT_PAGE, id: key };
+}
+
+export function requestAboutPage (key) {
+  return { type: REQUEST_ABOUT_PAGE, id: key };
+}
+
+export function receiveAboutPage (key, data, error = null) {
+  return {
+    type: RECEIVE_ABOUT_PAGE,
+    id: key,
+    data,
+    error,
+    receivedAt: Date.now()
+  };
+}
+
+export function fetchAboutPage (url) {
+  return fetchDispatchCacheFactory({
+    type: 'md',
+    statePath: ['individualAboutPages', url],
+    url,
+    receiveFn: receiveAboutPage.bind(this, url),
+    requestFn: requestAboutPage.bind(this, url)
+  });
+}
