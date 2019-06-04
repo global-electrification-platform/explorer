@@ -1,27 +1,39 @@
 # GEP Explorer
 
-Web application to explore least electrification scenarios on Global Electrificaion Platform.
+Web application to explore least electrification scenarios on Global Electrification Platform.
 
 
 ## Installation and Usage
 
 The steps below will walk you through setting up a development environment for the frontend.
 
-### Prerequisites
-
-To set up the development environment for this website, you'll need to install the following on your system:
-
-- [Git](https://git-scm.com)
-- [Node.js](http://nodejs.org), version 8 or later
-- [Yarn](https://yarnpkg.com)
-
 ### Install dependencies
 
-Clone this repository locally and run:
+Install the following on your system:
 
-    yarn
+- [Git](https://git-scm.com)
+- [nvm](https://github.com/creationix/nvm)
+
+Clone this repository locally and activate required Node.js version:
+
+```
+nvm install
+```
+
+Install yarn:
+
+```
+npm install -g yarn
+```
+
+Install Node.js dependencies:
+
+```
+yarn install
+```
 
 #### Config files
+
 The config files can be found in `app/assets/scripts/config`. After installing the project, there will be an empty `local.js` that you can use to set the config. This file should not be committed.
 
 The configuration is overridable by environment variables, expressed between []:
@@ -35,8 +47,8 @@ The configuration is overridable by environment variables, expressed between []:
 Example:
 ```
 module.exports = {
-  api: 'http://localhost:3000',
-  mbtoken: 'asfd23rlmksjdf023rnnsafd'
+  dataServiceUrl: 'http://localhost:3000',
+  mapboxAccessToken: 'asfd23rlmksjdf023rnnsafd'
 };
 ```
 
