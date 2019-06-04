@@ -494,7 +494,12 @@
     font-weight: $base-font-bold;
     fill: $base-color;
     opacity: 0.8;
+    text-transform: uppercase;
   }
+}
+
+.value--sub {
+  font-size: 0.75rem;
 }
 
 .sum-chart-media__caption {
