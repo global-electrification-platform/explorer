@@ -529,3 +529,15 @@
     font-size: inherit;
   }
 }
+
+.drop__menu-item--pdf::before {
+  @extend %collecticon-page-label;
+}
+
+.drop__menu-item--shapefile::before {
+  @extend %collecticon-expand-top-right;
+}
+
+.drop__menu-item--data::before {
+  @extend %collecticon-expand-top-right;
+}

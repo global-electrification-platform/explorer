@@ -81,11 +81,11 @@ class Summary extends Component {
             direction='up'
             alignment='center'
           >
-            <ul className='drop__menu'>
+            <ul className='drop__menu drop__menu--iconified'>
               <li>
                 <a
                   href='#'
-                  className='drop__menu-item'
+                  className='drop__menu-item drop__menu-item--pdf'
                   data-hook='dropdown:close'
                   onClick={e => {
                     e.preventDefault();
@@ -98,7 +98,7 @@ class Summary extends Component {
               <li>
                 <a
                   href='#'
-                  className='drop__menu-item disabled'
+                  className='drop__menu-item drop__menu-item--shapefile disabled'
                   data-hook='dropdown:close'
                 >
                   Country clusters
@@ -107,7 +107,7 @@ class Summary extends Component {
               <li>
                 <a
                   href='#'
-                  className='drop__menu-item disabled'
+                  className='drop__menu-item drop__menu-item--data disabled'
                   data-hook='dropdown:close'
                 >
                   Full scenario data
