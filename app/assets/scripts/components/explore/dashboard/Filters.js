@@ -46,16 +46,19 @@ class Filters extends Component {
           )}
         </div>
         <div className='form__slider-group'>
-          <div>
-            <label htmlFor={`slider-input-min-${filter.id}`}>Min value</label>
-            <input
-              type='number'
-              name={`slider-input-min-${filter.id}`}
-              id={`slider-input-min-${filter.id}`}
-              className='form__control form__control--small'
-              value={filterState.min}
-            />
-          </div>
+          <ManualInput
+            id={`slider-input-min-${filter.id}`}
+            label='Min value'
+            value={filterState.min}
+            min={min}
+            max={filterState.max}
+            onChange={v =>
+              this.props.handleFilterChange(filterIdx, {
+                ...filterState,
+                min: v
+              })
+            }
+          />
           <InputRange
             minValue={min}
             maxValue={max}
@@ -64,16 +67,19 @@ class Filters extends Component {
             value={filterState}
             onChange={this.props.handleFilterChange.bind(this, filterIdx)}
           />
-          <div>
-            <label htmlFor={`slider-input-max-${filter.id}`}>Max value</label>
-            <input
-              type='number'
-              name={`slider-input-max-${filter.id}`}
-              id={`slider-input-max-${filter.id}`}
-              className='form__control form__control--small'
-              value={filterState.max}
-            />
-          </div>
+          <ManualInput
+            id={`slider-input-max-${filter.id}`}
+            label='Max value'
+            value={filterState.max}
+            min={filterState.min}
+            max={max}
+            onChange={v =>
+              this.props.handleFilterChange(filterIdx, {
+                ...filterState,
+                max: v
+              })
+            }
+          />
         </div>
       </div>
     );
@@ -173,3 +179,85 @@ if (environment !== 'production') {
 }
 
 export default Filters;
+
+/**
+ * Input field for numeric values that errors when the value is not
+ * a number or is outside the min/max range
+ */
+class ManualInput extends React.PureComponent {
+  constructor (props) {
+    super(props);
+
+    this.state = {
+      originalVal: props.value,
+      value: props.value,
+      errored: false
+    };
+
+    this.onValueChange = this.onValueChange.bind(this);
+    this.onFieldBlur = this.onFieldBlur.bind(this);
+  }
+
+  componentWillReceiveProps (nextProps) {
+    if (this.state.value !== nextProps.value) {
+      this.setState({ value: nextProps.value });
+    }
+  }
+
+  onValueChange (e) {
+    this.setState({ value: e.target.value });
+  }
+
+  onFieldBlur (e) {
+    const { value, originalVal } = this.state;
+    const { min, max, onChange } = this.props;
+
+    if (isNaN(value) || value === '' || value < min || value > max) {
+      this.setState({
+        value: originalVal,
+        errored: true
+      });
+      // We have to clear the error state after the animation so it can
+      // error again.
+      setTimeout(() => {
+        this.setState({ errored: false });
+      }, 550);
+    } else {
+      // all good.
+      this.setState({ errored: false, originalVal: Number(value) });
+      onChange(Number(value));
+    }
+  }
+
+  render () {
+    const { id, label } = this.props;
+
+    return (
+      <div>
+        <label htmlFor={id}>{label}</label>
+        <input
+          type='number'
+          name={id}
+          id={id}
+          className={c('form__control form__control--small', {
+            'form__control--invalid': this.state.errored
+          })}
+          value={this.state.value}
+          onBlur={this.onFieldBlur}
+          onChange={this.onValueChange}
+        />
+      </div>
+    );
+  }
+}
+
+if (environment !== 'production') {
+  ManualInput.propTypes = {
+    id: T.string,
+    label: T.string,
+    value: T.number,
+    min: T.number,
+    max: T.number,
+    onChange: T.func
+  };
+}
