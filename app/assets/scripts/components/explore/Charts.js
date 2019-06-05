@@ -13,8 +13,8 @@ import Modal from '../Modal';
  * Labels and formatter for Key Indicators
  */
 const indicatorsLabels = {
-  electrifiedPopulation: {
-    label: 'People Affected',
+  peopleConnected: {
+    label: 'People Connected',
     format: formatKeyIndicator
   },
   investmentCost: {
@@ -123,9 +123,22 @@ class Charts extends Component {
         <div className='sum-chart-media__item'>
           <svg width={height} height={height}>
             <Group top={height / 2} left={height / 2}>
-              <text textAnchor='middle' dy='0.5em'>
-                {format(summary[keyIndicator])}
-              </text>
+              {keyIndicator === 'peopleConnected' ? (
+                <text className='values' y='0.125em'>
+                  <tspan className='value--prime' x='0' textAnchor='middle'>
+                    {format(summary[keyIndicator])}
+                  </tspan>
+                  <tspan className='value--sub' x='0' textAnchor='middle' dy='1.25em'>
+                    of {format(summary.totalPopulation)}
+                  </tspan>
+                </text>
+              ) : (
+                <text className='values' y='0.5em'>
+                  <tspan className='value--prime' x='0' textAnchor='middle'>
+                    {format(summary[keyIndicator])}
+                  </tspan>
+                </text>
+              )}
               <Pie
                 data={data}
                 pieValue={d => d.value}
@@ -183,7 +196,7 @@ class Charts extends Component {
     return (
       <Fragment>
         {this.renderPopover()}
-        {['electrifiedPopulation', 'investmentCost', 'newCapacity'].map(
+        {['peopleConnected', 'investmentCost', 'newCapacity'].map(
           indicator => {
             return this.renderChart(indicator);
           }
