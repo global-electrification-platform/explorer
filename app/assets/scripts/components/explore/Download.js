@@ -247,7 +247,7 @@ export function downloadPDF (props) {
   // // RESULTS SUMMARY
   // Results summary has a 3 column layout
   const outputs = [
-    { name: 'People affected', id: 'electrifiedPopulation' },
+    { name: 'People connected', id: 'peopleConnected' },
     { name: 'Investment required ', id: 'investmentCost' },
     { name: 'Added capacity', id: 'newCapacity' }
   ];

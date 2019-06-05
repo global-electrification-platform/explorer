@@ -31,8 +31,8 @@ class MapPopover extends React.Component {
           <div className='popover__body'>
             {isReady() ? (
               <dl className='map-number-list'>
-                <dt>Population electrified</dt>
-                <dd>{formatThousands(data.electrifiedPopulation, 0)}</dd>
+                <dt>People connected</dt>
+                <dd>{formatThousands(data.peopleConnected, 0)}</dd>
                 <dt>Investment required</dt>
                 <dd><small>$</small> {formatThousands(data.investmentCost, 0)}</dd>
                 <dt>Capacity Added</dt>
