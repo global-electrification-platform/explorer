@@ -37,8 +37,8 @@ class Filters extends Component {
         </div>
         <div className='form__slider-group'>
           <div>
-            <label>Min</label>
-            <input type='number' className='form__control form__control--small' value={filterState.min} />
+            <label htmlFor={`slider-input-min-${filter.id}`}>Min value</label>
+            <input type='number' name={`slider-input-min-${filter.id}`} id={`slider-input-min-${filter.id}`} className='form__control form__control--small' value={filterState.min} />
           </div>
           <InputRange
             minValue={min}
@@ -49,8 +49,8 @@ class Filters extends Component {
             onChange={this.props.handleFilterChange.bind(this, filterIdx)}
           />
           <div>
-            <label>Max</label>
-            <input type='number' className='form__control form__control--small' value={filterState.max} />
+            <label htmlFor={`slider-input-max-${filter.id}`}>Max value</label>
+            <input type='number' name={`slider-input-max-${filter.id}`} id={`slider-input-max-${filter.id}`} className='form__control form__control--small' value={filterState.max} />
           </div>
         </div>
       </div>
