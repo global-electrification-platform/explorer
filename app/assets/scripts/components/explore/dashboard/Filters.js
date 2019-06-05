@@ -27,18 +27,34 @@ class Filters extends Component {
       <div className='form__group econtrols__item' key={`${filter.id}`}>
         <div className='form__inner-header'>
           <div className='form__inner-headline'>
-            <label className='form__label' htmlFor={`slider-${filter.id}`}>{filter.label}</label>
+            <label className='form__label' htmlFor={`slider-${filter.id}`}>
+              {filter.label}
+            </label>
           </div>
           {filter.description && (
             <div className='form__inner-actions'>
-              <button type='button' className='eci-info' data-tip={`filter-${filterIdx}`} data-for='econtrol-popover' data-event='click'><span>Lever info</span></button>
+              <button
+                type='button'
+                className='eci-info'
+                data-tip={`filter-${filterIdx}`}
+                data-for='econtrol-popover'
+                data-event='click'
+              >
+                <span>Lever info</span>
+              </button>
             </div>
           )}
         </div>
         <div className='form__slider-group'>
           <div>
             <label htmlFor={`slider-input-min-${filter.id}`}>Min value</label>
-            <input type='number' name={`slider-input-min-${filter.id}`} id={`slider-input-min-${filter.id}`} className='form__control form__control--small' value={filterState.min} />
+            <input
+              type='number'
+              name={`slider-input-min-${filter.id}`}
+              id={`slider-input-min-${filter.id}`}
+              className='form__control form__control--small'
+              value={filterState.min}
+            />
           </div>
           <InputRange
             minValue={min}
@@ -50,7 +66,13 @@ class Filters extends Component {
           />
           <div>
             <label htmlFor={`slider-input-max-${filter.id}`}>Max value</label>
-            <input type='number' name={`slider-input-max-${filter.id}`} id={`slider-input-max-${filter.id}`} className='form__control form__control--small' value={filterState.max} />
+            <input
+              type='number'
+              name={`slider-input-max-${filter.id}`}
+              id={`slider-input-max-${filter.id}`}
+              className='form__control form__control--small'
+              value={filterState.max}
+            />
           </div>
         </div>
       </div>
@@ -68,7 +90,15 @@ class Filters extends Component {
           </div>
           {filter.description && (
             <div className='form__inner-actions'>
-              <button type='button' className='eci-info' data-tip={`filter-${filterIdx}`} data-for='econtrol-popover' data-event='click'><span>Lever info</span></button>
+              <button
+                type='button'
+                className='eci-info'
+                data-tip={`filter-${filterIdx}`}
+                data-for='econtrol-popover'
+                data-event='click'
+              >
+                <span>Lever info</span>
+              </button>
             </div>
           )}
         </div>
