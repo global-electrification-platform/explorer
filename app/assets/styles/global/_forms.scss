@@ -58,7 +58,23 @@
 }
 
 
-/* Control
+/* Type number control
+   ========================================================================== */
+
+.form__control[type="number"] {
+  -moz-appearance: textfield;
+}
+
+/* Webkit specific */
+
+.form__control[type="number"]::-webkit-outer-spin-button,
+.form__control[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+
+/* Select control
    ========================================================================== */
 
 select.form__control {
@@ -228,7 +244,7 @@ textarea.form__control {
 }
 
 
-/* Color modifiers
+/* Control color modifiers
    ========================================================================== */
 
 .form__control--success {
@@ -253,6 +269,14 @@ textarea.form__control {
 .form__help.form__limit--reached,
 .form__help--danger {
   color: $danger-color
+}
+
+
+/* Control state modifiers
+   ========================================================================== */
+
+.form__control--invalid {
+  animation: shake .5s linear;
 }
 
 
@@ -450,6 +474,21 @@ select.form__control:focus {
         margin-right: ($global-spacing / 4);
       }
     }
+  }
+}
+
+
+/* Slider group
+   ========================================================================== */
+
+.form__slider-group {
+  display: grid;
+  align-items: center;
+  grid-gap: 1rem;
+  grid-template-columns: 3rem 1fr 3rem;
+
+  label {
+    @extend .visually-hidden;
   }
 }
 

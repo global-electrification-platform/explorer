@@ -308,11 +308,9 @@ class Explore extends Component {
     // Get country data. If there is only one model for this country,
     // disable "Change Model" button.
     let countryName = '';
-    let hasMultipleModels = false;
     if (this.props.country.isReady()) {
-      const { name, models } = this.props.country.getData();
+      const { name } = this.props.country.getData();
       countryName = name;
-      hasMultipleModels = models.length > 1;
     }
 
     return (
@@ -330,10 +328,8 @@ class Explore extends Component {
                 </div>
                 <div className='inpage__hactions'>
                   <Link
-                    to={`/countries/${model.country}/models`}
-                    className={c('exp-change-button', {
-                      disabled: !hasMultipleModels
-                    })}
+                    to={`/countries`}
+                    className='exp-change-button'
                     title='Change model'
                   >
                     <span>Change</span>
