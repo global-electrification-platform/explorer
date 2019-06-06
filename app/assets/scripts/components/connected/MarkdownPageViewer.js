@@ -47,7 +47,6 @@ class MarkdownPageViewer extends PureComponent {
 
     return (
       <React.Fragment>
-        <h1>{title}</h1>
         <ReactMarkdown source={getData()} />
       </React.Fragment>
     );

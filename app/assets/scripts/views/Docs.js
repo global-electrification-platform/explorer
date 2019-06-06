@@ -13,27 +13,34 @@ const layout = [
     name: 'Global',
     pages: [
       {
-        name: 'Input data',
-        url: '',
-        fileUrl:
-          'https://raw.githubusercontent.com/global-electrification-platform/docs/develop/app/posts/s0-introduction/0-1-data-overview/index.md'
+        name: 'Overview',
+        url: '/',
+        fileUrl: 'https://raw.githubusercontent.com/global-electrification-platform/User_Guide/master/user-manual/source/Overview.md'
       },
       {
-        name: 'Lorem ipsum',
-        url: '/lorem',
-        fileUrl:
-          'https://raw.githubusercontent.com/global-electrification-platform/docs/develop/app/posts/s1-preparing-the-data/1-0-model-config/index.md'
-      }
-    ]
-  },
-  {
-    name: 'Models',
-    pages: [
+        name: 'GEP Explorer',
+        url: '/gep-explorer',
+        fileUrl: 'https://raw.githubusercontent.com/global-electrification-platform/User_Guide/master/user-manual/source/GEP Explorer.md'
+      },
       {
-        name: 'OnSETT',
-        url: '/onsett',
-        fileUrl:
-          'https://raw.githubusercontent.com/global-electrification-platform/docs/develop/app/posts/s0-introduction/0-2-the-ingest-process/index.md'
+        name: 'GEP Generator',
+        url: '/gep-generator',
+        fileUrl: 'https://raw.githubusercontent.com/global-electrification-platform/User_Guide/master/user-manual/source/GEP Generator.md'
+      },
+      {
+        name: 'GEP Toolbox',
+        url: '/gep-toolbox',
+        fileUrl: 'https://raw.githubusercontent.com/global-electrification-platform/User_Guide/master/user-manual/source/GEP Toolbox.md'
+      },
+      {
+        name: 'Interoperability',
+        url: '/interoperability',
+        fileUrl: 'https://raw.githubusercontent.com/global-electrification-platform/User_Guide/master/user-manual/source/Interoperability.md'
+      },
+      {
+        name: 'Contact',
+        url: '/contact',
+        fileUrl: 'https://raw.githubusercontent.com/global-electrification-platform/User_Guide/master/user-manual/source/Contact.md'
       }
     ]
   }
