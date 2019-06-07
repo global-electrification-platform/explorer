@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { PropTypes as T } from 'prop-types';
-import c from 'classnames';
 import clone from 'lodash.clone';
 import isEqual from 'lodash.isequal';
 import pull from 'lodash.pull';
@@ -76,13 +75,13 @@ class Explore extends Component {
           });
         },
         // The filters that are a range are encoded as r[min]_[max]
-        // The filters that are options are enoded as [opt]_[opt]_[opt]
+        // The filters that are options are encoded as [opt]_[opt]_[opt]
         // The various filters are concatenated with a |
         dehydrator: v => {
           if (!v) return null;
           return v
             .map(s => {
-              if (s.min || s.max) {
+              if (typeof s.min !== 'undefined' || typeof s.max !== 'undefined') {
                 return `r${s.min || 0}_${s.max || 0}`;
               }
               return s.join('_');
