@@ -42,7 +42,9 @@ export default class NavGlobalMenu extends Component {
             target='_blank'
             title='Visit the documentation'
             className='global-menu__link global-menu__link--docs'
-          />
+          >
+            <span>Documentation</span>
+          </a>
         </li>
         <li>
           <NavLink
