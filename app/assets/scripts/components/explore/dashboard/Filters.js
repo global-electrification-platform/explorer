@@ -201,7 +201,9 @@ class ManualInput extends React.PureComponent {
   static getDerivedStateFromProps (nextProps, prevState) {
     if (prevState.value !== nextProps.value) {
       return { value: nextProps.value };
-    } else return null;
+    } else {
+      return null;
+    }
   }
 
   onValueChange (e) {
