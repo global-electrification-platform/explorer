@@ -198,7 +198,7 @@ class ManualInput extends React.PureComponent {
     this.onFieldBlur = this.onFieldBlur.bind(this);
   }
 
-  getDerivedStateFromProps (nextProps, prevState) {
+  static getDerivedStateFromProps (nextProps, prevState) {
     if (prevState.value !== nextProps.value) {
       return { value: nextProps.value };
     } else return null;
