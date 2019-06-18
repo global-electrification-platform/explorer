@@ -37,14 +37,12 @@ export default class NavGlobalMenu extends Component {
           </NavLink>
         </li>
         <li>
-          <NavLink
-            to='/documentation'
+          <a
+            href='https://gep-user-guide.readthedocs.io'
+            target='_blank'
             title='Visit the documentation'
-            activeClassName='global-menu__link--active'
             className='global-menu__link global-menu__link--docs'
-          >
-            <span>Documentation</span>
-          </NavLink>
+          />
         </li>
         <li>
           <NavLink
