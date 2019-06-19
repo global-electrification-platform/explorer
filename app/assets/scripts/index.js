@@ -9,7 +9,6 @@ import config from './config';
 // Views
 import Home from './views/Home';
 import Explore from './views/Explore';
-import Docs from './views/Docs';
 import About from './views/About';
 import SelectCountry from './views/SelectCountry';
 import SelectModel from './views/SelectModel';
@@ -27,7 +26,6 @@ ReactDOM.render(
         <Route exact path='/countries' component={SelectCountry} />
         <Route exact path='/countries/:countryId/models' component={SelectModel} />
         <Route exact path='/explore/:modelId' component={Explore} />
-        <Route path='/documentation' component={Docs} />
         <Route exact path='/about' component={About} />
         <Route path='*' component={UhOh} />
       </Switch>

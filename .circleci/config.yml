@@ -27,6 +27,10 @@ jobs:
           key: v1-dependencies-{{ checksum "package.json" }}
 
       - run:
+          name: Lint
+          command: yarn lint
+
+      - run:
           name: Building site
           command: |
             if [ "${CIRCLE_BRANCH}" == "${PRODUCTION_BRANCH}" ]; then
