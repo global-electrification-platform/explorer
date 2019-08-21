@@ -68,7 +68,8 @@ gulp.task('serve', ['vendorScripts', 'javascript', 'styles'], function () {
       middleware: [
         historyApiFallback()
       ]
-    }
+    },
+    host: '0.0.0.0'
   });
   // watch for changes
   gulp.watch([
