@@ -4,6 +4,9 @@ import map from 'lodash.map';
 import { Group } from '@vx/group';
 import { Pie } from '@vx/shape';
 
+import { scaleLinear } from '@vx/scale';
+import { AxisLeft } from '@vx/axis';
+
 import { environment } from '../../config';
 import { formatKeyIndicator } from '../../utils';
 
@@ -44,6 +47,7 @@ class Charts extends Component {
     };
 
     this.renderChart = this.renderChart.bind(this);
+    this.renderAreaChart = this.renderAreaChart.bind(this);
     this.renderPopover = this.renderPopover.bind(this);
     this.updatePopover = this.updatePopover.bind(this);
   }
@@ -99,6 +103,47 @@ class Charts extends Component {
           </article>
         </Modal>
       )
+    );
+  }
+
+  renderAreaChart () {
+    const height = 130;
+    const width = 150;
+    const margin = {
+      top: 10,
+      bottom: 10
+    };
+
+    return (
+      <figure className='sum-chart-media'>
+        <div className='sum-area-chart-media__item'>
+          <svg width={width} height={height}>
+            <Group>
+              <AxisLeft
+                left={40}
+                scale={scaleLinear({
+                  range: [height - margin.bottom - margin.top, margin.top],
+                  domain: [0, 100]
+                })}
+                tickComponent={({ formattedValue, ...tickProps }) => (
+                  <text {...tickProps}>{formattedValue}%</text>
+                )}
+                className='y-axis'
+                tickLabelProps={(value, index) => ({
+                  textAnchor: 'end',
+                  dx: '-0.25em',
+                  dy: '0.25em'
+                })}
+                numTicks={3}
+              />
+            </Group>
+          </svg>
+        </div>
+
+        <figcaption className='sum-chart-media__caption'>
+          {'Population connected'}
+        </figcaption>
+      </figure>
     );
   }
 

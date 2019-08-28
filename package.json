@@ -97,7 +97,9 @@
   "dependencies": {
     "@turf/bbox": "^6.0.1",
     "@turf/turf": "^5.1.6",
+    "@vx/axis": "^0.0.190",
     "@vx/group": "^0.0.182",
+    "@vx/scale": "^0.0.190",
     "@vx/shape": "^0.0.182",
     "babel-polyfill": "^6.26.0",
     "blob-stream": "^0.1.3",

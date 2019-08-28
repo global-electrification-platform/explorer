@@ -498,6 +498,30 @@
   }
 }
 
+.sum-area-chart-media__item {
+  margin-bottom: $global-spacing / 2;
+
+  svg {
+    vertical-align: top;
+    cursor: pointer;
+
+    /* Animation */
+    transition: transform 0.16s ease 0s;
+
+    .vx-axis-left {
+      stroke-opacity: 0.5;
+      text {
+        font-size: 0.8em;
+      }
+    }
+
+    &:hover {
+      transform: scale(1.05);
+    }
+  }
+
+}
+
 .value--sub {
   font-size: 0.75rem;
 }
