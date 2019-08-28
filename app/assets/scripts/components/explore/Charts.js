@@ -72,7 +72,10 @@ class Charts extends Component {
     return (
       popoverIsVisible && (
         <Modal elementId={'#chart-popover'}>
-          <article className='popover popover--anchor-right' style={{ top: yAxis, right: right + 12 }}>
+          <article
+            className='popover popover--anchor-right'
+            style={{ top: yAxis, right: right + 12 }}
+          >
             <div className='popover__contents'>
               <header className='popover__header'>
                 <div className='popover__headline'>
@@ -89,7 +92,10 @@ class Charts extends Component {
                     return (
                       <Fragment key={layerId}>
                         <dt>
-                          <span className={`lgfx`} style={{ backgroundColor: layer.color }}>
+                          <span
+                            className={`lgfx`}
+                            style={{ backgroundColor: layer.color }}
+                          >
                             {layer.label}
                           </span>
                         </dt>
@@ -173,7 +179,12 @@ class Charts extends Component {
                   <tspan className='value--prime' x='0' textAnchor='middle'>
                     {format(summary[keyIndicator])}
                   </tspan>
-                  <tspan className='value--sub' x='0' textAnchor='middle' dy='1.25em'>
+                  <tspan
+                    className='value--sub'
+                    x='0'
+                    textAnchor='middle'
+                    dy='1.25em'
+                  >
                     of {format(summary.totalPopulation)}
                   </tspan>
                 </text>
@@ -240,12 +251,11 @@ class Charts extends Component {
   render () {
     return (
       <Fragment>
+        {this.renderAreaChart()}
         {this.renderPopover()}
-        {['peopleConnected', 'investmentCost', 'newCapacity'].map(
-          indicator => {
-            return this.renderChart(indicator);
-          }
-        )}
+        {['peopleConnected', 'investmentCost', 'newCapacity'].map(indicator => {
+          return this.renderChart(indicator);
+        })}
       </Fragment>
     );
   }
