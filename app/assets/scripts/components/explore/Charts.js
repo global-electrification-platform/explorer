@@ -2,10 +2,10 @@ import React, { Component, Fragment } from 'react';
 import { PropTypes as T } from 'prop-types';
 import map from 'lodash.map';
 import { Group } from '@vx/group';
-import { Pie } from '@vx/shape';
+import { AreaStack, Pie } from '@vx/shape';
 
 import { scaleLinear } from '@vx/scale';
-import { AxisLeft } from '@vx/axis';
+import { AxisLeft, AxisBottom } from '@vx/axis';
 
 import { environment } from '../../config';
 import { formatKeyIndicator } from '../../utils';
@@ -113,11 +113,57 @@ class Charts extends Component {
   }
 
   renderAreaChart () {
-    const height = 130;
-    const width = 150;
+    const height = 150;
+    const width = 200;
     const margin = {
       top: 10,
-      bottom: 10
+      bottom: 10,
+      left: 10,
+      right: 10
+    };
+    const xMin = 30;
+    const xMax = width - xMin;
+    const yMin = height - margin.top - margin.bottom;
+    const yMax = margin.top;
+    const xTickLength = 6;
+    const yTickLength = 4;
+
+    const data = [
+      {
+        year: 2018,
+        a: 10,
+        b: 10,
+        c: 10
+      },
+      {
+        year: 2025,
+        a: 20,
+        b: 30,
+        c: 10
+      },
+      {
+        year: 2030,
+        a: 25,
+        b: 35,
+        c: 10
+      }
+    ];
+    const years = data.map(d => d.year);
+
+    // scales
+    const xScale = scaleLinear({
+      range: [xMin, xMax],
+      domain: [Math.min(...years), Math.max(...years)]
+    });
+    const yScale = scaleLinear({
+      range: [0, yMin],
+      domain: [100, 0]
+    });
+
+    const colors = {
+      a: 'red',
+      b: 'blue',
+      c: 'green'
     };
 
     return (
@@ -126,9 +172,9 @@ class Charts extends Component {
           <svg width={width} height={height}>
             <Group>
               <AxisLeft
-                left={40}
+                left={xMin}
                 scale={scaleLinear({
-                  range: [height - margin.bottom - margin.top, margin.top],
+                  range: [yMin, yMax],
                   domain: [0, 100]
                 })}
                 tickComponent={({ formattedValue, ...tickProps }) => (
@@ -140,7 +186,42 @@ class Charts extends Component {
                   dx: '-0.25em',
                   dy: '0.25em'
                 })}
+                tickLength={yTickLength}
                 numTicks={3}
+              />
+              <AreaStack
+                top={margin.top}
+                keys={['a', 'b', 'c']}
+                data={data}
+                x={({ data }) => {
+                  return xScale(data.year);
+                }}
+                y0={d => yScale(d[0])}
+                y1={d => yScale(d[1])}
+              >
+                {area => {
+                  const { stacks, path } = area;
+                  return stacks.map(stack => {
+                    return (
+                      <path
+                        key={`stack-${stack.key}`}
+                        d={path(stack)}
+                        stroke='transparent'
+                        fill={colors[stack.key]}
+                        onClick={event => alert(`${stack.key}`)}
+                      />
+                    );
+                  });
+                }}
+              </AreaStack>
+              <AxisBottom
+                top={yMin}
+                scale={xScale}
+                data={data}
+                hideAxisLine
+                tickValues={years}
+                tickFormat={d => d}
+                tickLength={xTickLength}
               />
             </Group>
           </svg>

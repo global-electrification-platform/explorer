@@ -511,7 +511,14 @@
     .vx-axis-left {
       stroke-opacity: 0.5;
       text {
-        font-size: 0.8em;
+        font-size: 0.6em;
+      }
+    }
+
+    .vx-axis-bottom {
+      stroke-opacity: 0.5;
+      text {
+        font-size: 0.9em;
       }
     }
 
