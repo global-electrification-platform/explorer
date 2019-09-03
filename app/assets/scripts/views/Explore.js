@@ -307,8 +307,10 @@ class Explore extends Component {
     // Get country data. If there is only one model for this country,
     // disable "Change Model" button.
     let countryName = '';
+    let riseScore = 'N/A';
     if (this.props.country.isReady()) {
-      const { name } = this.props.country.getData();
+      const { name, riseScores: rs } = this.props.country.getData();
+      riseScore = rs ? rs.overall : riseScore;
       countryName = name;
     }
 
@@ -323,6 +325,7 @@ class Explore extends Component {
                     <span className='visually-hidden'>Explore</span>
                     {countryName}
                   </h1>
+                  <p className='inpage__subtitle inpage__subtitle--rise'>Rise score: {riseScore}</p>
                   <p className='inpage__subtitle'>{model.name}</p>
                 </div>
                 <div className='inpage__hactions'>

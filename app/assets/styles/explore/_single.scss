@@ -11,10 +11,21 @@
     box-shadow: none;
   }
 
+  .inpage__title {
+    line-height: 1.5rem;
+  }
+
   .inpage__title,
   .inpage__subtitle {
     @extend .truncated;
     max-width: 100%;
+  }
+
+  .inpage__subtitle--rise {
+    font-size: 0.75rem;
+    // font-weight: $base-font-light;
+    color: $base-font-color;
+    margin-bottom: 0.25rem;
   }
 
   .inpage__body {
