@@ -113,6 +113,86 @@ class Charts extends Component {
   }
 
   renderAreaChart () {
+    const { scenario, model, techLayers } = this.props;
+
+    // Get summaries
+    const {
+      summary: { popBaseYear, popIntermediateYear, popFinalYear },
+      summaryByType: {
+        popConnectedBaseYear,
+        popConnectedIntermediateYear,
+        popConnectedFinalYear
+      }
+    } = scenario;
+
+    // Get years
+    const { baseYear, timesteps } = model;
+    const [intermediateYear, finalYear] = timesteps;
+
+    // Get tech types and colors
+    const colors = techLayers.reduce((acc, l) => {
+      acc[parseInt(l.id)] = l.color;
+      return acc;
+    }, {});
+    const techTypes = Object.keys(colors);
+
+    /*
+     * Parse input data to object suitable to display, like this:
+     *
+     * let data = [{
+     *   year: 2018,
+     *   1: 10
+     *   2: 32
+     *   3: 5
+     * }, {
+     *   year: 2025,
+     *   1: 12,
+     *   2: 35
+     *   3: 12
+     * }, {
+     *   year: 2030,
+     *   1: 15,
+     *   2: 40
+     *   3: 22
+     * }]
+     */
+    let data = [
+      {
+        year: baseYear,
+        ...Object.keys(popConnectedBaseYear).reduce((summary, type) => {
+          summary[type] = (popConnectedBaseYear[type] / popBaseYear) * 100;
+          return summary;
+        }, {})
+      },
+      {
+        year: intermediateYear,
+        ...Object.keys(popConnectedIntermediateYear).reduce((summary, type) => {
+          summary[type] =
+            (popConnectedIntermediateYear[type] / popIntermediateYear) * 100;
+          return summary;
+        }, {})
+      },
+      {
+        year: finalYear,
+        ...Object.keys(popConnectedFinalYear).reduce((summary, type) => {
+          summary[type] = (popConnectedFinalYear[type] / popFinalYear) * 100;
+          return summary;
+        }, {})
+      }
+    ];
+
+    // Fill undefined tech types with zero
+    data = data.map(d => {
+      techTypes.forEach(techType => {
+        d[techType] = d[techType] || 0;
+      });
+      return d;
+    });
+
+    // Get years for ticks
+    const years = data.map(d => d.year);
+
+    // Chart properties
     const height = 150;
     const width = 200;
     const margin = {
@@ -128,43 +208,15 @@ class Charts extends Component {
     const xTickLength = 6;
     const yTickLength = 4;
 
-    const data = [
-      {
-        year: 2018,
-        a: 10,
-        b: 10,
-        c: 10
-      },
-      {
-        year: 2025,
-        a: 20,
-        b: 30,
-        c: 10
-      },
-      {
-        year: 2030,
-        a: 25,
-        b: 35,
-        c: 10
-      }
-    ];
-    const years = data.map(d => d.year);
-
-    // scales
+    // Define scales
     const xScale = scaleLinear({
       range: [xMin, xMax],
       domain: [Math.min(...years), Math.max(...years)]
     });
     const yScale = scaleLinear({
-      range: [0, yMin],
+      range: [margin.top, yMin],
       domain: [100, 0]
     });
-
-    const colors = {
-      a: 'red',
-      b: 'blue',
-      c: 'green'
-    };
 
     return (
       <figure className='sum-chart-media'>
@@ -191,7 +243,7 @@ class Charts extends Component {
               />
               <AreaStack
                 top={margin.top}
-                keys={['a', 'b', 'c']}
+                keys={techTypes}
                 data={data}
                 x={({ data }) => {
                   return xScale(data.year);
@@ -208,7 +260,6 @@ class Charts extends Component {
                         d={path(stack)}
                         stroke='transparent'
                         fill={colors[stack.key]}
-                        onClick={event => alert(`${stack.key}`)}
                       />
                     );
                   });

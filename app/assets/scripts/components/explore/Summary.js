@@ -28,6 +28,7 @@ class Summary extends Component {
             <div className='sum-block sum-block--charts'>
               <h2 className='sum-block__title'>Charts</h2>
               <Charts
+                model={this.props.model}
                 scenario={scenario}
                 techLayers={this.props.model.map.techLayersConfig}
               />
