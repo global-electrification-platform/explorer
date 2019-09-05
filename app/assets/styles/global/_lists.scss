@@ -64,6 +64,10 @@
   }
 }
 
+.lgfx-wrapper {
+  display: flex;
+}
+
 .lgfx {
   content: '';
   min-width: $global-spacing * 1.5;

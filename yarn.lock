@@ -1294,6 +1294,13 @@
   dependencies:
     d3-shape "^1.0.6"
 
+"@vx/event@^0.0.189":
+  version "0.0.189"
+  resolved "https://registry.yarnpkg.com/@vx/event/-/event-0.0.189.tgz#5838f3cf64cc9ab20e71532431708fc68f61ebb9"
+  integrity sha512-xfKVE42yIw7yyfHWri8Tk3G9fYEJ4UMtKo+oDF+thaYY2daNbu9FV8WpYEA61g6L/byZiQ+9QziDO+qnwINVQw==
+  dependencies:
+    "@vx/point" "0.0.189"
+
 "@vx/group@0.0.182", "@vx/group@^0.0.182":
   version "0.0.182"
   resolved "https://registry.yarnpkg.com/@vx/group/-/group-0.0.182.tgz#991ca37c4a0116cf071d0ebef6a6189ad64c79ec"

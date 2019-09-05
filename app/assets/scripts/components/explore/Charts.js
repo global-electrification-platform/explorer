@@ -3,9 +3,9 @@ import { PropTypes as T } from 'prop-types';
 import map from 'lodash.map';
 import { Group } from '@vx/group';
 import { AreaStack, Pie } from '@vx/shape';
-
 import { scaleLinear } from '@vx/scale';
 import { AxisLeft, AxisBottom } from '@vx/axis';
+import { localPoint } from '@vx/event';
 
 import { environment } from '../../config';
 import { formatKeyIndicator } from '../../utils';
@@ -16,10 +16,6 @@ import Modal from '../Modal';
  * Labels and formatter for Key Indicators
  */
 const indicatorsLabels = {
-  peopleConnected: {
-    label: 'People Connected',
-    format: formatKeyIndicator
-  },
   investmentCost: {
     label: 'Investment Required',
     format: n => {
@@ -43,11 +39,13 @@ class Charts extends Component {
 
     this.state = {
       popoverIsVisible: false,
-      popoverPosition: {}
+      popoverPosition: {},
+      populationPopoverVisible: false
     };
 
     this.renderChart = this.renderChart.bind(this);
-    this.renderAreaChart = this.renderAreaChart.bind(this);
+    this.renderPopulationChart = this.renderPopulationChart.bind(this);
+    this.renderPopulationPopover = this.renderPopulationPopover.bind(this);
     this.renderPopover = this.renderPopover.bind(this);
     this.updatePopover = this.updatePopover.bind(this);
   }
@@ -112,7 +110,134 @@ class Charts extends Component {
     );
   }
 
-  renderAreaChart () {
+  renderPopulationPopover () {
+    const {
+      populationPopoverVisible,
+      popoverPosition: { yAxis, right },
+      hoveredYearInPopChart: targetYear
+    } = this.state;
+
+    const {
+      model,
+      techLayers,
+      scenario
+    } = this.props;
+
+    // Object to store data to be used at popover
+    const data = {};
+
+    // Get years
+    const {
+      baseYear,
+      timesteps: [intermediateYear, finalYear]
+    } = model;
+    const years = [baseYear, intermediateYear, finalYear];
+
+    // Get summaries
+    const {
+      summary: { popBaseYear, popIntermediateYear, popFinalYear },
+      summaryByType: {
+        popConnectedBaseYear,
+        popConnectedIntermediateYear,
+        popConnectedFinalYear
+      }
+    } = scenario;
+
+    if (targetYear === baseYear) {
+      data.popConnected = popConnectedBaseYear;
+      data.popConnectedBaseline = {};
+      data.pop = popConnectedBaseYear;
+    } else if (targetYear === intermediateYear) {
+      data.popConnected = popConnectedIntermediateYear;
+      data.popConnectedBaseline = popConnectedBaseYear;
+      data.pop = popIntermediateYear;
+    } else {
+      data.popConnected = popConnectedFinalYear;
+      data.popConnectedBaseline = popConnectedIntermediateYear;
+      data.pop = popFinalYear;
+    }
+
+    // Calculate diff per type from baseline year
+    data.appliedTechTypes = Object.keys(data.popConnected);
+    data.popConnectedDiff = data.appliedTechTypes.reduce((result, type) => {
+      result[type] = data.popConnected[type]
+        ? data.popConnected[type] - (data.popConnectedBaseline[type] || 0)
+        : 0;
+      return result;
+    }, {});
+
+    // Calculate unconnected people
+    data.popUnconnected = Object.keys(data.popConnected).reduce(
+      (total, key) => {
+        total -= data.popConnected[key];
+        return total;
+      },
+      data.pop
+    );
+
+    return (
+      populationPopoverVisible && (
+        <Modal elementId={'#chart-popover'}>
+          <article
+            className='popover popover--anchor-right'
+            style={{ top: yAxis, right: right + 12 }}
+          >
+            <div className='popover__contents'>
+              <header className='popover__header'>
+                <div className='popover__headline'>
+                  <h1 className='popover__title'>Status in {targetYear}</h1>
+                </div>
+              </header>
+              <div className='popover__body'>
+                <dl className='map-number-list'>
+                  <dt>Population connected</dt>
+                  <dd>
+                    {formatKeyIndicator(data.popUnconnected)} of{' '}
+                    {formatKeyIndicator(data.pop)}
+                  </dd>
+                </dl>
+                <dl className='chart-number-list'>
+                  {data.appliedTechTypes.map(layerId => {
+                    const techLayer = techLayers.find(l => l.id === layerId);
+                    return (
+                      <Fragment key={layerId}>
+                        <dt>
+                          <span
+                            className={`lgfx`}
+                            style={{ backgroundColor: techLayer.color }}
+                          >
+                            {techLayer.label}
+                          </span>
+                        </dt>
+                        <dd>
+                          {formatKeyIndicator(data.popConnected[layerId])}
+                          {targetYear !== baseYear && (
+                            <small>
+                              (+
+                              {formatKeyIndicator(
+                                data.popConnectedDiff[layerId]
+                              )}
+                              )
+                            </small>
+                          )}
+                        </dd>
+                      </Fragment>
+                    );
+                  })}
+                </dl>
+                <dl className='map-number-list'>
+                  <dt>Connected by type</dt>
+                  <dt>* added after 2023</dt>
+                </dl>
+              </div>
+            </div>
+          </article>
+        </Modal>
+      )
+    );
+  }
+
+  renderPopulationChart () {
     const { scenario, model, techLayers } = this.props;
 
     // Get summaries
@@ -218,6 +343,17 @@ class Charts extends Component {
       domain: [100, 0]
     });
 
+    // Define bisector function for years
+    const yearsBisector = [
+      (intermediateYear + baseYear) / 2,
+      (finalYear + intermediateYear) / 2
+    ];
+    function nearestYear (y) {
+      if (y < yearsBisector[0]) return baseYear;
+      else if (y > yearsBisector[1]) return finalYear;
+      else return intermediateYear;
+    }
+
     return (
       <figure className='sum-chart-media'>
         <div className='sum-area-chart-media__item'>
@@ -275,6 +411,40 @@ class Charts extends Component {
                 tickLength={xTickLength}
               />
             </Group>
+            <rect
+              width={xMax - xMin}
+              x={xMin}
+              height={height}
+              opacity={0}
+              ref={ref => {
+                this.chartHoverArea = ref;
+              }}
+              onMouseEnter={event => {
+                const { target } = event;
+                const { top, height, left } = target.getBoundingClientRect();
+                const yAxis = top + height / 2;
+                this.setState({
+                  populationPopoverVisible: true,
+                  popoverPosition: {
+                    yAxis,
+                    right: window.innerWidth - left
+                  }
+                });
+              }}
+              onMouseMove={event => {
+                const x = localPoint(this.chartHoverArea, event).x + xMin;
+                const hoveredYear = xScale.invert(x);
+                this.setState({
+                  hoveredYearInPopChart: nearestYear(hoveredYear)
+                });
+              }}
+              // onMouseMove={getHoveredYear}
+              onMouseLeave={() => {
+                this.setState({
+                  populationPopoverVisible: false
+                });
+              }}
+            />
           </svg>
         </div>
 
@@ -383,9 +553,10 @@ class Charts extends Component {
   render () {
     return (
       <Fragment>
-        {this.renderAreaChart()}
         {this.renderPopover()}
-        {['peopleConnected', 'investmentCost', 'newCapacity'].map(indicator => {
+        {this.renderPopulationPopover()}
+        {this.renderPopulationChart()}
+        {['investmentCost', 'newCapacity'].map(indicator => {
           return this.renderChart(indicator);
         })}
       </Fragment>
@@ -395,6 +566,7 @@ class Charts extends Component {
 
 if (environment !== 'production') {
   Charts.propTypes = {
+    appliedState: T.object,
     scenario: T.object,
     techLayers: T.array
   };
