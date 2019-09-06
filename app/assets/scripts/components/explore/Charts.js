@@ -117,11 +117,9 @@ class Charts extends Component {
       hoveredYearInPopChart: targetYear
     } = this.state;
 
-    const {
-      model,
-      techLayers,
-      scenario
-    } = this.props;
+    if (!targetYear) return null;
+
+    const { model, techLayers, scenario } = this.props;
 
     // Object to store data to be used at popover
     const data = {};
