@@ -112,7 +112,6 @@ class Charts extends Component {
 
   renderPopulationPopover () {
     const {
-      populationPopoverVisible,
       popoverPosition: { yAxis, right },
       hoveredYearInPopChart: targetYear
     } = this.state;
@@ -127,9 +126,9 @@ class Charts extends Component {
     // Get years
     const {
       baseYear,
-      timesteps: [intermediateYear, finalYear]
+      timesteps: [intermediateYear]
     } = model;
-    const years = [baseYear, intermediateYear, finalYear];
+    let baselineYear;
 
     // Get summaries
     const {
@@ -144,12 +143,14 @@ class Charts extends Component {
     if (targetYear === baseYear) {
       data.popConnected = popConnectedBaseYear;
       data.popConnectedBaseline = {};
-      data.pop = popConnectedBaseYear;
+      data.pop = popBaseYear;
     } else if (targetYear === intermediateYear) {
+      baselineYear = baseYear;
       data.popConnected = popConnectedIntermediateYear;
       data.popConnectedBaseline = popConnectedBaseYear;
       data.pop = popIntermediateYear;
     } else {
+      baselineYear = intermediateYear;
       data.popConnected = popConnectedFinalYear;
       data.popConnectedBaseline = popConnectedIntermediateYear;
       data.pop = popFinalYear;
@@ -157,81 +158,78 @@ class Charts extends Component {
 
     // Calculate diff per type from baseline year
     data.appliedTechTypes = Object.keys(data.popConnected);
-    data.popConnectedDiff = data.appliedTechTypes.reduce((result, type) => {
-      result[type] = data.popConnected[type]
-        ? data.popConnected[type] - (data.popConnectedBaseline[type] || 0)
-        : 0;
-      return result;
-    }, {});
+    if (targetYear !== baseYear) {
+      data.popConnectedDiff = data.appliedTechTypes.reduce((result, type) => {
+        result[type] = data.popConnected[type]
+          ? data.popConnected[type] - (data.popConnectedBaseline[type] || 0)
+          : 0;
+        return result;
+      }, {});
+    }
 
     // Calculate unconnected people
-    data.popUnconnected = Object.keys(data.popConnected).reduce(
-      (total, key) => {
-        total -= data.popConnected[key];
+    data.popUnconnected =
+      data.pop -
+      Object.keys(data.popConnected).reduce((total, key) => {
+        total += data.popConnected[key];
         return total;
-      },
-      data.pop
-    );
+      }, 0);
 
     return (
-      populationPopoverVisible && (
-        <Modal elementId={'#chart-popover'}>
-          <article
-            className='popover popover--anchor-right'
-            style={{ top: yAxis, right: right + 12 }}
-          >
-            <div className='popover__contents'>
-              <header className='popover__header'>
-                <div className='popover__headline'>
-                  <h1 className='popover__title'>Status in {targetYear}</h1>
-                </div>
-              </header>
-              <div className='popover__body'>
-                <dl className='map-number-list'>
-                  <dt>Population connected</dt>
-                  <dd>
-                    {formatKeyIndicator(data.popUnconnected)} of{' '}
-                    {formatKeyIndicator(data.pop)}
-                  </dd>
-                </dl>
-                <dl className='chart-number-list'>
-                  {data.appliedTechTypes.map(layerId => {
-                    const techLayer = techLayers.find(l => l.id === layerId);
-                    return (
-                      <Fragment key={layerId}>
-                        <dt>
-                          <span
-                            className={`lgfx`}
-                            style={{ backgroundColor: techLayer.color }}
-                          >
-                            {techLayer.label}
-                          </span>
-                        </dt>
-                        <dd>
-                          {formatKeyIndicator(data.popConnected[layerId])}
-                          {targetYear !== baseYear && (
-                            <small>
-                              (+
-                              {formatKeyIndicator(
-                                data.popConnectedDiff[layerId]
-                              )}
-                              )
-                            </small>
-                          )}
-                        </dd>
-                      </Fragment>
-                    );
-                  })}
-                </dl>
-                <dl className='map-number-list'>
-                  <dt>Connected by type</dt>
-                  <dt>* added after 2023</dt>
-                </dl>
+      <Modal elementId={'#chart-popover'}>
+        <article
+          className='popover popover--anchor-right'
+          style={{ top: yAxis, right: right + 12 }}
+        >
+          <div className='popover__contents'>
+            <header className='popover__header'>
+              <div className='popover__headline'>
+                <h1 className='popover__title'>Status in {targetYear}</h1>
               </div>
+            </header>
+            <div className='popover__body'>
+              <dl className='map-number-list'>
+                <dt>Population connected</dt>
+                <dd>
+                  {formatKeyIndicator(data.pop - data.popUnconnected)} of{' '}
+                  {formatKeyIndicator(data.pop)}
+                </dd>
+              </dl>
+              <dl className='chart-number-list'>
+                {data.appliedTechTypes.map(layerId => {
+                  const techLayer = techLayers.find(l => l.id === layerId);
+                  return (
+                    <Fragment key={layerId}>
+                      <dt>
+                        <span
+                          className={`lgfx`}
+                          style={{ backgroundColor: techLayer.color }}
+                        >
+                          {techLayer.label}
+                        </span>
+                      </dt>
+                      <dd>
+                        {formatKeyIndicator(data.popConnected[layerId])}
+                        {targetYear !== baseYear && (
+                          <small>
+                            (+
+                            {formatKeyIndicator(data.popConnectedDiff[layerId])}
+                            )
+                          </small>
+                        )}
+                      </dd>
+                    </Fragment>
+                  );
+                })}
+              </dl>
+              <dl className='map-number-list'>
+                <dt>Connected by type</dt>
+                {baselineYear && <dt>* added after {baselineYear}</dt>}
+              </dl>
             </div>
-          </article>
-        </Modal>
-      )
+          </div>
+        </article>
+      </Modal>
     );
   }
 
@@ -549,10 +547,11 @@ class Charts extends Component {
   }
 
   render () {
+    const { populationPopoverVisible } = this.state;
     return (
       <Fragment>
         {this.renderPopover()}
-        {this.renderPopulationPopover()}
+        {populationPopoverVisible && this.renderPopulationPopover()}
         {this.renderPopulationChart()}
         {['investmentCost', 'newCapacity'].map(indicator => {
           return this.renderChart(indicator);
