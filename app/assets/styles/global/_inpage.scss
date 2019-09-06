@@ -64,6 +64,42 @@
   margin: 0;
 }
 
+.inpage__details {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(2,min-content);
+  grid-gap: 0.5rem;
+  margin-top: 0.5rem;
+  padding-top: 0.5rem;
+  color: rgba($base-font-color, 0.64);
+  
+  &::before {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 1rem;
+    height: 0.125rem;
+    background: rgba($base-font-color, 0.64);;
+    content: '';
+  }
+
+  dt,
+  dd {
+    font-size: 0.75rem;
+    font-weight: $base-font-bold;
+    line-height: 1rem;
+    margin: 0;
+  }
+
+  dt {
+    white-space: nowrap;
+
+    &::after {
+      content: ':';
+    }
+  }
+}
+
 .inpage__hactions {
   margin-left: auto;
   padding: ($global-spacing / 8) 0 ($global-spacing / 8) $global-spacing;

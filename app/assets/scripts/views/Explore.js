@@ -310,7 +310,16 @@ class Explore extends Component {
     let riseScore = 'N/A';
     if (this.props.country.isReady()) {
       const { name, riseScores: rs } = this.props.country.getData();
-      riseScore = rs ? rs.overall : riseScore;
+      riseScore = rs ? (
+        <a
+          href='https://rise.worldbank.org/scores'
+          title='View World Bank rise score page'
+          target='_blank'
+          rel='noopener noreferrer'
+        >
+          {rs.overall}
+        </a>
+      ) : riseScore;
       countryName = name;
     }
 
@@ -325,8 +334,11 @@ class Explore extends Component {
                     <span className='visually-hidden'>Explore</span>
                     {countryName}
                   </h1>
-                  <p className='inpage__subtitle inpage__subtitle--rise'>Rise score: {riseScore}</p>
                   <p className='inpage__subtitle'>{model.name}</p>
+                  <dl className='inpage__details'>
+                    <dt>Rise score</dt>
+                    <dd>{riseScore}</dd>
+                  </dl>
                 </div>
                 <div className='inpage__hactions'>
                   <Link
