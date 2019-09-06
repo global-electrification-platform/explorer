@@ -14,22 +14,26 @@ class Summary extends Component {
    * Check if scenario has data and render panel accordingly
    */
   renderPanel () {
-    const { isReady, getData } = this.props.scenario;
+    const { appliedState, model, scenario } = this.props;
+    const {
+      map: { techLayersConfig }
+    } = model;
+
+    const { isReady, getData } = scenario;
 
     if (isReady()) {
       const scenario = getData();
       if (Object.keys(scenario.layers).length > 0) {
         return (
           <Fragment>
-            <Legend
-              scenario={scenario}
-              techLayers={this.props.model.map.techLayersConfig}
-            />
+            <Legend scenario={scenario} techLayers={techLayersConfig} />
             <div className='sum-block sum-block--charts'>
               <h2 className='sum-block__title'>Charts</h2>
               <Charts
+                appliedState={appliedState}
+                model={model}
                 scenario={scenario}
-                techLayers={this.props.model.map.techLayersConfig}
+                techLayers={techLayersConfig}
               />
             </div>
           </Fragment>
@@ -40,7 +44,8 @@ class Summary extends Component {
             <div className='sum-block sum-block--message'>
               <h2 className='sum-block__title'>Scenario not found</h2>
               <p>
-                No data is available for this scenario. Please choose a different set of levers.
+                No data is available for this scenario. Please choose a
+                different set of levers.
               </p>
             </div>
           </Fragment>
@@ -64,7 +69,9 @@ class Summary extends Component {
         <header className='exp-summary__header'>
           <div className='exp-summary__headline'>
             <h1 className='exp-summary__title'>Summary</h1>
-            <p className='exp-summary__subtitle'>Results for {this.props.appliedState.year}</p>
+            <p className='exp-summary__subtitle'>
+              Results for {this.props.appliedState.year}
+            </p>
           </div>
         </header>
         <div className='exp-summary__body'>
