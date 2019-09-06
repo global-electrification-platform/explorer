@@ -11,6 +11,10 @@
     box-shadow: none;
   }
 
+  .inpage__title {
+    line-height: 1.5rem;
+  }
+
   .inpage__title,
   .inpage__subtitle {
     @extend .truncated;
