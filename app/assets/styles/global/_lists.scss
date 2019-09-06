@@ -64,6 +64,10 @@
   }
 }
 
+.lgfx-wrapper {
+  display: flex;
+}
+
 .lgfx {
   content: '';
   min-width: $global-spacing * 1.5;
@@ -71,6 +75,12 @@
   border-radius: $full-border-radius;
   background: $base-color;
   font-size: 0;
+}
+
+.chart-note {
+  font-size: 0.75rem;
+  line-height: 1rem;
+  color: rgba($base-color, 0.64);
 }
 
 

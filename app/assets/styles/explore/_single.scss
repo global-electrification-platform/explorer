@@ -502,6 +502,37 @@
   }
 }
 
+.sum-area-chart-media__item {
+  margin-bottom: $global-spacing / 2;
+
+  svg {
+    vertical-align: top;
+    cursor: pointer;
+
+    /* Animation */
+    transition: transform 0.16s ease 0s;
+
+    .vx-axis-left {
+      stroke-opacity: 0.5;
+      text {
+        font-size: 0.6em;
+      }
+    }
+
+    .vx-axis-bottom {
+      stroke-opacity: 0.5;
+      text {
+        font-size: 0.9em;
+      }
+    }
+
+    &:hover {
+      transform: scale(1.05);
+    }
+  }
+
+}
+
 .value--sub {
   font-size: 0.75rem;
 }
@@ -529,13 +560,23 @@
   }
 
   dd {
+    display: flex;
+    flex-flow: row nowrap;
     font-size: 1rem;
     font-weight: $base-font-bold;
     grid-column: 2;
-  }
 
-  small {
-    font-size: inherit;
+    span {
+      margin-right: 1rem;
+      text-align: right;
+      min-width: 4rem;
+    }
+
+    small {
+      font-size: 0.75rem;
+      font-weight: $base-font-regular;
+      margin-left: auto;
+    }
   }
 }
 
