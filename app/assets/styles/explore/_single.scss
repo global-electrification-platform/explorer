@@ -556,14 +556,23 @@
   }
 
   dd {
+    display: flex;
+    flex-flow: row nowrap;
     font-size: 1rem;
     font-weight: $base-font-bold;
     grid-column: 2;
-  }
 
-  small {
-    font-size: 0.75;
-    font-weight: $base-font-regular;
+    span {
+      margin-right: 1rem;
+      text-align: right;
+      min-width: 4rem;
+    }
+
+    small {
+      font-size: 0.75rem;
+      font-weight: $base-font-regular;
+      margin-left: auto;
+    }
   }
 }
 

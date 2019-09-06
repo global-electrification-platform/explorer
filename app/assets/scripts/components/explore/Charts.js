@@ -184,17 +184,13 @@ class Charts extends Component {
           <div className='popover__contents'>
             <header className='popover__header'>
               <div className='popover__headline'>
-                <h1 className='popover__title'>Status in {targetYear}</h1>
+                <h1 className='popover__title'>Population connected</h1>
+                <p className='popover__subtitle'>
+                  In {targetYear}: {formatKeyIndicator(data.popUnconnected)} of {formatKeyIndicator(data.pop)}
+                </p>
               </div>
             </header>
             <div className='popover__body'>
-              <dl className='map-number-list'>
-                <dt>Population connected</dt>
-                <dd>
-                  {formatKeyIndicator(data.pop - data.popUnconnected)} of{' '}
-                  {formatKeyIndicator(data.pop)}
-                </dd>
-              </dl>
               <dl className='chart-number-list'>
                 {data.appliedTechTypes.map(layerId => {
                   const techLayer = techLayers.find(l => l.id === layerId);
@@ -202,19 +198,19 @@ class Charts extends Component {
                     <Fragment key={layerId}>
                       <dt>
                         <span
-                          className={`lgfx`}
+                          className='lgfx'
                           style={{ backgroundColor: techLayer.color }}
                         >
                           {techLayer.label}
                         </span>
                       </dt>
                       <dd>
-                        {formatKeyIndicator(data.popConnected[layerId])}
+                        <span>{formatKeyIndicator(data.popConnected[layerId])}</span>
                         {targetYear !== baseYear && (
                           <small>
-                            (+
-                            {formatKeyIndicator(data.popConnectedDiff[layerId])}
-                            )
+                            +{formatKeyIndicator(
+                              data.popConnectedDiff[layerId]
+                            )}*
                           </small>
                         )}
                       </dd>
@@ -222,11 +218,12 @@ class Charts extends Component {
                   );
                 })}
               </dl>
-              <dl className='map-number-list'>
-                <dt>Connected by type</dt>
-                {baselineYear && <dt>* added after {baselineYear}</dt>}
-              </dl>
             </div>
+            {baselineYear && (
+              <footer className='popover__footer'>
+                <p className='chart-note'>* added after {baselineYear}</p>
+              </footer>
+            )}
           </div>
         </article>
       </Modal>
