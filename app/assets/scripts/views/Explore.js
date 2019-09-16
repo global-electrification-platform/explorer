@@ -341,7 +341,7 @@ class Explore extends Component {
                     <span className='visually-hidden'>Explore</span>
                     {countryName}
                   </h1>
-                  <p className='inpage__subtitle'>{model.name}</p>
+                  {hasMultipleModels ? <p className='inpage__subtitle'>{model.name}</p> : null}
                   <dl className='inpage__details'>
                     <dt>Rise score</dt>
                     <dd>{riseScore}</dd>
