@@ -10,9 +10,14 @@
   height: 100%;
   z-index: 9997;
   display: flex;
+  flex-flow: column;
   align-items: center;
   justify-content: center;
   cursor: not-allowed;
+}
+
+.loading-message {
+  margin: 1rem 0 0 0;
 }
 
 

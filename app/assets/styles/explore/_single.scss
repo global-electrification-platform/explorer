@@ -419,8 +419,13 @@
   text-align: center;
   color: rgba($base-font-color, 0.64);
   display: flex;
+  flex-flow: column;
   justify-content: center;
   align-items: center;
+}
+
+.sum-block--error h2 {
+  color: $danger-color;
 }
 
 .sum-block--charts {

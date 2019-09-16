@@ -19,9 +19,9 @@ class Summary extends Component {
       map: { techLayersConfig }
     } = model;
 
-    const { isReady, getData } = scenario;
+    const { isReady, hasError, getData } = scenario;
 
-    if (isReady()) {
+    if (isReady() && !hasError()) {
       const scenario = getData();
       if (Object.keys(scenario.layers).length > 0) {
         return (
@@ -52,7 +52,15 @@ class Summary extends Component {
         );
       }
     } else {
-      return (
+      return hasError() ? (
+        <Fragment>
+          <div className='sum-block sum-block--message sum-block--error'>
+            <h2>Error</h2>
+            <p>An error occurred getting the data.</p>
+            <p>Please try again.</p>
+          </div>
+        </Fragment>
+      ) : (
         <Fragment>
           <div className='sum-block sum-block--message'>
             <h2 className='sum-block__title'>Loading</h2>

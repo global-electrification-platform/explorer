@@ -106,7 +106,6 @@ export function fetchDispatchFactory (opts) {
       return dispatch(receiveFn(content));
     } catch (error) {
       if (__devDelay) await delay(__devDelay);
-      console.log('error', error); // eslint-disable-line
       return dispatch(receiveFn(null, error));
     }
   };
@@ -135,7 +134,8 @@ export function baseAPIReducer (state, action, actionName) {
       const changeReq = {
         fetching: true,
         fetched: false,
-        data: {}
+        data: {},
+        error: null
       };
       return hasId ? { ...state, [action.id]: changeReq } : changeReq;
     case `RECEIVE_${actionName}`:

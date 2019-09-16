@@ -403,11 +403,11 @@ class Map extends React.Component {
   }
 
   updateScenario () {
-    const { fetched, getData } = this.props.scenario;
+    const { isReady, hasError, getData } = this.props.scenario;
 
     this.clearMap();
 
-    if (fetched) {
+    if (isReady() && !hasError()) {
       const data = getData();
       const { layers } = data;
       const layerIds = Object.keys(layers);

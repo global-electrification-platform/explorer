@@ -7,7 +7,7 @@ import isEqual from 'lodash.isequal';
 import pull from 'lodash.pull';
 
 import { environment } from '../config';
-import { makeZeroFilledArray, cloneArrayAndChangeCell } from '../utils';
+import { makeZeroFilledArray, cloneArrayAndChangeCell, round } from '../utils';
 import { wrapApiResult, getFromState } from '../redux/utils';
 import { fetchModel, fetchScenario, fetchCountry } from '../redux/actions';
 import QsState from '../utils/qs-state';
@@ -245,48 +245,53 @@ class Explore extends Component {
   }
 
   async updateScenario () {
-    showGlobalLoading();
-    const model = this.props.model.getData();
-    const { leversState: levers, filtersState: filters, year } = this.state;
+    showGlobalLoading(1, 'Loading model results. This may take a while');
+    try {
+      const model = this.props.model.getData();
+      const { leversState: levers, filtersState: filters, year } = this.state;
 
-    this.setState({
-      appliedState: {
-        filtersState: filters,
-        leversState: levers,
-        year: year
+      this.setState({
+        appliedState: {
+          filtersState: filters,
+          leversState: levers,
+          year: year
+        }
+      });
+
+      const selectedFilters = [];
+
+      // Compare filters to model defaults to identify actionable filters
+      for (let i = 0; i < model.filters.length; i++) {
+        const { key } = model.filters[i];
+        const type = model.filters[i].type;
+
+        if (type === 'range') {
+          const defaultRange = model.filters[i].range;
+          const { min, max } = filters[i];
+          if (min !== defaultRange.min) {
+            selectedFilters.push({ key, min });
+          }
+          if (max !== defaultRange.max) {
+            selectedFilters.push({ key, max });
+          }
+        } else {
+          const defaultOptions = model.filters[i].options;
+
+          if (defaultOptions.length !== filters[i].length) {
+            selectedFilters.push({ key, options: filters[i] });
+          }
+        }
       }
-    });
 
-    const selectedFilters = [];
-
-    // Compare filters to model defaults to identify actionable filters
-    for (let i = 0; i < model.filters.length; i++) {
-      const { key } = model.filters[i];
-      const type = model.filters[i].type;
-
-      if (type === 'range') {
-        const defaultRange = model.filters[i].range;
-        const { min, max } = filters[i];
-        if (min !== defaultRange.min) {
-          selectedFilters.push({ key, min });
-        }
-        if (max !== defaultRange.max) {
-          selectedFilters.push({ key, max });
-        }
-      } else {
-        const defaultOptions = model.filters[i].options;
-
-        if (defaultOptions.length !== filters[i].length) {
-          selectedFilters.push({ key, options: filters[i] });
-        }
-      }
+      await this.props.fetchScenario(
+        `${model.id}-${levers.join('_')}`,
+        selectedFilters,
+        year
+      );
+    } catch (error) {
+      /* eslint-disable-next-line no-console */
+      console.log('error', error);
     }
-
-    await this.props.fetchScenario(
-      `${model.id}-${levers.join('_')}`,
-      selectedFilters,
-      year
-    );
     hideGlobalLoading();
   }
 
@@ -308,8 +313,9 @@ class Explore extends Component {
     // disable "Change Model" button.
     let countryName = '';
     let riseScore = 'N/A';
+    let hasMultipleModels = false;
     if (this.props.country.isReady()) {
-      const { name, riseScores: rs } = this.props.country.getData();
+      const { name, riseScores: rs, models } = this.props.country.getData();
       riseScore = rs ? (
         <a
           href='https://rise.worldbank.org/scores'
@@ -317,10 +323,11 @@ class Explore extends Component {
           target='_blank'
           rel='noopener noreferrer'
         >
-          {rs.overall}
+          {round(rs.overall, 0)} / 100
         </a>
       ) : riseScore;
       countryName = name;
+      hasMultipleModels = models.length > 1;
     }
 
     return (
@@ -334,7 +341,7 @@ class Explore extends Component {
                     <span className='visually-hidden'>Explore</span>
                     {countryName}
                   </h1>
-                  <p className='inpage__subtitle'>{model.name}</p>
+                  {hasMultipleModels ? <p className='inpage__subtitle'>{model.name}</p> : null}
                   <dl className='inpage__details'>
                     <dt>Rise score</dt>
                     <dd>{riseScore}</dd>
@@ -342,9 +349,9 @@ class Explore extends Component {
                 </div>
                 <div className='inpage__hactions'>
                   <Link
-                    to={`/countries`}
+                    to={hasMultipleModels ? `/countries/${model.country}/models` : `/countries`}
                     className='exp-change-button'
-                    title='Change model'
+                    title={hasMultipleModels ? 'Change model' : 'Change country'}
                   >
                     <span>Change</span>
                   </Link>
