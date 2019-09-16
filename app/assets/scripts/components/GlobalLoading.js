@@ -24,7 +24,8 @@ class GlobalLoading extends React.Component {
 
     this.state = {
       showTimestamp: 0,
-      revealed: false
+      revealed: false,
+      message: ''
     };
   }
 
@@ -58,9 +59,11 @@ class GlobalLoading extends React.Component {
   }
 
   renderLoading () {
+    const { message } = this.state;
     return (
       <div className='loading-pane'>
         <div className='loading-worm' />
+        {message && <p className='loading-message'>{message}</p>}
       </div>
     );
   }
@@ -106,7 +109,7 @@ export default GlobalLoading;
  * hideGlobalLoading(3)
  * // Counter is now 0 and the loading is dismissed.
  */
-export function showGlobalLoading (count = 1) {
+export function showGlobalLoading (count = 1, message = '') {
   if (theGlobalLoading === null) {
     throw new Error('<GlobalLoading /> component not mounted');
   }
@@ -118,7 +121,8 @@ export function showGlobalLoading (count = 1) {
 
   theGlobalLoading.setState({
     showTimestamp: Date.now(),
-    revealed: true
+    revealed: true,
+    message
   });
 }
 

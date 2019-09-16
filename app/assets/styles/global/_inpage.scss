@@ -89,11 +89,10 @@
     font-weight: $base-font-bold;
     line-height: 1rem;
     margin: 0;
+    white-space: nowrap;
   }
 
   dt {
-    white-space: nowrap;
-
     &::after {
       content: ':';
     }
