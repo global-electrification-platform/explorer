@@ -76,8 +76,6 @@ class About extends Component {
                 <dd>
                   <a href='https://www.kth.se' title='Visit KTH'>
                     <img
-                      width='640'
-                      height='320'
                       alt='KTH Logo'
                       src='/assets/graphics/content/logos/logo-kth.png'
                     />
@@ -85,59 +83,21 @@ class About extends Component {
                   </a>
                 </dd>
                 <dd>
-                  <a
-                    href='https://loremipsum.io/21-of-the-best-placeholder-image-generators/'
-                    title='Visit placeholder'
-                  >
+                  <a href='https://www.worldbank.org/' title='Visit World Bank'>
                     <img
-                      width='640'
-                      height='320'
-                      alt='Placeholder logo'
-                      src='https://fakeimg.pl/640x320'
+                      alt='WBG Logo'
+                      src='/assets/graphics/content/logos/logo-wbg.png'
                     />
-                    <span>Placeholder</span>
+                    <span>KTH</span>
                   </a>
                 </dd>
                 <dd>
-                  <a
-                    href='https://loremipsum.io/21-of-the-best-placeholder-image-generators/'
-                    title='Visit placeholder'
-                  >
+                  <a href='https://www.esmap.org/' title='Visit Energy Sector Management Assistance Program' className='logo-esmap'>
                     <img
-                      width='640'
-                      height='320'
-                      alt='Placeholder logo'
-                      src='https://fakeimg.pl/640x320'
+                      alt='ESMAP Logo'
+                      src='/assets/graphics/content/logos/logo-esmap.png'
                     />
-                    <span>Placeholder</span>
-                  </a>
-                </dd>
-                <dd>
-                  <a
-                    href='https://loremipsum.io/21-of-the-best-placeholder-image-generators/'
-                    title='Visit placeholder'
-                  >
-                    <img
-                      width='640'
-                      height='320'
-                      alt='Placeholder logo'
-                      src='https://fakeimg.pl/640x320'
-                    />
-                    <span>Placeholder</span>
-                  </a>
-                </dd>
-                <dd>
-                  <a
-                    href='https://loremipsum.io/21-of-the-best-placeholder-image-generators/'
-                    title='Visit placeholder'
-                  >
-                    <img
-                      width='640'
-                      height='320'
-                      alt='Placeholder logo'
-                      src='https://fakeimg.pl/640x320'
-                    />
-                    <span>Placeholder</span>
+                    <span>KTH</span>
                   </a>
                 </dd>
                 <dt>Developed by</dt>
@@ -151,7 +111,7 @@ class About extends Component {
                       width='750'
                       height='128'
                       alt='Development Seed logo'
-                      src='/assets/graphics/content/logos/logo-devseed-flat-pos.svg'
+                      src='/assets/graphics/content/logos/logo-devseed.svg'
                     />
                     <span>Development Seed</span>
                   </a>

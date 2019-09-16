@@ -112,14 +112,19 @@
   }
 
   a {
-    display: block;
-    text-align: center;
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 100%;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    height: 100%;
+    position: relative;
+    z-index: 1;
     border-radius: $base-border-radius;
-    padding: ($global-spacing / 2) ($global-spacing * 1.5);
-    width: 100%;
-    height: 5rem;
-    line-height: 4rem;
     box-shadow: inset 0 0 0 1px $base-alpha-color;
+
+    transition: all .16s ease 0s;
   }
 
   span {
@@ -127,15 +132,19 @@
   }
 
   img {
-    display: inline-block;
+    display: inline-flex;
     width: auto;
     max-width: 100%;
     max-height: 3rem;
-    opacity: 0.8;
   }
 
   /* Compensate DevSeed logo proportions and alignment */
   .logo-devseed img {
     max-height: 2rem;
+  }
+
+  /* Compensate ESMAP logo proportions and alignment */
+  .logo-esmap img {
+    max-height: 2.25rem;
   }
 }
