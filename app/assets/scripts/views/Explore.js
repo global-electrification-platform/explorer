@@ -245,48 +245,53 @@ class Explore extends Component {
   }
 
   async updateScenario () {
-    showGlobalLoading();
-    const model = this.props.model.getData();
-    const { leversState: levers, filtersState: filters, year } = this.state;
+    showGlobalLoading(1, 'Loading model results. This may take a while');
+    try {
+      const model = this.props.model.getData();
+      const { leversState: levers, filtersState: filters, year } = this.state;
 
-    this.setState({
-      appliedState: {
-        filtersState: filters,
-        leversState: levers,
-        year: year
+      this.setState({
+        appliedState: {
+          filtersState: filters,
+          leversState: levers,
+          year: year
+        }
+      });
+
+      const selectedFilters = [];
+
+      // Compare filters to model defaults to identify actionable filters
+      for (let i = 0; i < model.filters.length; i++) {
+        const { key } = model.filters[i];
+        const type = model.filters[i].type;
+
+        if (type === 'range') {
+          const defaultRange = model.filters[i].range;
+          const { min, max } = filters[i];
+          if (min !== defaultRange.min) {
+            selectedFilters.push({ key, min });
+          }
+          if (max !== defaultRange.max) {
+            selectedFilters.push({ key, max });
+          }
+        } else {
+          const defaultOptions = model.filters[i].options;
+
+          if (defaultOptions.length !== filters[i].length) {
+            selectedFilters.push({ key, options: filters[i] });
+          }
+        }
       }
-    });
 
-    const selectedFilters = [];
-
-    // Compare filters to model defaults to identify actionable filters
-    for (let i = 0; i < model.filters.length; i++) {
-      const { key } = model.filters[i];
-      const type = model.filters[i].type;
-
-      if (type === 'range') {
-        const defaultRange = model.filters[i].range;
-        const { min, max } = filters[i];
-        if (min !== defaultRange.min) {
-          selectedFilters.push({ key, min });
-        }
-        if (max !== defaultRange.max) {
-          selectedFilters.push({ key, max });
-        }
-      } else {
-        const defaultOptions = model.filters[i].options;
-
-        if (defaultOptions.length !== filters[i].length) {
-          selectedFilters.push({ key, options: filters[i] });
-        }
-      }
+      await this.props.fetchScenario(
+        `${model.id}-${levers.join('_')}`,
+        selectedFilters,
+        year
+      );
+    } catch (error) {
+      /* eslint-disable-next-line no-console */
+      console.log('error', error);  
     }
-
-    await this.props.fetchScenario(
-      `${model.id}-${levers.join('_')}`,
-      selectedFilters,
-      year
-    );
     hideGlobalLoading();
   }
 
