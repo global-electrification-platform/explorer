@@ -303,10 +303,20 @@ export function downloadPDF (props) {
       .text(prettifyString(legendItem.label), legendLeft + 12 + 4, itemTop);
   });
 
-  // // RESULTS SUMMARY
+  // RESULTS SUMMARY
   // Results summary has a 3 column layout
   const outputs = [
-    { name: 'People connected', id: 'peopleConnected' },
+    {
+      name: 'Population connected',
+      // This approach should be updated in the future when the backend
+      // returns the time step year in key name, instead of "intermediate"
+      // and "final" years.
+      // See: https://github.com/global-electrification-platform/data-service/issues/73
+      id:
+        model.timesteps[0] === year
+          ? 'popConnectedIntermediateYear'
+          : 'popConnectedFinalYear'
+    },
     { name: 'Investment required ', id: 'investmentCost' },
     { name: 'Added capacity', id: 'newCapacity' }
   ];
