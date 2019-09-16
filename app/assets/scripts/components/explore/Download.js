@@ -33,22 +33,26 @@ function capitalize (string) {
 }
 
 function prettifyString (string) {
-  return string.split('-').map(m => capitalize(m)).join(' ');
+  return string
+    .split('-')
+    .map(m => capitalize(m))
+    .join(' ');
 }
 
 function drawSectionHeader (label, left, top, doc, options) {
   doc.fontSize(12);
-  doc.fillColor(options.baseFontColor, 1)
+  doc
+    .fillColor(options.baseFontColor, 1)
     .font(boldFont)
     .text(label, left, top);
 
-  doc.rect(left, top + 18, 28, 2)
-    .fill(options.primaryColor);
+  doc.rect(left, top + 18, 28, 2).fill(options.primaryColor);
 }
 
 // left and top of the 'section'
 function drawSectionDescription (text, left, top, width, doc, options) {
-  doc.fillColor(options.baseFontColor)
+  doc
+    .fillColor(options.baseFontColor)
     .fontSize(8)
     .font(baseFont)
     .text(text, left, top + 32, {
@@ -61,64 +65,90 @@ function drawSectionDescription (text, left, top, width, doc, options) {
 // dlLeft and dlTop are pixel positions of the full container
 // index is the index of the item
 function drawDefinitionItem (label, value, dlLeft, dlTop, index, doc, options) {
-  doc.fillColor(options.secondaryFontColor, 1)
+  doc
+    .fillColor(options.secondaryFontColor, 1)
     .font(boldFont)
-    .text(label, dlLeft, dlTop + (index * 44));
+    .text(label, dlLeft, dlTop + index * 44);
 
-  doc.fontSize(8)
+  doc
+    .fontSize(8)
     .font(baseFont)
     .fillColor(options.baseFontColor);
 
-  doc.text(value, dlLeft, dlTop + 14 + (index * 44), {
+  doc.text(value, dlLeft, dlTop + 14 + index * 44, {
     width: options.colWidthTwoCol,
     align: 'left'
   });
 }
 
 function drawFooter (doc, options) {
-  doc.rect(0, options.pageHeight - options.margin * 2 - 1, options.pageWidth, 1)
+  doc
+    .rect(0, options.pageHeight - options.margin * 2 - 1, options.pageWidth, 1)
     .fillColor('#192F35', 0.08)
     .fill();
 
-  doc.fontSize(8)
-    .fillOpacity(1);
+  doc.fontSize(8).fillOpacity(1);
 
   // // Footer
-  doc.image(Logo, options.margin, options.pageHeight - (options.margin * 1.5), { height: 20 });
+  doc.image(Logo, options.margin, options.pageHeight - options.margin * 1.5, {
+    height: 20
+  });
 
   // Left Title
-  doc.fillColor(options.primaryColor)
+  doc
+    .fillColor(options.primaryColor)
     .font(boldFont)
-    .text(config.appTitle, options.margin + 20 + 8, options.pageHeight - (options.margin * 1.5), {
-      width: options.colWidthTwoCol,
-      height: 16,
-      align: 'left',
-      link: config.baseUrl
-    });
+    .text(
+      config.appTitle,
+      options.margin + 20 + 8,
+      options.pageHeight - options.margin * 1.5,
+      {
+        width: options.colWidthTwoCol,
+        height: 16,
+        align: 'left',
+        link: config.baseUrl
+      }
+    );
 
   // Left Subtitle
-  doc.fillColor(options.secondaryFontColor)
+  doc
+    .fillColor(options.secondaryFontColor)
     .font(baseFont)
-    .text(config.baseUrl, options.margin + 20 + 8, options.pageHeight - (options.margin * 1.5) + 12, {
-      width: options.colWidthTwoCol,
-      height: 16,
-      align: 'left'
-    });
+    .text(
+      config.baseUrl,
+      options.margin + 20 + 8,
+      options.pageHeight - options.margin * 1.5 + 12,
+      {
+        width: options.colWidthTwoCol,
+        height: 16,
+        align: 'left'
+      }
+    );
 
   // Right license
-  doc.text('Creative Commons BY 4.0', options.pageWidth - options.colWidthTwoCol - options.margin, options.pageHeight - options.margin * 1.5, {
-    width: options.colWidthTwoCol,
-    height: 16,
-    align: 'right',
-    link: 'https://creativecommons.org/licenses/by/4.0/'
-  });
+  doc.text(
+    'Creative Commons BY 4.0',
+    options.pageWidth - options.colWidthTwoCol - options.margin,
+    options.pageHeight - options.margin * 1.5,
+    {
+      width: options.colWidthTwoCol,
+      height: 16,
+      align: 'right',
+      link: 'https://creativecommons.org/licenses/by/4.0/'
+    }
+  );
 
   // Right date
-  doc.text(new Date().getFullYear(), options.pageWidth - options.colWidthTwoCol - options.margin, options.pageHeight - options.margin * 1.5 + 12, {
-    width: options.colWidthTwoCol,
-    height: 16,
-    align: 'right'
-  });
+  doc.text(
+    new Date().getFullYear(),
+    options.pageWidth - options.colWidthTwoCol - options.margin,
+    options.pageHeight - options.margin * 1.5 + 12,
+    {
+      width: options.colWidthTwoCol,
+      height: 16,
+      align: 'right'
+    }
+  );
 }
 
 export function downloadPDF (props) {
@@ -159,62 +189,89 @@ export function downloadPDF (props) {
   // // HEADER
 
   // Left Title
-  doc.fillColor(options.baseFontColor)
+  doc
+    .fillColor(options.baseFontColor)
     .font(boldFont)
     .fontSize(20)
     .text(country.data.name, options.margin, options.margin);
 
   // Left Subtitle
-  doc.fillColor(options.secondaryFontColor)
+  doc
+    .fillColor(options.secondaryFontColor)
     .font(baseFont)
     .fontSize(8)
     .text(model.name, options.margin, options.margin + 24);
 
   // Right Title
-  doc.fillColor(options.baseFontColor)
+  doc
+    .fillColor(options.baseFontColor)
     .font(boldFont)
     .fontSize(12)
-    .text(config.appTitle, options.pageWidth - options.colWidthTwoCol - options.margin, options.margin, {
-      width: options.colWidthTwoCol,
-      align: 'right'
-    });
+    .text(
+      config.appTitle,
+      options.pageWidth - options.colWidthTwoCol - options.margin,
+      options.margin,
+      {
+        width: options.colWidthTwoCol,
+        align: 'right'
+      }
+    );
 
   // Right Subtitle
-  doc.fillColor(options.secondaryFontColor)
+  doc
+    .fillColor(options.secondaryFontColor)
     .font(baseFont)
     .fontSize(8)
-    .text(config.appDescription, options.pageWidth - options.colWidthTwoCol - options.margin, options.margin + 16, {
-      width: options.colWidthTwoCol,
-      height: 16,
-      align: 'right'
-    });
+    .text(
+      config.appDescription,
+      options.pageWidth - options.colWidthTwoCol - options.margin,
+      options.margin + 16,
+      {
+        width: options.colWidthTwoCol,
+        height: 16,
+        align: 'right'
+      }
+    );
 
   // // MAP AREA
   // Map area has a three column layout
 
   // Background color on the full map area
-  doc.rect(0, options.headerHeight, options.pageWidth, mapHeight)
+  doc
+    .rect(0, options.headerHeight, options.pageWidth, mapHeight)
     .fill('#f6f7f7');
 
   // Map (2/3)
-  doc.image(dataURL, options.margin, options.headerHeight, { fit: [options.pageWidth, mapHeight] });
+  doc.image(dataURL, options.margin, options.headerHeight, {
+    fit: [options.pageWidth, mapHeight]
+  });
 
   // Map area outline
-  doc.rect(0, options.headerHeight, options.pageWidth, 1)
+  doc
+    .rect(0, options.headerHeight, options.pageWidth, 1)
     .fillColor('#192F35', 0.08)
     .fill();
 
-  doc.rect(0, options.headerHeight + mapHeight - 1, options.pageWidth, 1)
+  doc
+    .rect(0, options.headerHeight + mapHeight - 1, options.pageWidth, 1)
     .fillColor('#192F35', 0.08)
     .fill();
 
   // Legend (1/3)
-  const legendLeft = options.pageWidth - options.margin - options.colWidthThreeCol;
+  const legendLeft =
+    options.pageWidth - options.margin - options.colWidthThreeCol;
 
   // Year header
-  drawSectionHeader('Year', legendLeft, options.headerHeight + 20, doc, options);
+  drawSectionHeader(
+    'Year',
+    legendLeft,
+    options.headerHeight + 20,
+    doc,
+    options
+  );
 
-  doc.fillColor(options.baseFontColor)
+  doc
+    .fillColor(options.baseFontColor)
     .fontSize(8)
     .font(baseFont)
     .text(year, legendLeft, options.headerHeight + 20 + 36, {
@@ -230,15 +287,17 @@ export function downloadPDF (props) {
   layerKeys.forEach((key, index) => {
     // Currently picked up from the app config. Will be switched to model config from the props
     let legendItem = model.map.techLayersConfig.find(l => l.id === key);
-    let itemTop = legendTop + 36 + (index * 24);
+    let itemTop = legendTop + 36 + index * 24;
 
     // Legend marker
-    doc.roundedRect(legendLeft, itemTop + 3, 12, 4, 2)
+    doc
+      .roundedRect(legendLeft, itemTop + 3, 12, 4, 2)
       .fillColor(legendItem.color, 1)
       .fill();
 
     // Legend label
-    doc.fillColor(options.secondaryFontColor, 1)
+    doc
+      .fillColor(options.secondaryFontColor, 1)
       .font(baseFont)
       .fontSize(8)
       .text(prettifyString(legendItem.label), legendLeft + 12 + 4, itemTop);
@@ -254,22 +313,34 @@ export function downloadPDF (props) {
 
   // Result headers
   outputs.forEach((output, index) => {
-    let outputLeft = options.margin + ((options.colWidthThreeCol + options.gutterThreeCol) * index);
+    let outputLeft =
+      options.margin +
+      (options.colWidthThreeCol + options.gutterThreeCol) * index;
 
-    drawSectionHeader(output.name, outputLeft, options.headerHeight + mapHeight + 20, doc, options);
+    drawSectionHeader(
+      output.name,
+      outputLeft,
+      options.headerHeight + mapHeight + 20,
+      doc,
+      options
+    );
 
     layerKeys.forEach((layer, i) => {
       // Currently picked up from the app config. Will be switched to model config from the props
       let layerItem = model.map.techLayersConfig.find(l => l.id === layer);
-      let itemTop = options.headerHeight + mapHeight + 112 - 2 + (i * 24);
+      let itemTop = options.headerHeight + mapHeight + 112 - 2 + i * 24;
 
       // Marker
-      doc.roundedRect(outputLeft, itemTop + 3, 12, 4, 2)
+      doc
+        .roundedRect(outputLeft, itemTop + 3, 12, 4, 2)
         .fillColor(layerItem.color, 1)
         .fill();
 
-      let itemValue = formatThousands(round(scenario.data.summaryByType[output.id][layer], 0));
-      doc.fontSize(8)
+      let itemValue = formatThousands(
+        round(scenario.data.summaryByType[output.id][layer], 0)
+      );
+      doc
+        .fontSize(8)
         .font(baseFont)
         .fillColor(options.baseFontColor)
         .text(itemValue, outputLeft, itemTop, {
@@ -278,14 +349,16 @@ export function downloadPDF (props) {
         });
 
       // Dividing line
-      doc.rect(outputLeft, itemTop + 16, options.colWidthThreeCol, 1)
+      doc
+        .rect(outputLeft, itemTop + 16, options.colWidthThreeCol, 1)
         .fillColor('#192F35', 0.08)
         .fill();
 
       // At the end, print the total
       if (i === layerKeys.length - 1) {
         let total = formatThousands(round(scenario.data.summary[output.id], 0));
-        doc.fontSize(8)
+        doc
+          .fontSize(8)
           .font(boldFont)
           .fillColor(options.baseFontColor, 1)
           .text(total, outputLeft, itemTop + 16 + 1 + 8, {
@@ -305,32 +378,71 @@ export function downloadPDF (props) {
   // Body has a 2 column layout
 
   // Scenario header - left column
-  drawSectionHeader('Scenarios', options.margin, options.headerHeight + 20, doc, options);
+  drawSectionHeader(
+    'Scenarios',
+    options.margin,
+    options.headerHeight + 20,
+    doc,
+    options
+  );
 
-  const scenarioDescription = 'The model determined the least cost electrification option for each area based on the following assumptions.';
-  drawSectionDescription(scenarioDescription, options.margin, options.headerHeight + 20, options.colWidthTwoCol, doc, options);
+  const scenarioDescription =
+    'The model determined the least cost electrification option for each area based on the following assumptions.';
+  drawSectionDescription(
+    scenarioDescription,
+    options.margin,
+    options.headerHeight + 20,
+    options.colWidthTwoCol,
+    doc,
+    options
+  );
 
   // Scenario levers - left column
   const levers = model.levers;
   levers.forEach((lever, index) => {
     let leverOption = lever.options.find(o => o.id === leversState[index]);
 
-    drawDefinitionItem(lever.label, leverOption.value, options.margin, options.headerHeight + 112, index, doc, options);
+    drawDefinitionItem(
+      lever.label,
+      leverOption.value,
+      options.margin,
+      options.headerHeight + 112,
+      index,
+      doc,
+      options
+    );
   });
 
   // Filter header - right column
-  const filterLeft = options.margin + options.colWidthTwoCol + options.gutterTwoCol;
+  const filterLeft =
+    options.margin + options.colWidthTwoCol + options.gutterTwoCol;
 
-  drawSectionHeader('Filters', filterLeft, options.headerHeight + 20, doc, options);
+  drawSectionHeader(
+    'Filters',
+    filterLeft,
+    options.headerHeight + 20,
+    doc,
+    options
+  );
 
-  const filterDescription = 'The model results were further narrowed down using the following filters.';
-  drawSectionDescription(filterDescription, filterLeft, options.headerHeight + 20, options.colWidthTwoCol, doc, options);
+  const filterDescription =
+    'The model results were further narrowed down using the following filters.';
+  drawSectionDescription(
+    filterDescription,
+    filterLeft,
+    options.headerHeight + 20,
+    options.colWidthTwoCol,
+    doc,
+    options
+  );
 
   // Filter options - right column
 
   // Print only the filters that are active
-  const activeFilters = defaultFilters
-    .reduce((acc, def, index) => def ? acc : acc.concat(model.filters[index]), []);
+  const activeFilters = defaultFilters.reduce(
+    (acc, def, index) => (def ? acc : acc.concat(model.filters[index])),
+    []
+  );
 
   if (activeFilters.length) {
     activeFilters.forEach((filter, index) => {
@@ -338,18 +450,38 @@ export function downloadPDF (props) {
 
       // Depending on the filter type, generate a string for the value.
       // Range is simple min - max, anything else a stringified array
-      let valueString = filter.type === 'range'
-        ? `${filterValues.min} - ${filterValues.max}`
-        : filterValues
-          .reduce((acc, value) => acc.concat(filter.options.find(f => f.value === value)['label']), [])
-          .toString();
+      let valueString =
+        filter.type === 'range'
+          ? `${filterValues.min} - ${filterValues.max}`
+          : filterValues
+            .reduce(
+              (acc, value) =>
+                acc.concat(
+                  filter.options.find(f => f.value === value)['label']
+                ),
+              []
+            )
+            .toString();
 
-      drawDefinitionItem(filter.label, valueString, filterLeft, options.headerHeight + 112, index, doc, options);
+      drawDefinitionItem(
+        filter.label,
+        valueString,
+        filterLeft,
+        options.headerHeight + 112,
+        index,
+        doc,
+        options
+      );
     });
   } else {
-    doc.fillColor(options.secondaryFontColor, 1)
+    doc
+      .fillColor(options.secondaryFontColor, 1)
       .fontSize(8)
-      .text('No filters applied to the model results.', filterLeft, options.headerHeight + 112 - 2);
+      .text(
+        'No filters applied to the model results.',
+        filterLeft,
+        options.headerHeight + 112 - 2
+      );
   }
 
   drawFooter(doc, options);
@@ -358,24 +490,43 @@ export function downloadPDF (props) {
   doc.addPage();
 
   // About the model
-  drawSectionHeader('About the model', options.margin, options.headerHeight + 20, doc, options);
+  drawSectionHeader(
+    'About the model',
+    options.margin,
+    options.headerHeight + 20,
+    doc,
+    options
+  );
 
-  doc.fillColor(options.secondaryFontColor)
+  doc
+    .fillColor(options.secondaryFontColor)
     .fontSize(10)
     .font(baseFont)
-    .text(`Developed by: ${model.attribution.author}`, options.margin, options.headerHeight + 52, {
-      align: 'left',
-      link: model.attribution.link
-    });
+    .text(
+      `Developed by: ${model.attribution.author}`,
+      options.margin,
+      options.headerHeight + 52,
+      {
+        align: 'left',
+        link: model.attribution.link
+      }
+    );
 
-  doc.fillColor(options.secondaryFontColor)
+  doc
+    .fillColor(options.secondaryFontColor)
     .fontSize(10)
     .font(baseFont)
-    .text(`Last updated: ${model.updatedAt}`, options.margin + options.colWidthTwoCol + options.gutterTwoCol, options.headerHeight + 52, {
-      align: 'left'
-    });
+    .text(
+      `Last updated: ${model.updatedAt}`,
+      options.margin + options.colWidthTwoCol + options.gutterTwoCol,
+      options.headerHeight + 52,
+      {
+        align: 'left'
+      }
+    );
 
-  doc.fillColor(options.secondaryFontColor)
+  doc
+    .fillColor(options.secondaryFontColor)
     .fontSize(10)
     .font(baseFont)
     .text(model.description, options.margin, options.headerHeight + 52 + 28, {
@@ -389,9 +540,14 @@ export function downloadPDF (props) {
   stream.on('finish', () => {
     // Compute file name using lever option names.
     const leversOptNames = props.appliedState.leversState
-      .map((optionIdx, leverIdx) => kebabCase(deburr(props.model.levers[leverIdx].options[optionIdx].value)))
+      .map((optionIdx, leverIdx) =>
+        kebabCase(deburr(props.model.levers[leverIdx].options[optionIdx].value))
+      )
       .join('_');
-    saveAs(stream.toBlob('application/pdf'), `gep-${props.model.id}-${leversOptNames}.pdf`);
+    saveAs(
+      stream.toBlob('application/pdf'),
+      `gep-${props.model.id}-${leversOptNames}.pdf`
+    );
   });
 }
 
