@@ -313,8 +313,9 @@ class Explore extends Component {
     // disable "Change Model" button.
     let countryName = '';
     let riseScore = 'N/A';
+    let hasMultipleModels = false;
     if (this.props.country.isReady()) {
-      const { name, riseScores: rs } = this.props.country.getData();
+      const { name, riseScores: rs, models } = this.props.country.getData();
       riseScore = rs ? (
         <a
           href='https://rise.worldbank.org/scores'
@@ -326,6 +327,7 @@ class Explore extends Component {
         </a>
       ) : riseScore;
       countryName = name;
+      hasMultipleModels = models.length > 1;
     }
 
     return (
@@ -347,9 +349,9 @@ class Explore extends Component {
                 </div>
                 <div className='inpage__hactions'>
                   <Link
-                    to={`/countries`}
+                    to={hasMultipleModels ? `/countries/${model.country}/models` : `/countries`}
                     className='exp-change-button'
-                    title='Change model'
+                    title={hasMultipleModels ? 'Change model' : 'Change country'}
                   >
                     <span>Change</span>
                   </Link>
