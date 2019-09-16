@@ -290,7 +290,7 @@ class Explore extends Component {
       );
     } catch (error) {
       /* eslint-disable-next-line no-console */
-      console.log('error', error);  
+      console.log('error', error);
     }
     hideGlobalLoading();
   }
