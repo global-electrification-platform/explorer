@@ -7,7 +7,7 @@ import isEqual from 'lodash.isequal';
 import pull from 'lodash.pull';
 
 import { environment } from '../config';
-import { makeZeroFilledArray, cloneArrayAndChangeCell } from '../utils';
+import { makeZeroFilledArray, cloneArrayAndChangeCell, round } from '../utils';
 import { wrapApiResult, getFromState } from '../redux/utils';
 import { fetchModel, fetchScenario, fetchCountry } from '../redux/actions';
 import QsState from '../utils/qs-state';
@@ -323,7 +323,7 @@ class Explore extends Component {
           target='_blank'
           rel='noopener noreferrer'
         >
-          {rs.overall}
+          {round(rs.overall, 0)} / 100
         </a>
       ) : riseScore;
       countryName = name;
