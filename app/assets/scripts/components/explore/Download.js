@@ -180,6 +180,16 @@ export function downloadPDF (props) {
   const mapHeight = aspectRatio > 1 ? mapWidth : mapWidth * aspectRatio;
 
   const { country, model, scenario, defaultFilters, appliedState } = props;
+  // There's no summary key for the connected population
+  const sumObj = (o) => Object.keys(o).reduce((acc, k) => acc + o[k], 0);
+  const scenarioData = {
+    ...scenario.data,
+    summary: {
+      ...scenario.data.summary,
+      popConnectedFinalYear: sumObj(scenario.data.summaryByType.popConnectedFinalYear),
+      popConnectedIntermediateYear: sumObj(scenario.data.summaryByType.popConnectedIntermediateYear)
+    }
+  };
 
   // Use the filters and levers that are actually applied
   const { leversState, filtersState, year } = appliedState;
@@ -283,7 +293,7 @@ export function downloadPDF (props) {
   drawSectionHeader('Technologies', legendLeft, legendTop, doc, options);
 
   // Legend
-  const layerKeys = Object.keys(scenario.data.layers);
+  const layerKeys = Object.keys(scenarioData.layers);
   layerKeys.forEach((key, index) => {
     // Currently picked up from the app config. Will be switched to model config from the props
     let legendItem = model.map.techLayersConfig.find(l => l.id === key);
@@ -347,7 +357,7 @@ export function downloadPDF (props) {
         .fill();
 
       let itemValue = formatThousands(
-        round(scenario.data.summaryByType[output.id][layer], 0)
+        round(scenarioData.summaryByType[output.id][layer], 0)
       );
       doc
         .fontSize(8)
@@ -366,7 +376,7 @@ export function downloadPDF (props) {
 
       // At the end, print the total
       if (i === layerKeys.length - 1) {
-        let total = formatThousands(round(scenario.data.summary[output.id], 0));
+        let total = formatThousands(round(scenarioData.summary[output.id], 0));
         doc
           .fontSize(8)
           .font(boldFont)
