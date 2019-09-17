@@ -10,24 +10,12 @@
   margin: 0;
   padding: 0;
   display: grid;
-  grid-template-columns: repeat(12, 1fr);
-  grid-gap: $global-spacing 0;
+  grid-gap: $global-spacing;
+  grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+  grid-auto-rows: auto;
 
   @include media(small-up) {
     grid-gap: ($global-spacing * 2);
-  }
-
-  > * {
-    grid-column: span 12;
-    display: flex;
-
-    @include media(small-up) {
-      grid-column: span 6;
-    }
-
-    @include media(large-up) {
-      grid-column: span 4;
-    }
   }
 }
 
