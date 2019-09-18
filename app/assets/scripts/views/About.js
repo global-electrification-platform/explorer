@@ -27,7 +27,7 @@ class About extends Component {
               </p>
 
               <p>
-                Users can explore 144 different scenarios to meet the access
+                Users can explore 216 different scenarios to meet the access
                 goals. These different combinations and parameters are presented
                 in the form of "levers". Users can overlay additional layers as
                 well (e.g. wind potential, electricity networks, location of
@@ -72,7 +72,7 @@ class About extends Component {
 
               <h2>Credits</h2>
               <dl className='logo-list'>
-                <dt>Supporters</dt>
+                <dt>Consortium</dt>
                 <dd>
                   <a href='https://www.kth.se' title='Visit KTH'>
                     <img
@@ -97,10 +97,18 @@ class About extends Component {
                       alt='ESMAP Logo'
                       src='/assets/graphics/content/logos/logo-esmap.png'
                     />
-                    <span>KTH</span>
+                    <span>ESMAP</span>
                   </a>
                 </dd>
-                <dt>Developed by</dt>
+                <dd>
+                  <a href='https://www.wri.org/' title='Visit World Resources Institute'>
+                    <img
+                      alt='WRI Logo'
+                      src='/assets/graphics/content/logos/logo-wri.png'
+                    />
+                    <span>WRI</span>
+                  </a>
+                </dd>
                 <dd>
                   <a
                     className='logo-devseed'
@@ -108,12 +116,35 @@ class About extends Component {
                     title='Visit Development Seed'
                   >
                     <img
-                      width='750'
-                      height='128'
                       alt='Development Seed logo'
                       src='/assets/graphics/content/logos/logo-devseed.svg'
                     />
                     <span>Development Seed</span>
+                  </a>
+                </dd>
+                <dt>In collaboration with</dt>
+                <dd>
+                  <a
+                    href='https://www.unsdsn.org/'
+                    title='Visit Sustainable Development Solutions Network'
+                  >
+                    <img
+                      alt='SDSN logo'
+                      src='/assets/graphics/content/logos/logo-sdsn.png'
+                    />
+                    <span>Sustainable Development Solutions Network</span>
+                  </a>
+                </dd>
+                <dd>
+                  <a
+                    href='https://www.ukaiddirect.org/'
+                    title='Visit UK Aid'
+                  >
+                    <img
+                      alt='UKaid logo'
+                      src='/assets/graphics/content/logos/logo-ukaid.jpg'
+                    />
+                    <span>UK Aid</span>
                   </a>
                 </dd>
               </dl>
