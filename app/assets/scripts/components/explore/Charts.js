@@ -210,10 +210,9 @@ class Charts extends Component {
                         <span>
                           {formatKeyIndicator(data.popConnected[layerId])}
                         </span>
-                        {targetYear !== baseYear &&
-                          data.popConnectedDiff[layerId] > 0 && (
+                        {targetYear !== baseYear && (
                           <small>
-                              +
+                            {data.popConnectedDiff[layerId] > 0 && '+'}
                             {formatKeyIndicator(
                               data.popConnectedDiff[layerId]
                             )}
