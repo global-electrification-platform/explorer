@@ -28,7 +28,16 @@ class Legend extends Component {
   render () {
     const { scenario } = this.props;
 
-    const layersIds = scenario.layers ? Object.keys(scenario.layers) : [];
+    // Get layer ids from the pop properties.
+    const layersIdsSet = new Set();
+    Object.keys(scenario.summaryByType.popConnectedBaseYear)
+      .forEach(k => layersIdsSet.add(k));
+    Object.keys(scenario.summaryByType.popConnectedIntermediateYear)
+      .forEach(k => layersIdsSet.add(k));
+    Object.keys(scenario.summaryByType.popConnectedFinalYear)
+      .forEach(k => layersIdsSet.add(k));
+
+    const layersIds = Array.from(layersIdsSet);
 
     return (
       layersIds.length > 0 && (
