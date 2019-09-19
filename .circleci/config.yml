@@ -7,7 +7,7 @@ jobs:
     working_directory: ~/repo
 
     environment:
-      - PRODUCTION_BRANCH: master
+      - PRODUCTION_BRANCH: develop
 
     steps:
       - checkout
