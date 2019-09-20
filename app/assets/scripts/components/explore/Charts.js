@@ -200,37 +200,44 @@ class Charts extends Component {
               <dl className='chart-number-list'>
                 {data.appliedTechTypes.map(layerId => {
                   const techLayer = techLayers.find(l => l.id === layerId);
+
+                  // Add tech type if there is people connected or difference
+                  // between steps.
                   return (
-                    <Fragment key={layerId}>
-                      <dt>
-                        <span
-                          className='lgfx'
-                          style={{ backgroundColor: techLayer.color }}
-                        >
-                          {techLayer.label}
-                        </span>
-                      </dt>
-                      <dd>
-                        <span>
-                          {formatKeyIndicator(
-                            data.popConnected[layerId],
-                            'metric',
-                            1
-                          )}
-                        </span>
-                        {targetYear !== baseYear && (
-                          <small>
-                            {data.popConnectedDiff[layerId] > 0 && '+'}
+                    (data.popConnected[layerId] !== 0 ||
+                      (data.popConnectedDiff &&
+                        data.popConnectedDiff[layerId] !== 0)) && (
+                      <Fragment key={layerId}>
+                        <dt>
+                          <span
+                            className='lgfx'
+                            style={{ backgroundColor: techLayer.color }}
+                          >
+                            {techLayer.label}
+                          </span>
+                        </dt>
+                        <dd>
+                          <span>
                             {formatKeyIndicator(
-                              data.popConnectedDiff[layerId],
+                              data.popConnected[layerId],
                               'metric',
                               1
                             )}
-                            *
-                          </small>
-                        )}
-                      </dd>
-                    </Fragment>
+                          </span>
+                          {targetYear !== baseYear && (
+                            <small>
+                              {data.popConnectedDiff[layerId] > 0 && '+'}
+                              {formatKeyIndicator(
+                                data.popConnectedDiff[layerId],
+                                'metric',
+                                1
+                              )}
+                              *
+                            </small>
+                          )}
+                        </dd>
+                      </Fragment>
+                    )
                   );
                 })}
               </dl>
