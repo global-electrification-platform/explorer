@@ -105,8 +105,10 @@ export function formatThousands (num, decimals = 2, forceDecimals = false) {
  *
  * @param {number} value The value to round
  * @param {string} type The type of indicator. One of: 'metric', 'power'
+ * @param {number} decimals Amount of decimals to keep. (Default: 0)
+ *
  */
-export function formatKeyIndicator (val, type) {
+export function formatKeyIndicator (val, type, decimals) {
   let unit;
   let divider;
   let digits = 1;
@@ -136,8 +138,8 @@ export function formatKeyIndicator (val, type) {
 
   unit = type === 'power' ? `${unit}W` : unit;
 
-  return `${isNeg ? '-' : ''}${Math.round(n / divider).toLocaleString('en-US', {
-    minimumFractionDigits: digits,
-    maximumFractionDigits: digits
+  return `${isNeg ? '-' : ''}${(n / divider).toLocaleString('en-US', {
+    minimumFractionDigits: typeof decimals === 'number' ? decimals : digits,
+    maximumFractionDigits: typeof decimals === 'number' ? decimals : digits
   })} ${unit}`;
 }

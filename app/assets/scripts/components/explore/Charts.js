@@ -187,8 +187,12 @@ class Charts extends Component {
                 <h1 className='popover__title'>Population connected</h1>
                 <p className='popover__subtitle'>
                   In {targetYear}:{' '}
-                  {formatKeyIndicator(data.pop - data.popUnconnected)} of{' '}
-                  {formatKeyIndicator(data.pop)}
+                  {formatKeyIndicator(
+                    data.pop - data.popUnconnected,
+                    'metric',
+                    1
+                  )}{' '}
+                  of {formatKeyIndicator(data.pop, 'metric', 1)}
                 </p>
               </div>
             </header>
@@ -208,15 +212,21 @@ class Charts extends Component {
                       </dt>
                       <dd>
                         <span>
-                          {formatKeyIndicator(data.popConnected[layerId])}
+                          {formatKeyIndicator(
+                            data.popConnected[layerId],
+                            'metric',
+                            1
+                          )}
                         </span>
                         {targetYear !== baseYear && (
                           <small>
                             {data.popConnectedDiff[layerId] > 0 && '+'}
                             {formatKeyIndicator(
-                              data.popConnectedDiff[layerId]
+                              data.popConnectedDiff[layerId],
+                              'metric',
+                              1
                             )}
-                              *
+                            *
                           </small>
                         )}
                       </dd>
