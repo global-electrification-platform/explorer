@@ -59,7 +59,7 @@ export function round (value, decimals = 2) {
  * @param {number} decimals Amount of decimals to keep. (Default 2)
  * @param {boolean} forceDecimals Force the existence of decimal. (Default false)
  *                  Eg: Using 2 decimals and force `true` would result:
- *                  formatTousands(1 /2, 2, true) => 0.50
+ *                  formatThousands(1 /2, 2, true) => 0.50
  *
  * @example
  * formatThousands(1)               1
