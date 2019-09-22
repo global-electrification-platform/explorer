@@ -147,6 +147,78 @@ class About extends Component {
                     <span>UK Aid</span>
                   </a>
                 </dd>
+                <dd>
+                  <a
+                    href='https://www.facebook.com/'
+                    title='Visit Facebook'
+                  >
+                    <img
+                      alt='Facebook logo'
+                      src='/assets/graphics/content/logos/logo-facebook.png'
+                    />
+                    <span>Facebook</span>
+                  </a>
+                </dd>
+                <dd>
+                  <a
+                    href='https://www.powerforall.org/'
+                    title='Visit Power for All'
+                  >
+                    <img
+                      alt='Power for All logo'
+                      src='/assets/graphics/content/logos/logo-powerforall.png'
+                    />
+                    <span>Power for All</span>
+                  </a>
+                </dd>
+                <dd>
+                  <a
+                    href='https://www.seforall.org/'
+                    title='Visit SE for All'
+                  >
+                    <img
+                      alt='SE4All logo'
+                      src='/assets/graphics/content/logos/logo-seforall.gif'
+                    />
+                    <span>SE for All</span>
+                  </a>
+                </dd>
+                <dd>
+                  <a
+                    href='https://www.un.org/development/desa/en/'
+                    title='Visit UNDESA'
+                  >
+                    <img
+                      alt='UNDESA logo'
+                      src='/assets/graphics/content/logos/logo-undesa.png'
+                    />
+                    <span>United Nations Department of Economic and Social Affairs</span>
+                  </a>
+                </dd>
+                <dd>
+                  <a
+                    href='https://www.undp.org/'
+                    title='Visit UNDP'
+                  >
+                    <img
+                      alt='UNDP logo'
+                      src='/assets/graphics/content/logos/logo-undp.png'
+                    />
+                    <span>UNDP</span>
+                  </a>
+                </dd>
+                <dd>
+                  <a
+                    href='https://www.uneca.org/'
+                    title='Visit UNECA'
+                  >
+                    <img
+                      alt='UNECA logo'
+                      src='/assets/graphics/content/logos/logo-uneca.png'
+                    />
+                    <span>United Nations for Africa</span>
+                  </a>
+                </dd>
               </dl>
             </div>
           </div>
