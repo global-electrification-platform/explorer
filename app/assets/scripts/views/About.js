@@ -74,7 +74,11 @@ class About extends Component {
               <dl className='logo-list'>
                 <dt>Consortium</dt>
                 <dd>
-                  <a href='https://www.kth.se' title='Visit KTH'>
+                  <a
+                    href='https://www.kth.se'
+                    title='Visit KTH'
+                    target='_blank'
+                  >
                     <img
                       alt='KTH Logo'
                       src='/assets/graphics/content/logos/logo-kth.png'
@@ -83,7 +87,11 @@ class About extends Component {
                   </a>
                 </dd>
                 <dd>
-                  <a href='https://www.worldbank.org/' title='Visit World Bank'>
+                  <a
+                    href='https://www.worldbank.org/'
+                    title='Visit World Bank'
+                    target='_blank'
+                  >
                     <img
                       alt='WBG Logo'
                       src='/assets/graphics/content/logos/logo-wbg.png'
@@ -92,7 +100,12 @@ class About extends Component {
                   </a>
                 </dd>
                 <dd>
-                  <a href='https://www.esmap.org/' title='Visit Energy Sector Management Assistance Program' className='logo-esmap'>
+                  <a
+                    href='https://www.esmap.org/'
+                    title='Visit Energy Sector Management Assistance Program'
+                    className='logo-esmap'
+                    target='_blank'
+                  >
                     <img
                       alt='ESMAP Logo'
                       src='/assets/graphics/content/logos/logo-esmap.png'
@@ -101,7 +114,11 @@ class About extends Component {
                   </a>
                 </dd>
                 <dd>
-                  <a href='https://www.wri.org/' title='Visit World Resources Institute'>
+                  <a
+                    href='https://www.wri.org/'
+                    title='Visit World Resources Institute'
+                    target='_blank'
+                  >
                     <img
                       alt='WRI Logo'
                       src='/assets/graphics/content/logos/logo-wri.png'
@@ -114,6 +131,7 @@ class About extends Component {
                     className='logo-devseed'
                     href='http://developmentseed.org/'
                     title='Visit Development Seed'
+                    target='_blank'
                   >
                     <img
                       alt='Development Seed logo'
@@ -127,6 +145,7 @@ class About extends Component {
                   <a
                     href='https://www.unsdsn.org/'
                     title='Visit Sustainable Development Solutions Network'
+                    target='_blank'
                   >
                     <img
                       alt='SDSN logo'
@@ -139,6 +158,7 @@ class About extends Component {
                   <a
                     href='https://www.ukaiddirect.org/'
                     title='Visit UK Aid'
+                    target='_blank'
                   >
                     <img
                       alt='UKaid logo'
@@ -151,6 +171,7 @@ class About extends Component {
                   <a
                     href='https://www.facebook.com/'
                     title='Visit Facebook'
+                    target='_blank'
                   >
                     <img
                       alt='Facebook logo'
@@ -163,6 +184,7 @@ class About extends Component {
                   <a
                     href='https://www.powerforall.org/'
                     title='Visit Power for All'
+                    target='_blank'
                   >
                     <img
                       alt='Power for All logo'
@@ -175,6 +197,7 @@ class About extends Component {
                   <a
                     href='https://www.seforall.org/'
                     title='Visit SE for All'
+                    target='_blank'
                   >
                     <img
                       alt='SE4All logo'
@@ -187,18 +210,22 @@ class About extends Component {
                   <a
                     href='https://www.un.org/development/desa/en/'
                     title='Visit UNDESA'
+                    target='_blank'
                   >
                     <img
                       alt='UNDESA logo'
                       src='/assets/graphics/content/logos/logo-undesa.png'
                     />
-                    <span>United Nations Department of Economic and Social Affairs</span>
+                    <span>
+                      United Nations Department of Economic and Social Affairs
+                    </span>
                   </a>
                 </dd>
                 <dd>
                   <a
                     href='https://www.undp.org/'
                     title='Visit UNDP'
+                    target='_blank'
                   >
                     <img
                       alt='UNDP logo'
@@ -211,6 +238,7 @@ class About extends Component {
                   <a
                     href='https://www.uneca.org/'
                     title='Visit UNECA'
+                    target='_blank'
                   >
                     <img
                       alt='UNECA logo'
