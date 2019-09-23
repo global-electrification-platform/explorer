@@ -82,7 +82,7 @@ workflows:
             - lint
           filters:
             branches:
-              only: staging
+              only: develop
       - build-production:
           requires:
             - lint
