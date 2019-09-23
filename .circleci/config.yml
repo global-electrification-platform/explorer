@@ -1,4 +1,4 @@
-version: 2
+version: 2.1
 jobs:
   build:
     docker:
@@ -28,16 +28,25 @@ jobs:
           command: yarn lint
 
       - run:
-          name: Building site
+          name: Building site production
           command: |
-            if [ "${CIRCLE_BRANCH}" == "${STAGING_BRANCH}" ]; then
+            if [ "${CIRCLE_BRANCH}" == "${PRODUCTION_BRANCH}" ]; then
               yarn build           
             else
-              echo "Skip building site"
+              echo "Skip building production site"
             fi
 
       - run:
-          name: Deploy to Surge
+          name: Building site staging
+          command: |
+            if [ "${CIRCLE_BRANCH}" == "${STAGING_BRANCH}" ]; then
+              yarn stage           
+            else
+              echo "Skip building staging site"
+            fi
+
+      - run:
+          name: Deploy to staging
           command: |
             if [ "${CIRCLE_BRANCH}" == "${STAGING_BRANCH}" ]; then
               cp ./dist/index.html ./dist/200.html
@@ -45,3 +54,32 @@ jobs:
             else
               echo "Not the branch you're looking for, skipping deploy"
             fi
+      - persist_to_workspace:
+          root: ~/repo
+          paths:
+              - dist
+            
+  deploy-production:
+    docker:
+      - image: 'circleci/python:3.7'
+    steps:
+      - attach_workspace:
+          at: /tmp/workspace
+      - run:
+          name: Install awscli
+          command: sudo pip install awscli
+      - run:
+          name: Sync files at S3
+          command: aws s3 sync --delete /tmp/workspace/dist s3://${PRODUCTION_S3_BUCKET}/
+
+workflows:
+  version: 2
+  build-and-deploy:
+    jobs:
+      - build
+      - deploy-production:
+          requires:
+            - build
+          filters:
+            branches:
+              only: enhance/production-deploy
