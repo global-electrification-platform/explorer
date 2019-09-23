@@ -28,12 +28,21 @@ jobs:
           command: yarn lint
 
       - run:
-          name: Building site
+          name: Building site production
           command: |
-            if [ "${CIRCLE_BRANCH}" == "${STAGING_BRANCH}" ] || [ "${CIRCLE_BRANCH}" == "${PRODUCTION_BRANCH}" ]; then
+            if [ "${CIRCLE_BRANCH}" == "${PRODUCTION_BRANCH}" ]; then
               yarn build           
             else
-              echo "Skip building site"
+              echo "Skip building production site"
+            fi
+
+      - run:
+          name: Building site staging
+          command: |
+            if [ "${CIRCLE_BRANCH}" == "${STAGING_BRANCH}" ]; then
+              yarn stage           
+            else
+              echo "Skip building staging site"
             fi
 
       - run:
