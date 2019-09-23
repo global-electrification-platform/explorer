@@ -38,9 +38,9 @@ class Home extends Component {
 
     return (
       <dl className='stats-list'>
-        <dt>Models</dt>
+        <dt>{totals.models > 1 ? 'Models' : 'Model'}</dt>
         <dd>{totals.models}</dd>
-        <dt>Countries</dt>
+        <dt>{totals.countries > 1 ? 'Countries' : 'Country'}</dt>
         <dd>{totals.countries}</dd>
       </dl>
     );
