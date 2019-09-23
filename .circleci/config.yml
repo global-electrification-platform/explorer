@@ -82,4 +82,4 @@ workflows:
             - build
           filters:
             branches:
-              only: enhance/production-deploy
+              only: master
