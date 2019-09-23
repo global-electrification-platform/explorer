@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import { PropTypes as T } from 'prop-types';
+import c from 'classnames';
 
 import { environment } from '../../config';
 
@@ -72,6 +73,8 @@ class Summary extends Component {
   }
 
   render () {
+    const { model } = this.props;
+
     return (
       <section className='exp-summary'>
         <header className='exp-summary__header'>
@@ -112,8 +115,12 @@ class Summary extends Component {
               </li>
               <li>
                 <a
-                  href='#'
-                  className='drop__menu-item drop__menu-item--shapefile disabled'
+                  href={model.sourceData.clusters}
+                  target='_blank'
+                  rel='noopener noreferrer'
+                  className={c('drop__menu-item drop__menu-item--shapefile',
+                    { disabled: !model.sourceData.clusters }
+                  )}
                   data-hook='dropdown:close'
                 >
                   Country clusters
@@ -121,8 +128,12 @@ class Summary extends Component {
               </li>
               <li>
                 <a
-                  href='#'
-                  className='drop__menu-item drop__menu-item--data disabled'
+                  href={model.sourceData.scenarios}
+                  target='_blank'
+                  rel='noopener noreferrer'
+                  className={c('drop__menu-item drop__menu-item--data',
+                    { disabled: !model.sourceData.scenarios }
+                  )}
                   data-hook='dropdown:close'
                 >
                   Full scenario data
