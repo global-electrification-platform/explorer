@@ -59,7 +59,7 @@ export function round (value, decimals = 2) {
  * @param {number} decimals Amount of decimals to keep. (Default 2)
  * @param {boolean} forceDecimals Force the existence of decimal. (Default false)
  *                  Eg: Using 2 decimals and force `true` would result:
- *                  formatTousands(1 /2, 2, true) => 0.50
+ *                  formatThousands(1 /2, 2, true) => 0.50
  *
  * @example
  * formatThousands(1)               1
@@ -105,14 +105,17 @@ export function formatThousands (num, decimals = 2, forceDecimals = false) {
  *
  * @param {number} value The value to round
  * @param {string} type The type of indicator. One of: 'metric', 'power'
+ * @param {number} decimals Amount of decimals to keep. (Default: 0)
+ *
  */
-export function formatKeyIndicator (n, type) {
+export function formatKeyIndicator (val, type, decimals) {
   let unit;
   let divider;
   let digits = 1;
 
   // 'power' is reported in kW. Convert to to Watt before formatting
-  n = type === 'power' ? n * 1000 : n;
+  const n = Math.abs(type === 'power' ? val * 1000 : val);
+  const isNeg = val < 0;
 
   if (n > 1000000000) {
     // 10^9 = gigawatt
@@ -135,8 +138,8 @@ export function formatKeyIndicator (n, type) {
 
   unit = type === 'power' ? `${unit}W` : unit;
 
-  return `${Math.round(n / divider).toLocaleString('en-US', {
-    minimumFractionDigits: digits,
-    maximumFractionDigits: digits
+  return `${isNeg ? '-' : ''}${(n / divider).toLocaleString('en-US', {
+    minimumFractionDigits: typeof decimals === 'number' ? decimals : digits,
+    maximumFractionDigits: typeof decimals === 'number' ? decimals : digits
   })} ${unit}`;
 }
