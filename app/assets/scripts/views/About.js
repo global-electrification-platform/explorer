@@ -75,7 +75,7 @@ class About extends Component {
                 <dt>Consortium</dt>
                 <dd>
                   <a
-                    href='https://www.kth.se'
+                    href='https://www.kth.se/en'
                     title='Visit KTH'
                     target='_blank'
                   >
