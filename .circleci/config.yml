@@ -1,64 +1,64 @@
 version: 2.1
 jobs:
-  build:
+  lint:
     docker:
       - image: node:10
-
     working_directory: ~/repo
-
     steps:
       - checkout
-
       # Download and cache dependencies
       - restore_cache:
           keys:
           - v1-dependencies-{{ checksum "package.json" }}
           # fallback to using the latest cache if no exact match is found
           - v1-dependencies-
-
       - run: yarn install
-
       - save_cache:
           paths:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
-
       - run:
           name: Lint
           command: yarn lint
 
+  deploy-staging:
+    docker:
+      - image: node:10
+    working_directory: ~/repo
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+          - v1-dependencies-{{ checksum "package.json" }}
+          # fallback to using the latest cache if no exact match is found
+          - v1-dependencies-
+      - run: yarn install
       - run:
-          name: Building site production
-          command: |
-            if [ "${CIRCLE_BRANCH}" == "${PRODUCTION_BRANCH}" ]; then
-              yarn build           
-            else
-              echo "Skip building production site"
-            fi
-
-      - run:
-          name: Building site staging
-          command: |
-            if [ "${CIRCLE_BRANCH}" == "${STAGING_BRANCH}" ]; then
-              yarn stage           
-            else
-              echo "Skip building staging site"
-            fi
-
+          name: Building staging site
+          command: yarn stage
       - run:
           name: Deploy to staging
           command: |
-            if [ "${CIRCLE_BRANCH}" == "${STAGING_BRANCH}" ]; then
-              cp ./dist/index.html ./dist/200.html
-              ./node_modules/surge/lib/cli.js --project ./dist --domain gep-explorer.surge.sh
-            else
-              echo "Not the branch you're looking for, skipping deploy"
-            fi
+            cp ./dist/index.html ./dist/200.html
+            ./node_modules/surge/lib/cli.js --project ./dist --domain gep-explorer.surge.sh
+
+  build-production:
+    docker:
+      - image: node:10
+    working_directory: ~/repo
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+          - v1-dependencies-{{ checksum "package.json" }}
+          # fallback to using the latest cache if no exact match is found
+          - v1-dependencies-
+      - run: yarn build
       - persist_to_workspace:
           root: ~/repo
           paths:
               - dist
-            
+
   deploy-production:
     docker:
       - image: 'circleci/python:3.7'
@@ -76,10 +76,22 @@ workflows:
   version: 2
   build-and-deploy:
     jobs:
-      - build
+      - lint
+      - deploy-staging:
+          requires:
+            - lint
+          filters:
+            branches:
+              only: develop
+      - build-production:
+          requires:
+            - lint
+          filters:
+            branches:
+              only: master
       - deploy-production:
           requires:
-            - build
+            - build-production
           filters:
             branches:
               only: master

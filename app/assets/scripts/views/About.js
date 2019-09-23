@@ -70,12 +70,12 @@ class About extends Component {
                 .
               </p>
 
-              <h2>Credits</h2>
+              <h2 className='visually-hidden'>Credits</h2>
               <dl className='logo-list'>
                 <dt>Consortium</dt>
                 <dd>
                   <a
-                    href='https://www.kth.se'
+                    href='https://www.kth.se/en'
                     title='Visit KTH'
                     target='_blank'
                   >
@@ -143,32 +143,6 @@ class About extends Component {
                 <dt>In collaboration with</dt>
                 <dd>
                   <a
-                    href='https://www.unsdsn.org/'
-                    title='Visit Sustainable Development Solutions Network'
-                    target='_blank'
-                  >
-                    <img
-                      alt='SDSN logo'
-                      src='/assets/graphics/content/logos/logo-sdsn.png'
-                    />
-                    <span>Sustainable Development Solutions Network</span>
-                  </a>
-                </dd>
-                <dd>
-                  <a
-                    href='https://www.ukaiddirect.org/'
-                    title='Visit UK Aid'
-                    target='_blank'
-                  >
-                    <img
-                      alt='UKaid logo'
-                      src='/assets/graphics/content/logos/logo-ukaid.jpg'
-                    />
-                    <span>UK Aid</span>
-                  </a>
-                </dd>
-                <dd>
-                  <a
                     href='https://www.facebook.com/'
                     title='Visit Facebook'
                     target='_blank'
@@ -178,6 +152,19 @@ class About extends Component {
                       src='/assets/graphics/content/logos/logo-facebook.png'
                     />
                     <span>Facebook</span>
+                  </a>
+                </dd>
+                <dd>
+                  <a
+                    href='http://www.optimus.community/'
+                    title='Visit Optimus Community'
+                    target='_blank'
+                  >
+                    <img
+                      alt='Optimus logo'
+                      src='/assets/graphics/content/logos/optimus.png'
+                    />
+                    <span>Optimus</span>
                   </a>
                 </dd>
                 <dd>
@@ -208,6 +195,19 @@ class About extends Component {
                 </dd>
                 <dd>
                   <a
+                    href='https://www.unsdsn.org/'
+                    title='Visit Sustainable Development Solutions Network'
+                    target='_blank'
+                  >
+                    <img
+                      alt='SDSN logo'
+                      src='/assets/graphics/content/logos/logo-sdsn.png'
+                    />
+                    <span>Sustainable Development Solutions Network</span>
+                  </a>
+                </dd>
+                <dd>
+                  <a
                     href='https://www.un.org/development/desa/en/'
                     title='Visit UNDESA'
                     target='_blank'
@@ -223,19 +223,6 @@ class About extends Component {
                 </dd>
                 <dd>
                   <a
-                    href='https://www.undp.org/'
-                    title='Visit UNDP'
-                    target='_blank'
-                  >
-                    <img
-                      alt='UNDP logo'
-                      src='/assets/graphics/content/logos/logo-undp.png'
-                    />
-                    <span>UNDP</span>
-                  </a>
-                </dd>
-                <dd>
-                  <a
                     href='https://www.uneca.org/'
                     title='Visit UNECA'
                     target='_blank'
@@ -245,6 +232,19 @@ class About extends Component {
                       src='/assets/graphics/content/logos/logo-uneca.png'
                     />
                     <span>United Nations for Africa</span>
+                  </a>
+                </dd>
+                <dd>
+                  <a
+                    href='https://www.ukaiddirect.org/'
+                    title='Visit UK Aid'
+                    target='_blank'
+                  >
+                    <img
+                      alt='UKaid logo'
+                      src='/assets/graphics/content/logos/logo-ukaid.jpg'
+                    />
+                    <span>UK Aid</span>
                   </a>
                 </dd>
               </dl>
