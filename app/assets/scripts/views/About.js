@@ -223,19 +223,6 @@ class About extends Component {
                 </dd>
                 <dd>
                   <a
-                    href='https://www.undp.org/'
-                    title='Visit UNDP'
-                    target='_blank'
-                  >
-                    <img
-                      alt='UNDP logo'
-                      src='/assets/graphics/content/logos/logo-undp.png'
-                    />
-                    <span>UNDP</span>
-                  </a>
-                </dd>
-                <dd>
-                  <a
                     href='https://www.uneca.org/'
                     title='Visit UNECA'
                     target='_blank'
