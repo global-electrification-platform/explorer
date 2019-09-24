@@ -75,19 +75,6 @@ class About extends Component {
                 <dt>Consortium</dt>
                 <dd>
                   <a
-                    href='https://www.kth.se/en'
-                    title='Visit KTH'
-                    target='_blank'
-                  >
-                    <img
-                      alt='KTH Logo'
-                      src='/assets/graphics/content/logos/logo-kth.png'
-                    />
-                    <span>KTH</span>
-                  </a>
-                </dd>
-                <dd>
-                  <a
                     href='https://www.worldbank.org/'
                     title='Visit World Bank'
                     target='_blank'
@@ -115,15 +102,15 @@ class About extends Component {
                 </dd>
                 <dd>
                   <a
-                    href='https://www.wri.org/'
-                    title='Visit World Resources Institute'
+                    href='https://www.kth.se/en'
+                    title='Visit KTH'
                     target='_blank'
                   >
                     <img
-                      alt='WRI Logo'
-                      src='/assets/graphics/content/logos/logo-wri.png'
+                      alt='KTH Logo'
+                      src='/assets/graphics/content/logos/logo-kth.png'
                     />
-                    <span>WRI</span>
+                    <span>KTH</span>
                   </a>
                 </dd>
                 <dd>
@@ -138,6 +125,58 @@ class About extends Component {
                       src='/assets/graphics/content/logos/logo-devseed.svg'
                     />
                     <span>Development Seed</span>
+                  </a>
+                </dd>
+                <dd>
+                  <a
+                    href='https://www.wri.org/'
+                    title='Visit World Resources Institute'
+                    target='_blank'
+                  >
+                    <img
+                      alt='WRI Logo'
+                      src='/assets/graphics/content/logos/logo-wri.png'
+                    />
+                    <span>WRI</span>
+                  </a>
+                </dd>
+                <dd>
+                  <a
+                    href='https://www.abb.com/'
+                    title='Visit ABB'
+                    target='_blank'
+                  >
+                    <img
+                      alt='ABB logo'
+                      src='/assets/graphics/content/logos/logo-abb.png'
+                    />
+                    <span>ABB</span>
+                  </a>
+                </dd>
+                <dd>
+                  <a
+                    href='https://www.google.com/'
+                    title='Visit Google'
+                    target='_blank'
+                  >
+                    <img
+                      alt='Google logo'
+                      src='/assets/graphics/content/logos/logo-google.png'
+                    />
+                    <span>Google</span>
+                  </a>
+                </dd>
+                <dd>
+                  <a
+                    href='https://www.cam.ac.uk/'
+                    title='Visit University of Cambridge'
+                    target='_blank'
+                  >
+                    <img
+                      alt='University of Cambridge logo'
+                      src='/assets/graphics/content/logos/logo-university-of-cambridge.png'
+                    />
+                    <span>Google</span>
                   </a>
                 </dd>
                 <dt>In collaboration with</dt>
