@@ -140,6 +140,45 @@ class About extends Component {
                     <span>Development Seed</span>
                   </a>
                 </dd>
+                <dd>
+                  <a
+                    href='https://www.abb.com/'
+                    title='Visit ABB'
+                    target='_blank'
+                  >
+                    <img
+                      alt='ABB logo'
+                      src='/assets/graphics/content/logos/logo-abb.png'
+                    />
+                    <span>ABB</span>
+                  </a>
+                </dd>
+                <dd>
+                  <a
+                    href='https://www.google.com/'
+                    title='Visit Google'
+                    target='_blank'
+                  >
+                    <img
+                      alt='Google logo'
+                      src='/assets/graphics/content/logos/logo-google.png'
+                    />
+                    <span>Google</span>
+                  </a>
+                </dd>
+                <dd>
+                  <a
+                    href='https://www.cam.ac.uk/'
+                    title='Visit University of Cambridge'
+                    target='_blank'
+                  >
+                    <img
+                      alt='University of Cambridge logo'
+                      src='/assets/graphics/content/logos/logo-university-of-cambridge.png'
+                    />
+                    <span>Google</span>
+                  </a>
+                </dd>
                 <dt>In collaboration with</dt>
                 <dd>
                   <a
