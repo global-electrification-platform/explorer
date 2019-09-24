@@ -129,7 +129,7 @@ class About extends Component {
                 <dd>
                   <a
                     className='logo-devseed'
-                    href='http://developmentseed.org/'
+                    href='https://developmentseed.org/'
                     title='Visit Development Seed'
                     target='_blank'
                   >
@@ -143,7 +143,7 @@ class About extends Component {
                 <dt>In collaboration with</dt>
                 <dd>
                   <a
-                    href='https://www.facebook.com/'
+                    href='https://socialgood.fb.com'
                     title='Visit Facebook'
                     target='_blank'
                   >
@@ -188,7 +188,7 @@ class About extends Component {
                   >
                     <img
                       alt='SE4All logo'
-                      src='/assets/graphics/content/logos/logo-seforall.gif'
+                      src='/assets/graphics/content/logos/logo-seforall.png'
                     />
                     <span>SE for All</span>
                   </a>
@@ -219,6 +219,19 @@ class About extends Component {
                     <span>
                       United Nations Department of Economic and Social Affairs
                     </span>
+                  </a>
+                </dd>
+                <dd>
+                  <a
+                    href='https://www.undp.org/'
+                    title='Visit UNDP'
+                    target='_blank'
+                  >
+                    <img
+                      alt='UNDP logo'
+                      src='/assets/graphics/content/logos/logo-undp.png'
+                    />
+                    <span>UNDP</span>
                   </a>
                 </dd>
                 <dd>
