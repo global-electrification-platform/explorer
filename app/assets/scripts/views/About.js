@@ -129,7 +129,7 @@ class About extends Component {
                 <dd>
                   <a
                     className='logo-devseed'
-                    href='http://developmentseed.org/'
+                    href='https://developmentseed.org/'
                     title='Visit Development Seed'
                     target='_blank'
                   >
