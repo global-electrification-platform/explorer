@@ -143,7 +143,7 @@ class About extends Component {
                 <dt>In collaboration with</dt>
                 <dd>
                   <a
-                    href='https://www.facebook.com/'
+                    href='https://socialgood.fb.com'
                     title='Visit Facebook'
                     target='_blank'
                   >
