@@ -188,7 +188,7 @@ class About extends Component {
                   >
                     <img
                       alt='SE4All logo'
-                      src='/assets/graphics/content/logos/logo-seforall.gif'
+                      src='/assets/graphics/content/logos/logo-seforall.png'
                     />
                     <span>SE for All</span>
                   </a>
