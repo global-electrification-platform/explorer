@@ -115,11 +115,11 @@ class Summary extends Component {
               </li>
               <li>
                 <a
-                  href={model.sourceData.clusters}
+                  href={model.sourceData && model.sourceData.clusters}
                   target='_blank'
                   rel='noopener noreferrer'
                   className={c('drop__menu-item drop__menu-item--shapefile',
-                    { disabled: !model.sourceData.clusters }
+                    { disabled: !model.sourceData || !model.sourceData.clusters }
                   )}
                   data-hook='dropdown:close'
                 >
@@ -128,11 +128,11 @@ class Summary extends Component {
               </li>
               <li>
                 <a
-                  href={model.sourceData.scenarios}
+                  href={model.sourceData && model.sourceData.scenarios}
                   target='_blank'
                   rel='noopener noreferrer'
                   className={c('drop__menu-item drop__menu-item--data',
-                    { disabled: !model.sourceData.scenarios }
+                    { disabled: !model.sourceData || !model.sourceData.scenarios }
                   )}
                   data-hook='dropdown:close'
                 >
