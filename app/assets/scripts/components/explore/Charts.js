@@ -370,6 +370,25 @@ class Charts extends Component {
       else return intermediateYear;
     }
 
+    function getBaselineSVG () {
+      // Objet "data" has percentages per type and year. The following
+      // accumulates percentages from the first year.
+      const popBaseYearPercentage = Object.keys(data[0]).reduce((acc, i) => {
+        if (i !== 'year') acc = acc + data[0][i];
+        return acc;
+      }, 0);
+      return (
+        <line
+          x1={xMin}
+          y1={yScale(popBaseYearPercentage)}
+          x2={xMax}
+          y2={yScale(popBaseYearPercentage)}
+          stroke='black'
+          strokeDasharray='2 1 2'
+        />
+      );
+    }
+
     return (
       <figure className='sum-chart-media'>
         <div className='sum-area-chart-media__item'>
@@ -417,6 +436,7 @@ class Charts extends Component {
                   });
                 }}
               </AreaStack>
+              {getBaselineSVG()}
               <AxisBottom
                 top={yMin}
                 scale={xScale}
