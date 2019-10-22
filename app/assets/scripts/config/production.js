@@ -2,7 +2,6 @@
 
 export default {
   environment: 'production',
-  // Change in index.html as well.
-  siteUrl: 'https://electrifynow.info',
-  dataServiceUrl: 'https://api.electrifynow.info'
+  siteUrl: 'https://electrifynow.energydata.info',
+  dataServiceUrl: 'https://gep-api.energydata.info'
 };
