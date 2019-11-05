@@ -59,16 +59,31 @@ class About extends Component {
               </p>
 
               <p>
-                For any inquiries and potential collaboration please refer to
-                the{' '}
-                <a
-                  href='https://gep-user-guide.readthedocs.io/en/latest/Contact.html'
-                  target='_blank'
-                >
-                  GEP development team
-                </a>
-                .
+                For any inquiries and potential collaboration please contact the
+                development team:
               </p>
+              <ul>
+                <li>
+                  <b>The World Bank:</b> Chiara Odetta Rogate –
+                  crogate@worldbank.org
+                </li>
+                <li>
+                  <b>KTH dESA:</b> Mark Howells – mark.howells@energy.kth.se
+                </li>
+                <li>
+                  <b>Development Seed:</b> Olaf Veerman –
+                  olaf@developmentseed.org
+                </li>
+                <li>
+                  <b>WRI:</b> Dimitrios Mentis – Dimitrios.Mentis@wri.org
+                </li>
+                <li>
+                  <b>Google:</b> Saleem Van Groenou – svangroenou@google.com
+                </li>
+                <li>
+                  <b>ABB:</b> Alexandre Oudalov – alexandre.oudalov@ch.abb.com
+                </li>
+              </ul>
 
               <h2 className='visually-hidden'>Credits</h2>
               <dl className='logo-list'>
