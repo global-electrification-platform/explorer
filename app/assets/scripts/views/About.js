@@ -64,24 +64,40 @@ class About extends Component {
               </p>
               <ul>
                 <li>
-                  <b>The World Bank:</b> Chiara Odetta Rogate –
-                  crogate@worldbank.org
+                  <b>The World Bank:</b> Chiara Odetta Rogate –{' '}
+                  <a href='mailto:crogate@worldbank.org'>
+                    crogate@worldbank.org
+                  </a>
                 </li>
                 <li>
-                  <b>KTH dESA:</b> Mark Howells – mark.howells@energy.kth.se
+                  <b>KTH dESA:</b> Mark Howells –{' '}
+                  <a href='mailto:mark.howells@energy.kth.se'>
+                    mark.howells@energy.kth.se
+                  </a>
                 </li>
                 <li>
-                  <b>Development Seed:</b> Olaf Veerman –
-                  olaf@developmentseed.org
+                  <b>Development Seed:</b> Olaf Veerman –{' '}
+                  <a href='mailto:olaf@developmentseed.org'>
+                    olaf@developmentseed.org
+                  </a>
                 </li>
                 <li>
-                  <b>WRI:</b> Dimitrios Mentis – Dimitrios.Mentis@wri.org
+                  <b>WRI:</b> Dimitrios Mentis –{' '}
+                  <a href='mailto:Dimitrios.Mentis@wri.org'>
+                    Dimitrios.Mentis@wri.org
+                  </a>
                 </li>
                 <li>
-                  <b>Google:</b> Saleem Van Groenou – svangroenou@google.com
+                  <b>Google:</b> Saleem Van Groenou –{' '}
+                  <a href='mailto:svangroenou@google.com'>
+                    svangroenou@google.com
+                  </a>
                 </li>
                 <li>
-                  <b>ABB:</b> Alexandre Oudalov – alexandre.oudalov@ch.abb.com
+                  <b>ABB:</b> Alexandre Oudalov –{' '}
+                  <a href='mailto:alexandre.oudalov@ch.abb.com'>
+                    alexandre.oudalov@ch.abb.com
+                  </a>
                 </li>
               </ul>
 
