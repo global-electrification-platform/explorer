@@ -36,6 +36,16 @@ export default class NavGlobalMenu extends Component {
             <span>Explore</span>
           </NavLink>
         </li>
+        <li>
+          <NavLink
+            to='/relevant'
+            title='Relevant links and tools'
+            activeClassName='global-menu__link--active'
+            className='global-menu__link global-menu__link--default'
+          >
+            <span>Relevant tools</span>
+          </NavLink>
+        </li>
         {/* <li>
           <a
             href='https://link-to-docs'
