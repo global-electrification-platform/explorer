@@ -44,6 +44,22 @@ class Relevant extends Component {
                 <dd>
                   Identify high-wind areas for wind power generation virtually anywhere in the world.
                 </dd>
+                <dt>
+                  <a href='https://rise.esmap.org/' target='_blank'>
+                    RISE
+                  </a>
+                </dt>
+                <dd>
+                  Regulatory Indicators for Sustainable Energy.
+                </dd>
+                <dt>
+                  <a href='https://trackingsdg7.esmap.org/' target='_blank'>
+                    Tracking SDG7
+                  </a>
+                </dt>
+                <dd>
+                  The Energy Progress Report.
+                </dd>
               </dl>
             </div>
           </div>
