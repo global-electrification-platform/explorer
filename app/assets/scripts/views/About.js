@@ -64,9 +64,9 @@ class About extends Component {
               </p>
               <ul>
                 <li>
-                  <b>The World Bank:</b> Chiara Odetta Rogate –{' '}
-                  <a href='mailto:crogate@worldbank.org'>
-                    crogate@worldbank.org
+                  <b>The World Bank:</b> Ashish Shrestha –{' '}
+                  <a href='ashrestha1@worldbank.org'>
+                    ashrestha1@worldbank.org
                   </a>
                 </li>
                 <li>
