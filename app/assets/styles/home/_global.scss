@@ -160,6 +160,25 @@
   @extend .button--primary-raised-light;
 }
 
+.home-intro__attribution {
+  display: flex;
+  list-style: none;
+  margin: 6rem 0 0 0;
+  padding: 0;
+
+  li {
+    margin-right: 2rem;
+  }
+
+  img {
+    height: 2rem;
+
+    @include media(large-up) {
+      height: 2.5rem;
+    }
+  }
+}
+
 
 /* Illustration
    ========================================================================== */
