@@ -171,7 +171,7 @@ class About extends Component {
                     <span>WRI</span>
                   </a>
                 </dd>
-                <dd>
+                {/* <dd>
                   <a
                     href='https://www.abb.com/'
                     title='Visit ABB'
@@ -183,7 +183,7 @@ class About extends Component {
                     />
                     <span>ABB</span>
                   </a>
-                </dd>
+                </dd> */}
                 <dd>
                   <a
                     href='https://www.google.com/'
