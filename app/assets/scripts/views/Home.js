@@ -89,6 +89,15 @@ class Home extends Component {
                   <span>Learn more</span>
                 </Link>
               </p>
+
+              <ul className='home-intro__attribution'>
+                <li>
+                  <img src='/assets/graphics/content/logos/logo-esmap--white.png' />
+                </li>
+                <li>
+                  <img src='/assets/graphics/content/logos/logo-wb--white.png' />
+                </li>
+              </ul>
             </section>
 
             <figure className='home-media'>

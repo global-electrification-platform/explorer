@@ -10,6 +10,7 @@ import config from './config';
 import Home from './views/Home';
 import Explore from './views/Explore';
 import About from './views/About';
+import Relevant from './views/Relevant';
 import SelectCountry from './views/SelectCountry';
 import SelectModel from './views/SelectModel';
 import UhOh from './views/UhOh';
@@ -27,6 +28,7 @@ ReactDOM.render(
         <Route exact path='/countries/:countryId/models' component={SelectModel} />
         <Route exact path='/explore/:modelId' component={Explore} />
         <Route exact path='/about' component={About} />
+        <Route exact path='/relevant' component={Relevant} />
         <Route path='*' component={UhOh} />
       </Switch>
     </Router>
