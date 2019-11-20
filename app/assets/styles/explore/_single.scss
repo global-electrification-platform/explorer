@@ -363,6 +363,12 @@
   }
 }
 
+.exp-summary__headline {
+  > *:last-child {
+    margin-bottom: 0;
+  }
+}
+
 .exp-summary__title {
   @include heading(1rem);
   margin-bottom: 0;
@@ -373,7 +379,18 @@
   font-size: 0.75rem;
   line-height: 1rem;
   color: rgba($base-font-color, 0.64);
+  margin: 0 0 $global-spacing 0;
+}
+
+.exp-summary__disclaimer {
+  font-size: 0.75rem;
+  line-height: 1rem;
+  color: rgba($base-font-color, 0.64);
   margin: 0;
+  
+  > *:last-child {
+    margin-bottom: 0;
+  }
 }
 
 .exp-summary__body {

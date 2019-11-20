@@ -1,6 +1,6 @@
 {
   "name": "gep-explorer",
-  "version": "1.1.8",
+  "version": "1.1.9",
   "description": "Web application to explore least electrification scenarios on Global Electrification Platform.",
   "main": "index.js",
   "repository": {
