@@ -84,11 +84,9 @@ class Summary extends Component {
               Results for {this.props.appliedState.year}
             </p>
             {model.disclaimer &&
-              <div className='exp-summary__disclaimer'>
-                <p>
-                  {model.disclaimer}
-                </p>
-              </div>
+              <p className='exp-summary__disclaimer'>
+                {model.disclaimer}
+              </p>
             }
           </div>
         </header>
