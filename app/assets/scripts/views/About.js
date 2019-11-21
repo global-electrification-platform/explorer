@@ -93,12 +93,6 @@ class About extends Component {
                     svangroenou@google.com
                   </a>
                 </li>
-                <li>
-                  <b>ABB:</b> Alexandre Oudalov –{' '}
-                  <a href='mailto:alexandre.oudalov@ch.abb.com'>
-                    alexandre.oudalov@ch.abb.com
-                  </a>
-                </li>
               </ul>
 
               <h2 className='visually-hidden'>Credits</h2>
@@ -171,19 +165,6 @@ class About extends Component {
                     <span>WRI</span>
                   </a>
                 </dd>
-                {/* <dd>
-                  <a
-                    href='https://www.abb.com/'
-                    title='Visit ABB'
-                    target='_blank'
-                  >
-                    <img
-                      alt='ABB logo'
-                      src='/assets/graphics/content/logos/logo-abb.png'
-                    />
-                    <span>ABB</span>
-                  </a>
-                </dd> */}
                 <dd>
                   <a
                     href='https://www.google.com/'
