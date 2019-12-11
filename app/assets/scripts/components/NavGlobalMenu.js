@@ -51,6 +51,7 @@ export default class NavGlobalMenu extends Component {
             href='https://gep-user-guide.readthedocs.io'
             target='_blank'
             title='Visit the documentation'
+            rel='noreferrer noopener'
             className='global-menu__link global-menu__link--docs'
           >
             <span>Documentation</span>
