@@ -6,7 +6,7 @@ import bbox from '@turf/bbox';
 import { PropTypes as T } from 'prop-types';
 
 import MapPopover from './connected/MapPopover';
-import { mapboxAccessToken, environment } from '../../config';
+import { mapboxAccessToken, environment, basemapStyleLink } from '../../config';
 import MapboxControl from '../MapboxReactControl';
 import LayerControlDropdown from './MapLayerControl';
 
@@ -118,7 +118,7 @@ class Map extends React.Component {
 
     this.map = new mapboxgl.Map({
       container: this.refs.mapEl,
-      style: 'mapbox://styles/devseed/cjpbi9n1811yd2snwl9ezys5p',
+      style: basemapStyleLink,
       bounds: bounds,
       preserveDrawingBuffer: true
     });
