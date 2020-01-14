@@ -1,6 +1,5 @@
 import React, { Component, Fragment } from 'react';
 import { PropTypes as T } from 'prop-types';
-import c from 'classnames';
 
 import { environment } from '../../config';
 
