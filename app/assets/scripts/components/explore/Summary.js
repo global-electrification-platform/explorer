@@ -120,28 +120,15 @@ class Summary extends Component {
               </li>
               <li>
                 <a
-                  href={model.sourceData && model.sourceData.clusters}
+                  href={model.sourceData && model.sourceData.dataset}
                   target='_blank'
                   rel='noopener noreferrer'
                   className={c('drop__menu-item drop__menu-item--shapefile',
-                    { disabled: !model.sourceData || !model.sourceData.clusters }
+                    { disabled: !model.sourceData || !model.sourceData.dataset }
                   )}
                   data-hook='dropdown:close'
                 >
-                  Country clusters
-                </a>
-              </li>
-              <li>
-                <a
-                  href={model.sourceData && model.sourceData.scenarios}
-                  target='_blank'
-                  rel='noopener noreferrer'
-                  className={c('drop__menu-item drop__menu-item--data',
-                    { disabled: !model.sourceData || !model.sourceData.scenarios }
-                  )}
-                  data-hook='dropdown:close'
-                >
-                  Full scenario data
+                  Source Data
                 </a>
               </li>
             </ul>
