@@ -1,6 +1,5 @@
 import React, { Component, Fragment } from 'react';
 import { PropTypes as T } from 'prop-types';
-import c from 'classnames';
 
 import { environment } from '../../config';
 
@@ -118,32 +117,34 @@ class Summary extends Component {
                   PDF Report
                 </a>
               </li>
-              <li>
-                <a
-                  href={model.sourceData && model.sourceData.clusters}
-                  target='_blank'
-                  rel='noopener noreferrer'
-                  className={c('drop__menu-item drop__menu-item--shapefile',
-                    { disabled: !model.sourceData || !model.sourceData.clusters }
-                  )}
-                  data-hook='dropdown:close'
-                >
-                  Country clusters
-                </a>
-              </li>
-              <li>
-                <a
-                  href={model.sourceData && model.sourceData.scenarios}
-                  target='_blank'
-                  rel='noopener noreferrer'
-                  className={c('drop__menu-item drop__menu-item--data',
-                    { disabled: !model.sourceData || !model.sourceData.scenarios }
-                  )}
-                  data-hook='dropdown:close'
-                >
-                  Full scenario data
-                </a>
-              </li>
+              {model.sourceData &&
+                model.sourceData.clusters && (
+                <li>
+                  <a
+                    href={model.sourceData.clusters}
+                    target='_blank'
+                    rel='noopener noreferrer'
+                    className='drop__menu-item drop__menu-item--shapefile'
+                    data-hook='dropdown:close'
+                  >
+                      Country clusters
+                  </a>
+                </li>
+              )}
+              {model.sourceData &&
+                model.sourceData.scenarios && (
+                <li>
+                  <a
+                    href={model.sourceData.scenarios}
+                    target='_blank'
+                    rel='noopener noreferrer'
+                    className='drop__menu-item drop__menu-item--data'
+                    data-hook='dropdown:close'
+                  >
+                      Full scenario data
+                  </a>
+                </li>
+              )}
             </ul>
           </Dropdown>
         </footer>
