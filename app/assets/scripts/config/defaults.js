@@ -8,5 +8,5 @@ export default {
   baseUrl: 'http://localhost:9000',
   dataServiceUrl: 'http://localhost:3000',
   mapboxAccessToken: null,
-  basemapStyleLink: 'mapbox://styles/devseed/cjpbi9n1811yd2snwl9ezys5p'
+  basemapStyleLink: 'mapbox://styles/derilinx/ck3yqjovg4dpn1crwajrc9ajr'
 };
