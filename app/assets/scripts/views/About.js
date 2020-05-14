@@ -70,9 +70,9 @@ class About extends Component {
                   </a>
                 </li>
                 <li>
-                  <b>KTH dESA:</b> Mark Howells –{' '}
-                  <a href='mailto:mark.howells@energy.kth.se'>
-                    mark.howells@energy.kth.se
+                  <b>KTH Energy Systems:</b> Andreas Sahlberg –{' '}
+                  <a href='mailto:asahl@kth.se'>
+                    asahl@kth.se
                   </a>
                 </li>
                 <li>
