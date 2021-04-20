@@ -1,7 +1,7 @@
-NODE_OPTS=-w "/usr/src" --rm -v "$(realpath .):/usr/src" -e "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/src/node_modules/.bin"
+NODE_OPTS=--rm -v "$(realpath .):/usr/src" 
 
 NODE_IMAGE=yarn:10
-DOCKER=docker run $(NODE_OPTS) -ti $(NODE_IMAGE)
+DOCKER=docker run -u $(shell id -u)  $(NODE_OPTS) -ti $(NODE_IMAGE)
 
 install:
 	docker build -t yarn:10 docker-image
