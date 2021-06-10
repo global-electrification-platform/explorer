@@ -80,13 +80,6 @@
       color: $base-font-color;
     }
   }
-  .nav__tablist {
-    box-shadow: inset 0 -1px 0 0 darken($base-font-color, 30%);
-  }
-}
-
-.econtrols__item {
-  box-shadow: inset 0 -1px 0 0 darken($base-font-color, 30%);
 }
 
 .rcs--light .rcs__shadow {
