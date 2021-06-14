@@ -388,6 +388,9 @@ class Charts extends Component {
         />
       );
     }
+    
+    // Get document body color which varies depending on the theme
+    var labelAndTicksColor = getComputedStyle(document.body).color;
 
     return (
       <figure className='sum-chart-media'>
@@ -407,10 +410,13 @@ class Charts extends Component {
                 tickLabelProps={(value, index) => ({
                   textAnchor: 'end',
                   dx: '-0.25em',
-                  dy: '0.25em'
+                  dy: '0.25em',
+                  fill: labelAndTicksColor,
                 })}
                 tickLength={yTickLength}
                 numTicks={3}
+                tickStroke={labelAndTicksColor}
+                stroke={labelAndTicksColor}
               />
               <AreaStack
                 top={margin.top}
@@ -445,6 +451,12 @@ class Charts extends Component {
                 tickValues={years}
                 tickFormat={d => d}
                 tickLength={xTickLength}
+                tickStroke={labelAndTicksColor}
+                tickLabelProps={(value, index) => ({
+                  fill: labelAndTicksColor,
+                  fontSize: 8,
+                })}
+                stroke={labelAndTicksColor}
               />
             </Group>
             <rect
@@ -507,6 +519,9 @@ class Charts extends Component {
       return { value, type, layer };
     });
 
+    // Get document body color which varies depending on the theme
+    var labelAndTicksColor = getComputedStyle(document.body).color;
+
     return (
       <figure className='sum-chart-media' key={keyIndicator}>
         <div className='sum-chart-media__item'>
@@ -514,7 +529,7 @@ class Charts extends Component {
             <Group top={height / 2} left={height / 2}>
               {keyIndicator === 'peopleConnected' ? (
                 <text className='values' y='0.125em'>
-                  <tspan className='value--prime' x='0' textAnchor='middle'>
+                  <tspan className='value--prime' x='0' textAnchor='middle' fill={labelAndTicksColor}>
                     {format(summary[keyIndicator])}
                   </tspan>
                   <tspan
@@ -522,13 +537,18 @@ class Charts extends Component {
                     x='0'
                     textAnchor='middle'
                     dy='1.25em'
+                    fill={labelAndTicksColor}
                   >
                     of {format(summary.totalPopulation)}
                   </tspan>
                 </text>
               ) : (
                 <text className='values' y='0.5em'>
-                  <tspan className='value--prime' x='0' textAnchor='middle'>
+                  <tspan 
+                    className='value--prime' x='0' 
+                    textAnchor='middle'
+                    fill={labelAndTicksColor}
+                  >
                     {format(summary[keyIndicator])}
                   </tspan>
                 </text>
