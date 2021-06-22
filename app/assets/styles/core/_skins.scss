@@ -4,7 +4,7 @@
 
 %card-skin {
   border-radius: $base-border-radius;
-  background: #fff;
+  background: $base-background-color;
   box-shadow: 0 0 32px 2px rgba($base-color, 0.04), 0 16px 48px -16px rgba($base-color, 0.12);
 }
 
@@ -13,19 +13,19 @@
 }
 
 %pane-skin {
-  background: #fff;
-  box-shadow: 0 0 16px 4px rgba($base-color, 0.08);
+  background: $base-background-color;
+  box-shadow: 0 0 16px 4px rgba($base-color, 0.20);
 }
 
 %drop-skin {
   border-radius: $base-border-radius;
-  background: #fff;
+  background: $base-background-color;
   box-shadow: 0 0 32px 2px rgba($base-color, 0.08), 0 16px 48px -16px rgba($base-color, 0.16);
 }
 
 %popover-skin {
   border-radius: $base-border-radius;
-  background: #fff;
+  background: $base-background-color;
   box-shadow: 0 0 32px 2px rgba($base-color, 0.08), 0 16px 48px -16px rgba($base-color, 0.16);
 }
 
@@ -35,6 +35,6 @@
 
 %control-skin {
   border-radius: $base-border-radius;
-  background: #fff;
+  background: $base-background-color;
   box-shadow:  0 0 16px 4px rgba($base-color, 0.08);
 }

@@ -4,7 +4,7 @@
 
 .loading-pane {
   @extend .antialiased;
-  background: radial-gradient(farthest-side, #fff, transparent);
+  background: radial-gradient(farthest-side, lighten($base-background-color, 30%), transparent);
   position: fixed;
   width: 100%;
   height: 100%;

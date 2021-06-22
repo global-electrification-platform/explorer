@@ -21,7 +21,7 @@
   z-index: 2;
   border-radius: $base-border-radius;
   padding: $global-spacing;
-  background: #fff;
+  background: $base-background-color;
 
   > *:last-child {
     margin-bottom: 0;

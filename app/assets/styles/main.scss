@@ -51,6 +51,9 @@
 @import 'settings/functions';
 @import 'settings/mixins';
 
+/* Theme variables to alter colors
+   ========================================================================== */
+@import 'themes/theme-variables';
 
 /* Core
    ========================================================================== */
@@ -131,3 +134,8 @@
 @import 'vendor/react-input-range/index';
 @import 'vendor/mapbox-gl';
 @import 'vendor/outdated-browser';
+
+
+/* Selected Theme - Dark
+   ========================================================================== */
+@import 'themes/theme';
