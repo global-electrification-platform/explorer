@@ -139,7 +139,7 @@ class Explore extends Component {
       // Toggle filter value from select options
       // If all fiters are selected and user clicks option, disable all and select the selected option
       // only of Andmin1
-      if ((filter.key === "Admin1") && (selectedOptions.length === filter.options.length)) {
+      if (selectedOptions.length === filter.options.length) {
         selectedOptions = [value];
       } else {
         if (selectedOptions.indexOf(value) > -1) {
