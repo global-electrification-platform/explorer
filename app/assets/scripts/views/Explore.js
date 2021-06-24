@@ -135,12 +135,18 @@ class Explore extends Component {
     } else {
       // Get current selected options
       let selectedOptions = clone(this.state.filtersState[filterIdx]);
-
+      
       // Toggle filter value from select options
-      if (selectedOptions.indexOf(value) > -1) {
-        pull(selectedOptions, value);
+      // If all fiters are selected and user clicks option, disable all and select the selected option
+      // only of Andmin1
+      if ((filter.key === "Admin1") && (selectedOptions.length === filter.options.length)) {
+        selectedOptions = [value];
       } else {
-        selectedOptions.push(value);
+        if (selectedOptions.indexOf(value) > -1) {
+          pull(selectedOptions, value);
+        } else {
+          selectedOptions.push(value);
+        }
       }
 
       // Do not allow less than one option selected
