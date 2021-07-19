@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { PropTypes as T } from 'prop-types';
@@ -32,6 +32,27 @@ class SelectModel extends Component {
     }
   }
 
+  modelLink (model, contents) {
+    let modelUrl = `/explore/${model.id}`;
+    if ( model['externalUrl'] ) {
+      modelUrl = model['externalUrl'];
+      return (<a href={modelUrl}
+                 className='card__contents external'
+                 title={`Select ${model.name}`}
+              >
+                {contents}
+              </a>);
+    }
+    return (<Link
+              to={modelUrl}
+              className='card__contents'
+              title={`Select ${model.name}`}
+            >
+              {contents}
+            </Link>);
+
+  }
+
   renderModelList () {
     const { isReady, hasError, getData } = this.props.country;
 
@@ -42,7 +63,9 @@ class SelectModel extends Component {
 
     if (models.length === 1) {
       const model = models[0];
-      return <Redirect push to={`/explore/${model.id}`} />;
+      if (!model.externalUrl) {
+        return <Redirect push to={ `/explore/${model.id}` } />;
+      }
     }
 
     return (
@@ -50,31 +73,29 @@ class SelectModel extends Component {
         {models.map(m => (
           <li key={m.id} className='model-list__item'>
             <article className='card card--sumary card--model'>
-              <Link
-                to={`/explore/${m.id}`}
-                className='card__contents'
-                title={`Select ${name}`}
-              >
-                <header className='card__header'>
-                  <h1 className='card__title'>
-                    <span>{m.name}</span>{' '}
-                    <small className='label'>
-                      <span>{m.version}</span>
-                    </small>
-                  </h1>
-                </header>
-                <div className='card__body'>
-                  <div className='card__prose'>
-                    <p>{m.description}</p>
+              {this.modelLink(m,(
+                <Fragment>
+                  <header className='card__header'>
+                    <h1 className='card__title'>
+                      <span>{m.name}</span>{' '}
+                      <small className='label'>
+                        <span>{m.version}</span>
+                      </small>
+                    </h1>
+                  </header>
+                  <div className='card__body'>
+                    <div className='card__prose'>
+                      <p>{m.description}</p>
+                    </div>
+                    <dl className='card__details'>
+                      <dt>Updated</dt>
+                      <dd>{m.updatedAt}</dd>
+                      <dt>Author</dt>
+                      <dd>{m.attribution && m.attribution.author}</dd>
+                    </dl>
                   </div>
-                  <dl className='card__details'>
-                    <dt>Updated</dt>
-                    <dd>{m.updatedAt}</dd>
-                    <dt>Author</dt>
-                    <dd>{m.attribution && m.attribution.author}</dd>
-                  </dl>
-                </div>
-              </Link>
+                </Fragment>)
+                             )}
             </article>
           </li>
         ))}
