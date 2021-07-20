@@ -25,7 +25,15 @@ const labelsAndBordersLayer = 'admin-2-boundaries-bg';
 const gepFeaturesSourceId = 'gep-vt';
 
 // Adds layers for points
-const buildLayersForSource = (sourceId, sourceLayer) => [
+const _customLayerForSource = (sourceId, sourceLayer) => [
+  { id: `${sourceId}-custom`,
+    source: sourceId,
+    'source-layer': sourceLayer.name,
+    ...sourceLayer.style
+  }
+];
+
+const _buildLayersForSource = (sourceId, sourceLayer) => [
   {
     id: `${sourceId}-line`,
     type: 'line',
@@ -63,6 +71,15 @@ const buildLayersForSource = (sourceId, sourceLayer) => [
     }
   }
 ];
+
+
+const buildLayersForSource = (sourceId, sourceLayer) => {
+  if (typeof(sourceLayer) == typeof('a')) {
+    return _buildLayersForSource(sourceId, sourceLayer);
+  } else {
+    return _customLayerForSource(sourceId, sourceLayer);
+  }
+};
 
 class Map extends React.Component {
   constructor (props) {
@@ -363,11 +380,12 @@ class Map extends React.Component {
         const layers = [
           `ext-${layer.id}-line`,
           `ext-${layer.id}-polygon`,
-          `ext-${layer.id}-point`
+          `ext-${layer.id}-point`,
+          `ext-${layer.id}-custom`
         ];
         const visibility = layersState[lIdx] ? 'visible' : 'none';
         layers.forEach(l =>
-          this.map.setLayoutProperty(l, 'visibility', visibility)
+          this.map.getLayer(l) && this.map.setLayoutProperty(l, 'visibility', visibility)
         );
       } else if (layer.type === 'raster') {
         const visibility = layersState[lIdx] ? 'visible' : 'none';
