@@ -71,13 +71,13 @@ class Charts extends Component {
       const { format } = indicatorsLabels[keyIndicator];
       let values = Object.keys(popoverData).map((key, idx) => {
         if (key !== "year") {
-          return popoverData[key]
+          return popoverData[key];
         }
-        return 0
-      })
-      const total = values.reduce((a, b) => a+b)
-      return format(total)
-    }
+        return 0;
+      });
+      const total = values.reduce((a, b) => a+b);
+      return format(total);
+    };
 
     return (
       popoverIsVisible && (
@@ -405,7 +405,7 @@ class Charts extends Component {
         />
       );
     }
-    
+
     // Get document body color which varies depending on the theme
     var labelAndTicksColor = getComputedStyle(document.body).color;
 
@@ -414,27 +414,6 @@ class Charts extends Component {
         <div className='sum-area-chart-media__item'>
           <svg width={width} height={height}>
             <Group>
-              <AxisLeft
-                left={xMin}
-                scale={scaleLinear({
-                  range: [yMin, yMax],
-                  domain: [0, 100]
-                })}
-                tickComponent={({ formattedValue, ...tickProps }) => (
-                  <text {...tickProps}>{formattedValue}%</text>
-                )}
-                className='y-axis'
-                tickLabelProps={(value, index) => ({
-                  textAnchor: 'end',
-                  dx: '-0.25em',
-                  dy: '0.25em',
-                  fill: labelAndTicksColor,
-                })}
-                tickLength={yTickLength}
-                numTicks={3}
-                tickStroke={labelAndTicksColor}
-                stroke={labelAndTicksColor}
-              />
               <AreaStack
                 top={margin.top}
                 keys={techTypes}
@@ -459,6 +438,27 @@ class Charts extends Component {
                   });
                 }}
               </AreaStack>
+              <AxisLeft
+                left={xMin}
+                scale={scaleLinear({
+                  range: [yMin, yMax],
+                  domain: [0, 100]
+                })}
+                tickComponent={({ formattedValue, ...tickProps }) => (
+                  <text {...tickProps}>{formattedValue}%</text>
+                )}
+                className='y-axis'
+                tickLabelProps={(value, index) => ({
+                  textAnchor: 'end',
+                  dx: '-0.25em',
+                  dy: '0.25em',
+                  fill: labelAndTicksColor,
+                })}
+                tickLength={yTickLength}
+                numTicks={3}
+                tickStroke={labelAndTicksColor}
+                stroke={labelAndTicksColor}
+              />
               {getBaselineSVG()}
               <AxisBottom
                 top={yMin}
@@ -541,36 +541,36 @@ class Charts extends Component {
     const xTickLength = 6;
     const yTickLength = 6;
 
-    const years = Object.keys(summaryByType[keyIndicator])
-    years.sort()
+    const years = Object.keys(summaryByType[keyIndicator]);
+    years.sort();
 
     // categories of the bar
     let _barCategories = Object.keys(summaryByType[keyIndicator]).map(yr => {
-      return Object.keys(summaryByType[keyIndicator][yr])
-    })
+      return Object.keys(summaryByType[keyIndicator][yr]);
+    });
     const barCategories= Array.from(new Set(_barCategories.flat()));
 
     // Prepare Data
     const prepareData = (year) => {
       var _data = {
         year: parseInt(year)
-      }
+      };
       barCategories.map(key => {
         _data[key] = summaryByType[keyIndicator][year][key] || 0;
-      })
-      return _data
-    }
-    let data = years.map(value => {return prepareData(value)})
+      });
+      return _data;
+    };
+    let data = years.map(value => {return prepareData(value);});
 
     // Chart colors and color scale and chart keys
     const chartColors = [];
     const chartKeys = [];
     Object.keys(data[0]).map(k => {
       if (k !== 'year') {
-        chartColors.push(techLayers.filter(l => l.id === k)[0].color)
-        chartKeys.push(k)
+        chartColors.push(techLayers.filter(l => l.id === k)[0].color);
+        chartKeys.push(k);
       }
-    })
+    });
     const colorScale = scaleOrdinal({
       domain: chartKeys,
       range: chartColors
@@ -598,33 +598,15 @@ class Charts extends Component {
       range: [0, xMax],
       nice: true
     });
-    
+
     // Get document body color which varies depending on the theme
     var labelAndTicksColor = getComputedStyle(document.body).color;
-    
+
     return (
       <figure className='sum-chart-media' key={keyIndicator}>
         <div className='sum-chart-media__item'>
           <svg width={width} height={height}>
             <Group>
-              <AxisLeft
-                left={xMin}
-                scale={yearScale}
-                tickStroke={labelAndTicksColor}
-                stroke={labelAndTicksColor}
-                tickLength={yTickLength}
-                numTicks={years.length}
-                tickComponent={({ formattedValue, ...tickProps }) => (
-                  <text><tspan {...tickProps}>{formattedValue}</tspan></text>
-                )}
-                tickLabelProps={() => ({
-                  fill: labelAndTicksColor,
-                  textAnchor: "end",
-                  fontSize: 8,
-                  dy: '0.25em',
-                  dx: '-0.25em'
-                })}
-              />
               <BarStackHorizontal
                 data={data}
                 keys={chartKeys}
@@ -673,10 +655,27 @@ class Charts extends Component {
                 )
               }
               </BarStackHorizontal>
+              <AxisLeft
+                left={xMin}
+                scale={yearScale}
+                tickStroke={labelAndTicksColor}
+                stroke={labelAndTicksColor}
+                tickLength={yTickLength}
+                numTicks={years.length}
+                tickComponent={({ formattedValue, ...tickProps }) => (
+                  <text><tspan {...tickProps}>{formattedValue}</tspan></text>
+                )}
+                tickLabelProps={() => ({
+                  fill: labelAndTicksColor,
+                  textAnchor: "end",
+                  fontSize: 8,
+                  dy: '0.25em',
+                  dx: '-0.25em'
+                })}
+              />
               <AxisBottom
                 left={xMin}
                 top={yMin}
-                
                 scale={valueScale}
                 tickLabelProps={(value, index) => ({
                   fill: labelAndTicksColor,
