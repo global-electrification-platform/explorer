@@ -24,7 +24,7 @@ export default class LayerControlDropdown extends React.Component {
         direction='up'
         alignment='left'
       >
-        <ShadowScrollbars theme='light'>
+        <ShadowScrollbars theme='dark'>
           <h6 className='drop__title'>Toggle layers</h6>
           <ul className='layers-list'>
             {layersConfig.map((l, idx) => (
