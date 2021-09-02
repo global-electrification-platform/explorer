@@ -92,6 +92,10 @@ class Explore extends Component {
     });
   }
 
+  initialLeverState(model) {
+    return model.levers.map(l => l.default !== undefined ? l.default : 0);
+  }
+
   async componentDidMount () {
     await this.fetchModelData();
     const { hasError } = this.props.model;
@@ -202,7 +206,7 @@ class Explore extends Component {
           } else return filter.options.map(option => option.value);
         })
         : [],
-      leversState: makeZeroFilledArray(model.levers.length)
+      leversState: this.initialLeverState(model),
     }, () => {
       this.onApplyClick();
     });
@@ -223,7 +227,7 @@ class Explore extends Component {
       // Initialize levers and filters
       this.setState({
         defaultFilters: new Array(model.filters.length).fill(true),
-        leversState: makeZeroFilledArray(model.levers.length),
+        leversState: this.initialLeverState(model),
         filtersState: model.filters
           ? model.filters.map(filter => {
             if (filter.type === 'range') {
