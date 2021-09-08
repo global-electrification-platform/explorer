@@ -1,8 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { PropTypes as T } from 'prop-types';
-import map from 'lodash.map';
 import { Group } from '@vx/group';
-import { AreaStack, Pie, BarStackHorizontal } from '@vx/shape';
+import { AreaStack, BarStackHorizontal } from '@vx/shape';
 import { scaleLinear, scaleOrdinal, scaleBand } from '@vx/scale';
 import { AxisLeft, AxisBottom } from '@vx/axis';
 import { localPoint } from '@vx/event';
@@ -70,12 +69,12 @@ class Charts extends Component {
     const getTotal = () => {
       const { format } = indicatorsLabels[keyIndicator];
       let values = Object.keys(popoverData).map((key, idx) => {
-        if (key !== "year") {
+        if (key !== 'year') {
           return popoverData[key];
         }
         return 0;
       });
-      const total = values.reduce((a, b) => a+b);
+      const total = values.reduce((a, b) => a + b);
       return format(total);
     };
 
@@ -452,7 +451,7 @@ class Charts extends Component {
                   textAnchor: 'end',
                   dx: '-0.25em',
                   dy: '0.25em',
-                  fill: labelAndTicksColor,
+                  fill: labelAndTicksColor
                 })}
                 tickLength={yTickLength}
                 numTicks={3}
@@ -471,7 +470,7 @@ class Charts extends Component {
                 tickStroke={labelAndTicksColor}
                 tickLabelProps={(value, index) => ({
                   fill: labelAndTicksColor,
-                  fontSize: 8,
+                  fontSize: 8
                 })}
                 stroke={labelAndTicksColor}
               />
@@ -521,7 +520,7 @@ class Charts extends Component {
   }
 
   renderChart (keyIndicator) {
-    const { summary, summaryByType } = this.props.scenario;
+    const { summaryByType } = this.props.scenario;
     const techLayers = this.props.techLayers;
     const { label, format } = indicatorsLabels[keyIndicator];
 
@@ -533,11 +532,9 @@ class Charts extends Component {
       left: 10,
       right: 10
     };
-    const padding = 5;
     const xMin = 30;
     const xMax = width - xMin;
     const yMin = height - margin.top - margin.bottom;
-    const yMax = margin.top;
     const xTickLength = 6;
     const yTickLength = 6;
 
@@ -548,7 +545,7 @@ class Charts extends Component {
     let _barCategories = Object.keys(summaryByType[keyIndicator]).map(yr => {
       return Object.keys(summaryByType[keyIndicator][yr]);
     });
-    const barCategories= Array.from(new Set(_barCategories.flat()));
+    const barCategories = Array.from(new Set(_barCategories.flat()));
 
     // Prepare Data
     const prepareData = (year) => {
@@ -560,7 +557,7 @@ class Charts extends Component {
       });
       return _data;
     };
-    let data = years.map(value => {return prepareData(value);});
+    let data = years.map(value => { return prepareData(value); });
 
     // Chart colors and color scale and chart keys
     const chartColors = [];
@@ -616,44 +613,44 @@ class Charts extends Component {
                 yScale={yearScale}
                 color={colorScale}
               >
-              {(barStacks) =>
-                barStacks.map((barStack) =>
-                  barStack.bars.map((bar) => (
-                    <rect
-                      key={`barstack-horizontal-${barStack.index}-${bar.index}`}
-                      x={bar.x+xMin}
-                      y={bar.y}
-                      width={bar.width}
-                      height={bar.height}
-                      fill={bar.color}
-                      onClick={() => {
+                {(barStacks) =>
+                  barStacks.map((barStack) =>
+                    barStack.bars.map((bar) => (
+                      <rect
+                        key={`barstack-horizontal-${barStack.index}-${bar.index}`}
+                        x={bar.x + xMin}
+                        y={bar.y}
+                        width={bar.width}
+                        height={bar.height}
+                        fill={bar.color}
+                        onClick={() => {
                         // pass
-                      }}
-                      onMouseLeave={() => {
-                        this.setState({
-                          popoverIsVisible: false,
-                          keyIndicator: null
-                        });
-                      }}
-                      onMouseMove={event => {
-                        const { target } = event;
-                        const { top, height, left } = target.getBoundingClientRect();
-                        const yAxis = top + height / 2;
-                        const padding = 5;
-                        this.setState({
-                          popoverIsVisible: true,
-                          popoverPosition: {
-                            yAxis,
-                            right: window.innerWidth - (left - padding - bar.x)
-                          },
-                          popoverData: bar.bar.data,
-                          keyIndicator
-                        });
-                      }}
-                    />
-                  ))
-                )
-              }
+                        }}
+                        onMouseLeave={() => {
+                          this.setState({
+                            popoverIsVisible: false,
+                            keyIndicator: null
+                          });
+                        }}
+                        onMouseMove={event => {
+                          const { target } = event;
+                          const { top, height, left } = target.getBoundingClientRect();
+                          const yAxis = top + height / 2;
+                          const padding = 5;
+                          this.setState({
+                            popoverIsVisible: true,
+                            popoverPosition: {
+                              yAxis,
+                              right: window.innerWidth - (left - padding - bar.x)
+                            },
+                            popoverData: bar.bar.data,
+                            keyIndicator
+                          });
+                        }}
+                      />
+                    ))
+                  )
+                }
               </BarStackHorizontal>
               <AxisLeft
                 left={xMin}
@@ -667,7 +664,7 @@ class Charts extends Component {
                 )}
                 tickLabelProps={() => ({
                   fill: labelAndTicksColor,
-                  textAnchor: "end",
+                  textAnchor: 'end',
                   fontSize: 8,
                   dy: '0.25em',
                   dx: '-0.25em'

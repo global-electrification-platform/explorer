@@ -330,7 +330,7 @@ export function downloadPDF (props) {
     { name: 'Investment required ', id: 'investmentCost' },
     { name: 'Added capacity', id: 'newCapacity' }
   ];
-  const multiYearIds = ['investmentCost', 'newCapacity']
+  const multiYearIds = ['investmentCost', 'newCapacity'];
 
   // Result headers
   outputs.forEach((output, index) => {
@@ -356,7 +356,7 @@ export function downloadPDF (props) {
         .roundedRect(outputLeft, itemTop + 3, 12, 4, 2)
         .fillColor(layerItem.color, 1)
         .fill();
-      let itemValue = ''
+      let itemValue = '';
       if (multiYearIds.indexOf(output.id) > -1) {
         itemValue = formatThousands(
           round(scenarioData.summaryByType[output.id][year][layer], 0)

@@ -34,23 +34,22 @@ class SelectModel extends Component {
 
   modelLink (model, contents) {
     let modelUrl = `/explore/${model.id}`;
-    if ( model['externalUrl'] ) {
+    if (model['externalUrl']) {
       modelUrl = model['externalUrl'];
       return (<a href={modelUrl}
-                 className='card__contents external'
-                 title={`Select ${model.name}`}
-              >
-                {contents}
-              </a>);
+        className='card__contents external'
+        title={`Select ${model.name}`}
+      >
+        {contents}
+      </a>);
     }
     return (<Link
-              to={modelUrl}
-              className='card__contents'
-              title={`Select ${model.name}`}
-            >
-              {contents}
-            </Link>);
-
+      to={modelUrl}
+      className='card__contents'
+      title={`Select ${model.name}`}
+    >
+      {contents}
+    </Link>);
   }
 
   renderModelList () {
@@ -73,7 +72,7 @@ class SelectModel extends Component {
         {models.map(m => (
           <li key={m.id} className='model-list__item'>
             <article className='card card--sumary card--model'>
-              {this.modelLink(m,(
+              {this.modelLink(m, (
                 <Fragment>
                   <header className='card__header'>
                     <h1 className='card__title'>
@@ -95,7 +94,7 @@ class SelectModel extends Component {
                     </dl>
                   </div>
                 </Fragment>)
-                             )}
+              )}
             </article>
           </li>
         ))}

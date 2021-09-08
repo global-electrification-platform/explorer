@@ -21,3 +21,11 @@ dev-bash:
 
 serve:
 	cd dist && python -mSimpleHTTPServer 9000 .
+
+
+lint:
+	docker run $(NODE_OPTS) -ti -p 9000:9000 $(NODE_IMAGE) yarn lint
+
+
+lint-fix:
+	docker run $(NODE_OPTS) -ti -p 9000:9000 $(NODE_IMAGE) yarn lint --fix

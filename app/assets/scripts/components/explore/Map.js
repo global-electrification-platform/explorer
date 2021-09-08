@@ -72,9 +72,8 @@ const _buildLayersForSource = (sourceId, sourceLayer) => [
   }
 ];
 
-
 const buildLayersForSource = (sourceId, sourceLayer) => {
-  if (typeof(sourceLayer) == typeof('a')) {
+  if (typeof (sourceLayer) === typeof ('a')) {
     return _buildLayersForSource(sourceId, sourceLayer);
   } else {
     return _customLayerForSource(sourceId, sourceLayer);
@@ -180,8 +179,8 @@ class Map extends React.Component {
       // position: top|bottom|undefined: optional, relative to the cluster layer
       const addExternalLayers = (position) => {
         externalLayers.forEach(layer => {
-          const layer_position = layer.position || "bottom";
-          if (layer_position != position) {
+          const layerPosition = layer.position || 'bottom';
+          if (layerPosition !== position) {
             return;
           }
           if (layer.type === 'vector') {

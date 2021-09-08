@@ -10,4 +10,3 @@ export default {
   mapboxAccessToken: 'pk.eyJ1IjoiZGVyaWxpbngiLCJhIjoiY2szeTlzbWo2MDV6eDNlcDMxM3dzZXBieiJ9.zPf1iiFilYYwyx6ETNj_8w',
   basemapStyleLink: 'mapbox://styles/derilinx/ckpwsqr6b3icr18qifl1h2e1d'
 };
-

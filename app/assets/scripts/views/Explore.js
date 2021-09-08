@@ -7,7 +7,7 @@ import isEqual from 'lodash.isequal';
 import pull from 'lodash.pull';
 
 import { environment } from '../config';
-import { makeZeroFilledArray, cloneArrayAndChangeCell, round } from '../utils';
+import { cloneArrayAndChangeCell, round } from '../utils';
 import { wrapApiResult, getFromState } from '../redux/utils';
 import { fetchModel, fetchScenario, fetchCountry } from '../redux/actions';
 import QsState from '../utils/qs-state';
@@ -92,7 +92,7 @@ class Explore extends Component {
     });
   }
 
-  initialLeverState(model) {
+  initialLeverState (model) {
     return model.levers.map(l => l.default !== undefined ? l.default : 0);
   }
 
@@ -139,7 +139,7 @@ class Explore extends Component {
     } else {
       // Get current selected options
       let selectedOptions = clone(this.state.filtersState[filterIdx]);
-      
+
       // Toggle filter value from select options
       // If all fiters are selected and user clicks option, disable all and select the selected option
       // only of Andmin1
@@ -206,7 +206,7 @@ class Explore extends Component {
           } else return filter.options.map(option => option.value);
         })
         : [],
-      leversState: this.initialLeverState(model),
+      leversState: this.initialLeverState(model)
     }, () => {
       this.onApplyClick();
     });
