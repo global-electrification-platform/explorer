@@ -1,10 +1,10 @@
 NODE_OPTS=--rm -v "$(realpath .):/usr/src" 
 
-NODE_IMAGE=yarn:10
+NODE_IMAGE=yarn:12
 DOCKER=docker run -u $(shell id -u)  $(NODE_OPTS) -ti $(NODE_IMAGE)
 
 install:
-	docker build -t yarn:10 docker-image
+	docker build -t yarn:12 docker-image
 	$(DOCKER) yarn install
 
 build:
