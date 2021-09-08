@@ -252,11 +252,12 @@ gulp.task('collecticons', function (done) {
     '--font-name', 'Collecticons',
     '--font-types', 'woff,woff2',
     '--style-formats', 'sass',
-    '--style-dest', 'app/assets/styles/core/',
+    '--style-dest', 'app/assets/styles/',
     '--style-name', 'collecticons',
     '--class-name', 'collecticon',
     '--author-name', 'Development Seed',
     '--author-url', 'https://developmentseed.org/',
+    '--rescale',
     '--no-preview'
   ];
 

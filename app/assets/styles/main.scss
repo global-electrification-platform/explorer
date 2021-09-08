@@ -59,7 +59,8 @@
    ========================================================================== */
 
 @import 'core/base';
-@import 'core/collecticons'; // Webfont icon library: Collecticons
+/* there's a path issue in collecticons when in core */
+@import 'collecticons'; // Webfont icon library: Collecticons
 @import 'core/typography';
 @import 'core/tables';
 @import 'core/media';
