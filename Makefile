@@ -11,7 +11,7 @@ build:
 	$(DOCKER) yarn build
 
 upload: build
-	cd dist && ../../vpy-gep/bin/aws s3 sync . s3://gep-explorer-public
+	cd dist && ../../vpy-gep/bin/aws s3 sync . s3://gep-explorer-public/v2
 
 dev-serve:
 	docker run $(NODE_OPTS) -e 'API=http://gep.localhost' -u www-data -ti -p 9000:9000 $(NODE_IMAGE) yarn serve

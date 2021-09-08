@@ -8,4 +8,5 @@ WORKDIR /usr/src
 
 run mkdir /.yarn && touch /.yarnrc && chmod 666 /.yarnrc && chmod 777 /.yarn
 
+user 1000
 CMD ["yarn", "serve"]
