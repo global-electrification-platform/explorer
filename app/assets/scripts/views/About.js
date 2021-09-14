@@ -27,7 +27,7 @@ class About extends Component {
               </p>
 
               <p>
-                Users can explore 216 different scenarios to meet the access
+                Users can explore 96 different scenarios to meet the access
                 goals. These different combinations and parameters are presented
                 in the form of "levers". Users can overlay additional layers as
                 well (e.g. wind potential, electricity networks, location of
@@ -82,9 +82,9 @@ class About extends Component {
                   </a>
                 </li>
                 <li>
-                  <b>WRI:</b> Dimitrios Mentis –{' '}
-                  <a href='mailto:Dimitrios.Mentis@wri.org'>
-                    Dimitrios.Mentis@wri.org
+                  <b>Derilinx:</b> Eric Soroos –{' '}
+                  <a href='mailto:eric@derilinx.com'>
+                    eric@derilinx.com
                   </a>
                 </li>
                 <li>
@@ -154,15 +154,15 @@ class About extends Component {
                 </dd>
                 <dd>
                   <a
-                    href='https://www.wri.org/'
-                    title='Visit World Resources Institute'
+                    href='https://www.derilinx.com/'
+                    title='Visit Derilinx'
                     target='_blank'
                   >
                     <img
-                      alt='WRI Logo'
-                      src='/assets/graphics/content/logos/logo-wri.png'
+                      alt='Derilinx Logo'
+                      src='/assets/graphics/content/logos/logo-derilinx.png'
                     />
-                    <span>WRI</span>
+                    <span>Derilinx</span>
                   </a>
                 </dd>
                 <dd>

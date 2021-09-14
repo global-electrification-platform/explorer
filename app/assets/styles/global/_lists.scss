@@ -93,6 +93,8 @@
 
   dd {
     grid-column: auto / span 6;
+    background: white;
+    border-radius: $global-spacing / 4;
 
     @include media(small-up) {
       grid-column: auto / span 4;
