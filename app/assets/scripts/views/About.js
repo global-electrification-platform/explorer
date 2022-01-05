@@ -82,6 +82,12 @@ class About extends Component {
                   </a>
                 </li>
                 <li>
+                  <b>WRI:</b> Dimitrios Mentis –{' '}
+                  <a href='mailto:Dimitrios.Mentis@wri.org'>
+                    Dimitrios.Mentis@wri.org
+                  </a>
+                </li>
+                <li>
                   <b>Derilinx:</b> Eric Soroos –{' '}
                   <a href='mailto:eric@derilinx.com'>
                     eric@derilinx.com
@@ -163,6 +169,19 @@ class About extends Component {
                       src='/assets/graphics/content/logos/logo-derilinx.png'
                     />
                     <span>Derilinx</span>
+                  </a>
+                </dd>
+                <dd>
+                  <a
+                    href='https://www.wri.org/'
+                    title='Visit World Resources Institute'
+                    target='_blank'
+                  >
+                    <img
+                      alt='WRI Logo'
+                      src='/assets/graphics/content/logos/logo-wri.png'
+                    />
+                    <span>WRI</span>
                   </a>
                 </dd>
                 <dd>
