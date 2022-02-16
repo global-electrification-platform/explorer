@@ -112,7 +112,7 @@ class About extends Component {
                   >
                     <img
                       alt='WBG Logo'
-                      src='/assets/graphics/content/logos/logo-wbg.png'
+                      src='/assets/graphics/content/logos/logo-wbg-irbdida.png'
                     />
                     <span>KTH</span>
                   </a>
