@@ -26,6 +26,12 @@ const indicatorsLabels = {
     format: n => {
       return `${formatKeyIndicator(n, 'power')}`;
     }
+  },
+  annualEmissions: {
+    label: 'Annual Emmissions',
+    format: n => {
+      return `${formatKeyIndicator(n, 'power')}`;
+    }
   }
 };
 
@@ -706,7 +712,7 @@ class Charts extends Component {
         {this.renderPopover()}
         {populationPopoverVisible && this.renderPopulationPopover()}
         {this.renderPopulationChart()}
-        {['investmentCost', 'newCapacity'].map(indicator => {
+        {['investmentCost', 'newCapacity', 'annualEmissions'].map(indicator => {
           return this.renderChart(indicator);
         })}
       </Fragment>
