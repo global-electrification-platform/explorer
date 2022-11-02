@@ -28,7 +28,7 @@ const indicatorsLabels = {
     }
   },
   annualEmissions: {
-    label: 'Annual Emmissions',
+    label: 'Annual Emissions',
     format: n => {
       return `${formatKeyIndicator(n, 'power')}`;
     }
