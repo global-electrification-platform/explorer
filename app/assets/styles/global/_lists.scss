@@ -68,7 +68,7 @@
 .chart-note {
   font-size: 0.75rem;
   line-height: 1rem;
-  color: rgba($base-color, 0.64);
+  color: rgba($base-font-color, 0.64);
 }
 
 
@@ -93,6 +93,8 @@
 
   dd {
     grid-column: auto / span 6;
+    background: white;
+    border-radius: $global-spacing / 4;
 
     @include media(small-up) {
       grid-column: auto / span 4;

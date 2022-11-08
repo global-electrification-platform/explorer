@@ -114,12 +114,23 @@ export function formatKeyIndicator (val, type, decimals) {
   let digits = 1;
 
   // 'power' is reported in kW. Convert to to Watt before formatting
-  const n = Math.abs(type === 'power' ? val * 1000 : val);
+  const factor = {
+    power: 1000, // in kW, not w
+    "co2": .001,  // in kg, not ton
+  };
+
+  const gigLabel = {
+    power: 'G',
+    'co2': 'G',
+  };
+
+  const fact = factor[type] || 1;
   const isNeg = val < 0;
+  const n = Math.abs(fact * val);
 
   if (n > 1000000000) {
     // 10^9 = gigawatt
-    unit = type === 'power' ? 'G' : 'B';
+    unit = gigLabel[type] || 'B';
     divider = 1000000000;
     digits = 1;
   } else if (n > 1000000) {
@@ -136,7 +147,13 @@ export function formatKeyIndicator (val, type, decimals) {
     digits = 0;
   }
 
-  unit = type === 'power' ? `${unit}W` : unit;
+  if (type === 'power') {
+    unit = `${unit}W`;
+  } else if (type === 'co2') {
+    unit = `${unit}t CO2 eq`;
+  } else {
+    unit = unit;
+  }
 
   return `${isNeg ? '-' : ''}${(n / divider).toLocaleString('en-US', {
     minimumFractionDigits: typeof decimals === 'number' ? decimals : digits,

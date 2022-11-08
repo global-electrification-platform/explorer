@@ -92,6 +92,10 @@ class Explore extends Component {
     });
   }
 
+  initialLeverState(model) {
+    return model.levers.map(l => l.default !== undefined ? l.default : 0);
+  }
+
   async componentDidMount () {
     await this.fetchModelData();
     const { hasError } = this.props.model;
@@ -135,12 +139,18 @@ class Explore extends Component {
     } else {
       // Get current selected options
       let selectedOptions = clone(this.state.filtersState[filterIdx]);
-
+      
       // Toggle filter value from select options
-      if (selectedOptions.indexOf(value) > -1) {
-        pull(selectedOptions, value);
+      // If all fiters are selected and user clicks option, disable all and select the selected option
+      // only of Andmin1
+      if (selectedOptions.length === filter.options.length) {
+        selectedOptions = [value];
       } else {
-        selectedOptions.push(value);
+        if (selectedOptions.indexOf(value) > -1) {
+          pull(selectedOptions, value);
+        } else {
+          selectedOptions.push(value);
+        }
       }
 
       // Do not allow less than one option selected
@@ -196,7 +206,7 @@ class Explore extends Component {
           } else return filter.options.map(option => option.value);
         })
         : [],
-      leversState: makeZeroFilledArray(model.levers.length)
+      leversState: this.initialLeverState(model),
     }, () => {
       this.onApplyClick();
     });
@@ -217,7 +227,7 @@ class Explore extends Component {
       // Initialize levers and filters
       this.setState({
         defaultFilters: new Array(model.filters.length).fill(true),
-        leversState: makeZeroFilledArray(model.levers.length),
+        leversState: this.initialLeverState(model),
         filtersState: model.filters
           ? model.filters.map(filter => {
             if (filter.type === 'range') {

@@ -27,7 +27,7 @@ class About extends Component {
               </p>
 
               <p>
-                Users can explore 216 different scenarios to meet the access
+                Users can explore 96 different scenarios to meet the access
                 goals. These different combinations and parameters are presented
                 in the form of "levers". Users can overlay additional layers as
                 well (e.g. wind potential, electricity networks, location of
@@ -88,6 +88,12 @@ class About extends Component {
                   </a>
                 </li>
                 <li>
+                  <b>Derilinx:</b> Eric Soroos –{' '}
+                  <a href='mailto:eric@derilinx.com'>
+                    eric@derilinx.com
+                  </a>
+                </li>
+                <li>
                   <b>Google:</b> Saleem Van Groenou –{' '}
                   <a href='mailto:svangroenou@google.com'>
                     svangroenou@google.com
@@ -106,7 +112,7 @@ class About extends Component {
                   >
                     <img
                       alt='WBG Logo'
-                      src='/assets/graphics/content/logos/logo-wbg.png'
+                      src='/assets/graphics/content/logos/logo-wbg-irbdida.png'
                     />
                     <span>KTH</span>
                   </a>
@@ -150,6 +156,19 @@ class About extends Component {
                       src='/assets/graphics/content/logos/logo-devseed.svg'
                     />
                     <span>Development Seed</span>
+                  </a>
+                </dd>
+                <dd>
+                  <a
+                    href='https://www.derilinx.com/'
+                    title='Visit Derilinx'
+                    target='_blank'
+                  >
+                    <img
+                      alt='Derilinx Logo'
+                      src='/assets/graphics/content/logos/logo-derilinx.png'
+                    />
+                    <span>Derilinx</span>
                   </a>
                 </dd>
                 <dd>

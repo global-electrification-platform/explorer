@@ -158,7 +158,7 @@ class Filters extends Component {
         <h1 className='econtrols__title'>Filters</h1>
         <form className='form econtrols__block' id='#econtrols__scenarios'>
           <div className='econtrols__subblock'>
-            <ShadowScrollbars theme='light'>
+            <ShadowScrollbars theme='dark'>
               {filtersConfig &&
                 filtersConfig.length > 0 &&
                 this.renderFilters(filtersConfig)}

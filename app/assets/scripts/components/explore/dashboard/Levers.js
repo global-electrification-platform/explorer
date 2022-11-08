@@ -63,7 +63,7 @@ class Levers extends Component {
         <h1 className='econtrols__title'>Scenarios</h1>
         <form className='form econtrols__block'>
           <div className='econtrols__subblock'>
-            <ShadowScrollbars theme='light'>
+            <ShadowScrollbars theme='dark'>
               {leversConfig.map(this.renderLever)}
             </ShadowScrollbars>
           </div>

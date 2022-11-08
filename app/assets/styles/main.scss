@@ -51,12 +51,16 @@
 @import 'settings/functions';
 @import 'settings/mixins';
 
+/* Theme variables to alter colors
+   ========================================================================== */
+@import 'themes/theme-variables';
 
 /* Core
    ========================================================================== */
 
 @import 'core/base';
-@import 'core/collecticons'; // Webfont icon library: Collecticons
+/* there's a path issue in collecticons when in core */
+@import 'collecticons'; // Webfont icon library: Collecticons
 @import 'core/typography';
 @import 'core/tables';
 @import 'core/media';
@@ -131,3 +135,8 @@
 @import 'vendor/react-input-range/index';
 @import 'vendor/mapbox-gl';
 @import 'vendor/outdated-browser';
+
+
+/* Selected Theme - Dark
+   ========================================================================== */
+@import 'themes/theme';

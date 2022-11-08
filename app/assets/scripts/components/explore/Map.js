@@ -25,7 +25,15 @@ const labelsAndBordersLayer = 'admin-2-boundaries-bg';
 const gepFeaturesSourceId = 'gep-vt';
 
 // Adds layers for points
-const buildLayersForSource = (sourceId, sourceLayer) => [
+const _customLayerForSource = (sourceId, sourceLayer) => [
+  { id: `${sourceId}-custom`,
+    source: sourceId,
+    'source-layer': sourceLayer.name,
+    ...sourceLayer.style
+  }
+];
+
+const _buildLayersForSource = (sourceId, sourceLayer) => [
   {
     id: `${sourceId}-line`,
     type: 'line',
@@ -63,6 +71,15 @@ const buildLayersForSource = (sourceId, sourceLayer) => [
     }
   }
 ];
+
+
+const buildLayersForSource = (sourceId, sourceLayer) => {
+  if (typeof(sourceLayer) == typeof('a')) {
+    return _buildLayersForSource(sourceId, sourceLayer);
+  } else {
+    return _customLayerForSource(sourceId, sourceLayer);
+  }
+};
 
 class Map extends React.Component {
   constructor (props) {
@@ -158,69 +175,78 @@ class Map extends React.Component {
       // url:           Url to a tilejson or mapbox://. Use interchangeably with tiles
       // tiles:         Array of tile url. Use interchangeably with url
       // vectorLayers:  Array of source layers to show. Only in case of type vector
-      externalLayers.forEach(layer => {
-        if (layer.type === 'vector') {
-          if (!layer.vectorLayers || !layer.vectorLayers.length) {
-            // eslint-disable-next-line no-console
-            return console.warn(
-              `Layer [${layer.label}] has missing (vectorLayers) property.`
-            );
+      //   - VectorLayers may be a string of the layer name, or
+      //       - name: string, style: json style object
+      // position: top|bottom|undefined: optional, relative to the cluster layer
+      const addExternalLayers = (position) => {
+        externalLayers.forEach(layer => {
+          const layer_position = layer.position || "bottom";
+          if (layer_position != position) {
+            return;
           }
-          if ((!layer.tiles || !layer.tiles.length) && !layer.url) {
-            // eslint-disable-next-line no-console
-            return console.warn(
-              `Layer [${layer.label}] must have (url) or (tiles) property.`
-            );
-          }
+          if (layer.type === 'vector') {
+            if (!layer.vectorLayers || !layer.vectorLayers.length) {
+              // eslint-disable-next-line no-console
+              return console.warn(
+                `Layer [${layer.label}] has missing (vectorLayers) property.`
+              );
+            }
+            if ((!layer.tiles || !layer.tiles.length) && !layer.url) {
+              // eslint-disable-next-line no-console
+              return console.warn(
+                `Layer [${layer.label}] must have (url) or (tiles) property.`
+              );
+            }
 
-          const sourceId = `ext-${layer.id}`;
-          let options = { type: 'vector' };
+            const sourceId = `ext-${layer.id}`;
+            let options = { type: 'vector' };
 
-          if (layer.tiles) {
-            options.tiles = layer.tiles;
-          } else if (layer.url) {
-            options.url = layer.url;
-          }
+            if (layer.tiles) {
+              options.tiles = layer.tiles;
+            } else if (layer.url) {
+              options.url = layer.url;
+            }
 
-          this.map.addSource(sourceId, options);
-          layer.vectorLayers.forEach(vt => {
-            buildLayersForSource(sourceId, vt).forEach(l => {
-              this.map.addLayer(l, labelsAndBordersLayer);
+            this.map.addSource(sourceId, options);
+            layer.vectorLayers.forEach(vt => {
+              buildLayersForSource(sourceId, vt).forEach(l => {
+                this.map.addLayer(l, labelsAndBordersLayer);
+              });
             });
-          });
 
-          // Raster layer type.
-        } else if (layer.type === 'raster') {
-          if (!layer.tiles || !layer.tiles.length) {
+            // Raster layer type.
+          } else if (layer.type === 'raster') {
+            if (!layer.tiles || !layer.tiles.length) {
+              // eslint-disable-next-line no-console
+              return console.warn(
+                `Layer [${layer.label}] must have (tiles) property.`
+              );
+            }
+            const sourceId = `ext-${layer.id}`;
+            this.map.addSource(sourceId, {
+              type: 'raster',
+              tiles: layer.tiles
+            });
+            this.map.addLayer(
+              {
+                id: `${sourceId}-tiles`,
+                type: 'raster',
+                source: sourceId
+              },
+              labelsAndBordersLayer
+            );
+          } else {
             // eslint-disable-next-line no-console
-            return console.warn(
-              `Layer [${layer.label}] must have (tiles) property.`
+            console.warn(
+              `Layer [${
+                layer.label
+              }] has unsupported type [layer.type] and won't be added.`
             );
           }
-          const sourceId = `ext-${layer.id}`;
-          this.map.addSource(sourceId, {
-            type: 'raster',
-            tiles: layer.tiles
-          });
-          this.map.addLayer(
-            {
-              id: `${sourceId}-tiles`,
-              type: 'raster',
-              source: sourceId
-            },
-            labelsAndBordersLayer
-          );
-        } else {
-          // eslint-disable-next-line no-console
-          console.warn(
-            `Layer [${
-              layer.label
-            }] has unsupported type [layer.type] and won't be added.`
-          );
-        }
-      });
+        });
+      };
 
-      this.toggleExternalLayers();
+      addExternalLayers('bottom');
 
       const sourceLayer = modelVT.id;
 
@@ -245,6 +271,9 @@ class Map extends React.Component {
           labelsAndBordersLayer
         );
       }
+
+      addExternalLayers('top');
+      this.toggleExternalLayers();
 
       /**
        * Hover outline layer
@@ -363,11 +392,12 @@ class Map extends React.Component {
         const layers = [
           `ext-${layer.id}-line`,
           `ext-${layer.id}-polygon`,
-          `ext-${layer.id}-point`
+          `ext-${layer.id}-point`,
+          `ext-${layer.id}-custom`
         ];
         const visibility = layersState[lIdx] ? 'visible' : 'none';
         layers.forEach(l =>
-          this.map.setLayoutProperty(l, 'visibility', visibility)
+          this.map.getLayer(l) && this.map.setLayoutProperty(l, 'visibility', visibility)
         );
       } else if (layer.type === 'raster') {
         const visibility = layersState[lIdx] ? 'visible' : 'none';

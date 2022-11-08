@@ -1,0 +1,106 @@
+{
+  "commonLayers": {
+    "externalLayers": [
+      {
+        "id": "mapbox_satellite",
+        "label": "Mapbox Satellite",
+        "description": "Satellite imagery provided by Mapbox from commercial providers, NASA, and USGS.",
+        "type": "raster",
+        "tiles": [
+          "https://a.tiles.mapbox.com/v4/mapbox.satellite/{z}/{x}/{y}@2x.jpg?access_token=pk.eyJ1IjoiYWxla29yIiwiYSI6ImNqdGZwc2FoaDBkNjAzeXJ1b3B6bzR6Z2IifQ.m6OQgD-IfmhaVS3Xh5XNoQ"
+        ]
+      },
+      {
+        "id": "healthsites",
+        "label": "Healthsites",
+        "type": "vector",
+        "tiles": [
+          "https://energydata-tiles-bk.s3.amazonaws.com/tiles/65d803f9-0731-4783-bfa9-d2c66a0fd5e2/{z}/{x}/{y}.pbf"
+        ],
+        "description": "This dataset shows the list of operating health facilities.",
+        "source": {
+          "label": "Minna et al. / OSM",
+          "url": "https://www.nature.com/articles/s41597-019-0142-2"
+        },
+        "position": "top",
+        "vectorLayers": [
+          {
+            "name": "data_layer",
+            "style": {
+              "type": "symbol",
+              "layout": {
+                "icon-image": "hospital",
+                "icon-allow-overlap": false,
+                "icon-padding": 0
+              }
+            }
+          }
+        ]
+      },
+      {
+        "id": "schools",
+        "label": "Schools",
+        "type": "vector",
+        "description": "This dataset shows the schools from OpenStreetMap.",
+        "source": {
+          "label": "OpenStreetMap",
+          "url": "https://www.openstreetmap.org"
+        },
+        "position": "top",
+        "tiles": [
+          "https://energydata-tiles-bk.s3.amazonaws.com/tiles/abb13d11-3d20-4779-8bd1-3b0a32fd6487/{z}/{x}/{y}.pbf"
+        ],
+        "vectorLayers": [
+          {
+            "name": "data_layer",
+            "style": {
+              "type": "symbol",
+              "layout": {
+                "icon-image": "school",
+                "icon-allow-overlap": false,
+                "icon-padding": 0
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "techLayersConfig": {
+      "7": {
+        "id": 7,
+        "label": "Mini-grid Hydro",
+        "color": "#28e66d"
+      },
+      "3": {
+        "id": 3,
+        "label": "Stand-alone PV",
+        "color": "#ffc700"
+      },
+      "5": {
+        "id": 5,
+        "label": "Mini-grid PV Hybrid",
+        "color": "#e628a0"
+      },
+      "6": {
+        "id": 6,
+        "label": "Mini-grid Wind Hybrid",
+        "color": "#1b8f4d"
+      },
+      "1": {
+        "id": 1,
+        "label": "Existing grid",
+        "color": "#4e53de"
+      },
+      "2": {
+        "id": 2,
+        "label": "New grid connection",
+        "color": "#a6aaff"
+      },
+      "99": {
+        "id": 99,
+        "label": "Unelectrified",
+        "color": "#808080"
+      }
+    }
+  }
+}

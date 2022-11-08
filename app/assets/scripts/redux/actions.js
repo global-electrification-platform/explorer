@@ -2,6 +2,7 @@ import qs from 'qs';
 
 import { fetchDispatchCacheFactory, fetchDispatchFactory } from './utils';
 import { dataServiceUrl } from '../config';
+import { commonLayers } from '../common-layers.json';
 
 /*
  * Actions for Models
@@ -34,7 +35,19 @@ export function fetchModel (modelId) {
     statePath: ['individualModels', modelId],
     url: `${dataServiceUrl}/models/${modelId}`,
     requestFn: requestModel.bind(this, modelId),
-    receiveFn: receiveModel.bind(this, modelId)
+    receiveFn: receiveModel.bind(this, modelId),
+    mutator: (data) => {
+      data.map.externalLayers = commonLayers.externalLayers;
+      data.map.techLayersConfig = data.map.techLayersConfig.map(
+        (e) => {
+          if (commonLayers.techLayersConfig[e.id]) {
+            e.color = commonLayers.techLayersConfig[e.id].color;
+          }
+          return e;
+        }
+      );
+      return data;
+    }
   });
 }
 

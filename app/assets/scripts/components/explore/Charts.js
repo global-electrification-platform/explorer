@@ -2,11 +2,10 @@ import React, { Component, Fragment } from 'react';
 import { PropTypes as T } from 'prop-types';
 import map from 'lodash.map';
 import { Group } from '@vx/group';
-import { AreaStack, Pie } from '@vx/shape';
-import { scaleLinear } from '@vx/scale';
+import { AreaStack, Pie, BarStackHorizontal } from '@vx/shape';
+import { scaleLinear, scaleOrdinal, scaleBand } from '@vx/scale';
 import { AxisLeft, AxisBottom } from '@vx/axis';
 import { localPoint } from '@vx/event';
-
 import { environment } from '../../config';
 import { formatKeyIndicator } from '../../utils';
 
@@ -26,6 +25,12 @@ const indicatorsLabels = {
     label: 'Added Capacity',
     format: n => {
       return `${formatKeyIndicator(n, 'power')}`;
+    }
+  },
+  annualEmissions: {
+    label: 'Annual Emissions',
+    format: n => {
+      return `${formatKeyIndicator(n, 'co2')}`;
     }
   }
 };
@@ -61,11 +66,24 @@ class Charts extends Component {
     const {
       popoverIsVisible,
       popoverPosition: { yAxis, right },
+      popoverData,
       keyIndicator
     } = this.state;
 
-    const summary = this.props.scenario.summaryByType[keyIndicator];
+    const summary = popoverData;
     const techLayers = this.props.techLayers;
+
+    const getTotal = () => {
+      const { format } = indicatorsLabels[keyIndicator];
+      let values = Object.keys(popoverData).map((key, idx) => {
+        if (key !== "year") {
+          return popoverData[key];
+        }
+        return 0;
+      });
+      const total = values.reduce((a, b) => a+b);
+      return format(total);
+    };
 
     return (
       popoverIsVisible && (
@@ -80,26 +98,31 @@ class Charts extends Component {
                   <h1 className='popover__title'>
                     {indicatorsLabels[keyIndicator].label}
                   </h1>
+                  <p className='popover__subtitle'>
+                    Total: {getTotal()} in {popoverData.year}
+                  </p>
                 </div>
               </header>
               <div className='popover__body'>
                 <dl className='chart-number-list'>
-                  {Object.keys(summary).map(layerId => {
-                    const { format } = indicatorsLabels[keyIndicator];
-                    const layer = techLayers.filter(l => l.id === layerId)[0];
-                    return (
-                      <Fragment key={layerId}>
-                        <dt>
-                          <span
-                            className={`lgfx`}
-                            style={{ backgroundColor: layer.color }}
-                          >
-                            {layer.label}
-                          </span>
-                        </dt>
-                        <dd>{format(summary[layerId])}</dd>
-                      </Fragment>
-                    );
+                  {Object.keys(popoverData).map(layerId => {
+                    if (layerId !== 'year') {
+                      const { format } = indicatorsLabels[keyIndicator];
+                      const layer = techLayers.filter(l => l.id === layerId)[0];
+                      return (
+                        <Fragment key={layerId}>
+                          <dt>
+                            <span
+                              className={`lgfx`}
+                              style={{ backgroundColor: layer.color }}
+                            >
+                              {layer.label}
+                            </span>
+                          </dt>
+                          <dd>{format(summary[layerId])}</dd>
+                        </Fragment>
+                      );
+                    }
                   })}
                 </dl>
               </div>
@@ -335,7 +358,7 @@ class Charts extends Component {
 
     // Chart properties
     const height = 150;
-    const width = 200;
+    const width = 220;
     const margin = {
       top: 10,
       bottom: 10,
@@ -389,29 +412,14 @@ class Charts extends Component {
       );
     }
 
+    // Get document body color which varies depending on the theme
+    var labelAndTicksColor = getComputedStyle(document.body).color;
+
     return (
       <figure className='sum-chart-media'>
         <div className='sum-area-chart-media__item'>
           <svg width={width} height={height}>
             <Group>
-              <AxisLeft
-                left={xMin}
-                scale={scaleLinear({
-                  range: [yMin, yMax],
-                  domain: [0, 100]
-                })}
-                tickComponent={({ formattedValue, ...tickProps }) => (
-                  <text {...tickProps}>{formattedValue}%</text>
-                )}
-                className='y-axis'
-                tickLabelProps={(value, index) => ({
-                  textAnchor: 'end',
-                  dx: '-0.25em',
-                  dy: '0.25em'
-                })}
-                tickLength={yTickLength}
-                numTicks={3}
-              />
               <AreaStack
                 top={margin.top}
                 keys={techTypes}
@@ -436,6 +444,27 @@ class Charts extends Component {
                   });
                 }}
               </AreaStack>
+              <AxisLeft
+                left={xMin}
+                scale={scaleLinear({
+                  range: [yMin, yMax],
+                  domain: [0, 100]
+                })}
+                tickComponent={({ formattedValue, ...tickProps }) => (
+                  <text {...tickProps}>{formattedValue}%</text>
+                )}
+                className='y-axis'
+                tickLabelProps={(value, index) => ({
+                  textAnchor: 'end',
+                  dx: '-0.25em',
+                  dy: '0.25em',
+                  fill: labelAndTicksColor,
+                })}
+                tickLength={yTickLength}
+                numTicks={3}
+                tickStroke={labelAndTicksColor}
+                stroke={labelAndTicksColor}
+              />
               {getBaselineSVG()}
               <AxisBottom
                 top={yMin}
@@ -445,6 +474,12 @@ class Charts extends Component {
                 tickValues={years}
                 tickFormat={d => d}
                 tickLength={xTickLength}
+                tickStroke={labelAndTicksColor}
+                tickLabelProps={(value, index) => ({
+                  fill: labelAndTicksColor,
+                  fontSize: 8,
+                })}
+                stroke={labelAndTicksColor}
               />
             </Group>
             <rect
@@ -496,93 +531,182 @@ class Charts extends Component {
     const techLayers = this.props.techLayers;
     const { label, format } = indicatorsLabels[keyIndicator];
 
-    const height = 132;
-    const padding = 2;
-    const radius = (height - 2 * padding) / 2;
-    const thickness = 16;
+    const height = 150;
+    const width = 200;
+    const margin = {
+      top: 10,
+      bottom: 10,
+      left: 10,
+      right: 10
+    };
+    const padding = 5;
+    const xMin = 30;
+    const xMax = width - xMin;
+    const yMin = height - margin.top - margin.bottom;
+    const yMax = margin.top;
+    const xTickLength = 6;
+    const yTickLength = 6;
 
-    const data = map(summaryByType[keyIndicator], (value, type) => {
-      // Get layer configuration for type
-      const layer = techLayers.filter(l => l.id === type)[0];
-      return { value, type, layer };
+    const years = Object.keys(summaryByType[keyIndicator]);
+    years.sort();
+
+    // categories of the bar
+    let _barCategories = Object.keys(summaryByType[keyIndicator]).map(yr => {
+      return Object.keys(summaryByType[keyIndicator][yr]);
+    });
+    const barCategories= Array.from(new Set(_barCategories.flat()));
+
+    // Prepare Data
+    const prepareData = (year) => {
+      var _data = {
+        year: parseInt(year)
+      };
+      barCategories.map(key => {
+        _data[key] = summaryByType[keyIndicator][year][key] || 0;
+      });
+      return _data;
+    };
+    let data = years.map(value => {return prepareData(value);});
+
+    // Chart colors and color scale and chart keys
+    const chartColors = [];
+    const chartKeys = [];
+    Object.keys(data[0]).map(k => {
+      if (k !== 'year') {
+        chartColors.push(techLayers.filter(l => l.id === k)[0].color);
+        chartKeys.push(k);
+      }
+    });
+    const colorScale = scaleOrdinal({
+      domain: chartKeys,
+      range: chartColors
     });
 
+    // Total Values
+    const valueTotals = data.reduce((allTotals, currentYear) => {
+      const totalValue = chartKeys.reduce((dailyTotal, k) => {
+        dailyTotal += Number(currentYear[k]);
+        return dailyTotal;
+      }, 0);
+      allTotals.push(totalValue);
+      return allTotals;
+    }, []);
+
+    // chart scales and year
+    const getYear = (d) => d.year;
+    const yearScale = scaleBand({
+      domain: data.map(getYear),
+      range: [yMin, 0],
+      padding: 0.4
+    });
+    const valueScale = scaleLinear({
+      domain: [0, Math.max(...valueTotals)],
+      range: [0, xMax],
+      nice: true
+    });
+
+    // Get document body color which varies depending on the theme
+    var labelAndTicksColor = getComputedStyle(document.body).color;
+
     return (
-      <figure className='sum-chart-media' key={keyIndicator}>
+        <Fragment>
+        {summary[keyIndicator] == 0 ? null :
+             <figure className='sum-chart-media' key={keyIndicator}>
         <div className='sum-chart-media__item'>
-          <svg width={height} height={height}>
-            <Group top={height / 2} left={height / 2}>
-              {keyIndicator === 'peopleConnected' ? (
-                <text className='values' y='0.125em'>
-                  <tspan className='value--prime' x='0' textAnchor='middle'>
-                    {format(summary[keyIndicator])}
-                  </tspan>
-                  <tspan
-                    className='value--sub'
-                    x='0'
-                    textAnchor='middle'
-                    dy='1.25em'
-                  >
-                    of {format(summary.totalPopulation)}
-                  </tspan>
-                </text>
-              ) : (
-                <text className='values' y='0.5em'>
-                  <tspan className='value--prime' x='0' textAnchor='middle'>
-                    {format(summary[keyIndicator])}
-                  </tspan>
-                </text>
-              )}
-              <Pie
+          <svg width={width} height={height}>
+            <Group>
+              <BarStackHorizontal
                 data={data}
-                pieValue={d => d.value}
-                fillOpacity={0.8}
-                outerRadius={radius}
-                innerRadius={radius - thickness}
+                keys={chartKeys}
+                height={yMin}
+                y={getYear}
+                xScale={valueScale}
+                yScale={yearScale}
+                color={colorScale}
               >
-                {pie => {
-                  return pie.arcs.map((arc, i) => {
-                    return (
-                      <g key={`letters-${arc.data.label}-${i}`}>
-                        <path
-                          className='slice'
-                          d={pie.path(arc)}
-                          fill={arc.data.layer.color}
-                        />
-                      </g>
-                    );
-                  });
-                }}
-              </Pie>
+              {(barStacks) =>
+                barStacks.map((barStack) =>
+                  barStack.bars.map((bar) => (
+                    <rect
+                      key={`barstack-horizontal-${barStack.index}-${bar.index}`}
+                      x={bar.x+xMin}
+                      y={bar.y}
+                      width={bar.width}
+                      height={bar.height}
+                      fill={bar.color}
+                      onClick={() => {
+                        // pass
+                      }}
+                      onMouseLeave={() => {
+                        this.setState({
+                          popoverIsVisible: false,
+                          keyIndicator: null
+                        });
+                      }}
+                      onMouseMove={event => {
+                        const { target } = event;
+                        const { top, height, left } = target.getBoundingClientRect();
+                        const yAxis = top + height / 2;
+                        const padding = 5;
+                        this.setState({
+                          popoverIsVisible: true,
+                          popoverPosition: {
+                            yAxis,
+                            right: window.innerWidth - (left - padding - bar.x)
+                          },
+                          popoverData: bar.bar.data,
+                          keyIndicator
+                        });
+                      }}
+                    />
+                  ))
+                )
+              }
+              </BarStackHorizontal>
+              <AxisLeft
+                left={xMin}
+                scale={yearScale}
+                tickStroke={labelAndTicksColor}
+                stroke={labelAndTicksColor}
+                tickLength={yTickLength}
+                numTicks={years.length}
+                tickComponent={({ formattedValue, ...tickProps }) => (
+                  <text><tspan {...tickProps}>{formattedValue}</tspan></text>
+                )}
+                tickLabelProps={() => ({
+                  fill: labelAndTicksColor,
+                  textAnchor: "end",
+                  fontSize: 8,
+                  dy: '0.25em',
+                  dx: '-0.25em'
+                })}
+              />
+              <AxisBottom
+                left={xMin}
+                top={yMin}
+                scale={valueScale}
+                tickLabelProps={(value, index) => ({
+                  fill: labelAndTicksColor,
+                  fontSize: 8,
+                  dx: '-3em'
+                })}
+                tickComponent={({ formattedValue, ...tickProps }) => (
+                  <text><tspan {...tickProps}>{format(Math.max(...valueTotals))}</tspan></text>
+                )}
+                tickValues={[Math.max(...valueTotals)]}
+                tickLength={xTickLength}
+                numTicks={1}
+                tickStroke={labelAndTicksColor}
+                stroke={labelAndTicksColor}
+              />
             </Group>
-            <rect
-              width={height}
-              height={height}
-              opacity={0}
-              onMouseEnter={event => {
-                const { target } = event;
-                const { top, height, left } = target.getBoundingClientRect();
-                const yAxis = top + height / 2;
-                this.setState({
-                  popoverIsVisible: true,
-                  popoverPosition: {
-                    yAxis,
-                    right: window.innerWidth - left
-                  },
-                  keyIndicator
-                });
-              }}
-              onMouseLeave={() => {
-                this.setState({
-                  popoverIsVisible: false,
-                  keyIndicator: null
-                });
-              }}
-            />
           </svg>
         </div>
         <figcaption className='sum-chart-media__caption'>{label}</figcaption>
       </figure>
+        }
+
+          </Fragment>
     );
   }
 
@@ -593,7 +717,7 @@ class Charts extends Component {
         {this.renderPopover()}
         {populationPopoverVisible && this.renderPopulationPopover()}
         {this.renderPopulationChart()}
-        {['investmentCost', 'newCapacity'].map(indicator => {
+        {['investmentCost', 'newCapacity', 'annualEmissions'].map(indicator => {
           return this.renderChart(indicator);
         })}
       </Fragment>

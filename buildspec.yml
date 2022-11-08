@@ -1,0 +1,19 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      nodejs: 12
+  pre_build:
+    commands:
+      - "echo Install Phase: `date`"
+      - npm install -g yarn
+      - yarn install --production=false
+  build:
+    commands:
+      - "echo Build Phase: `date`"
+      - yarn build
+artifacts:
+  files:
+    - '**/*'
+  base-directory: 'dist'

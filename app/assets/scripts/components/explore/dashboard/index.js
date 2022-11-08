@@ -185,7 +185,7 @@ class Dashboard extends Component {
         <ReactTooltip
           id='econtrol-popover'
           effect='solid'
-          type='light'
+          type='dark'
           className='popover'
           wrapper='article'
           globalEventOff='click'
