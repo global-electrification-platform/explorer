@@ -30,7 +30,7 @@ const indicatorsLabels = {
   annualEmissions: {
     label: 'Annual Emissions',
     format: n => {
-      return `${formatKeyIndicator(n, 'power')}`;
+      return `${formatKeyIndicator(n, 'co2')}`;
     }
   }
 };

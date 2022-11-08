@@ -136,7 +136,13 @@ export function formatKeyIndicator (val, type, decimals) {
     digits = 0;
   }
 
-  unit = type === 'power' ? `${unit}W` : unit;
+  if (type === 'power') {
+    unit = `${unit}W`;
+  } else if (type === 'co2') {
+    unit = `${unit}/tonCO2eq`;
+  } else {
+    unit = unit;
+  }
 
   return `${isNeg ? '-' : ''}${(n / divider).toLocaleString('en-US', {
     minimumFractionDigits: typeof decimals === 'number' ? decimals : digits,
