@@ -139,7 +139,7 @@ export function formatKeyIndicator (val, type, decimals) {
   if (type === 'power') {
     unit = `${unit}W`;
   } else if (type === 'co2') {
-    unit = `${unit}/tonCO2eq`;
+    unit = `${unit}/kt CO2 eq`;
   } else {
     unit = unit;
   }
