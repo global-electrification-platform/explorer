@@ -609,7 +609,9 @@ class Charts extends Component {
     var labelAndTicksColor = getComputedStyle(document.body).color;
 
     return (
-      <figure className='sum-chart-media' key={keyIndicator}>
+        <Fragment>
+        {summary[keyIndicator] == 0 ? null :
+             <figure className='sum-chart-media' key={keyIndicator}>
         <div className='sum-chart-media__item'>
           <svg width={width} height={height}>
             <Group>
@@ -702,6 +704,9 @@ class Charts extends Component {
         </div>
         <figcaption className='sum-chart-media__caption'>{label}</figcaption>
       </figure>
+        }
+
+          </Fragment>
     );
   }
 
