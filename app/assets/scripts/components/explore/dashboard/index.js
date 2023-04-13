@@ -189,7 +189,24 @@ class Dashboard extends Component {
           className='popover'
           wrapper='article'
           globalEventOff='click'
+          place='right'
           getContent={dataTip => this.popoverRenderFn(dataTip)}
+          overridePosition={({left,top}, e, target, node, place, desiredPlace, effect, offset) => {
+            // off the top of the screen, nudge it on.
+            if (top < 0) { top = 10; }
+            // e is sometimes the target, and sometimes the event.  -- React-tooltip 3.9
+            const tgt = e.target ? e.target : e;
+            const {bottom, height} = tgt.getBoundingClientRect();
+            if ((window.innerHeight - bottom) < (bottom - top)) {
+              // assuming that we're generally positioned with the popup centered.
+              // move the top up by what's overhanging the bottom of the anchor,
+              // so that we're basically positioned right-bottom rather than right-center.
+              // more advanced work would just put this 10px off the bottom of the viewport
+              // but next time.
+              top = top - (bottom - top - 2*height);
+            }
+            return {left,top};
+          }}
         />
       </div>
     );
