@@ -489,14 +489,14 @@
 
 .sum-chart-media {
   text-align: center;
-  margin-bottom: $global-spacing;
+  margin-bottom: $global-spacing * 1.5;
 
   /* Animation */
   animation: pop-in 0.16s ease 0s 1;
 }
 
 .sum-chart-media__item {
-  margin-bottom: $global-spacing / 2;
+  // margin-bottom: $global-spacing / 2;
 
   svg {
     vertical-align: top;

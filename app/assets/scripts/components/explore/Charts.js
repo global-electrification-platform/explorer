@@ -531,7 +531,7 @@ class Charts extends Component {
     const techLayers = this.props.techLayers;
     const { label, format } = indicatorsLabels[keyIndicator];
 
-    const height = 150;
+    const height = 75;
     const width = 200;
     const margin = {
       top: 10,
@@ -709,6 +709,7 @@ class Charts extends Component {
           </Fragment>
     );
   }
+
 
   render () {
     const { populationPopoverVisible } = this.state;
