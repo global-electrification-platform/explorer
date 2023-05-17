@@ -22,6 +22,18 @@ function scenarioReducer (state = scenarioReducerInitialState, action) {
   return baseAPIReducer(state, action, 'SCENARIO');
 }
 
+// ELECTRICITY_MIX Reducer
+
+const electricityMixReducerInitialState = {
+  fetched: false,
+  fetching: false,
+  data: {},
+  error: null
+};
+function electricityMixReducer (state = electricityMixReducerInitialState, action) {
+  return baseAPIReducer(state, action, 'ELECTRICITY_MIX');
+}
+
 //
 //  STATS Reducer
 //
@@ -89,6 +101,7 @@ function aboutPageReducer (state = aboutPageReducerInitialState, action) {
 
 export default combineReducers({
   scenario: scenarioReducer,
+  electricityMix: electricityMixReducer,
   individualModels: modelReducer,
   stats: statsReducer,
   countries: countriesReducer,

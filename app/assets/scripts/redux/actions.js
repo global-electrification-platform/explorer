@@ -109,6 +109,40 @@ export function fetchScenario (scenarioId, filters, year) {
 }
 
 /*
+ * Actions for Scenarios
+ */
+
+export const REQUEST_ELECTRICITY_MIX = 'REQUEST_ELECTRICITY_MIX';
+export const RECEIVE_ELECTRICITY_MIX = 'RECEIVE_ELECTRICITY_MIX';
+export const INVALIDATE_ELECTRICITY_MIX = 'INVALIDATE_ELECTRICITY_MIX';
+
+export function invalidateElectricityMix () {
+  return { type: INVALIDATE_ELECTRICITY_MIX };
+}
+
+export function requestElectricityMix () {
+  return { type: REQUEST_ELECTRICITY_MIX };
+}
+
+export function receiveElectricityMix (data, error = null) {
+  return {
+    type: RECEIVE_ELECTRICITY_MIX,
+    data,
+    error,
+    receivedAt: Date.now()
+  };
+}
+
+export function fetchElectricityMix (mixId) {
+  return fetchDispatchFactory({
+    statePath: ['electricityMix'],
+    url: `${dataServiceUrl}/electricity_mix/${mixId}`,
+    requestFn: requestElectricityMix,
+    receiveFn: receiveElectricityMix,
+  });
+}
+
+/*
  * Actions for Stats
  */
 

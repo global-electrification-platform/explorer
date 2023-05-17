@@ -16,7 +16,7 @@ class Modal extends React.Component {
 
     if (!this.el) {
       this.el = document.createElement('div');
-      this.el.id = 'chart-popover';
+      this.el.id = this.props.elementId.slice(1);
       appRoot.appendChild(this.el);
     }
   }

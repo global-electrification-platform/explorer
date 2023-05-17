@@ -9,6 +9,10 @@ import downloadPDF from './Download';
 import Legend from './Legend';
 import Dropdown from '../Dropdown';
 import { Group } from '@vx/group';
+import { scaleBand, scaleLinear, scaleOrdinal } from '@vx/scale';
+import { BarStack } from '@vx/shape';
+import { AxisBottom, AxisLeft } from '@vx/axis';
+import { LegendOrdinal } from '@vx/legend';
 import Modal from '../Modal';
 
 class Summary extends Component {
@@ -16,6 +20,7 @@ class Summary extends Component {
     super();
     this.state = {
       renewablePopoverIsVisible: false,
+      electricityMixChartVisible: false,
     }
   }
   renderRenewableChart(proportion) {
@@ -141,6 +146,195 @@ class Summary extends Component {
         </Modal>
       )
   }
+
+  renderElectricityMixTooltip() {
+    if (!this.state.electricityMixTooltipPopover) return;
+    const {
+      electricityMixTooltipPopoverData: { bar },
+      popoverPosition: { yAxis, right }
+    } = this.state;
+
+    return (
+        <Modal elementId={'#chart-popover'}>
+          <article
+            className='popover popover--anchor-right'
+            style={{ top: yAxis, right: right + 12 }}
+          >
+            <div className='popover__contents'>
+              <header className='popover__header'>
+                <div className='popover__headline'>
+                  <h1 className='popover__title'>
+                    {bar.key}
+                  </h1>
+                </div>
+              </header>
+              <div className='popover__body'>
+                {(bar.bar[1] - bar.bar[0]).toFixed(1)}%
+              </div>
+            </div>
+          </article>
+        </Modal>
+    )
+  }
+  
+  renderElectricityMixChart(electricityMix) {
+    /*
+    electricityMix is a list of { year, [type]: value... }
+    */
+    const showHide = ({ target }) => {
+      const { top, height, left, right } = target.getBoundingClientRect();
+      const padding = 5;
+      const yAxis = top + (height / 2) - 8;
+      this.setState(({ electricityMixChartVisible }) => ({
+        electricityMixChartPosition: {
+          yAxis,
+          right: window.innerWidth - (left - padding)
+        },
+        electricityMixChartVisible: !electricityMixChartVisible,
+      }))
+    };
+    const b = <button
+      onClick={showHide}
+      className="heading-alt"
+      style={{
+        fontSize: '0.75rem',
+        lineHeight: '1rem',
+        backgroundColor: '#242e42',
+        color: 'rgba(255, 255, 255, 0.64)',
+        border: 'none'
+      }}
+    >
+      Electricity Mix
+    </button>;
+    const { electricityMixChartVisible } = this.state;
+    if (!electricityMixChartVisible) return b;
+    const {
+      electricityMixChartPosition: { yAxis, right },
+    } = this.state;
+
+    const keys = [...new Set(electricityMix.flatMap(Object.keys))].filter(x => x != 'year')
+    const yearScale = scaleBand({
+      domain: electricityMix.map(({ year }) => year),
+      padding: 0.2
+    });
+    yearScale.rangeRound([50, 400])
+    const percentScale = scaleLinear({
+      domain: [0, 100],
+      nice: true
+    });
+    percentScale.rangeRound([230, 10])
+    const colorScale = scaleOrdinal({
+      domain: keys,
+      range: ['#aea', '#eaa', '#aae', '#eea']
+    });
+  
+    return <Fragment>
+      {b}
+      {this.renderElectricityMixTooltip()}
+      <Modal elementId="#electricity-mix-popover">
+        <span className="electricity-mix-popover-arrow" style={{
+          position: 'absolute',
+          right: right - 6,
+          top: yAxis - 1,
+          height: 'calc(1rem + 2px)',
+          width: 'calc(1rem + 2px)',
+          background: '#999',
+          zIndex: 999,
+        }}></span>
+        <span className="electricity-mix-popover-arrow" style={{
+          position: 'absolute',
+          right: right - 5,
+          top: yAxis,
+        }}></span>
+        <article
+          className='popover'
+          style={{
+            width: '432px',
+            right,
+            top: '1rem',
+            border: '1px solid #999'
+          }}
+        >
+          <div className='popover__contents'>
+            <header className='popover__header'>
+              <div className='popover__headline'>
+                <h1 className='popover__title'>
+                  Electricity Mix
+                </h1>
+              </div>
+            </header>
+            <div className='popover__body'>
+              <LegendOrdinal scale={colorScale} direction="row" itemMargin="0 15px 10px 0"/>
+              <svg width="400" height="250">
+                  <BarStack
+                    data={electricityMix}
+                    keys={keys}
+                    x={({ year }) => year}
+                    xScale={yearScale}
+                    yScale={percentScale}
+                    color={colorScale}
+                  >
+                    {stacks =>
+                      stacks.map(stack => 
+                        stack.bars.map(bar => 
+                          <rect
+                            key={`bar-stack-${stack.index}-${bar.index}`}
+                            x={bar.x}
+                            y={bar.y}
+                            height={bar.height}
+                            width={bar.width}
+                            fill={bar.color}
+
+                            onMouseMove={event => {
+                              const { target } = event;
+                              const { top, height, left } = target.getBoundingClientRect();
+                              const yAxis = top + height / 2;
+                              const padding = 5;
+                              this.setState({
+                                electricityMixTooltipPopover: true,
+                                popoverPosition: {
+                                  yAxis,
+                                  right: window.innerWidth - (left - padding)
+                                },
+                                electricityMixTooltipPopoverData: {
+                                  bar
+                                },
+                              });
+                            }}
+                            onMouseLeave={() => {
+                              this.setState({
+                                electricityMixTooltipPopover: false,
+                              });
+                            }}
+                          />
+                        )
+                      )
+                    }
+                  </BarStack>
+                <AxisLeft
+                  left={50}
+                  scale={percentScale}
+                  stroke='#999'
+                  tickStroke='#999'
+                  tickFormat={pct => `${pct.toFixed(0)}%`}
+                  tickLength={4}
+                  tickLabelProps={() => ({ fill: '#999', fontSize: 11, dominantBaseline: 'central', textAnchor: 'end' })}
+                />
+                <AxisBottom 
+                  top={230}
+                  scale={yearScale}
+                  tickFormat={(year) => year.toString()}
+                  stroke='#999'
+                  tickStroke='#999'
+                  tickLabelProps={() => ({ fill: '#999', fontSize: 11, textAnchor: 'middle' })}
+                />
+              </svg>
+            </div>
+          </div>
+        </article>
+      </Modal>
+    </Fragment>;
+  }
   /**
    * Check if scenario has data and render panel accordingly
    */
@@ -160,6 +354,7 @@ class Summary extends Component {
           <Fragment>
             {this.renderRenewableChart(renewable.renewable / renewable.total)}
             {this.renderRenewablePopover()}
+            {this.renderElectricityMixChart(this.props.electricityMix.getData())}
             <hr />
             <Legend scenario={scenario} techLayers={techLayersConfig} />
             <div className='sum-block sum-block--charts'>

@@ -100,6 +100,7 @@
     "@vx/axis": "^0.0.190",
     "@vx/event": "^0.0.189",
     "@vx/group": "^0.0.182",
+    "@vx/legend": "^0.0.199",
     "@vx/scale": "^0.0.190",
     "@vx/shape": "^0.0.182",
     "babel-polyfill": "^6.26.0",

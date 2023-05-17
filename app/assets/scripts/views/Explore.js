@@ -9,7 +9,7 @@ import pull from 'lodash.pull';
 import { environment } from '../config';
 import { makeZeroFilledArray, cloneArrayAndChangeCell, round } from '../utils';
 import { wrapApiResult, getFromState } from '../redux/utils';
-import { fetchModel, fetchScenario, fetchCountry } from '../redux/actions';
+import { fetchModel, fetchScenario, fetchCountry, fetchElectricityMix } from '../redux/actions';
 import QsState from '../utils/qs-state';
 
 import App from './App';
@@ -293,11 +293,14 @@ class Explore extends Component {
         }
       }
 
-      await this.props.fetchScenario(
-        `${model.id}-${levers.join('_')}`,
-        selectedFilters,
-        year
-      );
+      await Promise.all([
+        this.props.fetchScenario(
+          `${model.id}-${levers.join('_')}`,
+          selectedFilters,
+          year
+        ),
+        this.props.fetchElectricityMix(`${model.id}-${levers[0]}-${levers[2]}`)
+      ]);
     } catch (error) {
       /* eslint-disable-next-line no-console */
       console.log('error', error);
@@ -395,6 +398,7 @@ class Explore extends Component {
                 country={this.props.country}
                 model={model}
                 scenario={this.props.scenario}
+                electricityMix={this.props.electricityMix}
                 defaultFilters={this.state.defaultFilters}
                 appliedState={this.state.appliedState}
               />
@@ -431,7 +435,8 @@ function mapStateToProps (state, props) {
     country: wrapApiResult(
       getFromState(state.individualCountries, model.getData().country)
     ),
-    scenario: wrapApiResult(state.scenario)
+    scenario: wrapApiResult(state.scenario),
+    electricityMix: wrapApiResult(state.electricityMix)
   };
 }
 
@@ -439,6 +444,7 @@ function dispatcher (dispatch) {
   return {
     fetchModel: (...args) => dispatch(fetchModel(...args)),
     fetchScenario: (...args) => dispatch(fetchScenario(...args)),
+    fetchElectricityMix: (...args) => dispatch(fetchElectricityMix(...args)),
     fetchCountry: (...args) => dispatch(fetchCountry(...args))
   };
 }
