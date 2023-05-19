@@ -221,6 +221,9 @@
   position: absolute;
   width: 14rem;
   top: 0;
+  .electricity-mix-legend {
+    flex-wrap: wrap;
+  }
 }
 
 .electricity-mix-popover-arrow {

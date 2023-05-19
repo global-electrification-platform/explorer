@@ -13,6 +13,7 @@ import { scaleBand, scaleLinear, scaleOrdinal } from '@vx/scale';
 import { BarStack } from '@vx/shape';
 import { AxisBottom, AxisLeft } from '@vx/axis';
 import { LegendOrdinal } from '@vx/legend';
+import { data as LCOEs } from "../../LCEOs.json";
 import Modal from '../Modal';
 
 class Summary extends Component {
@@ -169,7 +170,7 @@ class Summary extends Component {
                 </div>
               </header>
               <div className='popover__body'>
-                {(bar.bar[1] - bar.bar[0]).toFixed(1)}%
+                {(bar.bar[1] - bar.bar[0]).toFixed(3)} GW
               </div>
             </div>
           </article>
@@ -195,13 +196,10 @@ class Summary extends Component {
     };
     const b = <button
       onClick={showHide}
-      className="heading-alt"
+      className="button button--primary-raised-dark"
       style={{
-        fontSize: '0.75rem',
-        lineHeight: '1rem',
-        backgroundColor: '#242e42',
-        color: 'rgba(255, 255, 255, 0.64)',
-        border: 'none'
+        marginTop: '1rem',
+        marginLeft: '1.75rem'
       }}
     >
       Electricity Mix
@@ -219,7 +217,7 @@ class Summary extends Component {
     });
     yearScale.rangeRound([50, 400])
     const percentScale = scaleLinear({
-      domain: [0, 100],
+      domain: [0, Math.max(...electricityMix.map(({ year, ...values}) => Object.values(values).reduce((x, y) => x + y, 0)))],
       nice: true
     });
     percentScale.rangeRound([230, 10])
@@ -264,7 +262,7 @@ class Summary extends Component {
               </div>
             </header>
             <div className='popover__body'>
-              <LegendOrdinal scale={colorScale} direction="row" itemMargin="0 15px 10px 0"/>
+              <LegendOrdinal scale={colorScale} direction="row" className="electricity-mix-legend" itemMargin="0 15px 10px 0"/>
               <svg width="400" height="250">
                   <BarStack
                     data={electricityMix}
@@ -316,7 +314,9 @@ class Summary extends Component {
                   scale={percentScale}
                   stroke='#999'
                   tickStroke='#999'
-                  tickFormat={pct => `${pct.toFixed(0)}%`}
+                  tickFormat={pct => `${pct.toFixed(2)}`}
+                  label="Total Installed Capacity (GW)"
+                  labelProps={{ fill: '#999', stroke: '#999', fontSize: 11, textAnchor: 'middle' }}
                   tickLength={4}
                   tickLabelProps={() => ({ fill: '#999', fontSize: 11, dominantBaseline: 'central', textAnchor: 'end' })}
                 />
@@ -329,6 +329,10 @@ class Summary extends Component {
                   tickLabelProps={() => ({ fill: '#999', fontSize: 11, textAnchor: 'middle' })}
                 />
               </svg>
+              LCOE: {LCOEs[this.props.country.getData().id][
+                ["BU", "Low", "High"][this.props.appliedState.leversState[0]] +
+                ["", "_CT_Low", "_CT_High"][this.props.appliedState.leversState[2]]
+              ].toLocaleString(undefined, { maximumSignificantDigits: 3 })} USD/KWh
             </div>
           </div>
         </article>
@@ -349,10 +353,10 @@ class Summary extends Component {
     if (isReady() && !hasError()) {
       const scenario = getData();
       if (Object.keys(scenario.layers).length > 0) {
-        const renewable = scenario.summaryByType.renewableEnergy[appliedState.year];
+        const renewable = scenario.summary.renewableCapacity / scenario.summary.newCapacity;
         return (
           <Fragment>
-            {this.renderRenewableChart(renewable.renewable / renewable.total)}
+            {this.renderRenewableChart(renewable)}
             {this.renderRenewablePopover()}
             {this.renderElectricityMixChart(this.props.electricityMix.getData())}
             <hr />

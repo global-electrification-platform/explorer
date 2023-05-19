@@ -293,13 +293,14 @@ class Explore extends Component {
         }
       }
 
+      const scenarioId = `${model.id}-${levers.join('_')}`;
       await Promise.all([
         this.props.fetchScenario(
-          `${model.id}-${levers.join('_')}`,
+          scenarioId,
           selectedFilters,
           year
         ),
-        this.props.fetchElectricityMix(`${model.id}-${levers[0]}-${levers[2]}`)
+        this.props.fetchElectricityMix(scenarioId)
       ]);
     } catch (error) {
       /* eslint-disable-next-line no-console */

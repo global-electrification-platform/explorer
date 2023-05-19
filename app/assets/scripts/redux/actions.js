@@ -133,12 +133,19 @@ export function receiveElectricityMix (data, error = null) {
   };
 }
 
+const _map_values = (obj, f) => Object.fromEntries(Object.entries(obj).map(([k, v]) => [k, f(v)]))
+const _sum = (seq) => seq.reduce((x, y) => x + y, 0)
+
 export function fetchElectricityMix (mixId) {
   return fetchDispatchFactory({
     statePath: ['electricityMix'],
     url: `${dataServiceUrl}/electricity_mix/${mixId}`,
     requestFn: requestElectricityMix,
     receiveFn: receiveElectricityMix,
+    // mutator: (data) => data.map(({ year, ...values }) => {
+    //   const total = _sum(Object.values(values));
+    //   return { year, ..._map_values(values, v => v * 100 / total) }
+    // })
   });
 }
 
