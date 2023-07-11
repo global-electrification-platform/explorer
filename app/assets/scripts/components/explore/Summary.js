@@ -331,7 +331,7 @@ class Summary extends Component {
               </svg>
               LCOE: {LCOEs[this.props.country.getData().id][
                 ["BU", "Low", "High"][this.props.appliedState.leversState[0]] +
-                ["", "_CT_low", "_CT_high"][this.props.appliedState.leversState[2]]
+                ["", "_CT_high"][this.props.appliedState.leversState[2]]
               ].toLocaleString(undefined, { maximumSignificantDigits: 3 })} USD/KWh
             </div>
           </div>
