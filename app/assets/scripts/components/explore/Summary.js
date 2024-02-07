@@ -22,16 +22,16 @@ class Summary extends Component {
     this.state = {
       renewablePopoverIsVisible: false,
       electricityMixChartVisible: false,
-    }
+    };
   }
   renderRenewableChart(proportion) {
     const width = 200;
     const height = 25;
-    const sumKey = (l, key) => l.reduce((x, y) => x + (y[key] || 0), 0)
+    const sumKey = (l, key) => l.reduce((x, y) => x + (y[key] || 0), 0);
     const data = [
       { value: proportion, color: '#aea' },
       { value: 1 - proportion, color: '#010' }
-    ]
+    ];
     return <Fragment>
      <figure className='sum-chart-media' style={{ paddingTop: '1rem', marginBottom: '0rem' }}>
         <div className='sum-chart-media__item'>
@@ -67,13 +67,13 @@ class Summary extends Component {
                 onClick={() => {
                   // pass
                 }}
-                
+
               >
               </rect>)}
               <text
                 y={height / 2}
                 x={proportion < 0.25 ? (proportion * width) + 5 : 5}
-                style={{ 
+                style={{
                   fill: proportion < 0.25 ? "#aea" : "#010",
                   fontSize: '14px',
                 }}
@@ -90,7 +90,7 @@ class Summary extends Component {
       </Fragment>;
   }
   renderRenewablePopover() {
-    if (!this.state.renewablePopoverIsVisible) return;
+    if (!this.state.renewablePopoverIsVisible) return "";
     const {
       popoverPosition: { yAxis, right } = {},
       renewablePopoverProportion,
@@ -145,11 +145,11 @@ class Summary extends Component {
             </div>
           </article>
         </Modal>
-      )
-  }
+    );
+  };
 
   renderElectricityMixTooltip() {
-    if (!this.state.electricityMixTooltipPopover) return;
+    if (!this.state.electricityMixTooltipPopover) return '';
     const {
       electricityMixTooltipPopoverData: { bar },
       popoverPosition: { yAxis, right }
@@ -175,9 +175,9 @@ class Summary extends Component {
             </div>
           </article>
         </Modal>
-    )
+    );
   }
-  
+
   renderElectricityMixChart(electricityMix) {
     /*
     electricityMix is a list of { year, [type]: value... }
@@ -192,7 +192,7 @@ class Summary extends Component {
           right: window.innerWidth - (left - padding)
         },
         electricityMixChartVisible: !electricityMixChartVisible,
-      }))
+      }));
     };
     const b = <button
       onClick={showHide}
@@ -215,12 +215,12 @@ class Summary extends Component {
       domain: electricityMix.map(({ year }) => year),
       padding: 0.2
     });
-    yearScale.rangeRound([50, 400])
+    yearScale.rangeRound([50, 400]);
     const percentScale = scaleLinear({
       domain: [0, Math.max(...electricityMix.map(({ year, ...values}) => Object.values(values).reduce((x, y) => x + y, 0)))],
       nice: true
     });
-    percentScale.rangeRound([230, 10])
+    percentScale.rangeRound([230, 10]);
     const colorScale = scaleOrdinal({
       domain: keys,
       range: ['#aea', '#eaa', '#aae', '#eea']
@@ -273,8 +273,8 @@ class Summary extends Component {
                     color={colorScale}
                   >
                     {stacks =>
-                      stacks.map(stack => 
-                        stack.bars.map(bar => 
+                      stacks.map(stack =>
+                        stack.bars.map(bar =>
                           <rect
                             key={`bar-stack-${stack.index}-${bar.index}`}
                             x={bar.x}
@@ -320,7 +320,7 @@ class Summary extends Component {
                   tickLength={4}
                   tickLabelProps={() => ({ fill: '#999', fontSize: 11, dominantBaseline: 'central', textAnchor: 'end' })}
                 />
-                <AxisBottom 
+                <AxisBottom
                   top={230}
                   scale={yearScale}
                   tickFormat={(year) => year.toString()}
