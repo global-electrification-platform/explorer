@@ -182,6 +182,21 @@ class Summary extends Component {
     /*
     electricityMix is a list of { year, [type]: value... }
     */
+    const keys = [...new Set(electricityMix.flatMap(Object.keys))].filter(x => x != 'year');
+    const allKeys =  [
+        'Biomass',
+        'Hydropower',
+        'Solar',
+        'Geothermal',
+        'Wind',
+        'Heavy Fuel Oil',
+        'Light Fuel Oil',
+        'Natural Gas',
+        'Coal',
+        'Nuclear',
+    ];
+    const allColors = ['#a6cee3','#1f78b4','#b2df8a','#33a02c','#fb9a99','#e31a1c','#fdbf6f','#ff7f00','#cab2d6','#6a3d9a','#ffff99','#b15928'];
+
     const showHide = ({ target }) => {
       const { top, height, left, right } = target.getBoundingClientRect();
       const padding = 5;
@@ -210,7 +225,7 @@ class Summary extends Component {
       electricityMixChartPosition: { yAxis, right },
     } = this.state;
 
-    const keys = [...new Set(electricityMix.flatMap(Object.keys))].filter(x => x != 'year')
+
     const yearScale = scaleBand({
       domain: electricityMix.map(({ year }) => year),
       padding: 0.2
@@ -223,7 +238,7 @@ class Summary extends Component {
     percentScale.rangeRound([230, 10]);
     const colorScale = scaleOrdinal({
       domain: keys,
-      range: ['#aea', '#eaa', '#aae', '#eea']
+      range: keys.map((e)=> allColors[allKeys.indexOf(e)])
     });
   
     return <Fragment>
