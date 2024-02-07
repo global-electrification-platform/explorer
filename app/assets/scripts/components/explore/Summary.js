@@ -183,6 +183,9 @@ class Summary extends Component {
     electricityMix is a list of { year, [type]: value... }
     */
     const keys = [...new Set(electricityMix.flatMap(Object.keys))].filter(x => x != 'year');
+    if (!keys.length) {
+      return '';
+    }
     const allKeys =  [
         'Biomass',
         'Hydropower',
@@ -240,7 +243,9 @@ class Summary extends Component {
       domain: keys,
       range: keys.map((e)=> allColors[allKeys.indexOf(e)])
     });
-  
+
+    const countryCode = this.props.country.getData().id;
+
     return <Fragment>
       {b}
       {this.renderElectricityMixTooltip()}
@@ -344,10 +349,10 @@ class Summary extends Component {
                   tickLabelProps={() => ({ fill: '#999', fontSize: 11, textAnchor: 'middle' })}
                 />
               </svg>
-              LCOE: {LCOEs[this.props.country.getData().id][
+              { LCOEs[countryCode] ? "LCOE: " + LCOEs[countryCode][
                 ["BU", "Low", "High"][this.props.appliedState.leversState[0]] +
                 ["", "_CT_high"][this.props.appliedState.leversState[2]]
-              ].toLocaleString(undefined, { maximumSignificantDigits: 3 })} USD/KWh
+              ].toLocaleString(undefined, { maximumSignificantDigits: 2, maximumFractionDigits: 3 }) + "  USD/KWh" : ""}
             </div>
           </div>
         </article>
