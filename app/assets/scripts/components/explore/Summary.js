@@ -387,7 +387,7 @@ class Summary extends Component {
           <Fragment>
             {this.renderRenewableChart(renewable)}
             {this.renderRenewablePopover()}
-            {this.renderElectricityMixChart(this.props.electricityMix.getData())}
+            {this.renderElectricityMixChart(this.props.electricityMix.getData([]))}
             <hr />
             <Legend scenario={scenario} techLayers={techLayersConfig} />
             <div className='sum-block sum-block--charts'>
