@@ -372,7 +372,7 @@ class Summary extends Component {
    * Check if scenario has data and render panel accordingly
    */
   renderPanel () {
-    const { appliedState, model, scenario } = this.props;
+    const { appliedState, model, scenario, electricityMix } = this.props;
     const {
       map: { techLayersConfig }
     } = model;
@@ -381,14 +381,17 @@ class Summary extends Component {
 
     if (isReady() && !hasError()) {
       const scenario = getData();
+      const emData = electricityMix.getData([]);
       if (Object.keys(scenario.layers).length > 0) {
         const renewable = scenario.summary.renewableCapacity / scenario.summary.newCapacity;
         return (
           <Fragment>
-            {this.renderRenewableChart(renewable)}
-            {this.renderRenewablePopover()}
-            {this.renderElectricityMixChart(this.props.electricityMix.getData([]))}
-            <hr />
+            { renewable ? <Fragment>
+                            {this.renderRenewableChart(renewable)}
+                            {this.renderRenewablePopover()}
+                          </Fragment> :''}
+            {this.renderElectricityMixChart(emData)}
+            { (renewable || emData.length) ? <hr /> : ''}
             <Legend scenario={scenario} techLayers={techLayersConfig} />
             <div className='sum-block sum-block--charts'>
               <h2 className='sum-block__title'>Charts</h2>
